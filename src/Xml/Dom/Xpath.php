@@ -7,6 +7,8 @@ namespace VeeWee\Xml\Dom;
 use DOMNode;
 use DOMXPath;
 use function Psl\Fun\pipe;
+use function VeeWee\Xml\Dom\Xpath\Locator\evaluate;
+use function VeeWee\Xml\Dom\Xpath\Locator\query;
 
 final class Xpath
 {
@@ -24,13 +26,18 @@ final class Xpath
         );
     }
 
+    public function locate(callable $locator)
+    {
+        return $locator($this->xpath);
+    }
+
     public function query(string $expression, DOMNode $contextNode = null)
     {
-        // TODO
+        return query($expression, $contextNode)($this->xpath);
     }
 
     public function evaluate(string $expression, DOMNode $contextNode = null)
     {
-        // TODO
+        return evaluate($expression, $contextNode)($this->xpath);
     }
 }

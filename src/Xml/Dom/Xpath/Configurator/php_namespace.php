@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Configurator;
+namespace VeeWee\Xml\Dom\Xpath\Configurator;
 
 use DOMXPath;
 
