@@ -76,11 +76,6 @@ final class Document
         );
     }
 
-    public static function copy(TheDocument $document): self
-    {
-        return new self($document->toUnsafeDocument());
-    }
-
     public function toUnsafeDocument(): DOMDocument
     {
         return $this->document;
