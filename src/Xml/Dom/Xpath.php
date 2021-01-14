@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom;
 
+use DOMNode;
 use DOMXPath;
 use function Psl\Fun\pipe;
 
@@ -19,7 +20,17 @@ final class Xpath
     public static function fromDocument(Document $document, callable ... $configurators): self
     {
         return new self(
-            pipe($configurators)($document->toUnsafeDocument())
+            pipe($configurators)(new DOMXPath($document->toUnsafeDocument()))
         );
+    }
+
+    public function query(string $expression, DOMNode $contextNode = null)
+    {
+        // TODO
+    }
+
+    public function evaluate(string $expression, DOMNode $contextNode = null)
+    {
+        // TODO
     }
 }

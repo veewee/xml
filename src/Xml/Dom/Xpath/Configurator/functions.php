@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace VeeWee\Xml\Dom\Configurator;
+
+use DOMXPath;
+
+/**
+ * @param list<string> $functions
+ *
+ * @return callable(DOMXPath): DOMXPath
+ */
+function functions(array $functions): callable
+{
+    return static function (DOMXPath $xpath) use ($functions) : DOMXPath {
+        php_namespace()($xpath);
+        $xpath->registerPhpFunctions($functions);
+
+        return $xpath;
+    };
+}
