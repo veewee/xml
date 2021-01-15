@@ -9,7 +9,7 @@ use DOMDocument;
 /**
  * @return callable(DOMDocument): DOMDocument
  */
-function trim_content(): callable
+function trim_spaces(): callable
 {
     return static function (DOMDocument $document): DOMDocument {
         $document->preserveWhiteSpace = false;

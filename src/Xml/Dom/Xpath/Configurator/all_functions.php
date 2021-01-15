@@ -9,7 +9,7 @@ use DOMXPath;
 /**
  * @return callable(DOMXPath): DOMXPath
  */
-function functions(): callable
+function all_functions(): callable
 {
     return static function (DOMXPath $xpath): DOMXPath {
         php_namespace()($xpath);

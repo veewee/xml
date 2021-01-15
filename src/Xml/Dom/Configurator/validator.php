@@ -5,29 +5,33 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use DOMDocument;
-use Psl\Result\ResultInterface;
+use VeeWee\Xml\ErrorHandling\Issue\Issue;
+use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
+use VeeWee\Xml\ErrorHandling\Issue\Level;
 use VeeWee\Xml\Exception\RuntimeException;
-use Webmozart\Assert\Assert;
-use function Psl\Fun\rethrow;
 
 /**
- * @param callable(DOMDocument): ResultInterface<bool> $validator
+ * @param callable(DOMDocument): IssueCollection $validator
  *
  * @return callable(DOMDocument): DOMDocument
  */
-function validator(callable $validator): callable
+function validator(callable $validator, ?Level $minimumLevel = null): callable
 {
+    $minimumLevel = $minimumLevel ?? Level::warning();
+
     return
         /**
          * @throws RuntimeException
          */
-        static function (DOMDocument $document) use ($validator): DOMDocument {
-            $result = $validator($document);
-            Assert::isInstanceOf($result, ResultInterface::class);
+        static function (DOMDocument $document) use ($validator, $minimumLevel): DOMDocument {
+            /** @var IssueCollection $issues */
+            $issues = $validator($document)
+                ->filter(fn (Issue  $issue): bool => $issue->level()->value() >= $minimumLevel->value());
 
-            return $result->proceed(
-                static fn () => $document,
-                rethrow()
-            );
+            if ($issues->count()) {
+                throw RuntimeException::fromIssues('Invalid XML', $issues);
+            }
+
+            return $document;
         };
 }

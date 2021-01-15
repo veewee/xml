@@ -8,7 +8,7 @@ use DOMDocument;
 use DOMNode;
 use Psl\Result\ResultInterface;
 
-use function VeeWee\Xml\Dom\Manipulator\append_external_node;
+use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
 
 /**
  * @return callable(DOMDocument): ResultInterface<bool>

@@ -20,7 +20,7 @@ function load(callable $loader): ResultInterface
 
     return $result->then(
         static function (bool $loaded) use ($issues) : bool {
-            if (!$loaded) {
+            if (!$loaded || $issues->count()) {
                 throw RuntimeException::fromIssues('Could not load the DOM Document', $issues);
             }
 
