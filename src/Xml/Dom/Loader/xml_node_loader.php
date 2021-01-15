@@ -11,7 +11,7 @@ use Psl\Result\ResultInterface;
 use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
 
 /**
- * @return callable(DOMDocument): ResultInterface<bool>
+ * @return callable(DOMDocument): ResultInterface<true>
  */
 function xml_node_loader(DOMNode $importedNode): callable
 {

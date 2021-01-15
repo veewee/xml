@@ -8,9 +8,9 @@ use DOMElement;
 use DOMNode;
 
 /**
- * @param list<callable(DOMNode): DOMNode> $configurators
+ * @param list<callable(): DOMNode> $builders
  *
- * @return DOMElement
+ * @return callable(DOMNode): DOMNode
  */
 function children(callable ...$builders): callable {
     return static function (DOMNode $node) use ($builders): DOMNode {

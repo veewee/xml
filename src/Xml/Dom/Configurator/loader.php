@@ -25,12 +25,15 @@ function loader(callable $loader): callable
          * @throws InvalidArgumentException
          */
         static function (DOMDocument $document) use ($loader): DOMDocument {
-            $result = $loader();
-            Assert::isInstanceOf(ResultInterface::class, $result);
+            $result = $loader($document);
+            Assert::isInstanceOf($result, ResultInterface::class);
 
-            return $result->proceed(
+            /** @var DOMDocument $result */
+            $result = $result->proceed(
                 static fn (): DOMDocument => $document,
                 rethrow()
             );
+
+            return $result;
         };
 }

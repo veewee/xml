@@ -9,7 +9,7 @@ use Psl\Result\ResultInterface;
 use Webmozart\Assert\Assert;
 
 /**
- * @return callable(DOMDocument): ResultInterface<bool>
+ * @return callable(DOMDocument): ResultInterface<true>
  */
 function xml_file_loader(string $file): callable
 {

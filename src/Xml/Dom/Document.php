@@ -9,6 +9,8 @@ use DOMNode;
 use DOMXPath;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
+use Webmozart\Assert\Assert;
+use function Psl\Arr\values;
 use function Psl\Fun\pipe;
 use function Psl\Iter\reduce;
 use function Psl\Type\is_array;
@@ -27,16 +29,20 @@ final class Document
     }
 
     /**
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     *
      * @throws RuntimeException
      */
     public static function configure(callable ... $configurators): self
     {
-        return new self(
-            pipe(...$configurators)(new DOMDocument())
-        );
+        $document = pipe(...$configurators)(new DOMDocument());
+
+        return new self($document);
     }
 
     /**
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     *
      * @throws RuntimeException
      */
     public static function fromXmlFile(string $file, callable ...$configurators): self
@@ -48,6 +54,8 @@ final class Document
     }
 
     /**
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     *
      * @throws RuntimeException
      */
     public static function fromXmlString(string $xml, callable ...$configurators): self
@@ -59,6 +67,8 @@ final class Document
     }
 
     /**
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     *
      * @throws RuntimeException
      */
     public static function fromXmlNode(DOMNode $node, callable ...$configurators): self
@@ -70,6 +80,8 @@ final class Document
     }
 
     /**
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     *
      * @throws RuntimeException
      */
     public static function fromUnsafeDocument(DOMDocument $document, callable ...$configurators): self
@@ -84,11 +96,22 @@ final class Document
         return $this->document;
     }
 
+    /**
+     * @template T
+     * @param callable(DOMDocument): T $locator
+     *
+     * @return T
+     */
     public function locate(callable $locator)
     {
         return $locator($this->document);
     }
 
+    /**
+     * @param callable(DOMDocument): mixed $manipulator
+     *
+     * @return $this
+     */
     public function manipulate(callable $manipulator)
     {
         $manipulator($this->document);
@@ -97,21 +120,28 @@ final class Document
     }
 
     /**
-     * @param list<callable(DOMDocument): list<DOMNode>|DOMNode> $builders
+     * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
      *
      * @return list<DOMNode>
      */
     public function build(callable ... $builders): array
     {
-        return reduce(
-            $builders,
-            function ($builds, callable $builder) {
-                $result = $builder($this->document);
-                $newBuilds = is_array($result) ? $result : [$result];
+        return values(
+            reduce(
+                $builders,
+                /**
+                 * @param array<int, DOMNode> $builds
+                 * @param callable(DOMDocument): (DOMNode|list<DOMNode>) $builder
+                 * @return array<int, DOMNode>
+                 */
+                function (array $builds, callable $builder): array {
+                    $result = $builder($this->document);
+                    $newBuilds = is_array($result) ? $result : [$result];
 
-                return [...$builds, $newBuilds];
-            },
-            []
+                    return [...$builds, $newBuilds];
+                },
+                []
+            )
         );
     }
 
@@ -128,6 +158,6 @@ final class Document
      */
     public function xpath(callable ...$configurators): Xpath
     {
-        return Xpath::fromDocument($this, $configurators);
+        return Xpath::fromDocument($this, ...$configurators);
     }
 }

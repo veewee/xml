@@ -9,9 +9,9 @@ use DOMElement;
 use function Psl\Fun\pipe;
 
 /**
- * @param list<callable(DOMNode): DOMNode> $configurators
+ * @param list<callable(DOMElement): DOMElement> $configurators
  *
- * @return DOMElement
+ * @return callable(DOMDocument): DOMElement
  */
 function namespaced_element(string $namespace, string $name, callable ...$configurators): callable {
     return static fn (DOMDocument $document): DOMElement

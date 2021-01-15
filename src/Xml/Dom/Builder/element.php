@@ -9,10 +9,9 @@ use DOMElement;
 use function Psl\Fun\pipe;
 
 /**
- * @param string   $name
- * @param list<callable(DOMNode): DOMNode> $configurators
+ * @param list<callable(DOMElement): DOMElement> $configurators
  *
- * @return DOMElement
+ * @return callable(DOMDocument): DOMElement
  */
 function element(string $name, callable ...$configurators): callable {
     return static fn (DOMDocument $document): DOMElement

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Builder;
 
 use DOMElement;
-use DOMNode;
-use function Psl\Fun\pipe;
 
 /**
  * @return callable(DOMElement): DOMElement

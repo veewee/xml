@@ -11,12 +11,12 @@ use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\ErrorHandling\detect_errors;
 
 /**
- * @param callable(DOMDocument): bool $loader
+ * @param callable(): bool $loader
  * @return ResultInterface<true>
  */
 function load(callable $loader): ResultInterface
 {
-    [$result, $issues] = detect_errors($loader);
+    [$result, $issues] = detect_errors(static fn (): bool => $loader());
 
     return $result->then(
         static function (bool $loaded) use ($issues) : bool {
