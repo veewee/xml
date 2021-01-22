@@ -11,9 +11,18 @@ use function VeeWee\Xml\ErrorHandling\detect_warnings;
  */
 function evaluate(string $query, \DOMNode $node = null): callable
 {
-    return static function (DOMXPath $xpath) use ($query, $node) {
-        $node = $node ?? $xpath->document->documentElement;
+    return
+        /**
+         * @return mixed
+         */
+        static function (DOMXPath $xpath) use ($query, $node) {
+            $node = $node ?? $xpath->document->documentElement;
 
-        return detect_warnings(static fn () => $xpath->evaluate($query, $node))->getResult();
-    };
+            return detect_warnings(
+                /**
+                 * @return mixed
+                 */
+                static fn () => $xpath->evaluate($query, $node)
+            )->getResult();
+        };
 }

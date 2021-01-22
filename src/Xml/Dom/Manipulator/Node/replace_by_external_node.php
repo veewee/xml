@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Manipulator\Node;
 
 use DOMNode;
+use InvalidArgumentException;
 use function get_class;
 use Webmozart\Assert\Assert;
 
+/**
+ * @throws InvalidArgumentException
+ */
 function replace_by_external_node(DOMNode $target, DOMNode $source): DOMNode
 {
     Assert::notNull($target->parentNode, 'Could not replace a node without parent node. ('.get_class($target).')');

@@ -6,9 +6,13 @@ namespace VeeWee\Xml\Dom\Manipulator\Node;
 
 use DOMDocument;
 use DOMNode;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use function VeeWee\Xml\ErrorHandling\detect_warnings;
 
+/**
+ * @throws InvalidArgumentException
+ */
 function import_node_deeply(DOMNode $target, DOMNode $source): DOMNode
 {
     $document = $target instanceof DOMDocument ? $target : $target->ownerDocument;

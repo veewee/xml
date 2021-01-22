@@ -27,6 +27,7 @@ final class IssueCollection implements Countable, IteratorAggregate
     }
 
     /**
+     * @psalm-suppress LessSpecificImplementedReturnType
      * @return Iterator<int, Issue>
      */
     public function getIterator(): Iterator

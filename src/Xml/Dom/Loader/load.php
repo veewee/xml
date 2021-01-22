@@ -9,6 +9,7 @@ use Psl\Result\ResultInterface;
 use VeeWee\Xml\Exception\RuntimeException;
 
 use function VeeWee\Xml\ErrorHandling\detect_errors;
+use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
  * @param callable(): bool $loader
@@ -19,13 +20,13 @@ function load(callable $loader): ResultInterface
     [$result, $issues] = detect_errors(static fn (): bool => $loader());
 
     return $result->then(
-        static function (bool $loaded) use ($issues) : bool {
-            if (!$loaded || $issues->count()) {
-                throw RuntimeException::fromIssues('Could not load the DOM Document', $issues);
-            }
-
-            return true;
-        },
+        /**
+         * @return true
+         */
+        static fn(bool $result): bool => disallow_libxml_false_returns(
+            $result && !$issues->count(),
+            'Could not load the DOM Document'
+        ),
         static function (Exception $exception) use ($issues) {
             throw RuntimeException::combineExceptionWithIssues($exception, $issues);
         }

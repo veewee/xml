@@ -13,5 +13,7 @@ function php_namespace(): callable
 {
     return static function (DOMXPath $xpath): DOMXPath {
         namespaces(['php' => 'http://php.net/xpath'])($xpath);
+
+        return $xpath;
     };
 }

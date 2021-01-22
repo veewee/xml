@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\ErrorHandling;
 
 use LibXMLError;
-use Psl\Exception\InvariantViolationException;
 use Psl\Result;
+use Psl\Result\ResultInterface;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
 use function libxml_clear_errors;
@@ -25,8 +25,6 @@ use function libxml_use_internal_errors;
  *
  * @psalm-param callable(): Tr $run
  * @psalm-return array{ResultInterface<Tr>, IssueCollection}
- *
- * @throws InvariantViolationException
  */
 function detect_errors(callable $run): array
 {

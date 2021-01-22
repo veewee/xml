@@ -32,7 +32,7 @@ final class Xpath
     }
 
     /**
-     * @teplate T
+     * @template T
      * @param callable(DOMXpath): T $locator
      *
      * @return T

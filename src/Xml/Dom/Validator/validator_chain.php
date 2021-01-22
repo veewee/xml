@@ -7,10 +7,9 @@ namespace VeeWee\Xml\Dom\Validator;
 use DOMDocument;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use function Psl\Iter\reduce;
-use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
-use function VeeWee\Xml\ErrorHandling\detect_errors;
 
 /**
+ * @param list<callable(DOMDocument): IssueCollection> $validators
  * @return callable(DOMDocument): IssueCollection
  */
 function validator_chain(callable ... $validators): callable
@@ -18,11 +17,14 @@ function validator_chain(callable ... $validators): callable
     return static function (DOMDocument $document) use ($validators) : IssueCollection {
         return reduce(
             $validators,
-            static fn (IssueCollection $issues, $schema)
-            => new IssueCollection(
-                ...$issues->getIterator(),
-                ...(xsd_validator($schema)($document))->getIterator()
-            ),
+            /**
+             * @param callable(DOMDocument): IssueCollection $validator
+             */
+            static fn (IssueCollection $issues, $validator): IssueCollection
+                => new IssueCollection(
+                    ...$issues->getIterator(),
+                    ...$validator($document)->getIterator()
+                ),
             new IssueCollection()
         );
     };

@@ -13,12 +13,27 @@ use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Fun\rethrow;
 use function Psl\Result\wrap;
 
+/**
+ * @template T
+ * @param callable(): T $run
+ *
+ * @return ResultInterface<T>
+ */
 function detect_warnings(callable $run): ResultInterface
 {
     $issues = new MutableVector([]);
-    $errorHandler = static function ($errno, $errstr = '', $errfile = '', $errline = 0) use ($issues) {
+    /**
+     * @var (callable(int, string, string=, int=, array=): never-return) $errorHandler
+     */
+    $errorHandler = static function (
+        int $errNo,
+        string $errMessage,
+        string $errFile = '',
+        int $errLine = 0,
+        array $context = []
+    ) use ($issues): void {
         $issues->add(
-            new Issue(Level::warning(), $errno, 0, $errstr, $errfile, $errline)
+            new Issue(Level::warning(), $errNo, 0, $errMessage, $errFile, $errLine)
         );
     };
 
@@ -27,6 +42,11 @@ function detect_warnings(callable $run): ResultInterface
     restore_error_handler();
 
     return $result->then(
+        /**
+         * @template T
+         * @param T $result
+         * @return T
+         */
         static function ($result) use ($issues) {
             if ($issues->count()) {
                 throw RuntimeException::fromIssues('Detected warnings', new IssueCollection(...$issues->toArray()));

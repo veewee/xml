@@ -21,6 +21,11 @@ final class RuntimeException extends \RuntimeException implements ExceptionInter
         );
     }
 
+    public static function withMessage(string $message): self
+    {
+        return new self($message);
+    }
+
     public static function fromIssues(string $message, IssueCollection $errors): self
     {
         return new self($message . PHP_EOL . $errors->toString());

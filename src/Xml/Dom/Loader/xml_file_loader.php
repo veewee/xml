@@ -16,6 +16,6 @@ function xml_file_loader(string $file): callable
     return static function (DOMDocument $document) use ($file): ResultInterface {
         Assert::fileExists($file);
 
-        return load(static fn (): bool => $document->load($file));
+        return load(static fn (): bool => (bool) $document->load($file));
     };
 }

@@ -3,6 +3,7 @@
 require_once __DIR__.'/bootstrap.php';
 require_once __DIR__.'/Xml/ErrorHandling/stop_on_first_issue.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_level_from_xml_error.php';
+require_once __DIR__.'/Xml/ErrorHandling/disallow_libxml_false_returns.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_from_xml_error.php';
 require_once __DIR__.'/Xml/ErrorHandling/detect_errors.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_collection_from_xml_errors.php';
