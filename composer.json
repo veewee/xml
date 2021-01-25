@@ -29,5 +29,10 @@
         "files": [
             "src/bootstrap.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VeeWee\\Xml\\Tests": "tests/Xml"
+        }
     }
 }

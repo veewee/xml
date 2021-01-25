@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling;
 
-use Psl\Result\ResultInterface;
 use VeeWee\Xml\Exception\RuntimeException;
 
 /**
  * @template T
+ *
  * @param T $value
- * @return T
+ *
+ * @psalm-ignore-falsable-return
+ * @return (T is bool ? true : T)
  *
  * @psalm-assert !false $value
+ * @throws RuntimeException
  */
-function disallow_libxml_false_returns($value, string $message): ResultInterface
+function disallow_libxml_false_returns($value, string $message)
 {
     if ($value === false) {
         throw RuntimeException::withMessage($message);

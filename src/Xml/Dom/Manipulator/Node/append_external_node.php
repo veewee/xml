@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Manipulator\Node;
 
 use DOMNode;
-use InvalidArgumentException;
+use VeeWee\Xml\Exception\RuntimeException;
 
 /**
- * @throws InvalidArgumentException
+ * @throws RuntimeException
  */
 function append_external_node(DOMNode $target, DOMNode $source): DOMNode
 {

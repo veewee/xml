@@ -7,7 +7,7 @@ require_once __DIR__.'/Xml/ErrorHandling/disallow_libxml_false_returns.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_from_xml_error.php';
 require_once __DIR__.'/Xml/ErrorHandling/detect_errors.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_collection_from_xml_errors.php';
-require_once __DIR__.'/Xml/ErrorHandling/detect_warnings.php';
+require_once __DIR__.'/Xml/ErrorHandling/disallow_issues.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_no_namespaced_xsd_schemas.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_namespaced_xsd_schemas.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_all_xsd_schemas.php';
