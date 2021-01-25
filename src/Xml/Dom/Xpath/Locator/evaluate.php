@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
+use DOMNode;
 use DOMXPath;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
@@ -10,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @return callable(DOMXPath): mixed
  */
-function evaluate(string $query, \DOMNode $node = null): callable
+function evaluate(string $query, DOMNode $node = null): callable
 {
     return
         /**
