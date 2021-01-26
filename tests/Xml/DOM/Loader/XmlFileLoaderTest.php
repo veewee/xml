@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\loader;
+namespace VeeWee\Xml\Tests\DOM\Loader;
 
-use function VeeWee\Xml\DOM\loader\xmlFileLoader;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Exception\RuntimeException;
+use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-/**
- * @covers ::VeeWee\Xml\DOM\loader\xmlFileLoader()
- */
-class xmlFileLoaderTest extends TestCase
+class XmlFileLoaderTest extends TestCase
 {
     /** @test */
     public function it_can_load_xml_file(): void
@@ -18,15 +17,13 @@ class xmlFileLoaderTest extends TestCase
         $doc = new \DOMDocument();
         $xml = '<hello />';
         [$file, $handle] = $this->fillFile($xml);
-        $loader = xmlFileLoader($file);
-
-        self::assertIsCallable($loader);
+        $loader = xml_file_loader($file);
 
         $result = $loader($doc);
-        self::assertTrue($result);
-        self::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
-
         fclose($handle);
+
+        self::assertTrue($result->getResult());
+        self::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
     /** @test */
@@ -35,23 +32,27 @@ class xmlFileLoaderTest extends TestCase
         $doc = new \DOMDocument();
         $xml = '<hello';
         [$file, $handle] = $this->fillFile($xml);
-        $loader = xmlFileLoader($file);
+        $loader = xml_file_loader($file);
 
-        self::assertIsCallable($loader);
-
-        $result = @$loader($doc);
-        self::assertFalse($result);
-
+        $result = $loader($doc);
         fclose($handle);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectErrorMessage('Could not load the DOM Document');
+        $result->getResult();
     }
 
     /** @test */
     public function it_throws_exception_on_invalid_file(): void
     {
         $doc = new \DOMDocument();
+        $loader = xml_file_loader('invalid-file');
 
-        $this->expectException(\InvalidArgumentException::class);
-        xmlFileLoader('invalidFile')($doc);
+        $result = $loader($doc);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectErrorMessage('The file "invalid-file" does not exist');
+        $result->getResult();
     }
 
     private function fillFile(string $content): array

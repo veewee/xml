@@ -18,6 +18,7 @@ use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+use function VeeWee\Xml\Dom\Outputter\xml_string_outputter;
 
 final class Document
 {
@@ -175,5 +176,10 @@ final class Document
     public function output(callable $outputer)
     {
         return $outputer($this->document);
+    }
+
+    public function toXmlString(): string
+    {
+        return $this->output(xml_string_outputter());
     }
 }

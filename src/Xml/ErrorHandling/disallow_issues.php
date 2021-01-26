@@ -36,7 +36,7 @@ function disallow_issues(callable $run): ResultInterface
          * @return no-return
          */
         static function (Exception $exception) use ($issues) {
-            throw RuntimeException::fromIssues($exception->getMessage(), $issues);
+            throw RuntimeException::combineExceptionWithIssues($exception, $issues);
         }
     );
 }

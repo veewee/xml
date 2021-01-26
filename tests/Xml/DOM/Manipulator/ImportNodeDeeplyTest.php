@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\manipulator;
+namespace VeeWee\Xml\Tests\DOM\Manipulator;
 
 use DOMElement;
-use function VeeWee\Xml\DOM\manipulator\importNodeDeeply;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Exception\RuntimeException;
+use function VeeWee\Xml\Dom\Manipulator\Node\import_node_deeply;
 
-/**
- * @covers ::VeeWee\Xml\DOM\manipulator\importNodeDeeply
- */
 class ImportNodeDeeplyTest extends TestCase
 {
     /** @test */
@@ -20,7 +18,7 @@ class ImportNodeDeeplyTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $result = importNodeDeeply($source->documentElement, $target);
+        $result = import_node_deeply($source->documentElement, $target);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
@@ -34,7 +32,7 @@ class ImportNodeDeeplyTest extends TestCase
         $target = new \DOMDocument();
         $target->loadXML('<hello></hello>');
 
-        $result = importNodeDeeply($source->documentElement, $target->documentElement);
+        $result = import_node_deeply($source->documentElement, $target->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
@@ -47,9 +45,9 @@ class ImportNodeDeeplyTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
-        importNodeDeeply($source, $target);
+        import_node_deeply($source, $target);
     }
 
     /** @test */
@@ -59,7 +57,7 @@ class ImportNodeDeeplyTest extends TestCase
         $source->loadXML('<hello><world myattrib="myvalue"><name>VeeWee</name></world></hello>');
         $target = new \DOMDocument();
 
-        $result = importNodeDeeply($source->documentElement->firstChild, $target);
+        $result = import_node_deeply($source->documentElement->firstChild, $target);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('world', $result->nodeName);

@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\manipulator;
+namespace VeeWee\Xml\Tests\DOM\Manipulator;
 
 use DOMElement;
-use function VeeWee\Xml\DOM\manipulator\replaceByExternalNode;
+use VeeWee\Xml\Tests\Exception\RuntimeExceptionTest;
+use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_node;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers ::VeeWee\Xml\DOM\manipulator\replaceByExternalNode
- *
- * @uses ::VeeWee\Xml\DOM\manipulator\importNodeDeeply
- */
-class replaceByExternalNodeTest extends TestCase
+class ReplaceByExternalNodeTest extends TestCase
 {
     /** @test */
     public function it_can_replace_a_node(): void
@@ -23,7 +19,7 @@ class replaceByExternalNodeTest extends TestCase
         $target = new \DOMDocument();
         $target->loadXML('<world />');
 
-        $result = replaceByExternalNode($source->documentElement, $target->documentElement);
+        $result = replace_by_external_node($source->documentElement, $target->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
@@ -37,9 +33,9 @@ class replaceByExternalNodeTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(RuntimeExceptionTest::class);
         $this->expectExceptionMessage('Could not replace a node without parent node. (DOMDocument)');
-        replaceByExternalNode($source, $target);
+        replace_by_external_node($source, $target);
     }
 
     /** @test */
@@ -52,7 +48,7 @@ class replaceByExternalNodeTest extends TestCase
         $expected = new \DOMDocument();
         $expected->loadXML('<world><name>VeeWee</name></world>');
 
-        $result = replaceByExternalNode($source->documentElement->firstChild, $target->documentElement);
+        $result = replace_by_external_node($source->documentElement->firstChild, $target->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('world', $result->nodeName);

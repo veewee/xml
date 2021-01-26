@@ -2,18 +2,13 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\manipulator;
+namespace VeeWee\Xml\Tests\DOM\Manipulator;
 
 use DOMElement;
-use function VeeWee\Xml\DOM\manipulator\appendExternalNode;
 use PHPUnit\Framework\TestCase;
+use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
 
-/**
- * @covers ::VeeWee\Xml\DOM\manipulator\appendExternalNode
- *
- * @uses ::VeeWee\Xml\DOM\manipulator\importNodeDeeply
- */
-class appendExternalNodeTest extends TestCase
+class AppendExternalNodeTest extends TestCase
 {
     /** @test */
     public function it_can_import_a_node_into_a_document_root(): void
@@ -22,7 +17,7 @@ class appendExternalNodeTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $result = appendExternalNode($source->documentElement, $target);
+        $result = append_external_node($source->documentElement, $target);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
@@ -36,9 +31,9 @@ class appendExternalNodeTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
-        appendExternalNode($source, $target);
+        append_external_node($source, $target);
     }
 
     /** @test */
@@ -49,7 +44,7 @@ class appendExternalNodeTest extends TestCase
         $target = new \DOMDocument();
         $target->loadXML('<hello></hello>');
 
-        $result = appendExternalNode($source->documentElement->firstChild, $target->documentElement);
+        $result = append_external_node($source->documentElement->firstChild, $target->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('world', $result->nodeName);

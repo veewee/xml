@@ -2,29 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\validator;
+namespace VeeWee\Xml\Tests\DOM\Validator;
 
-use function VeeWee\Xml\DOM\validator\xsdValidator;
-use HappyHelpers\xml\Exception\XmlErrorsException;
+use function VeeWee\Xml\Dom\Validator\xsd_validator;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers ::VeeWee\Xml\DOM\validator\xsdValidator()
- *
- * @uses ::HappyHelpers\assertions\assertExtensionLoaded
- * @uses ::HappyHelpers\iterables\map
- * @uses ::HappyHelpers\iterables\toList
- * @uses \HappyHelpers\results\Types\Failure
- * @uses \HappyHelpers\results\Types\Ok
- * @uses ::HappyHelpers\results\tryResultFrom
- * @uses ::HappyHelpers\strings\stringFromIterable
- * @uses \HappyHelpers\xml\Exception\XmlErrorsException
- * @uses ::HappyHelpers\xml\detectXmlErrors
- * @uses ::HappyHelpers\xml\formatError
- * @uses ::HappyHelpers\xml\formatLevel
- * @uses ::HappyHelpers\xml\useInternalErrors
- */
-class xsdValidatorTest extends TestCase
+class XsdValidatorTest extends TestCase
 {
     /**
      * @test
@@ -34,19 +17,15 @@ class xsdValidatorTest extends TestCase
     {
         $doc = new \DOMDocument();
         $doc->load($this->getFixture($xml));
-        $validator = xsdValidator($this->getFixture($xsd));
-        $result = $validator($doc);
+        $validator = xsd_validator($this->getFixture($xsd));
+        $issues = $validator($doc);
 
         if (!$errors) {
-            self::assertTrue($result->isOk());
-            self::assertTrue($result->value());
-
+            self::assertCount(0, $issues);
             return;
         }
 
-        self::assertFalse($result->isOk());
-        self::assertInstanceOf(XmlErrorsException::class, $result->value());
-        self::assertCount($errors, $result->value()->errors());
+        self::assertCount($errors, $issues);
     }
 
     /**

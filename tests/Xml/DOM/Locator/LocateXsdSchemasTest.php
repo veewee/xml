@@ -5,23 +5,18 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Tests\DOM\locator;
 
 use DOMDocument;
-use function VeeWee\Xml\DOM\locator\locateNamespacedXsdSchemas;
-use function VeeWee\Xml\DOM\locator\locateNoNamespacedXsdSchemas;
-use function VeeWee\Xml\DOM\locator\locateXsdSchemas;
 use PHPUnit\Framework\TestCase;
+use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
+use function VeeWee\Xml\Dom\Locator\Xsd\locate_namespaced_xsd_schemas;
+use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;
 
-/**
- * @covers ::VeeWee\Xml\DOM\locator\locateNamespacedXsdSchemas
- * @covers ::VeeWee\Xml\DOM\locator\locateNoNamespacedXsdSchemas
- * @covers ::VeeWee\Xml\DOM\locator\locateXsdSchemas
- */
-class locateXsdSchemasTest extends TestCase
+class LocateXsdSchemasTest extends TestCase
 {
     /** @test */
     public function it_can_locate_namespaced_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
-        $results = locateNamespacedXsdSchemas($document);
+        $results = locate_namespaced_xsd_schemas($document);
 
         self::assertInstanceOf(\Generator::class, $results);
         self::assertSame(
@@ -37,7 +32,7 @@ class locateXsdSchemasTest extends TestCase
     public function it_can_locate_no_namespaced_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
-        $results = locateNoNamespacedXsdSchemas($document);
+        $results = locate_no_namespaced_xsd_schemas($document);
 
         self::assertInstanceOf(\Generator::class, $results);
         self::assertSame(
@@ -53,7 +48,7 @@ class locateXsdSchemasTest extends TestCase
     public function it_can_locate_all_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
-        $results = locateXsdSchemas($document);
+        $results = locate_all_xsd_schemas($document);
 
         self::assertInstanceOf(\Generator::class, $results);
         self::assertSame(

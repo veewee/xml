@@ -14,8 +14,12 @@ use Webmozart\Assert\Assert;
 function xml_file_loader(string $file): callable
 {
     return static function (DOMDocument $document) use ($file): ResultInterface {
-        Assert::fileExists($file);
+        return load(
+            static function () use ($document, $file): bool {
+                Assert::fileExists($file);
 
-        return load(static fn (): bool => (bool) $document->load($file));
+                return (bool) $document->load($file);
+            }
+        );
     };
 }
