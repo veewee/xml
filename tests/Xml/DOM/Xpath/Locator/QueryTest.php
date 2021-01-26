@@ -4,32 +4,27 @@ namespace VeeWee\Xml\Tests\DOM\Xpath\Locator;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
-use VeeWee\Xml\Dom\Xpath;
-use function VeeWee\Xml\Dom\Xpath\Locator\query;
+use VeeWee\Xml\Exception\RuntimeException;
 
 class QueryTest extends TestCase
 {
-
-    /** @test */
-    public function it_can_locate_xpath(): void
-    {
-
-    }
-
     /** @test */
     public function it_can_handle_xpath_errors(): void
     {
-        $doc = Document::fromXmlString(<<<EOXML
-<root><item>Hello</item></root>
-EOXML
-);
-        $xpath = $doc->xpath();
+        $xpath = $this->provideXml()->xpath();
 
+        $this->expectException(RuntimeException::class);
+        $this->expectErrorMessage('Failed querying XPath query');
+        $this->expectErrorMessage('[ERROR] : Invalid expression');
 
-        $result = $xpath->query('$p$m``m$^^$^^jibberish');
-
-        self::assertSame(true, false);
-
+        $xpath->query('$p$m``m$^^$^^jibberish');
     }
 
+
+    private function provideXml(): Document
+    {
+        return Document::fromXmlString(<<<EOXML
+            <root><item>Hello</item></root>
+        EOXML);
+    }
 }

@@ -32,7 +32,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "VeeWee\\Xml\\Tests": "tests/Xml"
+            "VeeWee\\Xml\\Tests\\": "tests/Xml"
         }
     }
 }

@@ -23,4 +23,16 @@
             <file name="src/bootstrap.php"/>
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </MissingConstructor>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </UndefinedClass>
+    </issueHandlers>
 </psalm>

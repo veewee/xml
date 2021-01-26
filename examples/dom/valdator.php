@@ -13,7 +13,7 @@ use function VeeWee\Xml\Dom\Validator\xsd_validator;
 $doc = Document::fromXmlFile('data.xml');
 $issues = $doc
     ->validate(xsd_validator('schema.xsd'))
-    ->filter(static fn (Issue $issue) => $issue->level() > Level::error());
+    ->filter(fn (Issue $issue) => $issue->level() >= Level::error());
 
 if ($issues->count()) {
     throw new \Exception("OH-OW : We don't understand your XML format: ".$issues->toString());

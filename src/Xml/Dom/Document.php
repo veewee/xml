@@ -28,6 +28,11 @@ final class Document
         $this->document = $document;
     }
 
+    public static function empty(): self
+    {
+        return new self(new DOMDocument());
+    }
+
     /**
      * @param list<callable(DOMDocument): DOMDocument> $configurators
      *
@@ -159,5 +164,16 @@ final class Document
     public function xpath(callable ...$configurators): Xpath
     {
         return Xpath::fromDocument($this, ...$configurators);
+    }
+
+    /**
+     * @template T
+     * @param callable(DOMDocument): T $outputer
+     *
+     * @return T
+     */
+    public function output(callable $outputer)
+    {
+        return $outputer($this->document);
     }
 }
