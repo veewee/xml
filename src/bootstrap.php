@@ -32,7 +32,6 @@ require_once __DIR__.'/Xml/Dom/Configurator/validator.php';
 require_once __DIR__.'/Xml/Dom/Configurator/utf8.php';
 require_once __DIR__.'/Xml/Dom/Configurator/trim_spaces.php';
 require_once __DIR__.'/Xml/Dom/Builder/element.php';
-require_once __DIR__.'/Xml/Dom/Builder/apply.php';
 require_once __DIR__.'/Xml/Dom/Builder/attribute.php';
 require_once __DIR__.'/Xml/Dom/Builder/children.php';
 require_once __DIR__.'/Xml/Dom/Builder/value.php';

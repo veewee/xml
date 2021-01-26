@@ -10,7 +10,7 @@ use function VeeWee\Xml\Dom\Builder\value;
 $doc = Document::empty();
 $doc->manipulate(
     append(...$doc->build(
-        bind(
+        element('root', children(
             element('foo',
                 attribute('bar', 'baz'),
                 value('hello')
@@ -18,11 +18,9 @@ $doc->manipulate(
             namespaced_element('http://namespace', 'foo',
                 attribute('bar', 'baz'),
                 children(
-                    bind(
-                        element('hello', value('world'))
-                    )($doc)
+                    element('hello', value('world'))
                 )
             )
-        )($doc)
+        ))
     ))
 );
