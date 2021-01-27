@@ -18,6 +18,7 @@ use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+use function VeeWee\Xml\Dom\Mapper\to_xml_string;
 use function VeeWee\Xml\Dom\Outputter\xml_string_outputter;
 
 final class Document
@@ -169,17 +170,17 @@ final class Document
 
     /**
      * @template T
-     * @param callable(DOMDocument): T $outputer
+     * @param callable(DOMDocument): T $mapper
      *
      * @return T
      */
-    public function output(callable $outputer)
+    public function map(callable $mapper)
     {
-        return $outputer($this->document);
+        return $mapper($this->document);
     }
 
     public function toXmlString(): string
     {
-        return $this->output(xml_string_outputter());
+        return $this->map(to_xml_string());
     }
 }
