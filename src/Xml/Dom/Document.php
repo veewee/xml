@@ -6,10 +6,8 @@ namespace VeeWee\Xml\Dom;
 
 use DOMDocument;
 use DOMNode;
-use DOMXPath;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
-use Webmozart\Assert\Assert;
 use function Psl\Arr\values;
 use function Psl\Fun\pipe;
 use function Psl\Iter\reduce;
@@ -18,8 +16,7 @@ use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
-use function VeeWee\Xml\Dom\Mapper\to_xml_string;
-use function VeeWee\Xml\Dom\Outputter\xml_string_outputter;
+use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class Document
 {
@@ -181,6 +178,6 @@ final class Document
 
     public function toXmlString(): string
     {
-        return $this->map(to_xml_string());
+        return $this->map(xml_string());
     }
 }

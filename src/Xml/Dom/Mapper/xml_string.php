@@ -11,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @return callable(DOMDocument): string
  */
-function to_xml_string(): callable
+function xml_string(): callable
 {
     return static fn (DOMDocument $document): string => disallow_issues(
         static fn (): string => disallow_libxml_false_returns(

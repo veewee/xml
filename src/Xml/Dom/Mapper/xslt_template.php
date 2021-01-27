@@ -13,7 +13,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @return callable(DOMDocument): string
  */
-function apply_xslt_template(Document $template): callable
+function xslt_template(Document $template): callable
 {
     return static fn (DOMDocument $document): string => disallow_issues(
         static function () use ($template, $document): string {
