@@ -11,11 +11,11 @@ use VeeWee\Xml\ErrorHandling;
 use function libxml_use_internal_errors;
 use function simplexml_load_string;
 
-final class DetectErrorsTest extends TestCase
+final class DetectIssuesTest extends TestCase
 {
     public function testItCanContinueWhenNoErrorsAreDetects(): void
     {
-        [$result, $errors] = ErrorHandling\detect_errors(
+        [$result, $errors] = ErrorHandling\detect_issues(
             static function (): string {
                 self::assertTrue(libxml_use_internal_errors());
 
@@ -30,7 +30,7 @@ final class DetectErrorsTest extends TestCase
 
     public function testItCanDetectXmlErrorsInsideCallableAndReturnOk(): void
     {
-        [$result, $errors] = ErrorHandling\detect_errors(
+        [$result, $errors] = ErrorHandling\detect_issues(
             static function (): string {
                 simplexml_load_string('<notvalidxml');
 
@@ -46,7 +46,7 @@ final class DetectErrorsTest extends TestCase
     public function testItCanDetectXmlErrorsInsideCallableAndReturnAFailure(): void
     {
         $exception = new Exception('nonono');
-        [$result, $errors] = ErrorHandling\detect_errors(
+        [$result, $errors] = ErrorHandling\detect_issues(
             static function () use ($exception) {
                 simplexml_load_string('<notvalidxml');
 
@@ -64,7 +64,7 @@ final class DetectErrorsTest extends TestCase
         libxml_use_internal_errors(true);
         simplexml_load_string('<notvalidxml');
 
-        [$result, $errors] = ErrorHandling\detect_errors(
+        [$result, $errors] = ErrorHandling\detect_issues(
             static function (): string {
                 simplexml_load_string('<notvalidxml');
 
@@ -81,7 +81,7 @@ final class DetectErrorsTest extends TestCase
     {
         libxml_use_internal_errors(false);
 
-        [$result, $errors] = ErrorHandling\detect_errors(
+        [$result, $errors] = ErrorHandling\detect_issues(
             static function () {
                 self::assertTrue(libxml_use_internal_errors());
 

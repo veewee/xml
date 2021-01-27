@@ -17,7 +17,7 @@ use VeeWee\Xml\Exception\RuntimeException;
  */
 function disallow_issues(callable $run): ResultInterface
 {
-    [$result, $issues] = detect_errors($run);
+    [$result, $issues] = detect_issues($run);
 
     return $result->then(
         /**

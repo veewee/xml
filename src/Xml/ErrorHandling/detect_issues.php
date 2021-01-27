@@ -26,7 +26,7 @@ use function libxml_use_internal_errors;
  * @psalm-param callable(): Tr $run
  * @psalm-return array{ResultInterface<Tr>, IssueCollection}
  */
-function detect_errors(callable $run): array
+function detect_issues(callable $run): array
 {
     $previousErrorReporting = libxml_use_internal_errors(true);
     libxml_clear_errors();
