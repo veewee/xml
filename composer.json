@@ -8,6 +8,7 @@
         "ext-libxml": "*",
         "ext-xml": "*",
         "ext-xsl": "*",
+        "ext-xmlreader": "*",
         "azjezz/psl": "^1.0",
         "webmozart/assert": "^1.9",
         "thecodingmachine/safe": "^1.3"
