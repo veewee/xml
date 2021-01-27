@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Dom;
 
 use DOMDocument;
 use DOMNode;
+use DOMXPath;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Arr\values;

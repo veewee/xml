@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\Manipulator;
+namespace VeeWee\Xml\Tests\Dom\Manipulator;
 
 use DOMElement;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class ImportNodeDeeplyTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $result = import_node_deeply($source->documentElement, $target);
+        $result = import_node_deeply($target, $source->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
@@ -32,7 +32,7 @@ class ImportNodeDeeplyTest extends TestCase
         $target = new \DOMDocument();
         $target->loadXML('<hello></hello>');
 
-        $result = import_node_deeply($source->documentElement, $target->documentElement);
+        $result = import_node_deeply($target->documentElement, $source->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
@@ -47,7 +47,7 @@ class ImportNodeDeeplyTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
-        import_node_deeply($source, $target);
+        import_node_deeply($target, $source);
     }
 
     /** @test */
@@ -57,7 +57,7 @@ class ImportNodeDeeplyTest extends TestCase
         $source->loadXML('<hello><world myattrib="myvalue"><name>VeeWee</name></world></hello>');
         $target = new \DOMDocument();
 
-        $result = import_node_deeply($source->documentElement->firstChild, $target);
+        $result = import_node_deeply($target, $source->documentElement->firstChild);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('world', $result->nodeName);

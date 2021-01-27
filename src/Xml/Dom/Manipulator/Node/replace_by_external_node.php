@@ -23,12 +23,11 @@ function replace_by_external_node(DOMNode $target, DOMNode $source): DOMNode
             $copy = import_node_deeply($target, $source);
 
             disallow_libxml_false_returns(
-                static fn () => $parentNode->replaceChild($copy, $target),
-                'Cannot import node: Node Type Not Supported'
+                $parentNode->replaceChild($copy, $target),
+                'Could not replace the child node.'
             );
 
             return $copy;
-
         }
     )->getResult();
 }

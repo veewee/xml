@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__.'/bootstrap.php';
 require_once __DIR__.'/Xml/ErrorHandling/stop_on_first_issue.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_level_from_xml_error.php';
 require_once __DIR__.'/Xml/ErrorHandling/disallow_libxml_false_returns.php';
@@ -20,8 +19,8 @@ require_once __DIR__.'/Xml/Dom/Xpath/Configurator/functions.php';
 require_once __DIR__.'/Xml/Dom/Xpath/Configurator/all_functions.php';
 require_once __DIR__.'/Xml/Dom/Xpath/Configurator/php_namespace.php';
 require_once __DIR__.'/Xml/Dom/Xpath/Configurator/namespaces.php';
-require_once __DIR__.'/Xml/Dom/Mapper/xml_string_outputter.php';
-require_once __DIR__.'/Xml/Dom/Mapper/apply_xslt_template.php';
+require_once __DIR__.'/Xml/Dom/Mapper/xslt_template.php';
+require_once __DIR__.'/Xml/Dom/Mapper/xml_string.php';
 require_once __DIR__.'/Xml/Dom/Loader/load.php';
 require_once __DIR__.'/Xml/Dom/Loader/xml_file_loader.php';
 require_once __DIR__.'/Xml/Dom/Loader/xml_node_loader.php';

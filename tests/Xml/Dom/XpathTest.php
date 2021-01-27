@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM;
+namespace VeeWee\Xml\Tests\Dom;
 
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Xpath;

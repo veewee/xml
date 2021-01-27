@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\Validator;
+namespace VeeWee\Xml\Tests\Dom\Validator;
 
 use function VeeWee\Xml\Dom\Validator\xsd_validator;
 use PHPUnit\Framework\TestCase;

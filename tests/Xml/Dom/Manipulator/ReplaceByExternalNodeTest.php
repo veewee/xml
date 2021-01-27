@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\Manipulator;
+namespace VeeWee\Xml\Tests\Dom\Manipulator;
 
 use DOMElement;
-use VeeWee\Xml\Tests\Exception\RuntimeExceptionTest;
+use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_node;
 use PHPUnit\Framework\TestCase;
 
@@ -19,11 +19,11 @@ class ReplaceByExternalNodeTest extends TestCase
         $target = new \DOMDocument();
         $target->loadXML('<world />');
 
-        $result = replace_by_external_node($source->documentElement, $target->documentElement);
+        $result = replace_by_external_node($target->documentElement, $source->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
-        self::assertXmlStringEqualsXmlString($source->saveXML(), $target->saveXML());
+        self::assertXmlStringEqualsXmlString($target->saveXML(), $source->saveXML());
     }
 
     /** @test */
@@ -33,9 +33,9 @@ class ReplaceByExternalNodeTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $this->expectException(RuntimeExceptionTest::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Could not replace a node without parent node. (DOMDocument)');
-        replace_by_external_node($source, $target);
+        replace_by_external_node($target, $source);
     }
 
     /** @test */
@@ -48,7 +48,7 @@ class ReplaceByExternalNodeTest extends TestCase
         $expected = new \DOMDocument();
         $expected->loadXML('<world><name>VeeWee</name></world>');
 
-        $result = replace_by_external_node($source->documentElement->firstChild, $target->documentElement);
+        $result = replace_by_external_node($target->documentElement, $source->documentElement->firstChild);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('world', $result->nodeName);

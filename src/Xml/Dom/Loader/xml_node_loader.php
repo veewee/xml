@@ -16,6 +16,6 @@ use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
 function xml_node_loader(DOMNode $importedNode): callable
 {
     return static function (DOMDocument $document) use ($importedNode): ResultInterface {
-        return load(static fn () => (bool) append_external_node($importedNode, $document));
+        return load(static fn () => (bool) append_external_node($document, $importedNode));
     };
 }

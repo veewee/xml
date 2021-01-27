@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\Manipulator;
+namespace VeeWee\Xml\Tests\Dom\Manipulator;
 
 use DOMElement;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,7 @@ class AppendExternalNodeTest extends TestCase
         $source->loadXML('<hello />');
         $target = new \DOMDocument();
 
-        $result = append_external_node($source->documentElement, $target);
+        $result = append_external_node($target, $source->documentElement);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('hello', $result->nodeName);
@@ -33,7 +33,7 @@ class AppendExternalNodeTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
-        append_external_node($source, $target);
+        append_external_node($target, $source);
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class AppendExternalNodeTest extends TestCase
         $target = new \DOMDocument();
         $target->loadXML('<hello></hello>');
 
-        $result = append_external_node($source->documentElement->firstChild, $target->documentElement);
+        $result = append_external_node($target->documentElement, $source->documentElement->firstChild);
 
         self::assertInstanceOf(DOMElement::class, $result);
         self::assertSame('world', $result->nodeName);

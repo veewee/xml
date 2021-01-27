@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\Loader;
+namespace VeeWee\Xml\Tests\Dom\Loader;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 
 class XmlNodeLoaderTest extends TestCase
@@ -35,7 +36,7 @@ class XmlNodeLoaderTest extends TestCase
 
         $result = $loader($doc);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
         $result->getResult();
     }

@@ -22,7 +22,7 @@ function import_node_deeply(DOMNode $target, DOMNode $source): DOMNode
             Assert::notNull($document);
 
             return disallow_libxml_false_returns(
-                $document->importNode($source, true),
+                @$document->importNode($source, true),
                 'Cannot import node: Node Type Not Supported'
             );
         }

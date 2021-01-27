@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\Validator;
+namespace VeeWee\Xml\Tests\Dom\Validator;
 
 use DOMDocument;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;

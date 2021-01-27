@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\DOM\Configurator;
+namespace VeeWee\Xml\Tests\Dom\Configurator;
 
 use DOMDocument;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
@@ -32,7 +32,7 @@ class ValidatorTest extends TestCase
     public function it_can_configure_xml_with_invalid_validation_result(): void
     {
         $doc = new DOMDocument();
-        $validator = validator(static fn (DOMDocument $doc): IssueCollection  => new IssueCollection(
+        $validator = validator(fn (DOMDocument $doc): IssueCollection  => new IssueCollection(
             $this->createIssue(Level::fatal())
         ));
 

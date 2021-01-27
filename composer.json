@@ -35,5 +35,19 @@
         "psr-4": {
             "VeeWee\\Xml\\Tests\\": "tests/Xml"
         }
+    },
+    "scripts": {
+        "autoload": [
+            "echo '' > src/bootstrap.php",
+            "@php build/bootstrap.php"
+        ],
+        "psalm": "./tools/psalm.phar --no-cache",
+        "tests": "./tools/phpunit.phar",
+        "coverage": "@php ./tools/full-coverage-check.php coverage/clover.xml",
+        "ci": [
+            "@autoload",
+            "@parallel psalm tests",
+            "@parallel coverage"
+        ]
     }
 }

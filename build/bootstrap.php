@@ -17,6 +17,7 @@ use function Psl\Str\join;
         ->in(dirname(__DIR__).'/src')
         ->files()
         ->name('*.php')
+        ->notName('bootstrap.php')
         ->notContains(['/^final class/m', '/^interface/m'])
         ->getIterator();
 
