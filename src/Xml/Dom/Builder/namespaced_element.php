@@ -15,11 +15,11 @@ use function Psl\Fun\pipe;
  *
  * @return callable(DOMNode): DOMElement
  */
-function namespaced_element(string $namespace, string $name, callable ...$configurators): callable {
-    return static function (DOMNode $node) use ($namespace, $name, $configurators): DOMElement {
+function namespaced_element(string $namespace, string $qualifiedName, callable ...$configurators): callable {
+    return static function (DOMNode $node) use ($namespace, $qualifiedName, $configurators): DOMElement {
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
         Assert::isInstanceOf($document, DOMDocument::class, 'Can not create an element without a DOM document.');
 
-        return pipe(...$configurators)($document->createElementNS($namespace, $name));
+        return pipe(...$configurators)($document->createElementNS($namespace, $qualifiedName));
     };
 }

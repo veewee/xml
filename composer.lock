@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a25801780d4b30dfd7c88641ca98a0c",
+    "content-hash": "15cdd60369e1234d2208090a9ab9aa25",
     "packages": [
         {
             "name": "azjezz/psl",
-            "version": "0.1.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/azjezz/psl.git",
-                "reference": "7c0f30dff93b59e439392211d6192efe84b0a2cc"
+                "reference": "11f0e5ab3c17f96eda5ac7a101c3d56c2063dede"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/azjezz/psl/zipball/7c0f30dff93b59e439392211d6192efe84b0a2cc",
-                "reference": "7c0f30dff93b59e439392211d6192efe84b0a2cc",
+                "url": "https://api.github.com/repos/azjezz/psl/zipball/11f0e5ab3c17f96eda5ac7a101c3d56c2063dede",
+                "reference": "11f0e5ab3c17f96eda5ac7a101c3d56c2063dede",
                 "shasum": ""
             },
             "require": {
@@ -30,7 +30,6 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.17",
-                "php-coveralls/php-coveralls": "^2.4",
                 "phpunit/phpunit": "^9.5",
                 "roave/security-advisories": "dev-master",
                 "squizlabs/php_codesniffer": "^3.5",
@@ -58,9 +57,9 @@
             "description": "PHP Standard Library",
             "support": {
                 "issues": "https://github.com/azjezz/psl/issues",
-                "source": "https://github.com/azjezz/psl/tree/0.1.0"
+                "source": "https://github.com/azjezz/psl/tree/1.0.0"
             },
-            "time": "2020-12-14T13:50:34+00:00"
+            "time": "2021-01-17T16:31:01+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -462,7 +461,8 @@
         "php": "^7.4 | ^8.0",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "ext-xml": "*"
+        "ext-xml": "*",
+        "ext-xsl": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

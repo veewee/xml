@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/Xml/ErrorHandling/stop_on_first_issue.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_level_from_xml_error.php';
+require_once __DIR__.'/Xml/ErrorHandling/Assertion/assert_strict_qualified_name.php';
 require_once __DIR__.'/Xml/ErrorHandling/disallow_libxml_false_returns.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_from_xml_error.php';
 require_once __DIR__.'/Xml/ErrorHandling/detect_errors.php';
@@ -33,8 +34,10 @@ require_once __DIR__.'/Xml/Dom/Configurator/validator.php';
 require_once __DIR__.'/Xml/Dom/Configurator/utf8.php';
 require_once __DIR__.'/Xml/Dom/Configurator/trim_spaces.php';
 require_once __DIR__.'/Xml/Dom/Builder/element.php';
+require_once __DIR__.'/Xml/Dom/Builder/attributes.php';
 require_once __DIR__.'/Xml/Dom/Builder/attribute.php';
 require_once __DIR__.'/Xml/Dom/Builder/children.php';
 require_once __DIR__.'/Xml/Dom/Builder/value.php';
 require_once __DIR__.'/Xml/Dom/Builder/namespaced_element.php';
+require_once __DIR__.'/Xml/Dom/Builder/namespaced_attributes.php';
 require_once __DIR__.'/Xml/Dom/Builder/namespaced_attribute.php';
