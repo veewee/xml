@@ -4,58 +4,40 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\DOM\Configurator;
 
+use DOMDocument;
+use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
+use VeeWee\Xml\ErrorHandling\Issue\Level;
+use VeeWee\Xml\Exception\RuntimeException;
+use VeeWee\Xml\Tests\ErrorHandling\Issue\UseIssueTrait;
+use function VeeWee\Xml\Dom\Configurator\validator;
 use function VeeWee\Xml\DOM\Configurator\withValidator;
 use function HappyHelpers\results\result;
-use HappyHelpers\results\Types\Result;
-use HappyHelpers\Tests\Helper\xml\LibXmlErrorProvidingTrait;
-use HappyHelpers\xml\Exception\XmlErrorsException;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers ::VeeWee\Xml\DOM\Configurator\withValidator()
- *
- * @uses ::HappyHelpers\iterables\map
- * @uses ::HappyHelpers\iterables\toList
- * @uses \HappyHelpers\results\Types\Failure
- * @uses \HappyHelpers\results\Types\Ok
- * @uses ::HappyHelpers\results\result
- * @uses ::HappyHelpers\results\handler\rethrow
- * @uses ::HappyHelpers\strings\stringFromIterable
- * @uses \HappyHelpers\xml\Exception\XmlErrorsException
- * @uses ::HappyHelpers\xml\formatError
- * @uses ::HappyHelpers\xml\formatLevel
- */
-class validatorTest extends TestCase
+class ValidatorTest extends TestCase
 {
-    use LibXmlErrorProvidingTrait;
+    use UseIssueTrait;
 
     /** @test */
     public function it_can_configure_xml_with_valid_validation_result(): void
     {
-        $doc = new \DOMDocument();
-        $validator = function (\DOMDocument $doc): Result {
-            return result(true);
-        };
+        $doc = new DOMDocument();
+        $validator = validator(static fn (DOMDocument $doc): IssueCollection  => new IssueCollection());
 
-        $callable = withValidator($validator);
-        self::assertIsCallable($callable);
-
-        $result = $callable($doc);
+        $result = $validator($doc);
         self::assertSame($doc, $result);
     }
 
     /** @test */
     public function it_can_configure_xml_with_invalid_validation_result(): void
     {
-        $doc = new \DOMDocument();
-        $exception = XmlErrorsException::fromXmlErrors([$this->createError(LIBXML_ERR_FATAL)]);
-        $validator = fn (\DOMDocument $doc): Result => result($exception);
+        $doc = new DOMDocument();
+        $validator = validator(static fn (DOMDocument $doc): IssueCollection  => new IssueCollection(
+            $this->createIssue(Level::fatal())
+        ));
 
-        $callable = withValidator($validator);
-        self::assertIsCallable($callable);
-
-        $this->expectException(XmlErrorsException::class);
-        $this->expectExceptionMessage($exception->getMessage());
-        $callable($doc);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid XML');
+        $result = $validator($doc);
     }
 }
