@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader\Node;
 
+use Webmozart\Assert\Assert;
 use function Psl\Arr\last;
 
 final class NodeSequence
@@ -30,14 +31,11 @@ final class NodeSequence
         return new self(...[...$this->elementNodes, $element]);
     }
 
-    public function current(): ?ElementNode
+    public function current(): ElementNode
     {
-        return last($this->elementNodes);
-    }
+        $current = last($this->elementNodes);
+        Assert::notNull($current, 'The node sequence is empty. Can not fetch current item!');
 
-    public function matches(string $xpath): bool
-    {
-        // TOdo ... for real !
-        return $this->elementNodes[count($this->elementNodes) - 1]->localName === $xpath;
+        return $current;
     }
 }

@@ -11,5 +11,5 @@ final class ElementNode
     public $localName;
     public $namespace;
     public $namespaceAlias;
-    public $arguments = [];
+    public $attributes = [];
 }

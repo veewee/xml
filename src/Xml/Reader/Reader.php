@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Reader;
 use Generator;
 use VeeWee\Xml\Reader\Node\AttributeNode;
 use VeeWee\Xml\Reader\Node\ElementNode;
-use VeeWee\Xml\Reader\Node\NodeSequence;
+use VeeWee\Xml\Reader\Node\Pointer;
 use XMLReader;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\ErrorHandling\stop_on_first_issue;
@@ -52,56 +52,40 @@ final class Reader
     public function provide(callable $matcher): Generator
     {
         $reader = ($this->factory)();
-        $sequence = new NodeSequence();
+        $pointer = Pointer::create();
 
         yield from stop_on_first_issue(
             static fn(): bool => $reader->read(),
-            static function () use ($matcher) : ?string {
-                // $reader->name === 'user' ? $reader->readOuterXml() : null,
+            static function () use ($reader, $pointer, $matcher) : ?string {
+                switch ($reader->nodeType) {
+                    case XMLReader::END_ELEMENT:
+                        $pointer->leaveElement();
+                        break;
+                    case XMLReader::ELEMENT:
+                        $element = new ElementNode();
+                        $element->position = 1; // TODO : load or set from pointer!
+                        $element->name = $reader->name;
+                        $element->localName = $reader->localName;
+                        $element->namespace = $reader->namespaceURI;
+                        $element->namespaceAlias = $reader->prefix;
 
+                        while($reader->moveToNextAttribute()) {
+                            $attribute = new AttributeNode();
+                            $attribute->name = $reader->name;
+                            $attribute->localName = $reader->localName;
+                            $attribute->namespaceAlias = $reader->prefix;
+                            $attribute->namespace = $reader->namespaceURI;
+                            $attribute->value = $reader->value;
+                            $element->attributes[] = $attribute;
+                        }
+
+                        $pointer->enterElement($element);
+
+                        return $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
+                }
+
+                return null;
             }
         );
-    }
-
-    private function oldversion(XMLReader $reader, NodeSequence $sequence, callable $matcher): ?string
-    {
-        $sequence ??= new NodeSequence();
-        $depth = 0;
-        $siblingCount = [];
-
-        while($reader->read()){
-            switch ($reader->nodeType) {
-                case XMLReader::END_ELEMENT:
-                    unset($siblingCount[$depth]);
-                    $depth--;
-                    $sequence = $sequence->pop();
-                    break;
-                case XMLReader::ELEMENT:
-                    $siblingsCount[$depth] = isset($siblingsCount[$depth]) ? ($siblingsCount[$depth]+1) : 1;
-                    $position = $siblingsCount[$depth];
-                    $depth++;
-
-                    $element = new ElementNode();
-                    $element->position = $position;
-                    $element->name = $reader->name;
-                    $element->localName = $reader->localName;
-                    $element->namespace = $reader->namespaceURI;
-                    $element->namespaceAlias = $reader->prefix;
-
-                    while($reader->moveToNextAttribute()) {
-                        $attribute = new AttributeNode();
-                        $attribute->name = $reader->name;
-                        $attribute->localName = $reader->localName;
-                        $attribute->namespaceAlias = $reader->prefix;
-                        $attribute->namespace = $reader->namespaceURI;
-                        $attribute->value = $reader->value;
-                        $element->arguments[] = $attribute;
-                    }
-
-                    $sequence = $sequence->append($element);
-                    yield from $this->runMatchers(OpeningElementMatcher::class, $sequence, $reader);
-                    break;
-            }
-        }
     }
 }

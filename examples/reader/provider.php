@@ -1,12 +1,14 @@
 <?php
 
 use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Reader\Reader;
+use VeeWee\Xml\Reader\Matcher;
 
-$reader   = Reader::fromFile('large-data.xml');
+$reader   = Reader::fromXmlFile('large-data.xml');
 $provider = $reader->provide(
     Matcher\all(
-        Matcher\currentNodeName('item'),
-        Matcher\hasAttribute('locale', 'nl-BE')
+        Matcher\node_name('item'),
+        Matcher\node_attribute('locale', 'nl-BE')
     )
 );
 
