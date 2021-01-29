@@ -44,11 +44,15 @@
         ],
         "psalm": "./tools/psalm.phar --no-cache",
         "tests": "./tools/phpunit.phar",
-        "coverage": "@php ./tools/full-coverage-check.php coverage/clover.xml",
+        "coverage": "@php ./tools/full-coverage-check.php .phpunit.cache/clover/clover.xml",
+        "infection": [
+            "Composer\\Config::disableProcessTimeout",
+            "./tools/infection.phar"
+        ],
         "ci": [
             "@autoload",
             "@parallel psalm tests",
-            "@parallel coverage"
+            "@parallel coverage infection"
         ]
     }
 }

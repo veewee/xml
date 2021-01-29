@@ -1,0 +1,18 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "minMsi": 100,
+    "minCoveredMsi": 100,
+    "phpUnit": {
+        "customPath": ".\/tools\/phpunit.phar"
+    },
+    "logs": {
+        "text": "infection.log"
+    },
+    "mutators": {
+        "@default": true
+    }
+}

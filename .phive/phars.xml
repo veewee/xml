@@ -2,4 +2,5 @@
 <phive xmlns="https://phar.io/phive">
   <phar name="phpunit" version="^9.4.4" installed="9.5.1" location="./tools/phpunit.phar" copy="true"/>
   <phar name="psalm" version="^4.3.1" installed="4.4.1" location="./tools/psalm.phar" copy="true"/>
+  <phar name="infection" version="0.20" installed="0.20.1" location="./tools/infection.phar" copy="true"/>
 </phive>
