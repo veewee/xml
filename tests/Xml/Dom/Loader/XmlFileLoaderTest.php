@@ -7,10 +7,13 @@ namespace VeeWee\Xml\Tests\Dom\Loader;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Exception\RuntimeException;
+use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
 class XmlFileLoaderTest extends TestCase
 {
+    use FillFileTrait;
+
     /** @test */
     public function it_can_load_xml_file(): void
     {
@@ -53,14 +56,5 @@ class XmlFileLoaderTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('The file "invalid-file" does not exist');
         $result->getResult();
-    }
-
-    private function fillFile(string $content): array
-    {
-        $handle = tmpfile();
-        $path = stream_get_meta_data($handle)['uri'];
-        fwrite($handle, $content);
-
-        return [$path, $handle];
     }
 }

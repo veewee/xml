@@ -14,13 +14,13 @@ final class ElementNode
     /**
      * @param list<AttributeNode> $attributes
      */
-    private function __construct(
+    public function __construct(
         public int $position,
         public string $name,
         public string $localName,
         public string $namespace,
         public string $namespaceAlias,
-        public array $attributes = []
+        public array $attributes
     ) {}
 
     /**

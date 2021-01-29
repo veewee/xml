@@ -7,12 +7,15 @@ namespace VeeWee\Xml\Tests\Dom;
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function Psl\Fun\identity;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;
 use function VeeWee\Xml\Dom\Configurator\utf8;
 
 class DocumentTest extends TestCase
 {
+    use FillFileTrait;
+
     /** @test */
     public function it_can_create_a_document_from_dom(): void
     {
@@ -97,14 +100,4 @@ class DocumentTest extends TestCase
 
         self::assertXmlStringEqualsXmlString($xml, $doc->toXmlString());
     }
-
-    private function fillFile(string $content): array
-    {
-        $handle = tmpfile();
-        $path = stream_get_meta_data($handle)['uri'];
-        fwrite($handle, $content);
-
-        return [$path, $handle];
-    }
-
 }

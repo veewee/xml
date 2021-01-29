@@ -55,7 +55,7 @@ final class NodeSequence
     {
         try {
             $elementCount = count($this->elementNodes);
-            $element = at($this->elementNodes, $elementCount - 1);
+            $element = at($this->elementNodes, $elementCount - 2);
         } catch (InvariantViolationException) {
             return null;
         }
