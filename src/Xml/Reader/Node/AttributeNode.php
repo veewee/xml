@@ -19,9 +19,6 @@ final class AttributeNode
         public string $value,
     ) {}
 
-    /**
-     * @psalm-pure
-     */
     public static function fromReader(XMLReader $reader): self
     {
         return new self(

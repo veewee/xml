@@ -26,7 +26,7 @@ function validator(callable $validator, ?Level $minimumLevel = null): callable
         static function (DOMDocument $document) use ($validator, $minimumLevel): DOMDocument {
             /** @var IssueCollection $issues */
             $issues = $validator($document)
-                ->filter(fn (Issue  $issue): bool => $issue->level()->value() >= $minimumLevel->value());
+                ->filter(static fn (Issue  $issue): bool => $issue->level()->value() >= $minimumLevel->value());
 
             if ($issues->count()) {
                 throw RuntimeException::fromIssues('Invalid XML', $issues);

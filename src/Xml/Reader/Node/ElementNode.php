@@ -23,9 +23,6 @@ final class ElementNode
         public array $attributes = []
     ) {}
 
-    /**
-     * @psalm-pure
-     */
     public static function fromReader(XMLReader $reader, int $position, callable $attributesProvider): self
     {
         return new self(
