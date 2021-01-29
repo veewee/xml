@@ -16,12 +16,19 @@ use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 
 final class Reader
 {
+    /**
+     * @var callable(): XMLReader $factory
+     */
+    private $factory;
+
+    /**
+     * @param callable(): XMLReader $factory
+     */
     private function __construct(
-        /**
-         * @var callable(): XMLReader $factory
-         */
-        private $factory
-    ) {}
+        callable $factory
+    ) {
+        $this->factory = $factory;
+    }
 
     public static function configure(callable $loader, callable ... $configurators): self
     {
