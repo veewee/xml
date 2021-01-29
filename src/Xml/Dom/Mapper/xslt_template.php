@@ -18,10 +18,15 @@ function xslt_template(Document $template): callable
     return static fn (DOMDocument $document): string => disallow_issues(
         static function () use ($template, $document): string {
             $proc = new XSLTProcessor();
-            $proc->importStyleSheet($template->toUnsafeDocument());
+
+            disallow_libxml_false_returns(
+                $proc->importStyleSheet($template->toUnsafeDocument()),
+                'Unable to import XSLT stylesheet'
+            );
 
             return disallow_libxml_false_returns(
-                $proc->transformToXML($document),
+                // Instead of false inside the documentation .... libXML makes it null
+                (string) $proc->transformToXML($document),
                 'Unable to apply the XSLT template'
             );
         }
