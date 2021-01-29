@@ -15,6 +15,9 @@
     <include>
       <directory suffix=".php">src</directory>
     </include>
+    <exclude>
+      <file>src/bootstrap.php</file>
+    </exclude>
     <report>
       <clover outputFile=".phpunit.cache/clover/clover.xml" />
       <html outputDirectory=".phpunit.cache/report" lowUpperBound="99" highLowerBound="99" />
