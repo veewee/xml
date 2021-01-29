@@ -25,7 +25,7 @@ function xslt_template(Document $template): callable
             );
 
             return disallow_libxml_false_returns(
-                // Instead of false inside the documentation .... libXML makes it null
+                // Result can also be null ... undocumentedly!
                 (string) $proc->transformToXML($document),
                 'Unable to apply the XSLT template'
             );
