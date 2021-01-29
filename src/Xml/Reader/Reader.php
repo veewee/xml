@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Reader;
 
 use Generator;
+use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Reader\Node\AttributeNode;
 use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\Pointer;
@@ -60,6 +61,8 @@ final class Reader
      * @param callable(NodeSequence): bool $matcher
      *
      * @return Generator<string>
+     *
+     * @throws RuntimeException
      */
     public function provide(callable $matcher): Generator
     {
