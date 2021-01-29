@@ -2,12 +2,13 @@
 
 namespace VeeWee\Xml\Tests\Dom\Xpath\Locator;
 
+use DOMElement;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Locator\elements_with_tagname;
 
-class QueryTest extends TestCase
+class QuerySingleTest extends TestCase
 {
     /** @test */
     public function it_can_handle_xpath_errors(): void
@@ -18,28 +19,37 @@ class QueryTest extends TestCase
         $this->expectErrorMessage('Failed querying XPath query');
         $this->expectErrorMessage('[ERROR] : Invalid expression');
 
-        $xpath->query('$p$m``m$^^$^^jibberish');
+        $xpath->querySingle('$p$m``m$^^$^^jibberish');
     }
 
     /** @test */
-    public function it_can_find_xpath_elements(): void
+    public function it_throws_on_multiple_xpath_elements(): void
     {
         $xpath = $this->provideXml()->xpath();
-        $res = $xpath->query('//item');
 
-        self::assertCount(2, $res);
+        $this->expectErrorMessage('Expected to find only one node that matches //items. Got 2');
+        $xpath->querySingle('//items');
     }
 
     /** @test */
-    public function it_can_find_xpath_elements_with_node_context(): void
+    public function it_can_find_single_xpath_element(): void
+    {
+        $xpath = $this->provideXml()->xpath();
+        $actual = $xpath->querySingle('//item');
+
+        self::assertInstanceOf(DOMElement::class, $actual);
+    }
+
+    /** @test */
+    public function it_can_find_single_xpath_element_with_node_context(): void
     {
         $doc = $this->provideXml();
         $hello = $doc->locate(elements_with_tagname('hello'))->item(0);
 
         $xpath = $doc->xpath();
-        $res = $xpath->query('./world', $hello);
+        $actual = $xpath->querySingle('./world', $hello);
 
-        self::assertCount(1, $res);
+        self::assertInstanceOf(DOMElement::class, $actual);
     }
 
     private function provideXml(): Document
@@ -47,7 +57,8 @@ class QueryTest extends TestCase
         return Document::fromXmlString(<<<EOXML
             <root>
                 <item>Hello</item>
-                <item>World</item>
+                <items>Hello</items>
+                <items>World</items>
                 <hello>
                     <world />
                 </hello>

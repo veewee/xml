@@ -3,11 +3,12 @@
 namespace VeeWee\Xml\Tests\Dom\Xpath\Locator;
 
 use PHPUnit\Framework\TestCase;
+use Psl\Type;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Locator\elements_with_tagname;
 
-class QueryTest extends TestCase
+class EvaluateTest extends TestCase
 {
     /** @test */
     public function it_can_handle_xpath_errors(): void
@@ -18,16 +19,16 @@ class QueryTest extends TestCase
         $this->expectErrorMessage('Failed querying XPath query');
         $this->expectErrorMessage('[ERROR] : Invalid expression');
 
-        $xpath->query('$p$m``m$^^$^^jibberish');
+        $xpath->evaluate('$p$m``m$^^$^^jibberish', Type\string());
     }
 
     /** @test */
-    public function it_can_find_xpath_elements(): void
+    public function it_can_find_xpath_evaluation(): void
     {
         $xpath = $this->provideXml()->xpath();
-        $res = $xpath->query('//item');
+        $res = $xpath->evaluate('string(//item[1])', Type\string());
 
-        self::assertCount(2, $res);
+        self::assertSame('Hello', $res);
     }
 
     /** @test */
@@ -37,9 +38,9 @@ class QueryTest extends TestCase
         $hello = $doc->locate(elements_with_tagname('hello'))->item(0);
 
         $xpath = $doc->xpath();
-        $res = $xpath->query('./world', $hello);
+        $res = $xpath->evaluate('string(./world)', Type\string(), $hello);
 
-        self::assertCount(1, $res);
+        self::assertSame('Earth', $res);
     }
 
     private function provideXml(): Document
@@ -49,7 +50,7 @@ class QueryTest extends TestCase
                 <item>Hello</item>
                 <item>World</item>
                 <hello>
-                    <world />
+                    <world>Earth</world>
                 </hello>
             </root>
         EOXML);
