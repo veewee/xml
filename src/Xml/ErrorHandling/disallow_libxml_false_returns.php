@@ -12,7 +12,7 @@ use VeeWee\Xml\Exception\RuntimeException;
  * @param T $value
  *
  * @psalm-ignore-falsable-return
- * @return (T is bool ? true : T)
+ * @return T
  *
  * @psalm-assert !false $value
  * @throws RuntimeException

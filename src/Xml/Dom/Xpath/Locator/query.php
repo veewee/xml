@@ -15,14 +15,21 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  */
 function query(string $query, DOMNode $node = null): callable
 {
-    return static function (DOMXPath $xpath) use ($query, $node): DOMNodeList {
-        $node = $node ?? $xpath->document->documentElement;
+    return
+        /**
+         * @return DOMNodeList<DOMElement>
+         */
+        static function (DOMXPath $xpath) use ($query, $node): DOMNodeList {
+            $node = $node ?? $xpath->document->documentElement;
 
-        return disallow_issues(
-            static fn (): DOMNodeList => disallow_libxml_false_returns(
-                $xpath->query($query, $node),
-                'Failed querying XPath query: '.$query
-            ),
-        )->getResult();
-    };
+            /** @var DOMNodeList<DOMElement> $list */
+            $list = disallow_issues(
+                static fn (): DOMNodeList => disallow_libxml_false_returns(
+                    $xpath->query($query, $node),
+                    'Failed querying XPath query: '.$query
+                ),
+            )->getResult();
+
+            return $list;
+        };
 }

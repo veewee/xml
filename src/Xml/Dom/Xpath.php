@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom;
 
+use DOMElement;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -55,7 +56,7 @@ final class Xpath
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function querySingle(string $expression, DOMNode $contextNode = null): DOMNode
+    public function querySingle(string $expression, DOMNode $contextNode = null): DOMElement
     {
         return $this->locate(query_single($expression, $contextNode));
     }
@@ -66,6 +67,7 @@ final class Xpath
      * @param Type<T> $type
      *
      * @return T
+     * @throws RuntimeException
      */
     public function evaluate(string $expression, Type $type, DOMNode $contextNode = null)
     {

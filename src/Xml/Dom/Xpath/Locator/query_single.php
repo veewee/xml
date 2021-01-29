@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
+use DOMElement;
 use DOMNode;
 use DOMXPath;
 use DOMNodeList;
@@ -26,6 +27,7 @@ function query_single(string $query, DOMNode $node = null): callable
         static function (DOMXPath $xpath) use ($query, $node): DOMElement {
             $node = $node ?? $xpath->document->documentElement;
 
+            /** @var DOMNodeList<DOMElement> $list */
             $list = disallow_issues(
                 static fn (): DOMNodeList => disallow_libxml_false_returns(
                     $xpath->query($query, $node),

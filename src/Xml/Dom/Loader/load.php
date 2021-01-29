@@ -16,10 +16,16 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 function load(callable $loader): ResultInterface
 {
     return disallow_issues(
-        /** @return true */
-        static fn () => disallow_libxml_false_returns(
-            $loader(),
-            'Could not load the DOM Document'
-        )
+        /**
+         * @return true
+         */
+        static function () use ($loader) {
+            disallow_libxml_false_returns(
+                $loader(),
+                'Could not load the DOM Document'
+            );
+
+            return true;
+        }
     );
 }
