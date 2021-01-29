@@ -6,6 +6,7 @@ use function VeeWee\Xml\Dom\Builder\children;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\namespaced_element;
 use function VeeWee\Xml\Dom\Builder\value;
+use function VeeWee\Xml\Dom\Manipulator\Node\append;
 
 $doc = Document::empty();
 $doc->manipulate(

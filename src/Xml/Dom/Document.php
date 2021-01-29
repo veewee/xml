@@ -117,7 +117,7 @@ final class Document
      *
      * @return $this
      */
-    public function manipulate(callable $manipulator)
+    public function manipulate(callable $manipulator): self
     {
         $manipulator($this->document);
 

@@ -7,10 +7,13 @@ namespace VeeWee\Xml\Dom;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
+use InvalidArgumentException;
+use Psl\Type\Type;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\Dom\Xpath\Locator\evaluate;
 use function VeeWee\Xml\Dom\Xpath\Locator\query;
+use function VeeWee\Xml\Dom\Xpath\Locator\query_single;
 
 final class Xpath
 {
@@ -52,11 +55,23 @@ final class Xpath
     }
 
     /**
-     * @return mixed
      * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
-    public function evaluate(string $expression, DOMNode $contextNode = null)
+    public function querySingle(string $expression, DOMNode $contextNode = null): DOMNode
     {
-        return $this->locate(evaluate($expression, $contextNode));
+        return $this->locate(query_single($expression, $contextNode));
+    }
+
+    /**
+     * @template T
+     *
+     * @param Type<T> $type
+     *
+     * @return T
+     */
+    public function evaluate(string $expression, Type $type, DOMNode $contextNode = null)
+    {
+        return $this->locate(evaluate($expression, $type, $contextNode));
     }
 }

@@ -22,5 +22,5 @@ function xml_file_loader(string $file): callable
                 'Could not open the provided XML file!'
             );
         }
-    )->getResult();
+    );
 }
