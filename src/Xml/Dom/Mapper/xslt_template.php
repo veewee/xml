@@ -25,5 +25,5 @@ function xslt_template(Document $template): callable
                 'Unable to apply the XSLT template'
             );
         }
-    );
+    )->getResult();
 }

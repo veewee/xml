@@ -8,11 +8,14 @@ use VeeWee\Xml\Reader\Node\AttributeNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use function Psl\Iter\any;
 
+/**
+ * @return callable(NodeSequence): bool
+ */
 function node_attribute(string $key, string $value): callable
 {
     return static function (NodeSequence $sequence) use ($key, $value): bool {
         return any(
-            $sequence->current()->attributes,
+            $sequence->current()->attributes(),
             static fn (AttributeNode $attribute): bool => $attribute->name() === $key && $attribute->value() === $value
         );
     };

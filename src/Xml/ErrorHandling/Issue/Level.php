@@ -51,6 +51,7 @@ final class Level
      */
     public function toString(): string
     {
+        /** @psalm-suppress RedundantIdentityWithTrue */
         return match (true) {
             $this->isWarning() => 'warning',
             $this->isError() => 'error',

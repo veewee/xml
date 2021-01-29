@@ -4,7 +4,7 @@
     resolveFromConfigFile="true"
     forbidEcho="true"
     strictBinaryOperands="true"
-    phpVersion="7.4"
+    phpVersion="8.0"
     allowPhpStormGenerics="true"
     allowStringToStandInForClass="true"
     rememberPropertyAssignmentsAfterCall="false"
@@ -35,4 +35,7 @@
             </errorLevel>
         </UndefinedClass>
     </issueHandlers>
+    <stubs>
+        <file name="stubs/XMLReader.phpstub" />
+    </stubs>
 </psalm>

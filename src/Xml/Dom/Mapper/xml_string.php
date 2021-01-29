@@ -25,5 +25,5 @@ function xml_string(): callable
                 'Unable to output XML as string'
             );
         }
-    );
+    )->getResult();
 }

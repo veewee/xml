@@ -33,6 +33,6 @@ function evaluate(string $query, Type $type, DOMNode $node = null): callable
                     $type->coerce($xpath->evaluate($query, $node)),
                     'Failed evaluating XPath query: '.$query
                 ),
-            );
+            )->getResult();
         };
 }

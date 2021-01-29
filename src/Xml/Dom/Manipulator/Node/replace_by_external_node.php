@@ -29,5 +29,5 @@ function replace_by_external_node(DOMNode $target, DOMNode $source): DOMNode
 
             return $copy;
         }
-    );
+    )->getResult();
 }

@@ -11,18 +11,21 @@ use XMLReader;
  */
 final class ElementNode
 {
+    /**
+     * @param list<AttributeNode> $attributes
+     */
     private function __construct(
         public int $position,
         public string $name,
         public string $localName,
         public string $namespace,
         public string $namespaceAlias,
-        /**
-         * @var list<AttributeNode>
-         */
         public array $attributes = []
     ) {}
 
+    /**
+     * @param callable(): list<AttributeNode>  $attributesProvider
+     */
     public static function fromReader(XMLReader $reader, int $position, callable $attributesProvider): self
     {
         return new self(

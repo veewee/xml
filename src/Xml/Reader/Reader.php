@@ -8,6 +8,7 @@ use Generator;
 use VeeWee\Xml\Reader\Node\AttributeNode;
 use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\Pointer;
+use VeeWee\Xml\Reader\Node\NodeSequence;
 use XMLReader;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\ErrorHandling\stop_on_first_issue;
@@ -30,23 +31,33 @@ final class Reader
         $this->factory = $factory;
     }
 
+    /**
+     * @param callable(): XMLReader $loader
+     * @param list<callable(XMLReader): XMLReader> $configurators
+     */
     public static function configure(callable $loader, callable ... $configurators): self
     {
         return new self(static fn () => pipe(...$configurators)($loader()));
     }
-    
+
+    /**
+     * @param list<callable(XMLReader): XMLReader> $configurators
+     */
     public static function fromXmlFile(string $file, callable ... $configurators): self
     {
         return self::configure(xml_file_loader($file), ...$configurators);
     }
 
+    /**
+     * @param list<callable(XMLReader): XMLReader> $configurators
+     */
     public static function fromXmlString(string $xml, callable ... $configurators): self
     {
         return self::configure(xml_string_loader($xml), ...$configurators);
     }
 
     /**
-     * @param callable(): bool $matcher
+     * @param callable(NodeSequence): bool $matcher
      *
      * @return Generator<string>
      */

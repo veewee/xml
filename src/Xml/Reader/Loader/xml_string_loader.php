@@ -13,12 +13,12 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  */
 function xml_string_loader(string $xml): callable
 {
-    return static fn () => disallow_issues(
-        static function () use ($xml) {
+    return static fn (): XMLReader => disallow_issues(
+        static function () use ($xml): XMLReader {
             return disallow_libxml_false_returns(
                 XMLReader::XML($xml),
                 'Could not read the provided XML!'
             );
         }
-    );
+    )->getResult();
 }

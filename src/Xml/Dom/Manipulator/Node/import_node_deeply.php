@@ -24,5 +24,5 @@ function import_node_deeply(DOMNode $target, DOMNode $source): DOMNode
                 'Cannot import node: Node Type Not Supported'
             );
         }
-    );
+    )->getResult();
 }

@@ -8,7 +8,7 @@ use Psl\Iter;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 
 /**
- * @param list<callable(NodeSequence): bool)> $matchers
+ * @param list<callable(NodeSequence): bool> $matchers
  *
  * @return callable(NodeSequence): bool
  */
@@ -16,6 +16,9 @@ function all(callable ... $matchers): callable
 {
     return static fn (NodeSequence $sequence): bool => Iter\all(
         $matchers,
+        /**
+         * @param callable(NodeSequence): bool $matcher
+         */
         static fn (callable $matcher): bool => $matcher($sequence)
     );
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader\Node;
 
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
 final class Pointer
@@ -13,9 +14,6 @@ final class Pointer
      */
     private array $siblingsPerDepth;
 
-    /**
-     * @var positive-int
-     */
     private int $depth;
 
     private NodeSequence $nodeSequence;
@@ -55,6 +53,9 @@ final class Pointer
         $this->nodeSequence = $this->nodeSequence->append($element);
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function leaveElement(): void
     {
         Assert::greaterThan($this->depth, 0, 'Currently at root level. Can not leave element!');
