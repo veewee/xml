@@ -21,12 +21,9 @@ use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class Document
 {
-    private DOMDocument $document;
-
-    private function __construct(DOMDocument $document)
-    {
-        $this->document = $document;
-    }
+    private function __construct(
+        private DOMDocument $document
+    ) {}
 
     public static function empty(): self
     {

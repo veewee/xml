@@ -13,12 +13,9 @@ final class Level
     private const LEVEL_ERROR = 2;
     private const LEVEL_FATAL = 3;
 
-    private int $value;
-
-    private function __construct(int $value)
-    {
-        $this->value = $value;
-    }
+    private function __construct(
+        private int $value
+    ) {}
 
     /**
      * @psalm-pure
@@ -54,15 +51,11 @@ final class Level
      */
     public function toString(): string
     {
-        if ($this->isWarning()) {
-            return 'warning';
-        }
-
-        if ($this->isError()) {
-            return 'error';
-        }
-
-        return 'fatal';
+        return match (true) {
+            $this->isWarning() => 'warning',
+            $this->isError() => 'error',
+            default => 'fatal'
+        };
     }
 
     public function matches(Level $level): bool

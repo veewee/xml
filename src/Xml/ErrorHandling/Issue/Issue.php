@@ -11,27 +11,14 @@ use Psl\Str;
  */
 final class Issue
 {
-    private Level $level;
-    private int $code;
-    private int $column;
-    private string $message;
-    private string $file;
-    private int $line;
-
     public function __construct(
-        Level $level,
-        int $code,
-        int $column,
-        string $message,
-        string $file,
-        int $line
+        private Level $level,
+        private int $code,
+        private int $column,
+        private string $message,
+        private string $file,
+        private int $line
     ) {
-        $this->level = $level;
-        $this->code = $code;
-        $this->column = $column;
-        $this->message = $message;
-        $this->file = $file;
-        $this->line = $line;
     }
 
     public function level(): Level

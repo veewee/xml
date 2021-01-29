@@ -13,7 +13,7 @@ function node_attribute(string $key, string $value): callable
     return static function (NodeSequence $sequence) use ($key, $value): bool {
         return any(
             $sequence->current()->attributes,
-            static fn (AttributeNode $attribute): bool => $attribute->name === $key && $attribute->value === $value
+            static fn (AttributeNode $attribute): bool => $attribute->name() === $key && $attribute->value() === $value
         );
     };
 }

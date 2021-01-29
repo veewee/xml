@@ -12,14 +12,10 @@ use VeeWee\Xml\ErrorHandling\Issue\Level;
  */
 function issue_level_from_xml_error(LibXMLError $error): ?Level
 {
-    switch ($error->level) {
-        case LIBXML_ERR_ERROR:
-            return Level::error();
-        case LIBXML_ERR_FATAL:
-            return Level::fatal();
-        case LIBXML_ERR_WARNING:
-            return Level::warning();
-    }
-
-    return null;
+    return match ($error->level) {
+        LIBXML_ERR_ERROR => Level::error(),
+        LIBXML_ERR_FATAL => Level::fatal(),
+        LIBXML_ERR_WARNING => Level::warning(),
+        default => null
+    };
 }

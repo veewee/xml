@@ -17,12 +17,9 @@ use function VeeWee\Xml\Dom\Xpath\Locator\query_single;
 
 final class Xpath
 {
-    private DOMXPath $xpath;
-
-    private function __construct(DOMXPath $xpath)
-    {
-        $this->xpath = $xpath;
-    }
+    private function __construct(
+        private DOMXPath $xpath
+    ) {}
 
     /**
      * @param list<callable(DOMXPath): DOMXPath> $configurators

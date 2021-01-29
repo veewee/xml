@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader\Node;
 
+use Psl\Exception\InvariantViolationException;
 use Webmozart\Assert\Assert;
+use function Psl\Arr\at;
 use function Psl\Arr\last;
 
 final class NodeSequence
@@ -21,6 +23,7 @@ final class NodeSequence
 
     public function pop(): self
     {
+        $this->guardSequenceNotEmpty();
         $popped = $this->elementNodes;
         array_pop($popped);
         return new self(...$popped);
@@ -33,9 +36,32 @@ final class NodeSequence
 
     public function current(): ElementNode
     {
-        $current = last($this->elementNodes);
-        Assert::notNull($current, 'The node sequence is empty. Can not fetch current item!');
+        $this->guardSequenceNotEmpty();
+        return last($this->elementNodes);
+    }
 
-        return $current;
+    public function parent(): ?ElementNode
+    {
+        try {
+            $elementCount = count($this->elementNodes);
+            $element = at($this->elementNodes, $elementCount - 1);
+        } catch (InvariantViolationException) {
+            return null;
+        }
+
+        return $element;
+    }
+
+    /**
+     * @return list<ElementNode>
+     */
+    public function sequence(): array
+    {
+        return $this->elementNodes;
+    }
+
+    private function guardSequenceNotEmpty(): void
+    {
+        Assert::minCount($this->elementNodes, 1, 'The node sequence is empty. Can not fetch current item!');
     }
 }

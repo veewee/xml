@@ -3,7 +3,7 @@
     "description": "Sane XML usage",
     "type": "library",
     "require": {
-        "php": "^7.4 | ^8.0",
+        "php": "^8.0",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-xml": "*",

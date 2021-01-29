@@ -16,18 +16,12 @@ use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 
 final class Reader
 {
-    /**
-     * @var callable(): XMLReader
-     */
-    private $factory;
-
-    /**
-     * @param callable(): XMLReader $factory
-     */
-    private function __construct(callable $factory)
-    {
-        $this->factory = $factory;
-    }
+    private function __construct(
+        /**
+         * @var callable(): XMLReader $factory
+         */
+        private $factory
+    ) {}
 
     public static function configure(callable $loader, callable ... $configurators): self
     {
@@ -62,22 +56,17 @@ final class Reader
                         $pointer->leaveElement();
                         break;
                     case XMLReader::ELEMENT:
-                        $element = new ElementNode();
-                        $element->position = 1; // TODO : load or set from pointer!
-                        $element->name = $reader->name;
-                        $element->localName = $reader->localName;
-                        $element->namespace = $reader->namespaceURI;
-                        $element->namespaceAlias = $reader->prefix;
-
-                        while($reader->moveToNextAttribute()) {
-                            $attribute = new AttributeNode();
-                            $attribute->name = $reader->name;
-                            $attribute->localName = $reader->localName;
-                            $attribute->namespaceAlias = $reader->prefix;
-                            $attribute->namespace = $reader->namespaceURI;
-                            $attribute->value = $reader->value;
-                            $element->attributes[] = $attribute;
-                        }
+                        $element = ElementNode::fromReader(
+                            $reader,
+                            $pointer->getCurrentSiblingPosition() + 1,
+                            static function () use ($reader): array {
+                                $attributes = [];
+                                while($reader->moveToNextAttribute()) {
+                                    $attributes[] = AttributeNode::fromReader($reader);
+                                }
+                                return $attributes;
+                            }
+                        );
 
                         $pointer->enterElement($element);
 
