@@ -815,7 +815,7 @@ use VeeWee\Xml\Dom\Document;
 
 $doc = Document::fromXmlFile('data.xml');
 $xpath = $doc->xpath();
-$productName = $xpath->querySingle(('/products/name');
+$productName = $xpath->querySingle('/products/name');
 ```
 
 You can also pass a context-node in which the query is performed:
