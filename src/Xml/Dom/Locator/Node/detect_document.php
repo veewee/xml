@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Detector;
+namespace VeeWee\Xml\Dom\Locator\Node;
 
 use DOMDocument;
 use DOMNode;

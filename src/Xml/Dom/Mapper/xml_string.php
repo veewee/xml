@@ -6,7 +6,7 @@ namespace VeeWee\Xml\Dom\Mapper;
 
 use DOMDocument;
 use DOMNode;
-use function VeeWee\Xml\Dom\Detector\detect_document;
+use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 

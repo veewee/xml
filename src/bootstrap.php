@@ -20,6 +20,7 @@ require_once __DIR__.'/Xml/Dom/Locator/Element/locate_by_namespaced_tag_name.php
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_no_namespaced_xsd_schemas.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_namespaced_xsd_schemas.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_all_xsd_schemas.php';
+require_once __DIR__.'/Xml/Dom/Locator/Node/detect_document.php';
 require_once __DIR__.'/Xml/Dom/Locator/Node/children.php';
 require_once __DIR__.'/Xml/Dom/Locator/Node/value.php';
 require_once __DIR__.'/Xml/Dom/Validator/validator_chain.php';
@@ -34,7 +35,6 @@ require_once __DIR__.'/Xml/Dom/Xpath/Configurator/php_namespace.php';
 require_once __DIR__.'/Xml/Dom/Xpath/Configurator/namespaces.php';
 require_once __DIR__.'/Xml/Dom/Mapper/xslt_template.php';
 require_once __DIR__.'/Xml/Dom/Mapper/xml_string.php';
-require_once __DIR__.'/Xml/Dom/Detector/detect_document.php';
 require_once __DIR__.'/Xml/Dom/Loader/load.php';
 require_once __DIR__.'/Xml/Dom/Loader/xml_file_loader.php';
 require_once __DIR__.'/Xml/Dom/Loader/xml_node_loader.php';
