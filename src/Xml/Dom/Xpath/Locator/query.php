@@ -28,7 +28,7 @@ function query(string $query, DOMNode $node = null): callable
                     $xpath->query($query, $node),
                     'Failed querying XPath query: '.$query
                 ),
-            )->getResult();
+            );
 
             return $list;
         };

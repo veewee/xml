@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace VeeWee\Xml\ErrorHandling;
 
 use Exception;
-use Psl\Result\ResultInterface;
 use VeeWee\Xml\Exception\RuntimeException;
 
 /**
@@ -13,7 +12,8 @@ use VeeWee\Xml\Exception\RuntimeException;
  *
  * @param callable(): T $run
  *
- * @return ResultInterface<T>
+ * @throws RuntimeException
+ * @return T
  */
 function disallow_issues(callable $run)
 {

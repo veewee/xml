@@ -22,5 +22,5 @@ function append(DOMNode ... $nodes): callable
 
             return $target;
         }
-    )->getResult();
+    );
 }

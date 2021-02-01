@@ -50,5 +50,5 @@ function parser_options(array $options): callable
 
             return $reader;
         }
-    )->getResult();
+    );
 }

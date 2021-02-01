@@ -22,5 +22,5 @@ function document_to_string(Document $document): callable
                 'Unable to apply the XSLT template'
             );
         }
-    )->getResult();
+    );
 }

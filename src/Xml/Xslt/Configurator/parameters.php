@@ -23,5 +23,5 @@ function parameters(string $namespace, array $parameters): callable
         );
 
         return $processor;
-    })->getResult();
+    });
 }

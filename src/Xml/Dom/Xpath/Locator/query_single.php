@@ -33,7 +33,7 @@ function query_single(string $query, DOMNode $node = null): callable
                     $xpath->query($query, $node),
                     'Failed querying XPath query: '.$query
                 ),
-            )->getResult();
+            );
 
             Assert::count(
                 $list,

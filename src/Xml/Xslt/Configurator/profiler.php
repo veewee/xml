@@ -21,5 +21,5 @@ function profiler(string $profilingFile): callable
         );
 
         return $processor;
-    })->getResult();
+    });
 }

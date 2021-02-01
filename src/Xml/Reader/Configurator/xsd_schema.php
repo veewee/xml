@@ -23,5 +23,5 @@ function xsd_schema(string $schemaFile): callable {
             );
 
             return $reader;
-        })->getResult();
+        });
 }

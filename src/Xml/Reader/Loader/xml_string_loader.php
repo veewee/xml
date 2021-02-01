@@ -23,5 +23,5 @@ function xml_string_loader(string $xml): callable
                 'Could not read the provided XML!'
             );
         }
-    )->getResult();
+    );
 }

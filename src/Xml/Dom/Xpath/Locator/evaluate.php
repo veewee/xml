@@ -35,6 +35,6 @@ function evaluate(string $query, Type $type, DOMNode $node = null): callable
                         'Failed evaluating XPath query: '.$query
                     )
                 ),
-            )->getResult();
+            );
         };
 }
