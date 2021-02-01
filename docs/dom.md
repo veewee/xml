@@ -340,7 +340,7 @@ $document = Document::configure($loader, ...$configurators);
 
 #### xml_file_loader
 
-Loads a XML document from a file.
+Loads an XML document from a file.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -350,7 +350,7 @@ $doc = Document::fromXmlFile('some-xml.xml', ...$configurators);
 
 #### xml_node_loader
 
-Loads a XML document from an external `DOMNode`.
+Loads an XML document from an external `DOMNode`.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -360,7 +360,7 @@ $doc = Document::fromXmlNode($someExternalNode, ...$configurators);
 
 #### xml_string_loader
 
-Loads a XML document from a string.
+Loads an XML document from a string.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -596,7 +596,7 @@ $xml = $mapper($someNode);
 
 #### xslt_template
 
-Allows you to map a XML document based on an [XSLT template](xslt.md).
+Allows you to map an XML document based on an [XSLT template](xslt.md).
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -677,7 +677,7 @@ $issues = $doc->validate(validator_chain(
 
 #### xsd_validator
 
-Makes it possible to validate a XML against a specific XSD file. 
+Makes it possible to validate an XML against a specific XSD file. 
 
 ```php
 use VeeWee\XML\DOM\Document;
