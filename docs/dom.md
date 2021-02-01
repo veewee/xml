@@ -671,4 +671,100 @@ $doc = Document::fromXmlFile('some.xml');
 $issues = $doc->validate(xsd_validator('myown.xsd'));
 ```
 
-## XPath
+# XPath
+
+One of the most commonly used components inside DOM is the XPath component.
+Since it takes a lot of effort to configure XPath, we provided our own component that improves both configuration and error handling.
+
+Following components are available:
+
+* [Configurators](#xpath-configurators): Can be used to configure an XPath object.
+* [Locators](#xpath-locators): Can be used to locate specific queries.
+
+## Xpath\Configurators
+
+Can be used to configure an XPath object.
+
+#### all_functions
+
+Registers all known PHP functions to the XPath object, allowing you to use `php:somefunction()` inside your XPath query.
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\XML\DOM\Xpath\Configurator\all_functions;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath(all_functions());
+```
+
+#### functions
+
+Registers a list of known PHP functions to the XPath object, allowing you to use `php:somefunction()` inside your XPath query.
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\XML\DOM\Xpath\Configurator\functions;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath(functions(['has_multiple']));
+```
+
+#### namespaces
+
+Registers a map of namespaces with their prefix to the XPath object. 
+This allows you to use a prefix name for a specific namespace. E.g. `//soap:envelope`.
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\XML\DOM\Xpath\Configurator\namespaces;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath(
+    namespaces([
+        'soap' => 'http://schemas.xmlsoap.org/wsdl/',
+        'xsd' => 'http://www.w3.org/1999/XMLSchema',
+    ])
+);
+```
+
+#### php_namespace
+
+Registers the `php` namespace in order to allow registration of php functions.
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\XML\DOM\Xpath\Configurator\php_namespace;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath(php_namespace());
+```
+
+#### Writing your own XPath configurator
+
+A configurator can be any `callable` that takes a `DOMXPath` and configures it:
+
+```php
+namespace VeeWee\Xml\Dom\Xpath\Configurator;
+
+use DOMXPath;
+
+interface Configurator
+{
+    public function __invoke(DOMXPath $xpath): DOMXPath;
+}
+```
+
+You can apply the XPath configurator as followed:
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$document = Document::configure('some.xml');
+$document->xpath(...$configurators);
+```
+
+## Xpath\Locators
+
+#### evaluate
+#### query
+#### query_single
