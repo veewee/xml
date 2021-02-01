@@ -694,12 +694,12 @@ Since it takes a lot of effort to configure XPath, we provided our own component
 
 Following components are available:
 
-* [Configurators](#xpath-configurators): Can be used to configure a XPath object.
+* [Configurators](#xpath-configurators): Can be used to configure an XPath object.
 * [Locators](#xpath-locators): Can be used to locate specific queries.
 
 ## Xpath\Configurators
 
-Can be used to configure a XPath object.
+Can be used to configure an XPath object.
 
 #### all_functions
 
@@ -785,7 +785,7 @@ Can be used to locate specific queries.
 
 #### evaluate
 
-Evaluates a XPath query in a type-safe way:
+Evaluates an XPath query in a type-safe way:
 
 ```php
 use Psl\Type;
@@ -842,7 +842,7 @@ $productName = $xpath->querySingle('/name', $product);
 
 #### Writing your own XPath locator
 
-A XPath locator can be any `callable` that takes a `DOMXPath` and locates something on it:
+An XPath locator can be any `callable` that takes a `DOMXPath` and locates something on it:
 
 
 ```php
