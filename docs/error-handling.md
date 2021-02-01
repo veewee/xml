@@ -24,7 +24,7 @@ Assertions validate input and throw an `InvalidArgumentException` if the input i
 Some functions require you to pass a strict prefixed name: `prefix:localName="someting"`.
 This assertions validates it for you!
 
-```
+```php
 assert_strict_qualified_name($qualifiedName);
 ```
 
@@ -32,7 +32,7 @@ assert_strict_qualified_name($qualifiedName);
 
 Blockers don't mess around with errors ... !
 
-### disallow_issues
+#### disallow_issues
 
 This function takes a `callable` as input and fetches all triggered XML specific warnings.
 If the provided function throws any Exception, it will wrap the detected issues with it!
@@ -53,7 +53,7 @@ $result = disallow_issues(
 );
 ```
 
-### disallow_libxml_false_returns
+#### disallow_libxml_false_returns
 
 In PHP, a lot of XML related functions return false.
 This function deals with the false return and throws an `InvalidArgumentException` if that is the case.
@@ -69,7 +69,7 @@ $result = disallow_libxml_false_returns(
 );
 ```
 
-### stop_on_first_issue
+#### stop_on_first_issue
 
 This function can be used in situations where you want to wrap error handling on lazy iterators (generators).
 Before every tick, it will wrap error handling around the executed functionality.
@@ -93,7 +93,7 @@ $result = stop_on_first_issue(
 In some cases, you don't want errors to block.
 Especially in situations where you want to validate the XML document based on XSD, DTD, ...
 
-### detect_issues
+#### detect_issues
 
 This function detects XML issues in a provided callback function.
 It returns both the result of the executed function and the detected issues.
