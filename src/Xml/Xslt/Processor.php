@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\XslT;
+namespace VeeWee\Xml\Xslt;
 
 use VeeWee\Xml\Dom\Document;
 use XSLTProcessor;
 use function Psl\Fun\pipe;
-use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
+use function VeeWee\Xml\Dom\Mapper\from_template_document;
+use function VeeWee\Xml\Xslt\Configurator\loader;
+use function VeeWee\Xml\Xslt\Transformer\document_to_string;
 
 final class Processor
 {
@@ -17,27 +19,34 @@ final class Processor
     {
         $this->processor = $processor;
     }
-    
+
+    public static function configure(callable ... $configurators): self
+    {
+        return new self(
+            pipe(...$configurators)(new XSLTProcessor())
+        );
+    }
+
     public static function fromTemplateDocument(Document $template, callable ... $configurators): self
     {
-        $proc = pipe(...$configurators)(new XSLTProcessor());
-
-        disallow_libxml_false_returns(
-            $proc->importStyleSheet($template->toUnsafeDocument()),
-            'Unable to import XSLT stylesheet'
+        return self::configure(
+            loader(from_template_document($template)),
+            ...$configurators
         );
-
-        return new self($proc);
     }
 
-
-    public function transform(): T
+    /**
+     * @template T
+     * @param callable(XSLTProcessor): T $transformer
+     * @return T
+     */
+    public function transform(callable $transformer): mixed
     {
-
+        return $transformer($this->processor);
     }
 
-    public function transformToString(Document $document): string
+    public function transformDocumentToString(Document $document): string
     {
-
+        return $this->transform(document_to_string($document));
     }
 }

@@ -6,29 +6,17 @@ namespace VeeWee\Xml\Dom\Mapper;
 
 use DOMDocument;
 use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Xslt\Processor;
 use XSLTProcessor;
-use function VeeWee\Xml\ErrorHandling\disallow_issues;
-use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
+ * @param list<callable(XSLTProcessor): XSLTProcessor> $configurators
  * @return callable(DOMDocument): string
  */
-function xslt_template(Document $template): callable
+function xslt_template(Document $template, callable ... $configurators): callable
 {
-    return static fn (DOMDocument $document): string => disallow_issues(
-        static function () use ($template, $document): string {
-            $proc = new XSLTProcessor();
-
-            disallow_libxml_false_returns(
-                $proc->importStyleSheet($template->toUnsafeDocument()),
-                'Unable to import XSLT stylesheet'
-            );
-
-            // Result can also be null ... undocumentedly!
-            return (string) disallow_libxml_false_returns(
-                $proc->transformToXML($document),
-                'Unable to apply the XSLT template'
-            );
-        }
-    )->getResult();
+    return static fn (DOMDocument $document): string
+        => Processor::fromTemplateDocument($template, ...$configurators)->transformDocumentToString(
+            Document::fromUnsafeDocument($document)
+        );
 }

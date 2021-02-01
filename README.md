@@ -24,10 +24,10 @@ composer require veewee/xml
 These components are not implemented yet, but have been thought about.
 Stay tuned if you want to use these!
 
-* Advanced XSLT setup (XSLT2, XSLT3 ?)
-* Writer
-* SimpleXML
-* Saxon/C?
+* [Writer](https://www.php.net/manual/en/book.xmlwriter.php)
+* [SimpleXML]https://www.php.net/manual/en/book.simplexml.php()
+* External: [Saxon/C?](https://www.saxonica.com/saxon-c/php_api.xml)
+* External: [XSLT2, XSLT3?](https://github.com/genkgo/xsl)
 
 ## About
 

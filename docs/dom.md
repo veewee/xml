@@ -603,10 +603,12 @@ use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Mapper\xslt_template;
 
 $doc = Document::fromXmlFile('data.xml');
-$xsl = Document::fromXmlFile('xml-to-yaml-converter.xslt');
+$xslt = Document::fromXmlFile('xml-to-yaml-converter.xslt');
 
-echo $doc->map(xslt_template($xsl));
+echo $doc->map(xslt_template($xslt, ...$processorConfgigurators));
 ```
+
+For more information on the processor configurators, [see the XSLT documentation](xslt.md#configurators); 
 
 #### Writing your own mapper
 
