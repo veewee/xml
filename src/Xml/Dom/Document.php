@@ -128,23 +128,7 @@ final class Document
      */
     public function build(callable ... $builders): array
     {
-        return values(
-            reduce(
-                $builders,
-                /**
-                 * @param array<int, DOMNode> $builds
-                 * @param callable(DOMDocument): (DOMNode|list<DOMNode>) $builder
-                 * @return array<int, DOMNode>
-                 */
-                function (array $builds, callable $builder): array {
-                    $result = $builder($this->document);
-                    $newBuilds = is_array($result) ? $result : [$result];
-
-                    return [...$builds, $newBuilds];
-                },
-                []
-            )
-        );
+        return Builder\nodes(...$builders)($this->document);
     }
 
     /**

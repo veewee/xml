@@ -58,6 +58,7 @@ require_once __DIR__.'/Xml/Dom/Builder/value.php';
 require_once __DIR__.'/Xml/Dom/Builder/namespaced_element.php';
 require_once __DIR__.'/Xml/Dom/Builder/namespaced_attributes.php';
 require_once __DIR__.'/Xml/Dom/Builder/namespaced_attribute.php';
+require_once __DIR__.'/Xml/Dom/Builder/nodes.php';
 require_once __DIR__.'/Xml/Xslt/Transformer/document_to_string.php';
 require_once __DIR__.'/Xml/Xslt/Loader/from_template_document.php';
 require_once __DIR__.'/Xml/Xslt/Configurator/functions.php';

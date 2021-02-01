@@ -220,6 +220,26 @@ namespaced_element('http://acme.com', 'hello', ...$configurators);
 <hello xmlns="http://acme.com" />
 ```
 
+#### nodes
+
+Operates on a `DOMDocument` and is the builder that is being called by the `Document::manipulate` method.
+It can return one or more `DOMNode` objects
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\nodes;
+
+nodes(
+    element('item'),
+    static fn (DOMDocument $document): array => [
+        element('item')($document),
+        element('item')($document),
+    ],
+    element('item'),
+    element('item')
+)($document);
+```
+
 #### value
 
 Operates on a `DOMElement` and sets the node value.
