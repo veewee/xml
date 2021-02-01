@@ -38,10 +38,57 @@ The Reader consists out of following composable blocks:
 You can configure how a reader behaves based on configurators.
 This package provides following configurators:
 
-TODO : currently no configurators are added:
+#### parser_options
 
-* XSD schema validator
+You can specify one of [PHP's reader parser options](https://www.php.net/manual/en/class.xmlreader.php#xmlreader.constants.options):
 
+```php
+use VeeWee\Xml\Reader\Reader;
+use XMLReader;
+use function VeeWee\Xml\Reader\Configurator\parser_options;
+
+$reader = Reader::fromXmlFile('some-file.xml', parser_options([
+    XMLReader::LOADDTD => true,
+    XMLReader::VALIDATE => true,
+    XMLReader::DEFAULTATTRS => true,
+    XMLReader::SUBST_ENTITIES => true,
+]));
+```
+
+#### xsd_schema
+
+You can specify an XSD Schema that will be validated whilst reading:
+
+```php
+use VeeWee\Xml\Reader\Reader;
+use function VeeWee\Xml\Reader\Configurator\xsd_schema;
+
+$reader = Reader::fromXmlFile('some-file.xml', xsd_schema('schema.xsd'));
+```
+
+#### Writing your own configurator
+
+A configurator can be any `callable` that is able to configure an `XMLReader`:
+
+```php
+namespace VeeWee\Xml\Reader\Configurator;
+
+use XMLReader;
+
+interface Configurator
+{
+    public function __invoke(XMLReader $reader): XMLReader;
+}
+
+```
+
+You can use the new configurator instance as followed:
+
+```php
+use VeeWee\Xml\Reader\Reader;
+
+$reader = Reader::configure($yourLoader, ...$configurators);
+```
 
 ### Loaders
 
