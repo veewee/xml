@@ -253,6 +253,20 @@ Document::configure(
 );
 ```
 
+#### pretty_print
+
+Makes the output of the DOM document human-readable.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\pretty_print;
+
+$doc = Document::fromXmlFile(
+    'data.xml',
+    pretty_print()
+);
+```
+
 #### trim_spaces
 
 Trims all whitespaces from the DOM document in order to make it as small as possible in bytesize.

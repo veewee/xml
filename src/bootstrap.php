@@ -46,6 +46,7 @@ require_once __DIR__.'/Xml/Dom/Manipulator/append.php';
 require_once __DIR__.'/Xml/Dom/Configurator/loader.php';
 require_once __DIR__.'/Xml/Dom/Configurator/validator.php';
 require_once __DIR__.'/Xml/Dom/Configurator/utf8.php';
+require_once __DIR__.'/Xml/Dom/Configurator/pretty_print.php';
 require_once __DIR__.'/Xml/Dom/Configurator/trim_spaces.php';
 require_once __DIR__.'/Xml/Dom/Builder/element.php';
 require_once __DIR__.'/Xml/Dom/Builder/attributes.php';
