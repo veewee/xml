@@ -29,9 +29,11 @@ function evaluate(string $query, Type $type, DOMNode $node = null): callable
                 /**
                  * @return T
                  */
-                static fn () => disallow_libxml_false_returns(
-                    $type->coerce($xpath->evaluate($query, $node)),
-                    'Failed evaluating XPath query: '.$query
+                static fn () => $type->coerce(
+                    disallow_libxml_false_returns(
+                        $xpath->evaluate($query, $node),
+                        'Failed evaluating XPath query: '.$query
+                    )
                 ),
             )->getResult();
         };
