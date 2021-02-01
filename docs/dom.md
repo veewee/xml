@@ -503,6 +503,8 @@ $schemas = locate_no_namespaced_xsd_schemas($document);
 
 ## Manipulators
 
+Allows you to manipulate any DOM document.
+
 ### Document
 
 Document specific manipulators can directly be applied to `Document` objects.
@@ -557,5 +559,72 @@ $copiedNode = replace_by_external_node($documentNode, $externalNode);
 ```
 
 ## Mappers
+
+Converts the DOM document to something else.
+
+#### xml_string
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$doc = Document::fromXmlFile('some.xml');
+$xml = $doc->toXmlString();
+```
+
+Instead of mapping a full document, you can also map a specific node only to XML.
+
+```php
+use function VeeWee\Xml\Dom\Mapper\xml_string;
+
+$mapper = xml_string();
+$xml = $mapper($someNode);
+```
+
+#### xslt_template
+
+Allows you to map an XML document based on an [XSLT template](xslt.md).
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Mapper\xslt_template;
+
+$doc = Document::fromXmlFile('data.xml');
+$xsl = Document::fromXmlFile('xml-to-yaml-converter.xslt');
+
+echo $doc->map(xslt_template($xsl));
+```
+
+#### Writing your own mapper
+
+
+A configurator can be any `callable` that takes a `DOMDocument` and configures it:
+
+```php
+namespace VeeWee\Xml\Dom\Mapper;
+
+use DOMDocument;
+
+/**
+ * @template R
+ */
+interface Mapper
+{
+    /**
+     * @return R
+     */
+    public function __invoke(DOMDocument $document): mixed;
+}
+
+```
+
+You can apply the mapper as followed:
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$document = Document::fromXmlFile('some.xml');
+$result = $document->map($mapper);
+```
+
 ## Validators
 ## XPath
