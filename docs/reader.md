@@ -60,7 +60,7 @@ $reader = Reader::fromXmlString('<xml />', ...$configurators);
 
 #### Writing your own loader
 
-A loader can be any callable that is able to create an `XMLReader`;
+A loader can be any `callable` that is able to create an `XMLReader`:
 
 ```php
 namespace VeeWee\Xml\Reader\Loader;
@@ -112,7 +112,7 @@ Matcher\node_name('item');
 
 #### Writing your own matcher
 
-A matcher can be any callable that takes a `NodeSequence` as input and returns a `bool` that specifies if it matches or not:
+A matcher can be any `callable` that takes a `NodeSequence` as input and returns a `bool` that specifies if it matches or not:
 
 ```php
 namespace VeeWee\Xml\Reader\Matcher;
