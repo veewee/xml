@@ -38,7 +38,10 @@ The Reader consists out of following composable blocks:
 You can configure how a reader behaves based on configurators.
 This package provides following configurators:
 
-* TODO : currently no configurators are added...
+TODO : currently no configurators are added:
+
+* XSD schema validator
+
 
 ### Loaders
 

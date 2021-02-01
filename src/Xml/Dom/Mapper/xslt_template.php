@@ -24,9 +24,9 @@ function xslt_template(Document $template): callable
                 'Unable to import XSLT stylesheet'
             );
 
-            return disallow_libxml_false_returns(
-                // Result can also be null ... undocumentedly!
-                (string) $proc->transformToXML($document),
+            // Result can also be null ... undocumentedly!
+            return (string) disallow_libxml_false_returns(
+                $proc->transformToXML($document),
                 'Unable to apply the XSLT template'
             );
         }

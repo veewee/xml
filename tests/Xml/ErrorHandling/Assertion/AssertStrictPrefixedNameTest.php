@@ -6,9 +6,9 @@ namespace VeeWee\Xml\Tests\ErrorHandling\Assertion;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use function VeeWee\Xml\Assertion\assert_strict_qualified_name;
+use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
-class AssertStrictQualifiedNameTest extends TestCase
+class AssertStrictPrefixedNameTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class AssertStrictQualifiedNameTest extends TestCase
     public function it_does_nothing_on_valid_qnames(string $input): void
     {
         $this->expectNotToPerformAssertions();
-        assert_strict_qualified_name($input);
+        assert_strict_prefixed_name($input);
     }
 
     /**
@@ -29,7 +29,7 @@ class AssertStrictQualifiedNameTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage('The provided value "'.$input.'" is not a QName, expected ns:name instead.');
 
-        assert_strict_qualified_name($input);
+        assert_strict_prefixed_name($input);
     }
 
     public function provideValidQNames()

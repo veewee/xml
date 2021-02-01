@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  *
  * @throws InvalidArgumentException
  */
-function assert_strict_qualified_name(string $qualifiedName): void
+function assert_strict_prefixed_name(string $qualifiedName): void
 {
     Assert::regex(
         $qualifiedName,
