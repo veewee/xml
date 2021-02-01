@@ -26,7 +26,15 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  * XMLReader::SUBST_ENTITIES
  * Substitute entities and expand references
  *
- * @param array<int-mask<\XMLReader::LOADDTD, \XMLReader::VALIDATE, \XMLReader::DEFAULTATTRS, \XMLReader::SUBST_ENTITIES>, bool> $options
+ * @param array<
+ *     int-mask<
+ *         \XMLReader::LOADDTD,
+ *         \XMLReader::VALIDATE,
+ *         \XMLReader::DEFAULTATTRS,
+ *         \XMLReader::SUBST_ENTITIES
+ *     >,
+ *     bool> $options
+ *
  * @return callable(XMLReader): XMLReader
  */
 function parser_options(array $options): callable
