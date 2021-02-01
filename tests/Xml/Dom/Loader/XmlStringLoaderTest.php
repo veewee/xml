@@ -17,8 +17,7 @@ class XmlStringLoaderTest extends TestCase
         $xml = '<hello />';
         $loader = xml_string_loader($xml);
 
-        $result = $loader($doc);
-        self::assertTrue($result->getResult());
+        $loader($doc);
         self::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
@@ -29,10 +28,9 @@ class XmlStringLoaderTest extends TestCase
         $xml = '<hello';
         $loader = xml_string_loader($xml);
 
-        $result = $loader($doc);
-
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('Could not load the DOM Document');
-        $result->getResult();
+
+        $loader($doc);
     }
 }

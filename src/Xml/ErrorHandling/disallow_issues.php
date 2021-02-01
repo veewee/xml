@@ -19,7 +19,7 @@ function disallow_issues(callable $run)
 {
     [$result, $issues] = detect_issues($run);
 
-    return $result->then(
+    return $result->proceed(
         /**
          * @template T
          * @param T $value
@@ -32,9 +32,6 @@ function disallow_issues(callable $run)
 
             return $value;
         },
-        /**
-         * @return no-return
-         */
         static function (Exception $exception) use ($issues) {
             throw RuntimeException::combineExceptionWithIssues($exception, $issues);
         }

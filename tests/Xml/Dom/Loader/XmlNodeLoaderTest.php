@@ -20,8 +20,7 @@ class XmlNodeLoaderTest extends TestCase
         $doc = new DOMDocument();
         $loader = xml_node_loader($source->documentElement);
 
-        $result = $loader($doc);
-        self::assertTrue($result->getResult());
+        $loader($doc);
         self::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
@@ -34,10 +33,9 @@ class XmlNodeLoaderTest extends TestCase
         $doc = new DOMDocument();
         $loader = xml_node_loader($source);
 
-        $result = $loader($doc);
-
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
-        $result->getResult();
+
+        $loader($doc);
     }
 }

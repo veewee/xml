@@ -6,9 +6,7 @@ namespace VeeWee\Xml\Tests\Dom\Configurator;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
-use function Psl\Result\wrap;
 use function VeeWee\Xml\Dom\Configurator\loader;
-use function VeeWee\Xml\Dom\Loader\load;
 
 class LoaderTest extends TestCase
 {
@@ -18,10 +16,9 @@ class LoaderTest extends TestCase
         $doc = new DOMDocument();
         $xml = '<hello />';
 
-        $loader = loader(static fn (DOMDocument $doc) => wrap(function () use ($xml, $doc) {
+        $loader = loader(static function (DOMDocument $doc) use ($xml): void {
             $doc->loadXML($xml);
-            return true;
-        }));
+        });
 
         $result = $loader($doc);
         self::assertSame($doc, $result);
@@ -33,9 +30,9 @@ class LoaderTest extends TestCase
     {
         $doc = new DOMDocument();
         $exception = new \Exception('Could not load the XML document');
-        $loader = loader(static fn (DOMDocument $doc) => wrap(function () use ($exception) {
+        $loader = loader(static function (DOMDocument $doc) use ($exception): void {
             throw $exception;
-        }));
+        });
 
         $this->expectExceptionObject($exception);
         $loader($doc);

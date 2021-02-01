@@ -23,12 +23,14 @@ final class DisallowIssuesTest extends TestCase
             }
         );
 
-        static::assertTrue($result->isSucceeded());
-        static::assertSame('ok', $result->getResult());
+        self::assertSame('ok', $result);
     }
 
     public function testItCanDetectXmlErrorsInsideCallableAndReturnOk(): void
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectErrorMessage('XML issues detected');
+
         $result = ErrorHandling\disallow_issues(
             static function (): string {
                 simplexml_load_string('<notvalidxml');
@@ -36,29 +38,21 @@ final class DisallowIssuesTest extends TestCase
                 return 'ok';
             }
         );
-
-        static::assertTrue($result->isFailed());
-
-        $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('XML issues detected');
-        $result->getResult();
     }
 
     public function testItCanDetectXmlErrorsInsideCallableAndReturnAFailure(): void
     {
         $exception = new Exception('nonono');
-        $result = ErrorHandling\disallow_issues(
+
+        $this->expectException(RuntimeException::class);
+        $this->expectErrorMessage('nonono');
+
+        ErrorHandling\disallow_issues(
             static function () use ($exception) {
                 simplexml_load_string('<notvalidxml');
 
                 throw $exception;
             }
         );
-
-        static::assertTrue($result->isFailed());
-
-        $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('nonono');
-        $result->getResult();
     }
 }

@@ -22,10 +22,9 @@ class XmlFileLoaderTest extends TestCase
         [$file, $handle] = $this->fillFile($xml);
         $loader = xml_file_loader($file);
 
-        $result = $loader($doc);
+        $loader($doc);
         fclose($handle);
 
-        self::assertTrue($result->getResult());
         self::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
@@ -37,12 +36,11 @@ class XmlFileLoaderTest extends TestCase
         [$file, $handle] = $this->fillFile($xml);
         $loader = xml_file_loader($file);
 
-        $result = $loader($doc);
-        fclose($handle);
-
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('Could not load the DOM Document');
-        $result->getResult();
+
+        $loader($doc);
+        fclose($handle);
     }
 
     /** @test */
@@ -51,10 +49,9 @@ class XmlFileLoaderTest extends TestCase
         $doc = new \DOMDocument();
         $loader = xml_file_loader('invalid-file');
 
-        $result = $loader($doc);
-
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('The file "invalid-file" does not exist');
-        $result->getResult();
+
+        $loader($doc);
     }
 }
