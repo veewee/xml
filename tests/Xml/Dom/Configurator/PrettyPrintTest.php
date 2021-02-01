@@ -21,7 +21,7 @@ class PrettyPrintTest extends TestCase
 
         $expected = <<<EOXML
         <hello>
-        <world/>
+          <world/>
         </hello>
         EOXML;
 
