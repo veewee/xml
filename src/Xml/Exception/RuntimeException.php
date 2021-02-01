@@ -7,9 +7,6 @@ namespace VeeWee\Xml\Exception;
 use Exception;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
-/**
- * @internal
- */
 final class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
     private function __construct(string $message, Exception $previous = null)

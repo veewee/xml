@@ -10,8 +10,6 @@ use VeeWee\Xml\ErrorHandling\Issue\Issue;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
 /**
- * @internal
- *
  * @psalm-param list<LibXMLError> $errors
  */
 function issue_collection_from_xml_errors(array $errors): IssueCollection

@@ -17,8 +17,6 @@ use function libxml_use_internal_errors;
  * This method can be used while reading an \XMLReader and returning a Generator.
  * After every tick, this function will validate if issues were detected.
  *
- * @internal
- *
  * @template Tr
  *
  * @psalm-param (callable(): bool) $tick

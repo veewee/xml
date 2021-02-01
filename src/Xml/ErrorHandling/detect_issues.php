@@ -19,8 +19,6 @@ use function libxml_use_internal_errors;
  * Besides the result, you will receive a list of XML errors.
  * No XML warnings will be displayed in the meantime.
  *
- * @internal
- *
  * @template Tr
  *
  * @psalm-param callable(): Tr $run

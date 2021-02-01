@@ -7,9 +7,6 @@ namespace VeeWee\Xml\ErrorHandling;
 use LibXMLError;
 use VeeWee\Xml\ErrorHandling\Issue\Issue;
 
-/**
- * @internal
- */
 function issue_from_xml_error(LibXMLError $error): ?Issue
 {
     $level = issue_level_from_xml_error($error);
