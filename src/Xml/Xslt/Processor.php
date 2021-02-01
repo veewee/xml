@@ -2,24 +2,25 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Xsl;
-
+namespace VeeWee\Xml\XslT;
 
 use VeeWee\Xml\Dom\Document;
+use XSLTProcessor;
+use function Psl\Fun\pipe;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
-final class XsltProcessor
+final class Processor
 {
-    private \XSLTProcessor $processor;
+    private XSLTProcessor $processor;
 
-    private function __construct(\XSLTProcessor $processor)
+    private function __construct(XSLTProcessor $processor)
     {
         $this->processor = $processor;
     }
     
     public static function fromTemplateDocument(Document $template, callable ... $configurators): self
     {
-        $proc = new \XSLTProcessor();
+        $proc = pipe(...$configurators)(new XSLTProcessor());
 
         disallow_libxml_false_returns(
             $proc->importStyleSheet($template->toUnsafeDocument()),

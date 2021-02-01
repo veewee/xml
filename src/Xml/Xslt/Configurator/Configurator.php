@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Xsl\Configurator;
+namespace VeeWee\Xml\XslT\Configurator;
 
 use XSLTProcessor;
 
