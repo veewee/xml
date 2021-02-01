@@ -61,8 +61,7 @@ use function VeeWee\Xml\Dom\Builder\children;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\namespaced_element;
 use function VeeWee\Xml\Dom\Builder\value;
-use function VeeWee\Xml\Dom\Manipulator\Node\append;
-
+use function VeeWee\Xml\Dom\Manipulator\append;
 
 $doc = Document::empty();
 $doc->manipulate(
@@ -503,6 +502,60 @@ $schemas = locate_no_namespaced_xsd_schemas($document);
 ```
 
 ## Manipulators
+
+### Document
+
+Document specific manipulators can directly be applied to `Document` objects.
+
+#### append
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Manipulator\append;
+
+$doc = Document::empty();
+$doc->manipulate(
+    append(...$doc->build(
+        element('root')
+    ))
+);
+```
+
+### Node
+
+Node specific manipulators operate on `DOMNode` instances.
+
+#### append_external_node
+
+Makes it possible to append a `DOMNode` from an external document into a `DOMNode` from the current document.
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
+
+$copiedNode = append_external_node($documentNode, $externalNode);
+```
+
+#### import_node_deeply
+
+Makes it possible to import a full `DOMNode` from an external document so that it can be used in current document.
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Node\import_node_deeply;
+
+$copiedNode = import_node_deeply($documentNode, $externalNode);
+```
+
+#### replace_by_external_node
+
+Makes it possible to replace a `DOMNode` from current document with a `DOMNode` from an external document.
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_node;
+
+$copiedNode = replace_by_external_node($documentNode, $externalNode);
+```
+
 ## Mappers
 ## Validators
 ## XPath

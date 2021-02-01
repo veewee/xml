@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Manipulator\Node;
+namespace VeeWee\Xml\Dom\Manipulator;
 
 use DOMNode;
 use VeeWee\Xml\Exception\RuntimeException;
