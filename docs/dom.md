@@ -79,7 +79,12 @@ $doc->manipulate(
 ```
 
 ```xml
-TODO
+<root>
+    <foo bar="baz">hello</foo>
+    <foo bar="baz" xmlns="http://namespace">
+        <hello>world</hello>
+    </foo>
+</root>
 ```
 
 #### attribute
@@ -158,12 +163,73 @@ element('hello', ...$configurators);
 ```
 
 #### namespaced_attribute
+
+Operates on a `DOMElement` and adds a namespaced attribute with specified key and value
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\namespaced_attribute;
+
+element('foo',
+    namespaced_attribute('https://acme.com', 'acme:hello', 'world')
+);
+```
+
+```xml
+<foo xmlns:acme="https://acme.com" acme:hello="world" />
+```
+
 #### namespaced_attributed
+
+
+Operates on a `DOMElement` and adds a namespaced attribute with specified key and value
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\namespaced_attributes;
+
+element('foo',
+    namespaced_attributes('https://acme.com', [
+        'acme:hello' => 'world',
+        'acme:foo' => 'bar',
+    ])
+);
+```
+
+```xml
+<foo xmlns:acme="https://acme.com" acme:hello="world" acme:foo="bar" />
+```
+
+
 #### namespaced_element
+
+Operates on a `DOMNode` and creates a new namespaced element.
+It can contain a set of configurators that can be used to specify the attributes, children, value, ... of the element.
+
+```php
+use function VeeWee\Xml\Dom\Builder\namespaced_element;
+
+namespaced_element('http://acme.com', 'hello', ...$configurators);
+```
+
+```xml
+<hello xmlns="http://acme.com" />
+```
+
 #### value
 
+Operates on a `DOMElement` and sets the node value.
 
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\value;
 
+element('hello', value('world'));
+```
+
+```xml
+<hello>world</hello>
+```
 
 ## Configurators
 ## Loaders
