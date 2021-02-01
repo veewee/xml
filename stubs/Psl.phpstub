@@ -2,6 +2,10 @@
 
 namespace Psl\Iter {
     /**
+     * More information about this fix:
+     *
+     * @see https://github.com/azjezz/psl/pull/115
+     *
      * @psalm-template Tk
      * @psalm-template Tv
      * @psalm-template Ts
