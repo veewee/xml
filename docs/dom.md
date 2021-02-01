@@ -46,6 +46,125 @@ Let's find out more by segregating the DOM component into its composable blocks:
 
 
 ## Builders
+
+Let you build XML by using a declarative API.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Builder\attribute;
+use function VeeWee\Xml\Dom\Builder\children;
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\namespaced_element;
+use function VeeWee\Xml\Dom\Builder\value;
+use function VeeWee\Xml\Dom\Manipulator\Node\append;
+
+
+$doc = Document::empty();
+$doc->manipulate(
+    append(...$doc->build(
+        element('root', children(
+            element('foo',
+                attribute('bar', 'baz'),
+                value('hello')
+            ),
+            namespaced_element('http://namespace', 'foo',
+                attribute('bar', 'baz'),
+                children(
+                    element('hello', value('world'))
+                )
+            )
+        ))
+    ))
+);
+```
+
+```xml
+TODO
+```
+
+#### attribute
+
+Operates on a `DOMElement` and adds the attribute with specified key and value
+
+```php
+use function VeeWee\Xml\Dom\Builder\attribute;
+use function VeeWee\Xml\Dom\Builder\element;
+
+element('foo',
+    attribute('bar', 'baz')
+);
+```
+
+```xml
+<foo bar="baz" />
+```
+
+#### attributes
+
+Operates on a `DOMElement` and adds multiple attributes with specified key and value
+
+```php
+use function VeeWee\Xml\Dom\Builder\attribute;
+use function VeeWee\Xml\Dom\Builder\element;
+
+element('foo',
+    attributes([
+        'hello' => 'world',
+        'bar' => 'baz',
+    ])
+);
+```
+
+```xml
+<foo hello="world" bar="baz" />
+```
+
+#### children
+
+Operates on a `DOMNode` and attaches multiple child nodes.
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\children;
+
+element('hello',
+    children(
+        element('world'),
+        element('you')
+    )
+);
+```
+
+```xml
+<hello>
+    <world />
+    <you />
+</hello>
+```
+
+#### element
+
+Operates on a `DOMNode` and creates a new element.
+It can contain a set of configurators that can be used to specify the attributes, children, value, ... of the element.
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+
+element('hello', ...$configurators);
+```
+
+```xml
+<hello />
+```
+
+#### namespaced_attribute
+#### namespaced_attributed
+#### namespaced_element
+#### value
+
+
+
+
 ## Configurators
 ## Loaders
 ## Locators
