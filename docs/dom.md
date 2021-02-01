@@ -13,12 +13,17 @@ Since not all code is in one big master class, you will find out that it is not 
 use Psl\Type;
 use VeeWee\XML\DOM\Configurator;
 use VeeWee\XML\DOM\Document;
+use VeeWee\XML\DOM\Validator;
 use VeeWee\XML\DOM\Xpath;
 
 $doc = Document::fromXmlFile(
     'data.xml',
     Configurator\utf8(),
-    Configurator\trim_spaces()
+    Configurator\trim_spaces(),
+    Configurator\validator(
+        Validator\internal_xsd_validator()
+    ),
+    new MyCustomMergeImportsConfigurator()
 );
 
 $xpath = $doc->xpath(
@@ -232,7 +237,149 @@ element('hello', value('world'));
 ```
 
 ## Configurators
+
+Specify how you want to configure your DOM document.
+
+#### loader
+
+The loader configurator takes a [loader](#loader) to specify the source of the DOM Document.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\loader;
+use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+
+Document::configure(
+    loader(xml_string_loader('<xml />'))
+);
+```
+
+#### trim_spaces
+
+Trims all whitespaces from the DOM document in order to make it as small as possible in bytesize.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\trim_spaces;
+
+$doc = Document::fromXmlFile(
+    'data.xml',
+    trim_spaces()
+);
+```
+
+#### utf8
+
+Marks the DOM document as UTF-8.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\utf8;
+
+$doc = Document::fromXmlFile(
+    'data.xml',
+    utf8()
+);
+```
+
+#### validator
+
+Takes a [Validator](#validators) as argument and validates the DOM.
+Additionally, you can specify a maximum error level.
+If this level is reached, an exception is thrown.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\ErrorHandling\Issue\Level;
+use function VeeWee\Xml\Dom\Configurator\validator;
+use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
+
+$doc = Document::fromXmlFile(
+    'data.xml',
+    validator(internal_xsd_validator(), Level::warning())
+);
+```
+
+#### Writing your own configurator
+
+A configurator can be any `callable` that takes a `DOMDocument` and configures it:
+
+```php
+namespace VeeWee\Xml\DOM\Configurator;
+
+use DOMDocument;
+
+interface Configurator
+{
+    public function __invoke(DOMDocument $document): DOMDocument;
+}
+```
+
+You can apply the configurator as followed:
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$document = Document::configure($loader, ...$configurators);
+```
+
 ## Loaders
+
+#### xml_file_loader
+
+Loads an XML document from a file.
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$doc = Document::fromXmlFile('some-xml.xml', ...$configurators);
+```
+
+#### xml_node_loader
+
+Loads an XML document from an external `DOMNode`.
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$doc = Document::fromXmlNode($someExternalNode, ...$configurators);
+```
+
+#### xml_string_loader
+
+Loads an XML document from a string.
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$doc = Document::fromXmlString('<xml />', ...$configurators);
+```
+
+#### Writing your own loader
+
+```php
+namespace VeeWee\Xml\Dom\Loader;
+
+use DOMDocument;
+use Psl\Result\ResultInterface;
+
+interface Loader
+{
+    /**
+     * @return ResultInterface<true>
+     */
+    public function __invoke(DOMDocument $document): ResultInterface;
+}
+```
+
+You can apply the loader as followed:
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$document = Document::configure($loader, ...$configurators);
+```
+
 ## Locators
 ## Manipulators
 ## Mappers
