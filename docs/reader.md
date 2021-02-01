@@ -29,9 +29,9 @@ foreach ($provider as $nlItem) {
 
 The Reader consists out of following composable blocks:
 
-- [Configurators](#configurators)
-- [Loaders](#loaders)
-- [Matchers](#matchers)
+- [Configurators](#configurators): Configure how the Reader behaves.
+- [Loaders](#loaders): Specify how the Reader loads the XML document.
+- [Matchers](#matchers) Determine which XML elements you are interested in.
 
 ### Configurators
 
@@ -71,6 +71,14 @@ interface Loader
 {
     public function __invoke(): XMLReader;
 }
+```
+
+You can create a new reader instance like this:
+
+```php
+use VeeWee\Xml\Reader\Reader;
+
+$reader = Reader::configure($yourLoader, ...$configurators);
 ```
 
 ### Matchers
