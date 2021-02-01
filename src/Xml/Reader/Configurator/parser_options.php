@@ -8,6 +8,7 @@ use Webmozart\Assert\Assert;
 use XMLReader;
 use function Psl\Arr\keys;
 use function Psl\Arr\map;
+use function Psl\Arr\values;
 use function Psl\Str\join;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
@@ -25,7 +26,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  * XMLReader::SUBST_ENTITIES
  * Substitute entities and expand references
  *
- * @param array<int, bool> $options
+ * @param array<int-mask<\XMLReader::LOADDTD, \XMLReader::VALIDATE, \XMLReader::DEFAULTATTRS, \XMLReader::SUBST_ENTITIES>, bool> $options
  * @return callable(XMLReader): XMLReader
  */
 function parser_options(array $options): callable
@@ -43,10 +44,12 @@ function parser_options(array $options): callable
                 Assert::inArray(
                     $property,
                     $allowedOptions,
-                    'Could not apply property "'.$property.'", Expected one of:'.join(
-                        map(
-                            keys($allowedOptions),
-                            static fn (string $key): string => 'XMLReader::'.$key
+                    'Could not apply property "'.((string) $property).'", Expected one of:'.join(
+                        values(
+                            map(
+                                keys($allowedOptions),
+                                static fn (string $key): string => 'XMLReader::'.$key
+                            )
                         ),
                         ', '
                     )
@@ -54,7 +57,7 @@ function parser_options(array $options): callable
 
                 disallow_libxml_false_returns(
                     $reader->setParserProperty($property, $value),
-                    'Unable to set the parser property "'.$property.'" to the XML Reader.'
+                    'Unable to set the parser property "'.((string) $property).'" to the XML Reader.'
                 );
             }
 

@@ -20,6 +20,9 @@ final class Processor
         $this->processor = $processor;
     }
 
+    /**
+     * @param list<callable(XSLTProcessor): XSLTProcessor> $configurators
+     */
     public static function configure(callable ... $configurators): self
     {
         return new self(
@@ -27,6 +30,9 @@ final class Processor
         );
     }
 
+    /**
+     * @param list<callable(XSLTProcessor): XSLTProcessor> $configurators
+     */
     public static function fromTemplateDocument(Document $template, callable ... $configurators): self
     {
         return self::configure(

@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Xslt\Configurator;
 use XSLTProcessor;
 
 /**
- * @return callable(DOMXPath): DOMXPath
+ * @return callable(XSLTProcessor): XSLTProcessor
  */
 function all_functions(): callable
 {
