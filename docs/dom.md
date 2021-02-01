@@ -823,3 +823,36 @@ You can also pass a context-node in which the query is performed:
 ```php
 $productName = $xpath->querySingle('/name', $product);
 ```
+
+#### Writing your own XPath locator
+
+A XPath locator can be any `callable` that takes a `DOMXPath` and locates something on it:
+
+
+```php
+namespace VeeWee\Xml\Dom\Xpath\Locator;
+
+use DOMXPath;
+
+/**
+ * @template T
+ */
+interface Locator
+{
+    /**
+     * @return T
+     */
+    public function __invoke(DOMXPath $xpath): mixed;
+}
+```
+
+You can apply the locator as followed:
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$document = Document::configure('some.xml');
+$xpath = $document->xpath();
+
+$result = $xpath->locate($locator);
+```
