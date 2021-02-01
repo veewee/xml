@@ -242,7 +242,7 @@ Specify how you want to configure your DOM document.
 
 #### loader
 
-The loader configurator takes a [loader](#loader) to specify the source of the DOM Document.
+The loader configurator takes a [loader](#loaders) to specify the source of the DOM Document.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -381,6 +381,127 @@ $document = Document::configure($loader, ...$configurators);
 ```
 
 ## Locators
+
+Locators can be used to search for specific elements inside your DOM document.
+The locators are split up based on what they are locating.
+
+### Document
+
+The Document locators can be called directly from the `Document` class.
+
+#### elements_with_namespaced_tagname
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Locator\elements_with_namespaced_tagname;
+
+$doc = Document::fromXmlFile('some.xml');
+$products = $doc->locate(elements_with_namespaced_tagname('http://amazon.com', 'product'));
+```
+
+#### elements_with_tagname
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Locator\elements_with_tagname;
+
+$doc = Document::fromXmlFile('some.xml');
+$products = $doc->locate(elements_with_tagname('product'));
+```
+
+### Element
+
+These locators can be run on `DOMElement` instances.
+
+#### locate_by_namespaced_tag_name
+
+```php
+use function VeeWee\Xml\Dom\Locator\Element\locate_by_namespaced_tag_name;
+
+$products = locate_by_namespaced_tag_name($element, 'http://amazon.com', 'product');
+```
+
+#### locate_by_tag_name
+
+```php
+use function VeeWee\Xml\Dom\Locator\Element\locate_by_tag_name;
+
+$products = locate_by_tag_name($element, 'product');
+```
+
+### Node
+
+These locators can be run on any `DOMNode` instance.
+
+#### Node\children
+
+Fetch all child elements from a specific `DOMNode`.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Node\children;
+
+$childElements = children($element);
+```
+
+#### Node\detect_document
+
+Fetch the `DOMDocument` to which a node is linked.
+If the node is not linked to a document yet, it throws a `InvalidArgumentException`.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Node\detect_document;
+
+$document = detect_document($element);
+```
+
+#### Node\value
+
+Fetch the value from the provided `DOMNode` and coorce it to a specific type.
+
+```php
+use Psl\Type;
+use function VeeWee\Xml\Dom\Locator\Node\value;
+
+$productPrice = value($product, Type\float());
+```
+
+### Xsd
+
+Locates internally applied XSD schema's from a specific `DOMDocument`.
+
+#### Xsd\locate_all_xsd_schemas
+
+Locate both namespaced as no namespaced XSD schema's that are added to the XML document.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
+
+/** @var Generator<string> $schemas */
+$schemas = locate_all_xsd_schemas($document);
+```
+
+#### Xsd\locate_namespaced_xsd_schemas
+
+Locate only the namespaced XSD schema's that are added to the XML document.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Xsd\locate_namespaced_xsd_schemas;
+
+/** @var Generator<string> $schemas */
+$schemas = locate_namespaced_xsd_schemas($document);
+```
+
+#### Xsd\locate_no_namespaced_xsd_schemas
+
+Locate only the no namespaced XSD schema's that are added to the XML document.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;
+
+/** @var Generator<string> $schemas */
+$schemas = locate_no_namespaced_xsd_schemas($document);
+```
+
 ## Manipulators
 ## Mappers
 ## Validators
