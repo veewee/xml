@@ -765,6 +765,61 @@ $document->xpath(...$configurators);
 
 ## Xpath\Locators
 
+Can be used to locate specific queries.
+
 #### evaluate
+
+Evaluates an XPath query in a type-safe way:
+
+```php
+use Psl\Type;
+use VeeWee\Xml\Dom\Document;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath();
+$count = $xpath->evaluate('count(.//item)', Type\int());
+```
+
+You can also pass a context-node in which the evaluation is done:
+
+```php
+$count = $xpath->evaluate('count(.//item)', Type\int(), $productsElement);
+```
+
 #### query
+
+Run a specific XPath query and expect to get back a list of matching `DOMElement`.
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath();
+$productList = $xpath->query('/products');
+```
+
+You can also pass a context-node in which the query is performed:
+
+```php
+$productList = $xpath->query('/products', $rootNode);
+```
+
 #### query_single
+
+In many situations, you only expect one specific element to be available.
+Instead of querying for a list, you can also query for a single element.
+It expects to find exactly one element and throws an `InvalidArgumentException` if that is not the case.
+
+```php
+use VeeWee\Xml\Dom\Document;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath();
+$productName = $xpath->querySingle(('/products/name');
+```
+
+You can also pass a context-node in which the query is performed:
+
+```php
+$productName = $xpath->querySingle('/name', $product);
+```
