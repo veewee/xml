@@ -14,7 +14,7 @@ composer require veewee/xml
 
 ## Components
 
-* [DOM](docs/dom.md): Operate on XML documents through the DOM API
+* [DOM](docs/dom.md): Operate on XML documents through the DOM API.
 * [ErrorHandling](docs/error-handling.md): Provides the tools you need to safely deal with XML.
 * [Reader](docs/reader.md): Memory-safe XML reader.
 * [XSLT](docs/xslt.md): Transform XML documents into something else.
