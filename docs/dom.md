@@ -1,11 +1,11 @@
 # DOM Component
 
-The DOM Components operates on XML documents through the DOM API.
+The DOM Components operate on XML documents through the DOM API.
 Instead of solely wrapping a DOMDocument with our own class,
 we embrace the fact that the DOM implementation is leaky.
 This package provides a set of composable tools that allow you to safely work with the DOM extension.
 
-Since not all code is in one big master class, you will find out that it is not too hard to write your own extensions!
+Since not all code is in one big master class, you will find that it is not too hard to write your own extensions!
 
 ## Examples
 
@@ -52,7 +52,7 @@ Let's find out more by segregating the DOM component into its composable blocks:
 
 ## Builders
 
-Let you build XML by using a declarative API.
+Lets you build XML by using a declarative API.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -469,7 +469,7 @@ $document = detect_document($element);
 
 #### Node\value
 
-Fetch the value from the provided `DOMNode` and coorce it to a specific type.
+Fetch the value from the provided `DOMNode` and coerce it to a specific type.
 
 ```php
 use Psl\Type;
@@ -554,7 +554,7 @@ $copiedNode = append_external_node($documentNode, $externalNode);
 
 #### import_node_deeply
 
-Makes it possible to import a full `DOMNode` from an external document so that it can be used in current document.
+Makes it possible to import a full `DOMNode` from an external document so that it can be used in the current document.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\import_node_deeply;
@@ -564,7 +564,7 @@ $copiedNode = import_node_deeply($documentNode, $externalNode);
 
 #### replace_by_external_node
 
-Makes it possible to replace a `DOMNode` from current document with a `DOMNode` from an external document.
+Makes it possible to replace a `DOMNode` from the current document with a `DOMNode` from an external document.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_node;
@@ -842,7 +842,7 @@ $productName = $xpath->querySingle('/name', $product);
 
 #### Writing your own XPath locator
 
-A XPath locator can be any `callable` that takes a `DOMXPath` and locates something on it:
+An XPath locator can be any `callable` that takes a `DOMXPath` and locates something on it:
 
 
 ```php
