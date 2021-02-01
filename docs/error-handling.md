@@ -155,6 +155,7 @@ This component often gives you a collection of issues to work with:
 namespace VeeWee\Xml\ErrorHandling\Issue;
 
 #[Extends iterable<Issue>]
+#[Immutable]
 final class IssueCollection implements Countable, IteratorAggregate
 {
     // Check the source code for a list of all functions you can use on this collection! 
