@@ -627,4 +627,48 @@ $result = $document->map($mapper);
 ```
 
 ## Validators
+
+Validate the content of your XML document.
+
+#### internal_xsd_validator
+
+Validates the document based on all internally specified XML schema's.
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
+
+$doc = Document::fromXmlFile('some.xml');
+$issues = $doc->validate(internal_xsd_validator());
+```
+
+#### validator_chain
+
+Can be used to validate with multiple validators. The result is a combined list of issues!
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\Xml\Dom\Validator\validator_chain;
+use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
+use function VeeWee\Xml\Dom\Validator\xsd_validator;
+
+$doc = Document::fromXmlFile('some.xml');
+$issues = $doc->validate(validator_chain(
+    internal_xsd_validator(),
+    xsd_validator('myown.xsd')
+));
+```
+
+#### xsd_validator
+
+Makes it possible to validate an XML against a specific XSD file. 
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\Xml\Dom\Validator\xsd_validator;
+
+$doc = Document::fromXmlFile('some.xml');
+$issues = $doc->validate(xsd_validator('myown.xsd'));
+```
+
 ## XPath
