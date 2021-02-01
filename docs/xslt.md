@@ -71,7 +71,7 @@ use VeeWee\Xml\Xslt\Processor;
 use function VeeWee\Xml\Xslt\Configurator\loader;
 use function VeeWee\Xml\Xslt\Loader\from_template_document;
 
-$processor = Processor::fromTemplateDocument(
+$processor = Processor::configure(
     loader(from_template_document($template))
 );
 ```
