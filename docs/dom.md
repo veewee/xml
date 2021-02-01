@@ -15,10 +15,11 @@ use VeeWee\XML\DOM\Configurator;
 use VeeWee\XML\DOM\Document;
 use VeeWee\XML\DOM\Xpath;
 
-$doc = Document::fromXmlFile('data.xml', [
+$doc = Document::fromXmlFile(
+    'data.xml',
     Configurator\utf8(),
-    Configurator\trim_spaces(),
-]);
+    Configurator\trim_spaces()
+);
 
 $xpath = $doc->xpath(
     Xpath\Configurator\namespaces([
