@@ -35,18 +35,16 @@ Blockers don't mess around with errors ... !
 #### disallow_issues
 
 This function takes a `callable` as input and fetches all triggered XML specific warnings.
-If the provided function throws any Exception, it will wrap the detected issues with it!
+If the provided function throws any Exception, it will wrap the detected issues with it and rethrow that new exception!
 You will frequently use it together with `disallow_libxml_false_returns` to make sure the result type is safe to use!
 
 ```php
-use Psl\Result\{Failure, Success};
-use VeeWee\Xml\Exception\ExceptionInterface;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
-/** @var Success<true>|Failure<ExceptionInterface> */
+/** @var true $result */
 $result = disallow_issues(
-    static fn () => disallow_libxml_false_returns(
+    static fn (): bool => disallow_libxml_false_returns(
         $document->load('some-file.xml'),
         'Could not load the DOM Document'
     )
