@@ -57,7 +57,7 @@ $reader = Reader::fromXmlFile('some-file.xml', parser_options([
 
 #### xsd_schema
 
-You can specify an XSD Schema that will be validated whilst reading:
+You can specify a XSD Schema that will be validated whilst reading:
 
 ```php
 use VeeWee\Xml\Reader\Reader;
@@ -175,7 +175,6 @@ interface Matcher
 }
 ```
 
-The `NodeSequence` class can be seen as the breadcrumbs of current XML.
-It points to current element and all of its attributes.
-You can select the current element, its parent or a complete sequence of elements until the current one in order to match.
-
+The `NodeSequence` class can be seen as the breadcrumbs of the current XML.
+It points to the current element and all of its attributes.
+You can select the current element, its parent or a complete sequence of elements until the current one in order matches.
