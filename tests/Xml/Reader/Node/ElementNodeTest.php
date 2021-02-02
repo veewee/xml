@@ -10,7 +10,7 @@ use VeeWee\Xml\Reader\Node\ElementNode;
 
 final class ElementNodeTest extends TestCase
 {
-    public function testIt_contains_xml_element_information(): void
+    public function test_it_contains_xml_element_information(): void
     {
         $element = new ElementNode(
             $position = 1,

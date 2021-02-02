@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Builder\value;
 
 final class ElementTest extends TestCase
 {
-    public function testIt_can_build_an_element(): void
+    public function test_it_can_build_an_element(): void
     {
         $doc = new DOMDocument();
         $node = element('hello')($doc);
@@ -23,7 +23,7 @@ final class ElementTest extends TestCase
     }
 
     
-    public function testIt_can_build_an_element_with_configurators(): void
+    public function test_it_can_build_an_element_with_configurators(): void
     {
         $doc = new DOMDocument();
         $node = element('hello', identity())($doc);
@@ -34,7 +34,7 @@ final class ElementTest extends TestCase
     }
 
     
-    public function testIt_can_build_an_element_with_value(): void
+    public function test_it_can_build_an_element_with_value(): void
     {
         $doc = new DOMDocument();
         $node = element('hello', value('world'))($doc);

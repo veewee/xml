@@ -11,7 +11,7 @@ final class IssueTest extends TestCase
 {
     use UseIssueTrait;
 
-    public function testItHasLoadsOfAccessors(): void
+    public function test_it_has_loads_of_accessors(): void
     {
         $error = $this->createIssue(Level::warning());
 

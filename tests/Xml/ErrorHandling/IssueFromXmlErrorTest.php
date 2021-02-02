@@ -12,7 +12,7 @@ use function VeeWee\Xml\ErrorHandling\issue_from_xml_error;
 
 final class IssueFromXmlErrorTest extends TestCase
 {
-    public function testItCanConstructIssueFromLibXmlError(): void
+    public function test_it_can_construct_issue_from_lib_xml_error(): void
     {
         $error = new LibXMLError();
         $error->level   = Level::error()->value();
@@ -32,7 +32,7 @@ final class IssueFromXmlErrorTest extends TestCase
         static::assertSame($error->column, $issue->column());
     }
 
-    public function testItReturnsNullOnInvalidLevel(): void
+    public function test_it_returns_null_on_invalid_level(): void
     {
         $error = new LibXMLError();
         $error->level = 9000;

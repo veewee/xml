@@ -11,7 +11,7 @@ use function VeeWee\Xml\Dom\Builder\element;
 
 final class ChildrenTest extends TestCase
 {
-    public function testIt_can_build_document_children(): void
+    public function test_it_can_build_document_children(): void
     {
         $doc = new DOMDocument();
         $actual = children(
@@ -28,7 +28,7 @@ final class ChildrenTest extends TestCase
     }
 
     
-    public function testIt_can_build_an_element_with_children(): void
+    public function test_it_can_build_an_element_with_children(): void
     {
         $doc = new DOMDocument();
         $node = element(

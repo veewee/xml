@@ -10,7 +10,7 @@ use function VeeWee\Xml\Dom\Configurator\utf8;
 
 final class Utf8Test extends TestCase
 {
-    public function testIt_can_convert_to_utf8(): void
+    public function test_it_can_convert_to_utf8(): void
     {
         $doc = new DOMDocument();
         $doc->loadXML($xml = '<hello />');

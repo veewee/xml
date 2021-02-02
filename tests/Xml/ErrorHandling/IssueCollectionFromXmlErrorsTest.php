@@ -12,7 +12,7 @@ use function VeeWee\Xml\ErrorHandling\issue_collection_from_xml_errors;
 
 final class IssueCollectionFromXmlErrorsTest extends TestCase
 {
-    public function testItCanConstructIssueCollectionFromLibXmlErrors(): void
+    public function test_it_can_construct_issue_collection_from_lib_xml_errors(): void
     {
         $errors = [
             $error1 = $this->createError(LIBXML_ERR_WARNING),

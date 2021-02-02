@@ -20,7 +20,7 @@ final class ValidatorChainTest extends TestCase
      *
      * @dataProvider provideErrorCases
      */
-    public function testIt_can_validate_multiple_validators(callable $validator, int $errors): void
+    public function test_it_can_validate_multiple_validators(callable $validator, int $errors): void
     {
         $doc = new DOMDocument();
         $issues = $validator($doc);

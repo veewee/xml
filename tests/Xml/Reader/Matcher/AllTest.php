@@ -10,7 +10,7 @@ use function VeeWee\Xml\Reader\Matcher\all;
 
 final class AllTest extends TestCase
 {
-    public function testIt_returns_true_if_all_matchers_agree(): void
+    public function test_it_returns_true_if_all_matchers_agree(): void
     {
         $matcher = all(
             static fn () => true,
@@ -21,7 +21,7 @@ final class AllTest extends TestCase
     }
 
     
-    public function testIt_returns_false_if__not_all_matchers_agree(): void
+    public function test_it_returns_false_if__not_all_matchers_agree(): void
     {
         $matcher = all(
             static fn () => true,
@@ -32,7 +32,7 @@ final class AllTest extends TestCase
     }
 
     
-    public function testIt_returns_true_if_there_are_no_matchers(): void
+    public function test_it_returns_true_if_there_are_no_matchers(): void
     {
         $matcher = all();
         static::assertTrue($matcher($this->createSequence()));

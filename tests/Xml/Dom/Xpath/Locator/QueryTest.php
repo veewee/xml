@@ -9,7 +9,7 @@ use function VeeWee\Xml\Dom\Locator\elements_with_tagname;
 
 final class QueryTest extends TestCase
 {
-    public function testIt_can_handle_xpath_errors(): void
+    public function test_it_can_handle_xpath_errors(): void
     {
         $xpath = $this->provideXml()->xpath();
 
@@ -21,7 +21,7 @@ final class QueryTest extends TestCase
     }
 
     
-    public function testIt_can_find_xpath_elements(): void
+    public function test_it_can_find_xpath_elements(): void
     {
         $xpath = $this->provideXml()->xpath();
         $res = $xpath->query('//item');
@@ -30,7 +30,7 @@ final class QueryTest extends TestCase
     }
 
     
-    public function testIt_can_find_xpath_elements_with_node_context(): void
+    public function test_it_can_find_xpath_elements_with_node_context(): void
     {
         $doc = $this->provideXml();
         $hello = $doc->locate(elements_with_tagname('hello'))->item(0);

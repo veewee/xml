@@ -11,7 +11,7 @@ use function VeeWee\Xml\DOM\xpath\xpath;
 
 final class XpathTest extends TestCase
 {
-    public function testIt_can_prepare_xpath(): void
+    public function test_it_can_prepare_xpath(): void
     {
         $doc = Document::fromXmlString(
             $xml = '<hello xmlns="http://namespace"><item /></hello>'

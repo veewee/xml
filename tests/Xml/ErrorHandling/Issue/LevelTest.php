@@ -12,7 +12,7 @@ final class LevelTest extends TestCase
 {
     use UseIssueTrait;
 
-    public function testItCanBeError()
+    public function test_it_can_be_error()
     {
         $level = Level::error();
 
@@ -25,7 +25,7 @@ final class LevelTest extends TestCase
         static::assertFalse($level->isWarning());
     }
 
-    public function testItCanBeFatal()
+    public function test_it_can_be_fatal()
     {
         $level = Level::fatal();
 
@@ -38,7 +38,7 @@ final class LevelTest extends TestCase
         static::assertFalse($level->isWarning());
     }
 
-    public function testItCanBeWarning()
+    public function test_it_can_be_warning()
     {
         $level = Level::warning();
 

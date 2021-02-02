@@ -11,7 +11,7 @@ use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 
 final class XmlNodeLoaderTest extends TestCase
 {
-    public function testIt_can_load_xml_node(): void
+    public function test_it_can_load_xml_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML($xml = '<hello />');
@@ -24,7 +24,7 @@ final class XmlNodeLoaderTest extends TestCase
     }
 
     
-    public function testIt_can_not_load_invalid_xml_node(): void
+    public function test_it_can_not_load_invalid_xml_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML($xml = '<hello />');

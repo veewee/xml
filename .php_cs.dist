@@ -43,6 +43,9 @@ return PhpCsFixer\Config::create()
         'php_unit_test_case_static_method_calls' => [
             'call_type' => 'static',
         ],
+        'php_unit_method_casing' => [
+            'case' => 'snake_case',
+        ],
         'single_import_per_statement' => true,
         'single_trait_insert_per_statement' => true,
         'static_lambda' => true,

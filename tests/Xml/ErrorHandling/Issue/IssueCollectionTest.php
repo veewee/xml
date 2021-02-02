@@ -13,7 +13,7 @@ final class IssueCollectionTest extends TestCase
 {
     use UseIssueTrait;
 
-    public function testItActsAsAnIterator(): void
+    public function test_it_acts_as_an_iterator(): void
     {
         $issues = new IssueCollection(
             $issue1 = $this->createIssue(Level::warning()),
@@ -24,7 +24,7 @@ final class IssueCollectionTest extends TestCase
         static::assertSame([$issue1, $issue2], [...$issues]);
     }
 
-    public function testItCanConvertToString(): void
+    public function test_it_can_convert_to_string(): void
     {
         $issues = new IssueCollection(
             $issue1 = $this->createIssue(Level::warning()),
@@ -39,7 +39,7 @@ final class IssueCollectionTest extends TestCase
         static::assertSame($expected, $issues->toString());
     }
 
-    public function testItCanFilter(): void
+    public function test_it_can_filter(): void
     {
         $issues = new IssueCollection(
             $issue1 = $this->createIssue(Level::warning()),
@@ -52,7 +52,7 @@ final class IssueCollectionTest extends TestCase
         static::assertSame([$issue2], [...$filtered]);
     }
 
-    public function testItCanDetectTheHighestLevel(): void
+    public function test_it_can_detect_the_highest_level(): void
     {
         $issues = new IssueCollection(
             $issue1 = $this->createIssue(Level::warning()),
@@ -62,7 +62,7 @@ final class IssueCollectionTest extends TestCase
         static::assertTrue($issues->getHighestLevel()->isFatal());
     }
 
-    public function testItCanDetectTheHighestLevelOnAnEmptyCollection(): void
+    public function test_it_can_detect_the_highest_level_on_an_empty_collection(): void
     {
         $issues = new IssueCollection();
 

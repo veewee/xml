@@ -11,14 +11,14 @@ use function VeeWee\Xml\Reader\Matcher\node_name;
 
 final class NodeNameTest extends TestCase
 {
-    public function testIt_returns_true_if_node_name_matches(): void
+    public function test_it_returns_true_if_node_name_matches(): void
     {
         $matcher = node_name('item');
         static::assertTrue($matcher($this->createSequence()));
     }
 
     
-    public function testIt_returns_false_if_node_name_does_not_match(): void
+    public function test_it_returns_false_if_node_name_does_not_match(): void
     {
         $matcher = node_name('other');
         static::assertFalse($matcher($this->createSequence()));

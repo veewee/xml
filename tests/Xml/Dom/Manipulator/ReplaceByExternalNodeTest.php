@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_node;
 
 final class ReplaceByExternalNodeTest extends TestCase
 {
-    public function testIt_can_replace_a_node(): void
+    public function test_it_can_replace_a_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello />');
@@ -27,7 +27,7 @@ final class ReplaceByExternalNodeTest extends TestCase
     }
 
     
-    public function testIt_can_not_replace_a_document_into_a_document(): void
+    public function test_it_can_not_replace_a_document_into_a_document(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello />');
@@ -39,7 +39,7 @@ final class ReplaceByExternalNodeTest extends TestCase
     }
 
     
-    public function testIt_can_recursively_replace_a_node_with_another_external_node(): void
+    public function test_it_can_recursively_replace_a_node_with_another_external_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello><world><name>VeeWee</name></world></hello>');

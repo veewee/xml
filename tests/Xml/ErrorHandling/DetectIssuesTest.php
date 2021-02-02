@@ -13,7 +13,7 @@ use function simplexml_load_string;
 
 final class DetectIssuesTest extends TestCase
 {
-    public function testItCanContinueWhenNoErrorsAreDetects(): void
+    public function test_it_can_continue_when_no_errors_are_detects(): void
     {
         [$result, $errors] = ErrorHandling\detect_issues(
             static function (): string {
@@ -28,7 +28,7 @@ final class DetectIssuesTest extends TestCase
         static::assertCount(0, $errors);
     }
 
-    public function testItCanDetectXmlErrorsInsideCallableAndReturnOk(): void
+    public function test_it_can_detect_xml_errors_inside_callable_and_return_ok(): void
     {
         [$result, $errors] = ErrorHandling\detect_issues(
             static function (): string {
@@ -43,7 +43,7 @@ final class DetectIssuesTest extends TestCase
         static::assertCount(1, $errors);
     }
 
-    public function testItCanDetectXmlErrorsInsideCallableAndReturnAFailure(): void
+    public function test_it_can_detect_xml_errors_inside_callable_and_return_a_failure(): void
     {
         $exception = new Exception('nonono');
         [$result, $errors] = ErrorHandling\detect_issues(
@@ -59,7 +59,7 @@ final class DetectIssuesTest extends TestCase
         static::assertCount(1, $errors);
     }
 
-    public function testItDoesNotUsePreviouslyOccuredExceptions(): void
+    public function test_it_does_not_use_previously_occured_exceptions(): void
     {
         libxml_use_internal_errors(true);
         simplexml_load_string('<notvalidxml');
@@ -77,7 +77,7 @@ final class DetectIssuesTest extends TestCase
         static::assertCount(1, $errors);
     }
 
-    public function testItCanUseInternalXmlErrorsDuringAFunctionCall(): void
+    public function test_it_can_use_internal_xml_errors_during_a_function_call(): void
     {
         libxml_use_internal_errors(false);
 

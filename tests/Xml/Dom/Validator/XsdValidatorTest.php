@@ -14,7 +14,7 @@ final class XsdValidatorTest extends TestCase
      *
      * @dataProvider provideSchemeValidation
      */
-    public function testIt_can_validate_xsds(string $xml, string $xsd, int $errors): void
+    public function test_it_can_validate_xsds(string $xml, string $xsd, int $errors): void
     {
         $doc = new DOMDocument();
         $doc->load($this->getFixture($xml));

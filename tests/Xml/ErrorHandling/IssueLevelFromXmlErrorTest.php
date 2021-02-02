@@ -15,7 +15,7 @@ final class IssueLevelFromXmlErrorTest extends TestCase
     /**
      * @dataProvider provideErrors
      */
-    public function testItCanConstructLevelFromLibXmlError(int $code, ?Level $expected): void
+    public function test_it_can_construct_level_from_lib_xml_error(int $code, ?Level $expected): void
     {
         $error = new LibXMLError();
         $error->level = $code;

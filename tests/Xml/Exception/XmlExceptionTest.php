@@ -16,7 +16,7 @@ final class RuntimeExceptionTest extends TestCase
 {
     use UseIssueTrait;
 
-    public function testItCanThrowAnExceptionContainingXmlErrors(): void
+    public function test_it_can_throw_an_exception_containing_xml_errors(): void
     {
         $exception = new Exception('nonono');
         $issues = new IssueCollection(

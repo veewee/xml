@@ -11,7 +11,7 @@ use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 final class XmlStringLoaderTest extends TestCase
 {
-    public function testIt_can_load_xml_string(): void
+    public function test_it_can_load_xml_string(): void
     {
         $doc = new DOMDocument();
         $xml = '<hello />';
@@ -22,7 +22,7 @@ final class XmlStringLoaderTest extends TestCase
     }
 
     
-    public function testIt_can_not_load_invalid_xml_string(): void
+    public function test_it_can_not_load_invalid_xml_string(): void
     {
         $doc = new DOMDocument();
         $xml = '<hello';

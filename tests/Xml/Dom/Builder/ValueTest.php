@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class ValueTest extends TestCase
 {
-    public function testIt_can_build_an_element_with_html_value(): void
+    public function test_it_can_build_an_element_with_html_value(): void
     {
         $doc = new DOMDocument();
         $node = element('hello', value('<world>'))($doc);

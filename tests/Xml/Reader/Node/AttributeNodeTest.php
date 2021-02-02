@@ -9,7 +9,7 @@ use VeeWee\Xml\Reader\Node\AttributeNode;
 
 final class AttributeNodeTest extends TestCase
 {
-    public function testIt_contains_xml_attribute_information(): void
+    public function test_it_contains_xml_attribute_information(): void
     {
         $attribute = new AttributeNode(
             $name = 'name',

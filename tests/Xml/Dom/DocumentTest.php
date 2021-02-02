@@ -17,7 +17,7 @@ final class DocumentTest extends TestCase
     use FillFileTrait;
 
     
-    public function testIt_can_create_a_document_from_dom(): void
+    public function test_it_can_create_a_document_from_dom(): void
     {
         $document = new DOMDocument();
         $doc = Document::fromUnsafeDocument($document, identity());
@@ -26,7 +26,7 @@ final class DocumentTest extends TestCase
     }
 
     
-    public function testIt_can_create_an_empty_document(): void
+    public function test_it_can_create_an_empty_document(): void
     {
         $document = new DOMDocument();
         $doc = Document::empty();
@@ -35,7 +35,7 @@ final class DocumentTest extends TestCase
     }
 
     
-    public function testIt_can_create_a_configured_document(): void
+    public function test_it_can_create_a_configured_document(): void
     {
         $document = new DOMDocument();
         $doc = Document::configure(identity());
@@ -44,7 +44,7 @@ final class DocumentTest extends TestCase
     }
 
     
-    public function testIt_can_add_various_configurators(): void
+    public function test_it_can_add_various_configurators(): void
     {
         $doc = Document::fromXmlString(
             $xml = '<hello />',
@@ -60,7 +60,7 @@ final class DocumentTest extends TestCase
     }
 
     
-    public function testIt_can_create_a_document_from_xml_nod(): void
+    public function test_it_can_create_a_document_from_xml_nod(): void
     {
         $source = new DOMDocument();
         $source->loadXML($xml = '<hello />');
@@ -74,7 +74,7 @@ final class DocumentTest extends TestCase
     }
 
     
-    public function testIt_can_create_a_document_from_xml_file(): void
+    public function test_it_can_create_a_document_from_xml_file(): void
     {
         [$file, $handle] = $this->fillFile($xml = '<hello />');
 
@@ -89,7 +89,7 @@ final class DocumentTest extends TestCase
     }
 
     
-    public function testIt_can_create_a_document_from_xml_string(): void
+    public function test_it_can_create_a_document_from_xml_string(): void
     {
         $doc = Document::fromXmlString(
             $xml = '<hello />',

@@ -13,7 +13,7 @@ use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;
 
 final class LocateXsdSchemasTest extends TestCase
 {
-    public function testIt_can_locate_namespaced_xsd_schemas(): void
+    public function test_it_can_locate_namespaced_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
         $results = locate_namespaced_xsd_schemas($document);
@@ -29,7 +29,7 @@ final class LocateXsdSchemasTest extends TestCase
     }
 
     
-    public function testIt_can_locate_no_namespaced_xsd_schemas(): void
+    public function test_it_can_locate_no_namespaced_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
         $results = locate_no_namespaced_xsd_schemas($document);
@@ -45,7 +45,7 @@ final class LocateXsdSchemasTest extends TestCase
     }
 
     
-    public function testIt_can_locate_all_xsd_schemas(): void
+    public function test_it_can_locate_all_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
         $results = locate_all_xsd_schemas($document);

@@ -14,7 +14,7 @@ use function VeeWee\Xml\Dom\Builder\namespaced_attributes;
 
 final class AttributesTest extends TestCase
 {
-    public function testIt_can_build_an_element_with_attributes(): void
+    public function test_it_can_build_an_element_with_attributes(): void
     {
         $doc = new DOMDocument();
 

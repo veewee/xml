@@ -11,7 +11,7 @@ use function VeeWee\Xml\Dom\Mapper\xslt_template;
 
 final class XsltTemplateTest extends TestCase
 {
-    public function testIt_can_convert_xml_into_template(): void
+    public function test_it_can_convert_xml_into_template(): void
     {
         $result = xslt_template($this->createTemplate())(
             Document::fromXmlString(
@@ -27,7 +27,7 @@ final class XsltTemplateTest extends TestCase
     }
 
     
-    public function testIt_returns_empty_string_on_invalid_value_tag(): void
+    public function test_it_returns_empty_string_on_invalid_value_tag(): void
     {
         $result = xslt_template($this->createTemplate())(
             Document::fromXmlString(
@@ -43,7 +43,7 @@ final class XsltTemplateTest extends TestCase
     }
 
     
-    public function testIt_fails_on_invalid_template_thingies(): void
+    public function test_it_fails_on_invalid_template_thingies(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('Unable to apply the XSLT template');

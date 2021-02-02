@@ -12,7 +12,7 @@ use VeeWee\Xml\Reader\Node\Pointer;
 
 final class PointerTest extends TestCase
 {
-    public function testIt_is_empty_at_the_start(): void
+    public function test_it_is_empty_at_the_start(): void
     {
         $pointer = Pointer::create();
 
@@ -22,7 +22,7 @@ final class PointerTest extends TestCase
     }
 
     
-    public function testIt_cannot_leave_element_on_empty(): void
+    public function test_it_cannot_leave_element_on_empty(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage('Currently at root level. Can not leave element!');
@@ -32,7 +32,7 @@ final class PointerTest extends TestCase
     }
 
     
-    public function testIt_knows_the_position_on_enter(): void
+    public function test_it_knows_the_position_on_enter(): void
     {
         $pointer = Pointer::create();
 

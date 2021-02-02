@@ -11,7 +11,7 @@ use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class PrettyPrintTest extends TestCase
 {
-    public function testIt_can_trim_contents(): void
+    public function test_it_can_trim_contents(): void
     {
         $configurator = pretty_print();
 

@@ -21,7 +21,7 @@ final class ReaderTest extends TestCase
      *
      * @dataProvider provideXmlExpectations
      */
-    public function testIt_can_provide_xml_string(string $xml, callable $matcher, array $expected): void
+    public function test_it_can_provide_xml_string(string $xml, callable $matcher, array $expected): void
     {
         $reader = Reader::fromXmlString($xml, identity());
         $iterator = $reader->provide($matcher);
@@ -33,7 +33,7 @@ final class ReaderTest extends TestCase
      *
      * @dataProvider provideXmlExpectations
      */
-    public function testIt_can_provide_xml_file(string $xml, callable $matcher, array $expected): void
+    public function test_it_can_provide_xml_file(string $xml, callable $matcher, array $expected): void
     {
         [$file, $handle] = $this->fillFile($xml);
 
@@ -46,7 +46,7 @@ final class ReaderTest extends TestCase
     }
 
     
-    public function testIt_throws_exception_on_invalid_xml_during_iteration(): void
+    public function test_it_throws_exception_on_invalid_xml_during_iteration(): void
     {
         $xml = <<<'EOXML'
             <root>

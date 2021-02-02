@@ -11,7 +11,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 
 final class NodeSequenceTest extends TestCase
 {
-    public function testIt_can_be_empty(): void
+    public function test_it_can_be_empty(): void
     {
         $sequence = new NodeSequence();
         static::assertSame([], $sequence->sequence());
@@ -23,7 +23,7 @@ final class NodeSequenceTest extends TestCase
     }
 
     
-    public function testIt_can_remember_sequences_in_an_immutable_way(): void
+    public function test_it_can_remember_sequences_in_an_immutable_way(): void
     {
         $sequence = new NodeSequence(
             $element1 = new ElementNode(1, 'item1', 'item1', '', '', [])

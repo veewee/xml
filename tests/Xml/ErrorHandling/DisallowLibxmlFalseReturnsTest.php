@@ -10,14 +10,14 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 final class DisallowLibxmlFalseReturnsTest extends TestCase
 {
-    public function testIt_continues_when_not_false(): void
+    public function test_it_continues_when_not_false(): void
     {
         $actual = disallow_libxml_false_returns(true, 'nope');
         static::assertSame(true, $actual);
     }
 
     
-    public function testIt_throws_when_false(): void
+    public function test_it_throws_when_false(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('nope');

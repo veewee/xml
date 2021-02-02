@@ -13,7 +13,7 @@ use function VeeWee\Xml\Dom\Builder\value;
 
 final class NamespacedElementTest extends TestCase
 {
-    public function testIt_can_build_an_element_with_alias(): void
+    public function test_it_can_build_an_element_with_alias(): void
     {
         $doc = new DOMDocument();
         $ns = 'https://namespace.com';
@@ -28,7 +28,7 @@ final class NamespacedElementTest extends TestCase
     }
 
     
-    public function testIt_can_build_an_element_without_alias(): void
+    public function test_it_can_build_an_element_without_alias(): void
     {
         $doc = new DOMDocument();
         $ns = 'https://namespace.com';
@@ -42,7 +42,7 @@ final class NamespacedElementTest extends TestCase
     }
 
     
-    public function testIt_can_build_an_element_with_configurators(): void
+    public function test_it_can_build_an_element_with_configurators(): void
     {
         $doc = new DOMDocument();
         $ns = 'https://namespace.com';
@@ -55,7 +55,7 @@ final class NamespacedElementTest extends TestCase
     }
 
     
-    public function testIt_can_build_an_element_with_value(): void
+    public function test_it_can_build_an_element_with_value(): void
     {
         $doc = new DOMDocument();
         $ns = 'https://namespace.com';

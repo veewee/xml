@@ -17,7 +17,7 @@ final class ValidatorTest extends TestCase
     use UseIssueTrait;
 
     
-    public function testIt_can_configure_xml_with_valid_validation_result(): void
+    public function test_it_can_configure_xml_with_valid_validation_result(): void
     {
         $doc = new DOMDocument();
         $validator = validator(static fn (DOMDocument $doc): IssueCollection => new IssueCollection());
@@ -27,7 +27,7 @@ final class ValidatorTest extends TestCase
     }
 
     
-    public function testIt_can_configure_xml_with_invalid_validation_result(): void
+    public function test_it_can_configure_xml_with_invalid_validation_result(): void
     {
         $doc = new DOMDocument();
         $validator = validator(fn (DOMDocument $doc): IssueCollection => new IssueCollection(

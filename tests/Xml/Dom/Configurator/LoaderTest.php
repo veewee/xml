@@ -11,7 +11,7 @@ use function VeeWee\Xml\Dom\Configurator\loader;
 
 final class LoaderTest extends TestCase
 {
-    public function testIt_can_load_xml(): void
+    public function test_it_can_load_xml(): void
     {
         $doc = new DOMDocument();
         $xml = '<hello />';
@@ -26,7 +26,7 @@ final class LoaderTest extends TestCase
     }
 
     
-    public function testIt_can_mark_xml_loading_as_failed(): void
+    public function test_it_can_mark_xml_loading_as_failed(): void
     {
         $doc = new DOMDocument();
         $exception = new Exception('Could not load the XML document');

@@ -12,7 +12,7 @@ use function VeeWee\Xml\ErrorHandling\stop_on_first_issue;
 
 final class StopOnFirstIssueTest extends TestCase
 {
-    public function testItCanSuccessfullyIterateOverValidXml(): void
+    public function test_it_can_successfully_iterate_over_valid_xml(): void
     {
         $iterator = $this->createIteratorForXml(
             <<<'EOXML'
@@ -31,7 +31,7 @@ EOXML
         );
     }
 
-    public function testItStopsIteratingOnFirstReadChunk(): void
+    public function test_it_stops_iterating_on_first_read_chunk(): void
     {
         $iterator = $this->createIteratorForXml(
             <<<'EOXML'
@@ -52,7 +52,7 @@ EOXML
         throw $exception;
     }
 
-    public function testItStopsIteratingOnTheFirstError(): void
+    public function test_it_stops_iterating_on_the_first_error(): void
     {
         $iterator = $this->createIteratorForXml(
             <<<'EOXML'

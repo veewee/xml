@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Manipulator\Node\import_node_deeply;
 
 final class ImportNodeDeeplyTest extends TestCase
 {
-    public function testIt_can_import_a_node(): void
+    public function test_it_can_import_a_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello />');
@@ -25,7 +25,7 @@ final class ImportNodeDeeplyTest extends TestCase
     }
 
     
-    public function testIt_can_import_a_node_into_a_nodes_document(): void
+    public function test_it_can_import_a_node_into_a_nodes_document(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello />');
@@ -39,7 +39,7 @@ final class ImportNodeDeeplyTest extends TestCase
     }
 
     
-    public function testIt_can_not_import_an_invalid_node(): void
+    public function test_it_can_not_import_an_invalid_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello />');
@@ -51,7 +51,7 @@ final class ImportNodeDeeplyTest extends TestCase
     }
 
     
-    public function testIt_can_recursively_import_a_node_based_on_a_target_document_node(): void
+    public function test_it_can_recursively_import_a_node_based_on_a_target_document_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello><world myattrib="myvalue"><name>VeeWee</name></world></hello>');

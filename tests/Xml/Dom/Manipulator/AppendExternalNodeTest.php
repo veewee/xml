@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
 
 final class AppendExternalNodeTest extends TestCase
 {
-    public function testIt_can_import_a_node_into_a_document_root(): void
+    public function test_it_can_import_a_node_into_a_document_root(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello />');
@@ -26,7 +26,7 @@ final class AppendExternalNodeTest extends TestCase
     }
 
     
-    public function testIt_can_not_import_a_document_into_a_document(): void
+    public function test_it_can_not_import_a_document_into_a_document(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello />');
@@ -38,7 +38,7 @@ final class AppendExternalNodeTest extends TestCase
     }
 
     
-    public function testIt_can_recursively_import_a_node_into_another_document_node(): void
+    public function test_it_can_recursively_import_a_node_into_another_document_node(): void
     {
         $source = new DOMDocument();
         $source->loadXML('<hello><world><name>VeeWee</name></world></hello>');

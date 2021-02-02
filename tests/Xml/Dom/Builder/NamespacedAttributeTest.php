@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Builder\namespaced_attribute;
 
 final class NamespacedAttributeTest extends TestCase
 {
-    public function testIt_throws_exception_if_the_attribute_name_is_not_qualified(): void
+    public function test_it_throws_exception_if_the_attribute_name_is_not_qualified(): void
     {
         $doc = new DOMDocument();
         $ns = 'https://namespace.com';
