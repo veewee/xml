@@ -6,8 +6,8 @@ namespace VeeWee\Xml\Dom\Manipulator\Node;
 
 use DOMNode;
 use VeeWee\Xml\Exception\RuntimeException;
-use function get_class;
 use Webmozart\Assert\Assert;
+use function get_class;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 

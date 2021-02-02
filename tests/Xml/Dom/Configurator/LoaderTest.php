@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Tests\Dom\Configurator;
 
 use DOMDocument;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use function VeeWee\Xml\Dom\Configurator\loader;
 
-class LoaderTest extends TestCase
+final class LoaderTest extends TestCase
 {
-    /** @test */
-    public function it_can_load_xml(): void
+    public function testIt_can_load_xml(): void
     {
         $doc = new DOMDocument();
         $xml = '<hello />';
@@ -21,15 +21,15 @@ class LoaderTest extends TestCase
         });
 
         $result = $loader($doc);
-        self::assertSame($doc, $result);
-        self::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
+        static::assertSame($doc, $result);
+        static::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
-    /** @test */
-    public function it_can_mark_xml_loading_as_failed(): void
+    
+    public function testIt_can_mark_xml_loading_as_failed(): void
     {
         $doc = new DOMDocument();
-        $exception = new \Exception('Could not load the XML document');
+        $exception = new Exception('Could not load the XML document');
         $loader = loader(static function (DOMDocument $doc) use ($exception): void {
             throw $exception;
         });

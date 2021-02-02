@@ -17,11 +17,11 @@ function parameters(string $namespace, array $parameters): callable
 {
     return static fn (XSLTProcessor $processor)
         => disallow_issues(static function () use ($processor, $namespace, $parameters) : XSLTProcessor {
-        disallow_libxml_false_returns(
-            $processor->setParameter($namespace, $parameters),
-            'Could not set the provided XSLTProcessor parameters.'
-        );
+            disallow_libxml_false_returns(
+                $processor->setParameter($namespace, $parameters),
+                'Could not set the provided XSLTProcessor parameters.'
+            );
 
-        return $processor;
-    });
+            return $processor;
+        });
 }

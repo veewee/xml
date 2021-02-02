@@ -9,12 +9,12 @@ use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function VeeWee\Xml\Reader\Loader\xml_file_loader;
 
-class XmlFileLoaderTest extends TestCase
+final class XmlFileLoaderTest extends TestCase
 {
     use FillFileTrait;
 
-    /** @test */
-    public function it_invalid_file_loader(): void
+    
+    public function testIt_invalid_file_loader(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('The file "invalid-file" does not exist.');

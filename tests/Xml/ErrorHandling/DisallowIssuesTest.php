@@ -23,7 +23,7 @@ final class DisallowIssuesTest extends TestCase
             }
         );
 
-        self::assertSame('ok', $result);
+        static::assertSame('ok', $result);
     }
 
     public function testItCanDetectXmlErrorsInsideCallableAndReturnOk(): void

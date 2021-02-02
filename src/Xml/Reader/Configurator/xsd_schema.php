@@ -12,7 +12,8 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @return callable(XMLReader): XMLReader
  */
-function xsd_schema(string $schemaFile): callable {
+function xsd_schema(string $schemaFile): callable
+{
     return static fn (XMLReader $reader): XMLReader
         => disallow_issues(static function () use ($reader, $schemaFile): XMLReader {
             Assert::fileExists($schemaFile);

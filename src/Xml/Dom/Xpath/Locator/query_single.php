@@ -5,8 +5,8 @@ namespace VeeWee\Xml\Dom\Xpath\Locator;
 
 use DOMElement;
 use DOMNode;
-use DOMXPath;
 use DOMNodeList;
+use DOMXPath;
 use InvalidArgumentException;
 use VeeWee\Xml\Exception\RuntimeException;
 use Webmozart\Assert\Assert;

@@ -9,10 +9,9 @@ use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Mapper\xslt_template;
 
-class XsltTemplateTest extends TestCase
+final class XsltTemplateTest extends TestCase
 {
-    /** @test */
-    public function it_can_convert_xml_into_template(): void
+    public function testIt_can_convert_xml_into_template(): void
     {
         $result = xslt_template($this->createTemplate())(
             Document::fromXmlString(
@@ -24,11 +23,11 @@ class XsltTemplateTest extends TestCase
             )->toUnsafeDocument()
         );
 
-        self::assertSame('World', $result);
+        static::assertSame('World', $result);
     }
 
-    /** @test */
-    public function it_returns_empty_string_on_invalid_value_tag(): void
+    
+    public function testIt_returns_empty_string_on_invalid_value_tag(): void
     {
         $result = xslt_template($this->createTemplate())(
             Document::fromXmlString(
@@ -40,11 +39,11 @@ class XsltTemplateTest extends TestCase
             )->toUnsafeDocument()
         );
 
-        self::assertSame('', $result);
+        static::assertSame('', $result);
     }
 
-    /** @test */
-    public function it_fails_on_invalid_template_thingies(): void
+    
+    public function testIt_fails_on_invalid_template_thingies(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectErrorMessage('XML issues detected');

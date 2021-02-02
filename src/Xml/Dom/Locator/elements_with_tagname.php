@@ -18,6 +18,6 @@ function elements_with_tagname(string $tagName): callable
         /**
          * @return DOMNodeList<DOMElement>
          */
-        static fn(DOMDocument $document): DOMNodeList
+        static fn (DOMDocument $document): DOMNodeList
             => locate_by_tag_name($document->documentElement, $tagName);
 }

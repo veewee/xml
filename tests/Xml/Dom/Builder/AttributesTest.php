@@ -12,10 +12,9 @@ use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\namespaced_attribute;
 use function VeeWee\Xml\Dom\Builder\namespaced_attributes;
 
-class AttributesTest extends TestCase
+final class AttributesTest extends TestCase
 {
-    /** @test */
-    public function it_can_build_an_element_with_attributes(): void
+    public function testIt_can_build_an_element_with_attributes(): void
     {
         $doc = new DOMDocument();
 
@@ -28,13 +27,13 @@ class AttributesTest extends TestCase
             namespaced_attributes($ns, ['ns:key2' => 'nsvalue2']),
         )($doc);
 
-        self::assertSame('hello', $node->nodeName);
-        self::assertSame('hello', $node->localName);
-        self::assertSame($doc, $node->ownerDocument);
+        static::assertSame('hello', $node->nodeName);
+        static::assertSame('hello', $node->localName);
+        static::assertSame($doc, $node->ownerDocument);
 
-        self::assertSame($node->getAttribute('key1'), 'value1');
-        self::assertSame($node->getAttribute('key2'), 'value2');
-        self::assertSame($node->getAttributeNS($ns, 'key1'), 'nsvalue1');
-        self::assertSame($node->getAttributeNS($ns, 'key2'), 'nsvalue2');
+        static::assertSame($node->getAttribute('key1'), 'value1');
+        static::assertSame($node->getAttribute('key2'), 'value2');
+        static::assertSame($node->getAttributeNS($ns, 'key1'), 'nsvalue1');
+        static::assertSame($node->getAttributeNS($ns, 'key2'), 'nsvalue2');
     }
 }

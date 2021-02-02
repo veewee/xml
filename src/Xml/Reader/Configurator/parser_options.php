@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader\Configurator;
 
-use Webmozart\Assert\Assert;
 use XMLReader;
-use function Psl\Arr\keys;
-use function Psl\Arr\map;
-use function Psl\Arr\values;
-use function Psl\Str\join;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 

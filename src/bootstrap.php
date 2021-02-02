@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once __DIR__.'/Xml/Reader/Matcher/all.php';
 require_once __DIR__.'/Xml/Reader/Matcher/node_name.php';

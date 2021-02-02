@@ -10,20 +10,19 @@ use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use VeeWee\Xml\Reader\Node\Pointer;
 
-class PointerTest extends TestCase
+final class PointerTest extends TestCase
 {
-    /** @test */
-    public function it_is_empty_at_the_start(): void
+    public function testIt_is_empty_at_the_start(): void
     {
         $pointer = Pointer::create();
 
-        self::assertSame(0, $pointer->getCurrentSiblingPosition());
-        self::assertSame(0, $pointer->getDepth());
-        self::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
+        static::assertSame(0, $pointer->getCurrentSiblingPosition());
+        static::assertSame(0, $pointer->getDepth());
+        static::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
     }
 
-    /** @test */
-    public function it_cannot_leave_element_on_empty(): void
+    
+    public function testIt_cannot_leave_element_on_empty(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage('Currently at root level. Can not leave element!');
@@ -32,31 +31,31 @@ class PointerTest extends TestCase
         $pointer->leaveElement();
     }
 
-    /** @test */
-    public function it_knows_the_position_on_enter(): void
+    
+    public function testIt_knows_the_position_on_enter(): void
     {
         $pointer = Pointer::create();
 
         $pointer->enterElement($element1 = new ElementNode(1, 'item', 'item', '', '', []));
-        self::assertSame(1, $pointer->getCurrentSiblingPosition());
-        self::assertSame(1, $pointer->getDepth());
-        self::assertEquals(new NodeSequence($element1), $pointer->getNodeSequence());
+        static::assertSame(1, $pointer->getCurrentSiblingPosition());
+        static::assertSame(1, $pointer->getDepth());
+        static::assertEquals(new NodeSequence($element1), $pointer->getNodeSequence());
 
         $pointer->enterElement($element2 = new ElementNode(1, 'item', 'item', '', '', []));
-        self::assertSame(1, $pointer->getCurrentSiblingPosition());
-        self::assertSame(2, $pointer->getDepth());
-        self::assertEquals(new NodeSequence($element1, $element2), $pointer->getNodeSequence());
+        static::assertSame(1, $pointer->getCurrentSiblingPosition());
+        static::assertSame(2, $pointer->getDepth());
+        static::assertEquals(new NodeSequence($element1, $element2), $pointer->getNodeSequence());
         $pointer->leaveElement();
 
         $pointer->enterElement($element3 = new ElementNode(1, 'item', 'item', '', '', []));
-        self::assertSame(2, $pointer->getCurrentSiblingPosition());
-        self::assertSame(2, $pointer->getDepth());
-        self::assertEquals(new NodeSequence($element1, $element3), $pointer->getNodeSequence());
+        static::assertSame(2, $pointer->getCurrentSiblingPosition());
+        static::assertSame(2, $pointer->getDepth());
+        static::assertEquals(new NodeSequence($element1, $element3), $pointer->getNodeSequence());
         $pointer->leaveElement();
 
         $pointer->leaveElement();
-        self::assertSame(0, $pointer->getCurrentSiblingPosition());
-        self::assertSame(0, $pointer->getDepth());
-        self::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
+        static::assertSame(0, $pointer->getCurrentSiblingPosition());
+        static::assertSame(0, $pointer->getDepth());
+        static::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
     }
 }

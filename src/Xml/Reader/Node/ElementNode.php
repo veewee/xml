@@ -21,7 +21,8 @@ final class ElementNode
         public string $namespace,
         public string $namespaceAlias,
         public array $attributes
-    ) {}
+    ) {
+    }
 
     /**
      * @param callable(): list<AttributeNode>  $attributesProvider

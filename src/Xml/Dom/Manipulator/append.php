@@ -16,7 +16,7 @@ function append(DOMNode ... $nodes): callable
 {
     return static fn (DOMNode $target): DOMNode => disallow_issues(
         static function () use ($target, $nodes) {
-            foreach($nodes as $node) {
+            foreach ($nodes as $node) {
                 $target->appendChild($node);
             }
 

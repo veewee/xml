@@ -17,7 +17,8 @@ final class AttributeNode
         public string $namespace,
         public string $namespaceAlias,
         public string $value,
-    ) {}
+    ) {
+    }
 
     public static function fromReader(XMLReader $reader): self
     {

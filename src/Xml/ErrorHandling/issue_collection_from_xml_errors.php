@@ -17,7 +17,7 @@ function issue_collection_from_xml_errors(array $errors): IssueCollection
     return new IssueCollection(
         ...Arr\filter_nulls(Arr\map(
             $errors,
-            static fn(LibXMLError $error): ?Issue => issue_from_xml_error($error)
+            static fn (LibXMLError $error): ?Issue => issue_from_xml_error($error)
         ))
     );
 }

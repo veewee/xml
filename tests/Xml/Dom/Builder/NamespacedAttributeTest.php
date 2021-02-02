@@ -10,10 +10,9 @@ use PHPUnit\Framework\TestCase;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\namespaced_attribute;
 
-class NamespacedAttributeTest extends TestCase
+final class NamespacedAttributeTest extends TestCase
 {
-    /** @test */
-    public function it_throws_exception_if_the_attribute_name_is_not_qualified(): void
+    public function testIt_throws_exception_if_the_attribute_name_is_not_qualified(): void
     {
         $doc = new DOMDocument();
         $ns = 'https://namespace.com';

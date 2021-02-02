@@ -9,20 +9,19 @@ use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use function VeeWee\Xml\Reader\Matcher\node_name;
 
-class NodeNameTest extends TestCase
+final class NodeNameTest extends TestCase
 {
-    /** @test */
-    public function it_returns_true_if_node_name_matches(): void
+    public function testIt_returns_true_if_node_name_matches(): void
     {
         $matcher = node_name('item');
-        self::assertTrue($matcher($this->createSequence()));
+        static::assertTrue($matcher($this->createSequence()));
     }
 
-    /** @test */
-    public function it_returns_false_if_node_name_does_not_match(): void
+    
+    public function testIt_returns_false_if_node_name_does_not_match(): void
     {
         $matcher = node_name('other');
-        self::assertFalse($matcher($this->createSequence()));
+        static::assertFalse($matcher($this->createSequence()));
     }
 
     private function createSequence(): NodeSequence

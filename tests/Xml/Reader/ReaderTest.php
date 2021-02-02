@@ -13,40 +13,40 @@ use function VeeWee\Xml\Reader\Matcher\all;
 use function VeeWee\Xml\Reader\Matcher\node_attribute;
 use function VeeWee\Xml\Reader\Matcher\node_name;
 
-class ReaderTest extends TestCase
+final class ReaderTest extends TestCase
 {
     use FillFileTrait;
 
     /**
-     * @test
+     *
      * @dataProvider provideXmlExpectations
      */
-    public function it_can_provide_xml_string(string $xml, callable $matcher, array $expected): void
+    public function testIt_can_provide_xml_string(string $xml, callable $matcher, array $expected): void
     {
         $reader = Reader::fromXmlString($xml, identity());
         $iterator = $reader->provide($matcher);
 
-        self::assertSame($expected, [...$iterator]);
+        static::assertSame($expected, [...$iterator]);
     }
 
     /**
-     * @test
+     *
      * @dataProvider provideXmlExpectations
      */
-    public function it_can_provide_xml_file(string $xml, callable $matcher, array $expected): void
+    public function testIt_can_provide_xml_file(string $xml, callable $matcher, array $expected): void
     {
         [$file, $handle] = $this->fillFile($xml);
 
         $reader = Reader::fromXmlFile($file, identity());
         $iterator = $reader->provide($matcher);
 
-        self::assertSame($expected, [...$iterator]);
+        static::assertSame($expected, [...$iterator]);
 
         fclose($handle);
     }
 
-    /** @test */
-    public function it_throws_exception_on_invalid_xml_during_iteration(): void
+    
+    public function testIt_throws_exception_on_invalid_xml_during_iteration(): void
     {
         $xml = <<<'EOXML'
             <root>

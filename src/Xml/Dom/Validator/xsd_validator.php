@@ -14,7 +14,7 @@ use function VeeWee\Xml\ErrorHandling\detect_issues;
 function xsd_validator(string $xsd): callable
 {
     return static function (DOMDocument $document) use ($xsd): IssueCollection {
-        [$_, $issues] = detect_issues(fn () => $document->schemaValidate($xsd));
+        [$_, $issues] = detect_issues(static fn () => $document->schemaValidate($xsd));
 
         return $issues;
     };

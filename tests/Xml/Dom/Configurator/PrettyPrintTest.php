@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\Dom\Configurator;
 
-use function VeeWee\Xml\Dom\Configurator\pretty_print;
+use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use function VeeWee\Xml\Dom\Configurator\pretty_print;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
-class PrettyPrintTest extends TestCase
+final class PrettyPrintTest extends TestCase
 {
-    /** @test */
-    public function it_can_trim_contents(): void
+    public function testIt_can_trim_contents(): void
     {
         $configurator = pretty_print();
 
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $result = $configurator($doc);
         $doc->loadXML($xml = '<hello>    <world />     </hello>');
 
@@ -25,9 +25,9 @@ class PrettyPrintTest extends TestCase
         </hello>
         EOXML;
 
-        self::assertSame($doc, $result);
-        self::assertFalse($doc->preserveWhiteSpace);
-        self::assertTrue($doc->formatOutput);
-        self::assertSame($expected, xml_string()($doc->documentElement));
+        static::assertSame($doc, $result);
+        static::assertFalse($doc->preserveWhiteSpace);
+        static::assertTrue($doc->formatOutput);
+        static::assertSame($expected, xml_string()($doc->documentElement));
     }
 }

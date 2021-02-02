@@ -9,7 +9,8 @@ use DOMElement;
 /**
  * @return callable(DOMElement): DOMElement
  */
-function value(string $value): callable {
+function value(string $value): callable
+{
     return static function (DOMElement $node) use ($value): DOMElement {
         $node->nodeValue = $value;
 

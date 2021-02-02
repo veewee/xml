@@ -8,23 +8,23 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
-class AssertStrictPrefixedNameTest extends TestCase
+final class AssertStrictPrefixedNameTest extends TestCase
 {
     /**
-     * @test
+     *
      * @dataProvider provideValidQNames
      */
-    public function it_does_nothing_on_valid_qnames(string $input): void
+    public function testIt_does_nothing_on_valid_qnames(string $input): void
     {
         $this->expectNotToPerformAssertions();
         assert_strict_prefixed_name($input);
     }
 
     /**
-     * @test
+     *
      * @dataProvider provideInvalidQNames
      */
-    public function it_throws_on_invalid_qnames(string $input): void
+    public function testIt_throws_on_invalid_qnames(string $input): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectErrorMessage('The provided value "'.$input.'" is not a QName, expected ns:name instead.');

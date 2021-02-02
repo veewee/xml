@@ -4,28 +4,29 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\Dom\Validator;
 
-use function VeeWee\Xml\Dom\Validator\xsd_validator;
+use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use function VeeWee\Xml\Dom\Validator\xsd_validator;
 
-class XsdValidatorTest extends TestCase
+final class XsdValidatorTest extends TestCase
 {
     /**
-     * @test
+     *
      * @dataProvider provideSchemeValidation
      */
-    public function it_can_validate_xsds(string $xml, string $xsd, int $errors): void
+    public function testIt_can_validate_xsds(string $xml, string $xsd, int $errors): void
     {
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $doc->load($this->getFixture($xml));
         $validator = xsd_validator($this->getFixture($xsd));
         $issues = $validator($doc);
 
         if (!$errors) {
-            self::assertCount(0, $issues);
+            static::assertCount(0, $issues);
             return;
         }
 
-        self::assertCount($errors, $issues);
+        static::assertCount($errors, $issues);
     }
 
     /**
@@ -63,7 +64,7 @@ class XsdValidatorTest extends TestCase
     private function getFixture(string $fixture): string
     {
         $file = FIXTURE_DIR.'/dom/validator/xsd/'.$fixture;
-        self::assertFileExists($file);
+        static::assertFileExists($file);
 
         return $file;
     }

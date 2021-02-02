@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\Dom\Xpath\Locator;
 
@@ -8,10 +8,9 @@ use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Locator\elements_with_tagname;
 
-class EvaluateTest extends TestCase
+final class EvaluateTest extends TestCase
 {
-    /** @test */
-    public function it_can_handle_xpath_errors(): void
+    public function testIt_can_handle_xpath_errors(): void
     {
         $xpath = $this->provideXml()->xpath();
 
@@ -22,17 +21,17 @@ class EvaluateTest extends TestCase
         $xpath->evaluate('$p$m``m$^^$^^jibberish', Type\string());
     }
 
-    /** @test */
-    public function it_can_find_xpath_evaluation(): void
+    
+    public function testIt_can_find_xpath_evaluation(): void
     {
         $xpath = $this->provideXml()->xpath();
         $res = $xpath->evaluate('string(//item[1])', Type\string());
 
-        self::assertSame('Hello', $res);
+        static::assertSame('Hello', $res);
     }
 
-    /** @test */
-    public function it_can_find_xpath_elements_with_node_context(): void
+    
+    public function testIt_can_find_xpath_elements_with_node_context(): void
     {
         $doc = $this->provideXml();
         $hello = $doc->locate(elements_with_tagname('hello'))->item(0);
@@ -40,7 +39,7 @@ class EvaluateTest extends TestCase
         $xpath = $doc->xpath();
         $res = $xpath->evaluate('string(./world)', Type\string(), $hello);
 
-        self::assertSame('Earth', $res);
+        static::assertSame('Earth', $res);
     }
 
     private function provideXml(): Document

@@ -10,11 +10,12 @@ use VeeWee\Xml\Exception\RuntimeException;
 use XMLReader;
 use function VeeWee\Xml\ErrorHandling\stop_on_first_issue;
 
-class StopOnFirstIssueTest extends TestCase
+final class StopOnFirstIssueTest extends TestCase
 {
     public function testItCanSuccessfullyIterateOverValidXml(): void
     {
-        $iterator = $this->createIteratorForXml(<<<'EOXML'
+        $iterator = $this->createIteratorForXml(
+            <<<'EOXML'
 <root>
     <user>Jos</user>
     <user>Bos</user>
@@ -99,7 +100,7 @@ EOXML
 
         static::assertGreaterThan(0, count($found));
         foreach ($found as $item) {
-            self::assertMatchesRegularExpression('{<user>[A-Z]os</user>}', $item);
+            static::assertMatchesRegularExpression('{<user>[A-Z]os</user>}', $item);
         }
 
         $this->expectExceptionObject($exception);
@@ -112,8 +113,8 @@ EOXML
         $reader->xml($xml);
 
         return stop_on_first_issue(
-            static fn(): bool => $reader->read(),
-            static fn(): ?string =>
+            static fn (): bool => $reader->read(),
+            static fn (): ?string =>
             $reader->nodeType === XMLReader::ELEMENT && $reader->name === 'user' && $reader
                 ? $reader->readOuterXml() ?: null
                 : null,

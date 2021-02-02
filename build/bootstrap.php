@@ -27,7 +27,7 @@ use function Psl\Str\join;
             $files,
             fn (SplFileInfo $file): string => 'require_once __DIR__.\'/'.$file->getRelativePathname().'\';'
         ),
-        fn (iterable $codeLines): iterable => concat(['<?php', ''], $codeLines),
+        fn (iterable $codeLines): iterable => concat(['<?php declare(strict_types=1);', ''], $codeLines),
         fn (iterable $codeLines): iterable => concat($codeLines, ['']),
         fn (iterable $codeLines): string => join($codeLines, PHP_EOL)
     );

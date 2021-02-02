@@ -10,7 +10,7 @@ use VeeWee\Xml\ErrorHandling\Issue\Level;
 
 use function VeeWee\Xml\ErrorHandling\issue_collection_from_xml_errors;
 
-class IssueCollectionFromXmlErrorsTest extends TestCase
+final class IssueCollectionFromXmlErrorsTest extends TestCase
 {
     public function testItCanConstructIssueCollectionFromLibXmlErrors(): void
     {

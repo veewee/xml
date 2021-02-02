@@ -8,8 +8,8 @@ use Generator;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Reader\Node\AttributeNode;
 use VeeWee\Xml\Reader\Node\ElementNode;
-use VeeWee\Xml\Reader\Node\Pointer;
 use VeeWee\Xml\Reader\Node\NodeSequence;
+use VeeWee\Xml\Reader\Node\Pointer;
 use XMLReader;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\ErrorHandling\stop_on_first_issue;
@@ -70,7 +70,7 @@ final class Reader
         $pointer = Pointer::create();
 
         yield from stop_on_first_issue(
-            static fn(): bool => $reader->read(),
+            static fn (): bool => $reader->read(),
             static function () use ($reader, $pointer, $matcher) : ?string {
                 switch ($reader->nodeType) {
                     case XMLReader::END_ELEMENT:
@@ -82,7 +82,7 @@ final class Reader
                             $pointer->getCurrentSiblingPosition() + 1,
                             static function () use ($reader): array {
                                 $attributes = [];
-                                while($reader->moveToNextAttribute()) {
+                                while ($reader->moveToNextAttribute()) {
                                     $attributes[] = AttributeNode::fromReader($reader);
                                 }
                                 return $attributes;

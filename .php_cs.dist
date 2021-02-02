@@ -15,9 +15,7 @@ return PhpCsFixer\Config::create()
         'align_multiline_comment' => true,
         'array_indentation' => true,
         'declare_strict_types' => true,
-        // Currently it is not possible to mark all classes as final (exceptions etc.)
-        // We can run this fixer periodically on the tests folder only.
-        // 'final_class' => true,
+        'final_class' => true,
         'global_namespace_import' => [
             'import_classes' => true,
             'import_constants' => true,

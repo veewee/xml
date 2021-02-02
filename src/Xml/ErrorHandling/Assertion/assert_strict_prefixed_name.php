@@ -10,7 +10,6 @@ use Webmozart\Assert\Assert;
 /**
  * @psalm-pure
  *
- * @param string $qualifiedName
  *
  * @throws InvalidArgumentException
  */

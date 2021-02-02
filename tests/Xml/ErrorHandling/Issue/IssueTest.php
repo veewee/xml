@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Tests\ErrorHandling\Issue;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
 
-class IssueTest extends TestCase
+final class IssueTest extends TestCase
 {
     use UseIssueTrait;
 

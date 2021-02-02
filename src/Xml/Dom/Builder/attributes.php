@@ -11,7 +11,8 @@ use function Psl\Iter\reduce_with_keys;
  * @param array<string, string> $attributes
  * @return callable(DOMElement): DOMElement
  */
-function attributes(array $attributes): callable {
+function attributes(array $attributes): callable
+{
     return static function (DOMElement $node) use ($attributes): DOMElement {
         return reduce_with_keys(
             $attributes,

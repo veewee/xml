@@ -9,7 +9,7 @@ use VeeWee\Xml\ErrorHandling\Issue\Issue;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
 
-class IssueCollectionTest extends TestCase
+final class IssueCollectionTest extends TestCase
 {
     use UseIssueTrait;
 

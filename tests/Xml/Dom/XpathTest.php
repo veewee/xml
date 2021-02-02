@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\Dom;
 
+use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Xpath;
 use function VeeWee\Xml\DOM\xpath\xpath;
-use PHPUnit\Framework\TestCase;
 
-class XpathTest extends TestCase
+final class XpathTest extends TestCase
 {
-    /** @test */
-    public function it_can_prepare_xpath(): void
+    public function testIt_can_prepare_xpath(): void
     {
         $doc = Document::fromXmlString(
             $xml = '<hello xmlns="http://namespace"><item /></hello>'
@@ -22,6 +21,6 @@ class XpathTest extends TestCase
         ]));
 
         $aliasedSearch = $xpath->query('alias:item');
-        self::assertCount(1, $aliasedSearch);
+        static::assertCount(1, $aliasedSearch);
     }
 }

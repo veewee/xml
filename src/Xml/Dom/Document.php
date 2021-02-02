@@ -20,7 +20,8 @@ final class Document
 {
     private function __construct(
         private DOMDocument $document
-    ) {}
+    ) {
+    }
 
     public static function empty(): self
     {

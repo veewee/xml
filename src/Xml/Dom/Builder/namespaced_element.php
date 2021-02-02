@@ -15,7 +15,8 @@ use function Psl\Fun\pipe;
  *
  * @return callable(DOMNode): DOMElement
  */
-function namespaced_element(string $namespace, string $qualifiedName, callable ...$configurators): callable {
+function namespaced_element(string $namespace, string $qualifiedName, callable ...$configurators): callable
+{
     return static function (DOMNode $node) use ($namespace, $qualifiedName, $configurators): DOMElement {
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
         Assert::isInstanceOf($document, DOMDocument::class, 'Can not create an element without a DOM document.');

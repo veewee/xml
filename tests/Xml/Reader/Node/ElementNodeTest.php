@@ -8,10 +8,9 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Reader\Node\AttributeNode;
 use VeeWee\Xml\Reader\Node\ElementNode;
 
-class ElementNodeTest extends TestCase
+final class ElementNodeTest extends TestCase
 {
-    /** @test */
-    public function it_contains_xml_element_information(): void
+    public function testIt_contains_xml_element_information(): void
     {
         $element = new ElementNode(
             $position = 1,
@@ -30,11 +29,11 @@ class ElementNodeTest extends TestCase
             ]
         );
 
-        self::assertSame($position, $element->position());
-        self::assertSame($name, $element->name());
-        self::assertSame($localName, $element->localName());
-        self::assertSame($namespace, $element->namespace());
-        self::assertSame($namespacePrefix, $element->namespaceAlias());
-        self::assertSame($attributes, $element->attributes());
+        static::assertSame($position, $element->position());
+        static::assertSame($name, $element->name());
+        static::assertSame($localName, $element->localName());
+        static::assertSame($namespace, $element->namespace());
+        static::assertSame($namespacePrefix, $element->namespaceAlias());
+        static::assertSame($attributes, $element->attributes());
     }
 }

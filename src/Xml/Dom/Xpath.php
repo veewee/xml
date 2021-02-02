@@ -20,7 +20,8 @@ final class Xpath
 {
     private function __construct(
         private DOMXPath $xpath
-    ) {}
+    ) {
+    }
 
     /**
      * @param list<callable(DOMXPath): DOMXPath> $configurators

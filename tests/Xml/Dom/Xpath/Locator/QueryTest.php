@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\Dom\Xpath\Locator;
 
@@ -7,10 +7,9 @@ use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Locator\elements_with_tagname;
 
-class QueryTest extends TestCase
+final class QueryTest extends TestCase
 {
-    /** @test */
-    public function it_can_handle_xpath_errors(): void
+    public function testIt_can_handle_xpath_errors(): void
     {
         $xpath = $this->provideXml()->xpath();
 
@@ -21,17 +20,17 @@ class QueryTest extends TestCase
         $xpath->query('$p$m``m$^^$^^jibberish');
     }
 
-    /** @test */
-    public function it_can_find_xpath_elements(): void
+    
+    public function testIt_can_find_xpath_elements(): void
     {
         $xpath = $this->provideXml()->xpath();
         $res = $xpath->query('//item');
 
-        self::assertCount(2, $res);
+        static::assertCount(2, $res);
     }
 
-    /** @test */
-    public function it_can_find_xpath_elements_with_node_context(): void
+    
+    public function testIt_can_find_xpath_elements_with_node_context(): void
     {
         $doc = $this->provideXml();
         $hello = $doc->locate(elements_with_tagname('hello'))->item(0);
@@ -39,7 +38,7 @@ class QueryTest extends TestCase
         $xpath = $doc->xpath();
         $res = $xpath->query('./world', $hello);
 
-        self::assertCount(1, $res);
+        static::assertCount(1, $res);
     }
 
     private function provideXml(): Document

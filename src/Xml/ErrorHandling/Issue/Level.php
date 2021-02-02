@@ -15,7 +15,8 @@ final class Level
 
     private function __construct(
         private int $value
-    ) {}
+    ) {
+    }
 
     /**
      * @psalm-pure

@@ -10,7 +10,7 @@ use VeeWee\Xml\ErrorHandling\Issue\Level;
 
 use function VeeWee\Xml\ErrorHandling\issue_level_from_xml_error;
 
-class IssueLevelFromXmlErrorTest extends TestCase
+final class IssueLevelFromXmlErrorTest extends TestCase
 {
     /**
      * @dataProvider provideErrors

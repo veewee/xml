@@ -5,8 +5,8 @@ namespace VeeWee\Xml\Dom\Xpath\Locator;
 
 use DOMElement;
 use DOMNode;
-use DOMXPath;
 use DOMNodeList;
+use DOMXPath;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 

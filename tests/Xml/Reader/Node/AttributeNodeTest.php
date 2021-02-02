@@ -7,10 +7,9 @@ namespace VeeWee\Xml\Tests\Reader\Node;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Reader\Node\AttributeNode;
 
-class AttributeNodeTest extends TestCase
+final class AttributeNodeTest extends TestCase
 {
-    /** @test */
-    public function it_contains_xml_attribute_information(): void
+    public function testIt_contains_xml_attribute_information(): void
     {
         $attribute = new AttributeNode(
             $name = 'name',
@@ -20,10 +19,10 @@ class AttributeNodeTest extends TestCase
             $value = 'hello'
         );
 
-        self::assertSame($name, $attribute->name());
-        self::assertSame($localName, $attribute->localName());
-        self::assertSame($namespace, $attribute->namespace());
-        self::assertSame($namespacePrefix, $attribute->namespaceAlias());
-        self::assertSame($value, $attribute->value());
+        static::assertSame($name, $attribute->name());
+        static::assertSame($localName, $attribute->localName());
+        static::assertSame($namespace, $attribute->namespace());
+        static::assertSame($namespacePrefix, $attribute->namespaceAlias());
+        static::assertSame($value, $attribute->value());
     }
 }

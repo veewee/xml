@@ -11,7 +11,8 @@ use DOMNode;
  *
  * @return callable(DOMNode): DOMNode
  */
-function children(callable ...$builders): callable {
+function children(callable ...$builders): callable
+{
     return static function (DOMNode $node) use ($builders): DOMNode {
         foreach ($builders as $builder) {
             $node->appendChild($builder($node));

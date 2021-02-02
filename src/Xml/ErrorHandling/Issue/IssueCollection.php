@@ -50,7 +50,7 @@ final class IssueCollection implements Countable, IteratorAggregate
 
     public function getHighestLevel(): ?Level
     {
-        $issue = Math\max_by($this->issues, static fn(Issue $issue): int => $issue->level()->value());
+        $issue = Math\max_by($this->issues, static fn (Issue $issue): int => $issue->level()->value());
 
         return $issue ? $issue->level() : null;
     }

@@ -12,7 +12,6 @@ use XSLTProcessor;
 interface Transformer
 {
     /**
-     * @param XSLTProcessor $processor
      * @return T
      */
     public function __invoke(XSLTProcessor $processor): mixed;

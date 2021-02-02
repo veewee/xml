@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\Dom\Loader;
 
-use InvalidArgumentException;
+use DOMDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-class XmlFileLoaderTest extends TestCase
+final class XmlFileLoaderTest extends TestCase
 {
     use FillFileTrait;
 
-    /** @test */
-    public function it_can_load_xml_file(): void
+    
+    public function testIt_can_load_xml_file(): void
     {
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $xml = '<hello />';
         [$file, $handle] = $this->fillFile($xml);
         $loader = xml_file_loader($file);
@@ -25,13 +25,13 @@ class XmlFileLoaderTest extends TestCase
         $loader($doc);
         fclose($handle);
 
-        self::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
+        static::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
-    /** @test */
-    public function it_cannot_load_invalid_xml_file(): void
+    
+    public function testIt_cannot_load_invalid_xml_file(): void
     {
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $xml = '<hello';
         [$file, $handle] = $this->fillFile($xml);
         $loader = xml_file_loader($file);
@@ -43,10 +43,10 @@ class XmlFileLoaderTest extends TestCase
         fclose($handle);
     }
 
-    /** @test */
-    public function it_throws_exception_on_invalid_file(): void
+    
+    public function testIt_throws_exception_on_invalid_file(): void
     {
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $loader = xml_file_loader('invalid-file');
 
         $this->expectException(RuntimeException::class);
