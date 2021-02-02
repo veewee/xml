@@ -1,0 +1,27 @@
+name: Autoloader
+
+on: [push, pull_request]
+jobs:
+    run:
+        runs-on: ${{ matrix.operating-system }}
+        strategy:
+            matrix:
+                operating-system: [ubuntu-latest]
+                php-versions: ['8.0']
+            fail-fast: false
+        name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@master
+            - name: Install PHP
+              uses: shivammathur/setup-php@master
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  tools: 'composer:v2'
+                  extensions: pcov, mbstring, posix
+            - name: Install dependencies
+              run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
+            - name: Parse autoloader
+              run: composer run autoload
+            - name: Check if the autloader is up to date
+              run: git diff --exit-code src/bootstrap.php
