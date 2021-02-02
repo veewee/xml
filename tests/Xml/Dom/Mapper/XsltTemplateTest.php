@@ -46,7 +46,7 @@ final class XsltTemplateTest extends TestCase
     public function testIt_fails_on_invalid_template_thingies(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('XML issues detected');
+        $this->expectErrorMessage('Unable to apply the XSLT template');
         
         xslt_template(
             Document::fromXmlString(

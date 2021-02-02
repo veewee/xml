@@ -19,6 +19,7 @@ use function Psl\Str\join;
         ->name('*.php')
         ->notName('bootstrap.php')
         ->notContains(['/^final class/m', '/^interface/m'])
+        ->sortByName()
         ->getIterator();
 
     /** @var callable(list<SplFileInfo>):string $build */
