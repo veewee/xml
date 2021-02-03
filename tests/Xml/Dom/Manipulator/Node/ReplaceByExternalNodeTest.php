@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Manipulator;
+namespace VeeWee\Xml\Tests\Dom\Manipulator\Node;
 
 use DOMDocument;
 use DOMElement;

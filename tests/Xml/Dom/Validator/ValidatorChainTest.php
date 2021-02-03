@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Tests\Dom\Validator;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
 use VeeWee\Xml\Tests\ErrorHandling\Issue\UseIssueTrait;
@@ -22,14 +23,18 @@ final class ValidatorChainTest extends TestCase
      */
     public function test_it_can_validate_multiple_validators(callable $validator, int $errors): void
     {
-        $doc = new DOMDocument();
-        $issues = $validator($doc);
+        $doc = Document::empty();
+        $issues = $doc->validate($validator);
 
         static::assertCount($errors, $issues);
     }
 
     public function provideErrorCases()
     {
+        yield 'empty' => [
+            'validator' => validator_chain(),
+            'errors' => 0,
+        ];
         yield 'noFails' => [
             'validator' => validator_chain(
                 static fn (DOMDocument $document) => new IssueCollection(),

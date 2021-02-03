@@ -32,7 +32,7 @@ function nodes(callable ... $builders): callable
                     $result = $builder($document);
                     $newBuilds = is_array($result) ? $result : [$result];
 
-                    return [...$builds, $newBuilds];
+                    return [...$builds, ...$newBuilds];
                 },
                 []
             );

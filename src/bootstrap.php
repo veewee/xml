@@ -53,6 +53,7 @@ require_once __DIR__.'/Xml/ErrorHandling/issue_from_xml_error.php';
 require_once __DIR__.'/Xml/ErrorHandling/issue_level_from_xml_error.php';
 require_once __DIR__.'/Xml/ErrorHandling/stop_on_first_issue.php';
 require_once __DIR__.'/Xml/Reader/Configurator/parser_options.php';
+require_once __DIR__.'/Xml/Reader/Configurator/substitute_entities.php';
 require_once __DIR__.'/Xml/Reader/Configurator/xsd_schema.php';
 require_once __DIR__.'/Xml/Reader/Loader/xml_file_loader.php';
 require_once __DIR__.'/Xml/Reader/Loader/xml_string_loader.php';

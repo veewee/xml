@@ -14,8 +14,8 @@ use function Psl\Iter\reduce;
  */
 function validator_chain(callable ... $validators): callable
 {
-    return static function (DOMDocument $document) use ($validators) : IssueCollection {
-        return reduce(
+    return static fn (DOMDocument $document): IssueCollection =>
+        reduce(
             $validators,
             /**
              * @param callable(DOMDocument): IssueCollection $validator
@@ -27,5 +27,4 @@ function validator_chain(callable ... $validators): callable
                 ),
             new IssueCollection()
         );
-    };
 }

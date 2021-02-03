@@ -55,6 +55,17 @@ $reader = Reader::fromXmlFile('some-file.xml', parser_options([
 ]));
 ```
 
+#### substitute_entities
+
+Can be used to translate XML entities like &amp;amp; to their actual value.
+
+```php
+use VeeWee\Xml\Reader\Reader;
+use function VeeWee\Xml\Reader\Configurator\substitute_entities;
+
+$reader = Reader::fromXmlString($xml, substitute_entities());
+```
+
 #### xsd_schema
 
 You can specify a XSD Schema that will be validated whilst reading:

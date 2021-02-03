@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\locator;
+namespace VeeWee\Xml\Tests\Dom\Locator\Xsd;
 
 use DOMDocument;
 use Generator;
@@ -11,7 +11,7 @@ use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_namespaced_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;
 
-final class LocateXsdSchemasTest extends TestCase
+final class LocateAllXsdSchemasTest extends TestCase
 {
     public function test_it_can_locate_namespaced_xsd_schemas(): void
     {
