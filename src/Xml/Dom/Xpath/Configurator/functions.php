@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Dom\Xpath\Configurator;
 use DOMXPath;
 
 /**
- * @param list<string> $functions
+ * @param non-empty-list<string> $functions
  *
  * @return callable(DOMXPath): DOMXPath
  */

@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Xslt\Configurator;
 use XSLTProcessor;
 
 /**
- * @param list<string> $functions
+ * @param non-empty-list<string> $functions
  *
  * @return callable(XSLTProcessor): XSLTProcessor
  */
