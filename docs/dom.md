@@ -677,7 +677,7 @@ $issues = $doc->validate(internal_xsd_validator(
 ));
 ```
 
-It takes one or more XSD schema manipulators. For more information [see XSD schema manipulators](xsd.md#manipulators).
+It takes one or more XSD schema manipulators. For more information [see XSD schema manipulators](xsd.md#schema-manipulators).
 
 #### validator_chain
 
