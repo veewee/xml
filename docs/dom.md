@@ -668,11 +668,16 @@ Validates the document based on all internally specified XML schema's.
 
 ```php
 use VeeWee\XML\DOM\Document;
+use VeeWee\Xml\Xsd\Manipulator;
 use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
 
 $doc = Document::fromXmlFile('some.xml');
-$issues = $doc->validate(internal_xsd_validator());
+$issues = $doc->validate(internal_xsd_validator(
+    Manipulator\base_path('/var/www')
+));
 ```
+
+It takes one or more XSD schema manipulators. For more information [see XSD schema manipulators](xsd.md#manipulators).
 
 #### validator_chain
 
