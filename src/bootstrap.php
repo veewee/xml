@@ -60,6 +60,8 @@ require_once __DIR__.'/Xml/Reader/Loader/xml_string_loader.php';
 require_once __DIR__.'/Xml/Reader/Matcher/all.php';
 require_once __DIR__.'/Xml/Reader/Matcher/node_attribute.php';
 require_once __DIR__.'/Xml/Reader/Matcher/node_name.php';
+require_once __DIR__.'/Xml/Xsd/Manipulator/base_path.php';
+require_once __DIR__.'/Xml/Xsd/Manipulator/overwrite_with_local_files.php';
 require_once __DIR__.'/Xml/Xslt/Configurator/all_functions.php';
 require_once __DIR__.'/Xml/Xslt/Configurator/functions.php';
 require_once __DIR__.'/Xml/Xslt/Configurator/loader.php';

@@ -7,28 +7,22 @@ namespace VeeWee\Xml\Tests\Reader\Xslt;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Xslt\Processor;
-use function VeeWee\Xml\Xslt\Configurator\all_functions;
+use function VeeWee\Xml\Xslt\Configurator\security_preferences;
 
-final class AllFunctionsTest extends TestCase
+final class SecurityPreferencesTest extends TestCase
 {
-    public function test_it_can_use_php_functions(): void
+    public function test_it_can_set_security_preferences(): void
     {
         $processor = Processor::fromTemplateDocument(
             $this->createTemplate(),
-            all_functions()
+            security_preferences(XSL_SECPREF_NONE)
         );
 
         $result = $processor->transformDocumentToString(
-            Document::fromXmlString(
-                <<<EOXML
-                    <root>
-                        <hello>World</hello>
-                    </root>
-                EOXML
-            )
+            Document::fromXmlString('<root>Hello</root>')
         );
 
-        static::assertSame('WORLD', $result);
+        static::assertSame('Hello', $result);
     }
 
     private function createTemplate(): Document
@@ -36,12 +30,11 @@ final class AllFunctionsTest extends TestCase
         return Document::fromXmlString(
             <<<EOXML
                 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                    xmlns:php="http://php.net/xsl"
                     xmlns:str="http://exslt.org/strings"
                     xmlns:xsdl="http://www.w3.org/1999/XSL/Transform">
                     <xsl:output method="text" omit-xml-declaration="yes" indent="no"/>
                     <xsl:template match="/root">
-                        <xsl:value-of select="php:function('strtoupper', string(./hello))"/>
+                        <xsl:value-of select="."/>
                     </xsl:template>
                 </xsl:stylesheet>
             EOXML

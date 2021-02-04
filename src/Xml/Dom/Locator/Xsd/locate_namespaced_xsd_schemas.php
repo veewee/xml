@@ -6,24 +6,29 @@ namespace VeeWee\Xml\Dom\Locator\Xsd;
 
 use DOMDocument;
 use Safe\Exceptions\PcreException;
+use VeeWee\Xml\Xsd\Schema;
+use VeeWee\Xml\Xsd\SchemaCollection;
 use function Safe\preg_split;
 
 /**
- * @return iterable<int, string>
  * @throws PcreException
  */
-function locate_namespaced_xsd_schemas(DOMDocument $document): iterable
+function locate_namespaced_xsd_schemas(DOMDocument $document): SchemaCollection
 {
     $schemaNs = 'http://www.w3.org/2001/XMLSchema-instance';
     $attributes = $document->documentElement->attributes;
+    $collection = new SchemaCollection();
 
-    if ($schemaLocation = $attributes->getNamedItemNS($schemaNs, 'schemaLocation')) {
-        /** @var list<string> $parts */
-        $parts = preg_split('/\s+/', trim($schemaLocation->textContent));
-        foreach ($parts as $key => $value) {
-            if ($key & 1) {
-                yield $value;
-            }
-        }
+    if (!$schemaLocation = $attributes->getNamedItemNS($schemaNs, 'schemaLocation')) {
+        return $collection;
     }
+
+    /** @var list<string> $parts */
+    $parts = preg_split('/\s+/', trim($schemaLocation->textContent));
+    $partsCount = count($parts);
+    for ($k = 0; $k < $partsCount; $k += 2) {
+        $collection = $collection->add(Schema::withNamespace($parts[$k], $parts[$k + 1]));
+    }
+
+    return $collection;
 }

@@ -7,6 +7,7 @@ namespace VeeWee\Xml\Tests\Dom\Validator;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
+use function VeeWee\Xml\Xsd\Manipulator\base_path;
 
 final class InternalXsdValidatorTest extends TestCase
 {
@@ -16,8 +17,11 @@ final class InternalXsdValidatorTest extends TestCase
      */
     public function test_it_can_validate_internal_xsds(string $xml, int $errors): void
     {
-        $doc = Document::fromXmlFile($this->getFixture($xml));
-        $validator = internal_xsd_validator();
+        $file = $this->getFixture($xml);
+        $doc = Document::fromXmlFile($file);
+        $validator = internal_xsd_validator(
+            base_path(dirname($file))
+        );
 
         $issues = $doc->validate($validator);
 

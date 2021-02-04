@@ -12,7 +12,7 @@ use VeeWee\Xml\Xslt\Configurator;
 $processor = Processor::fromTemplateDocument(
     Document::fromXmlFile('xml-to-yaml-converter.xslt'),
     Configurator\all_functions(),
-    Configurator\parameters('', [
+    Configurator\parameters([
         'name' => 'Jos',    
     ])
 );
@@ -87,7 +87,7 @@ use function VeeWee\Xml\Xslt\Configurator\parameters;
 
 $processor = Processor::fromTemplateDocument(
     Document::fromXmlFile('xml-to-yaml-converter.xslt'),
-    parameters('namespace', [
+    parameters([
         'name' => 'Jos'
     ])
 );

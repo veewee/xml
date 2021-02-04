@@ -6,13 +6,15 @@ namespace VeeWee\Xml\Dom\Locator\Xsd;
 
 use DOMDocument;
 use Safe\Exceptions\PcreException;
+use VeeWee\Xml\Xsd\SchemaCollection;
 
 /**
- * @return iterable<int, string>
  * @throws PcreException
  */
-function locate_all_xsd_schemas(DOMDocument $document): iterable
+function locate_all_xsd_schemas(DOMDocument $document): SchemaCollection
 {
-    yield from locate_namespaced_xsd_schemas($document);
-    yield from locate_no_namespaced_xsd_schemas($document);
+    return new SchemaCollection(
+        ...iterator_to_array(locate_namespaced_xsd_schemas($document)),
+        ...iterator_to_array(locate_no_namespaced_xsd_schemas($document))
+    );
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Tests\Dom\Locator\Xsd;
 
 use DOMDocument;
-use Generator;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Xsd\Schema;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_namespaced_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;
@@ -18,11 +18,10 @@ final class LocateAllXsdSchemasTest extends TestCase
         $document = $this->loadXsdContainer();
         $results = locate_namespaced_xsd_schemas($document);
 
-        static::assertInstanceOf(Generator::class, $results);
-        static::assertSame(
+        static::assertEquals(
             [
-                'note-namespace1.xsd',
-                'http://localhost/note-namespace2.xsd',
+                Schema::withNamespace('http://www.happy-helpers1.com', 'note-namespace1.xsd'),
+                Schema::withNamespace('http://www.happy-helpers2.com', 'http://localhost/note-namespace2.xsd'),
             ],
             [...$results]
         );
@@ -34,11 +33,10 @@ final class LocateAllXsdSchemasTest extends TestCase
         $document = $this->loadXsdContainer();
         $results = locate_no_namespaced_xsd_schemas($document);
 
-        static::assertInstanceOf(Generator::class, $results);
-        static::assertSame(
+        static::assertEquals(
             [
-                'note-nonamespace1.xsd',
-                'http://localhost/note-nonamespace2.xsd',
+                Schema::withoutNamespace('note-nonamespace1.xsd'),
+                Schema::withoutNamespace('http://localhost/note-nonamespace2.xsd'),
             ],
             [...$results]
         );
@@ -50,13 +48,12 @@ final class LocateAllXsdSchemasTest extends TestCase
         $document = $this->loadXsdContainer();
         $results = locate_all_xsd_schemas($document);
 
-        static::assertInstanceOf(Generator::class, $results);
-        static::assertSame(
+        static::assertEquals(
             [
-                'note-namespace1.xsd',
-                'http://localhost/note-namespace2.xsd',
-                'note-nonamespace1.xsd',
-                'http://localhost/note-nonamespace2.xsd',
+                Schema::withNamespace('http://www.happy-helpers1.com', 'note-namespace1.xsd'),
+                Schema::withNamespace('http://www.happy-helpers2.com', 'http://localhost/note-namespace2.xsd'),
+                Schema::withoutNamespace('note-nonamespace1.xsd'),
+                Schema::withoutNamespace('http://localhost/note-nonamespace2.xsd'),
             ],
             [...$results]
         );

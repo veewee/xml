@@ -12,7 +12,7 @@
     $checkedElements = (int) current($xml->xpath('/coverage/project/metrics/@coveredelements'));
     $coverage = round(($checkedElements / $totalElements) * 100, 2);
 
-    if ($coverage !== 100) {
+    if ($coverage !== 100.0) {
         echo('Expected coverage of 100%, only got '.$coverage.'%.'.PHP_EOL);
         exit(1);
     }

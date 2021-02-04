@@ -10,7 +10,7 @@ use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Xslt\Processor;
 use function VeeWee\Xml\Xslt\Configurator\functions;
 
-class FunctionsTest extends TestCase
+final class FunctionsTest extends TestCase
 {
     public function test_it_can_use_php_functions(): void
     {

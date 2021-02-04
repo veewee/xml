@@ -8,40 +8,38 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Xslt\Processor;
-use function VeeWee\Xml\Xslt\Configurator\parameters;
+use function VeeWee\Xml\Xslt\Configurator\profiler;
 
-final class ParametersTest extends TestCase
+final class ProfilerTest extends TestCase
 {
-    public function test_it_can_use_parameters(): void
+    public function test_it_can_use_a_profiler(): void
     {
+        $profile = sys_get_temp_dir().'/xslt-profile.txt';
+
         $processor = Processor::fromTemplateDocument(
             $this->createTemplate(),
-            parameters(['hello' => 'world'])
+            profiler($profile)
         );
 
-        $result = $processor->transformDocumentToString(
-            Document::fromXmlString('<root />')
+        $processor->transformDocumentToString(
+            Document::fromXmlString('<root>Hello</root>')
         );
 
-        static::assertSame('world', $result);
+        static::assertFileExists($profile);
+        static::assertNotSame('', file_get_contents($profile));
+
+        unlink($profile);
     }
 
-    public function test_it_throws_exception_if_param_is_not_set(): void
+    public function test_setting_an_invalid_profiler_location_doesnt_result(): void
     {
-        $processor = Processor::fromTemplateDocument(
-            $this->createTemplate(),
-        );
-        $doc = Document::fromXmlString(
-            <<<EOXML
-                <root>
-                    <hello>World</hello>
-                </root>
-            EOXML
-        );
-
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('XML issues detecte');
-        $processor->transformDocumentToString($doc);
+        $this->expectErrorMessage('The file "/THISFOLDERSHOULDNOTEXIST" does not exist.');
+
+        Processor::fromTemplateDocument(
+            $this->createTemplate(),
+            profiler('/THISFOLDERSHOULDNOTEXIST/profile.txt')
+        );
     }
 
     private function createTemplate(): Document
@@ -49,12 +47,11 @@ final class ParametersTest extends TestCase
         return Document::fromXmlString(
             <<<EOXML
                 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                    xmlns:php="http://php.net/xsl"
                     xmlns:str="http://exslt.org/strings"
                     xmlns:xsdl="http://www.w3.org/1999/XSL/Transform">
                     <xsl:output method="text" omit-xml-declaration="yes" indent="no"/>
                     <xsl:template match="/root">
-                        <xsl:value-of select="\$hello"/>
+                        <xsl:value-of select="."/>
                     </xsl:template>
                 </xsl:stylesheet>
             EOXML
