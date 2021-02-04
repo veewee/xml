@@ -16,7 +16,7 @@ final class PointerTest extends TestCase
     {
         $pointer = Pointer::create();
 
-        static::assertSame(0, $pointer->getCurrentSiblingPosition());
+        static::assertSame(1, $pointer->getNextSiblingPosition());
         static::assertSame(0, $pointer->getDepth());
         static::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
     }
@@ -36,25 +36,28 @@ final class PointerTest extends TestCase
     {
         $pointer = Pointer::create();
 
-        $pointer->enterElement($element1 = new ElementNode(1, 'item', 'item', '', '', []));
-        static::assertSame(1, $pointer->getCurrentSiblingPosition());
+        $nextPos = $pointer->getNextSiblingPosition();
+        $pointer->enterElement($element1 = new ElementNode($nextPos, 'item', 'item', '', '', []));
         static::assertSame(1, $pointer->getDepth());
+        static::assertSame(1, $element1->position());
         static::assertEquals(new NodeSequence($element1), $pointer->getNodeSequence());
 
-        $pointer->enterElement($element2 = new ElementNode(1, 'item', 'item', '', '', []));
-        static::assertSame(1, $pointer->getCurrentSiblingPosition());
+        $nextPos = $pointer->getNextSiblingPosition();
+        $pointer->enterElement($element2 = new ElementNode($nextPos, 'item', 'item', '', '', []));
         static::assertSame(2, $pointer->getDepth());
+        static::assertSame(1, $element2->position());
         static::assertEquals(new NodeSequence($element1, $element2), $pointer->getNodeSequence());
         $pointer->leaveElement();
 
-        $pointer->enterElement($element3 = new ElementNode(1, 'item', 'item', '', '', []));
-        static::assertSame(2, $pointer->getCurrentSiblingPosition());
+        $nextPos = $pointer->getNextSiblingPosition();
+        $pointer->enterElement($element3 = new ElementNode($nextPos, 'item', 'item', '', '', []));
         static::assertSame(2, $pointer->getDepth());
+        static::assertSame(2, $element3->position());
         static::assertEquals(new NodeSequence($element1, $element3), $pointer->getNodeSequence());
         $pointer->leaveElement();
 
         $pointer->leaveElement();
-        static::assertSame(0, $pointer->getCurrentSiblingPosition());
+        static::assertSame(2, $pointer->getNextSiblingPosition());
         static::assertSame(0, $pointer->getDepth());
         static::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
     }

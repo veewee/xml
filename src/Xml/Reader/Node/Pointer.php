@@ -35,9 +35,9 @@ final class Pointer
         return $this->depth;
     }
 
-    public function getCurrentSiblingPosition(): int
+    public function getNextSiblingPosition(): int
     {
-        return $this->siblingsPerDepth[$this->depth -1] ?? 0;
+        return ($this->siblingsPerDepth[$this->depth] ?? 0) + 1;
     }
 
     public function getNodeSequence(): NodeSequence

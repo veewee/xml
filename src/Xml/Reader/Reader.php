@@ -79,7 +79,7 @@ final class Reader
                     case XMLReader::ELEMENT:
                         $element = ElementNode::fromReader(
                             $reader,
-                            $pointer->getCurrentSiblingPosition() + 1,
+                            $pointer->getNextSiblingPosition(),
                             static function () use ($reader): array {
                                 $attributes = [];
                                 while ($reader->moveToNextAttribute()) {
