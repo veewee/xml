@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Tests\Dom\Validator;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
-use function VeeWee\Xml\Xsd\Manipulator\base_path;
+use function VeeWee\Xml\Xsd\Schema\Manipulator\base_path;
 
 final class InternalXsdValidatorTest extends TestCase
 {

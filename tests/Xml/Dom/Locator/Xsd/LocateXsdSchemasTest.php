@@ -6,7 +6,7 @@ namespace VeeWee\Xml\Tests\Dom\Locator\Xsd;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
-use VeeWee\Xml\Xsd\Schema;
+use VeeWee\Xml\Xsd\Schema\Schema;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_namespaced_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;

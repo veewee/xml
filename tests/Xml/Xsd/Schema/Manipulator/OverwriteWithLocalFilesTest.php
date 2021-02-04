@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Xsd\Manipulator;
+namespace VeeWee\Tests\Xml\Xsd\Schema\Manipulator;
 
 use PHPUnit\Framework\TestCase;
-use VeeWee\Xml\Xsd\Schema;
-use VeeWee\Xml\Xsd\SchemaCollection;
-use function VeeWee\Xml\Xsd\Manipulator\overwrite_with_local_files;
+use VeeWee\Xml\Xsd\Schema\Schema;
+use VeeWee\Xml\Xsd\Schema\SchemaCollection;
+use function VeeWee\Xml\Xsd\Schema\Manipulator\overwrite_with_local_files;
 
 final class OverwriteWithLocalFilesTest extends TestCase
 {

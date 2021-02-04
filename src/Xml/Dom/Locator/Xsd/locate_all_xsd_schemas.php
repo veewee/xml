@@ -6,7 +6,7 @@ namespace VeeWee\Xml\Dom\Locator\Xsd;
 
 use DOMDocument;
 use Safe\Exceptions\PcreException;
-use VeeWee\Xml\Xsd\SchemaCollection;
+use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 
 /**
  * @throws PcreException

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Xsd\Manipulator;
+namespace VeeWee\Xml\Xsd\Schema\Manipulator;
 
-use VeeWee\Xml\Xsd\Schema;
-use VeeWee\Xml\Xsd\SchemaCollection;
+use VeeWee\Xml\Xsd\Schema\Schema;
+use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function strlen;
 use const PHP_URL_SCHEME;
 

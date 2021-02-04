@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Xsd\Manipulator;
+namespace VeeWee\Tests\Xml\Xsd\Schema\Manipulator;
 
 use PHPUnit\Framework\TestCase;
-use VeeWee\Xml\Xsd\Schema;
-use VeeWee\Xml\Xsd\SchemaCollection;
-use function VeeWee\Xml\Xsd\Manipulator\base_path;
+use VeeWee\Xml\Xsd\Schema\Schema;
+use VeeWee\Xml\Xsd\Schema\SchemaCollection;
+use function VeeWee\Xml\Xsd\Schema\Manipulator\base_path;
 
 final class BasePathTest extends TestCase
 {

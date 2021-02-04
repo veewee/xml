@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Xsd;
+namespace VeeWee\Tests\Xml\Xsd\Schema;
 
 use PHPUnit\Framework\TestCase;
-use VeeWee\Xml\Xsd\Schema;
-use VeeWee\Xml\Xsd\SchemaCollection;
+use VeeWee\Xml\Xsd\Schema\Schema;
+use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 
 final class SchemaCollectionTest extends TestCase
 {

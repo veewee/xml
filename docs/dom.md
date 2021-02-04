@@ -668,7 +668,7 @@ Validates the document based on all internally specified XML schema's.
 
 ```php
 use VeeWee\XML\DOM\Document;
-use VeeWee\Xml\Xsd\Manipulator;
+use VeeWee\Xml\Xsd\Schema\Manipulator;
 use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
 
 $doc = Document::fromXmlFile('some.xml');

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Xsd;
+namespace VeeWee\Xml\Xsd\Schema;
 
 /**
  * @psalm-immutable

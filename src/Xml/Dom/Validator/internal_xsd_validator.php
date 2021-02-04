@@ -6,8 +6,8 @@ namespace VeeWee\Xml\Dom\Validator;
 
 use DOMDocument;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
-use VeeWee\Xml\Xsd\Schema;
-use VeeWee\Xml\Xsd\SchemaCollection;
+use VeeWee\Xml\Xsd\Schema\Schema;
+use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
 

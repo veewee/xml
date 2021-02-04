@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Xsd\Manipulator;
+namespace VeeWee\Xml\Xsd\Schema\Manipulator;
 
-use VeeWee\Xml\Xsd\SchemaCollection;
+use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 
 interface Manipulator
 {
