@@ -98,4 +98,14 @@ final class DocumentTest extends TestCase
 
         static::assertXmlStringEqualsXmlString($xml, $doc->toXmlString());
     }
+
+    
+    public function test_it_can_map(): void
+    {
+        $doc = new DOMDocument();
+        $wrapper = Document::fromUnsafeDocument($doc);
+        $mapped = $wrapper->map(identity());
+
+        static::assertSame($mapped, $doc);
+    }
 }

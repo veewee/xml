@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Reader\Xslt;
+namespace VeeWee\Xml\Tests\Xslt;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;

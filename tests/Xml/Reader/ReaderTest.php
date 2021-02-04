@@ -6,9 +6,11 @@ namespace VeeWee\Xml\Tests\Reader;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Exception\RuntimeException;
+use VeeWee\Xml\Reader\Node\NodeSequence;
 use VeeWee\Xml\Reader\Reader;
 use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function Psl\Fun\identity;
+use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 use function VeeWee\Xml\Reader\Matcher\all;
 use function VeeWee\Xml\Reader\Matcher\node_attribute;
 use function VeeWee\Xml\Reader\Matcher\node_name;
@@ -18,7 +20,6 @@ final class ReaderTest extends TestCase
     use FillFileTrait;
 
     /**
-     *
      * @dataProvider provideXmlExpectations
      */
     public function test_it_can_provide_xml_string(string $xml, callable $matcher, array $expected): void
@@ -30,7 +31,6 @@ final class ReaderTest extends TestCase
     }
 
     /**
-     *
      * @dataProvider provideXmlExpectations
      */
     public function test_it_can_provide_xml_file(string $xml, callable $matcher, array $expected): void
@@ -45,7 +45,6 @@ final class ReaderTest extends TestCase
         fclose($handle);
     }
 
-    
     public function test_it_throws_exception_on_invalid_xml_during_iteration(): void
     {
         $xml = <<<'EOXML'
@@ -57,7 +56,7 @@ final class ReaderTest extends TestCase
             </root>
         EOXML;
 
-        $reader = Reader::fromXmlString($xml);
+        $reader = Reader::configure(xml_string_loader($xml));
         $iterator = $reader->provide(static fn () => true);
 
         $this->expectException(RuntimeException::class);
@@ -88,7 +87,7 @@ final class ReaderTest extends TestCase
                 <root>
                     <user locale="nl">Jos</user>
                     <user locale="nl">Bos</user>
-                    <user locale="en">Mos</user>    
+                    <user locale="en">Mos</user>
                 </root>
             EOXML,
             all(
@@ -98,6 +97,44 @@ final class ReaderTest extends TestCase
             [
                 '<user locale="nl">Jos</user>',
                 '<user locale="nl">Bos</user>',
+            ]
+        ];
+
+        yield 'multi-attributes' => [
+            <<<'EOXML'
+                <root>
+                    <user locale="nl" dialect="kempisch">Jos</user>
+                    <user locale="nl" dialect="wvl">Bos</user>
+                    <user locale="en">Mos</user>
+                    <user locale="en">Mos</user>
+                </root>
+            EOXML,
+            all(
+                node_name('user'),
+                node_attribute('locale', 'nl'),
+                node_attribute('dialect', 'kempisch'),
+            ),
+            [
+                '<user locale="nl" dialect="kempisch">Jos</user>',
+            ]
+        ];
+
+        yield 'positioned' => [
+            <<<'EOXML'
+                <root>
+                    <user>Jos</user>
+                    <user>Bos</user>
+                    <user>Mos</user>    
+                    <user>Dos</user>    
+                </root>
+            EOXML,
+            all(
+                node_name('user'),
+                static fn (NodeSequence $sequence): bool => ($sequence->current()->position() % 2 === 0),
+            ),
+            [
+                '<user>Bos</user>',
+                '<user>Dos</user>',
             ]
         ];
 

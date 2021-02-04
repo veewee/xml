@@ -23,6 +23,14 @@ final class NodeSequenceTest extends TestCase
     }
 
     
+    public function test_it_can_not_pop_empty_sequence(): void
+    {
+        $sequence = new NodeSequence();
+
+        $this->expectException(InvalidArgumentException::class);
+        $sequence->pop();
+    }
+    
     public function test_it_can_remember_sequences_in_an_immutable_way(): void
     {
         $sequence = new NodeSequence(

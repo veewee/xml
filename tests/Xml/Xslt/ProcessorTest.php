@@ -7,19 +7,24 @@ namespace VeeWee\Xml\Tests\Xslt;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Xslt\Processor;
-use function VeeWee\Xml\Xslt\Configurator\security_preferences;
+use function Psl\Fun\identity;
+use function VeeWee\Xml\Dom\Mapper\from_template_document;
+use function VeeWee\Xml\Xslt\Configurator\loader;
+use function VeeWee\Xml\Xslt\Transformer\document_to_string;
 
-final class SecurityPreferencesTest extends TestCase
+final class ProcessorTest extends TestCase
 {
-    public function test_it_can_set_security_preferences(): void
+    public function test_it_can_use_processor_directly(): void
     {
-        $processor = Processor::fromTemplateDocument(
-            $this->createTemplate(),
-            security_preferences(XSL_SECPREF_NONE)
+        $template = $this->createTemplate();
+        $processor = Processor::configure(
+            loader(from_template_document($template)),
+            identity()
         );
 
-        $result = $processor->transformDocumentToString(
-            Document::fromXmlString('<root>Hello</root>')
+        $document = Document::fromXmlString('<root>Hello</root>');
+        $result = $processor->transform(
+            document_to_string($document)
         );
 
         static::assertSame('Hello', $result);

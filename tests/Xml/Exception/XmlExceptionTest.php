@@ -28,6 +28,7 @@ final class RuntimeExceptionTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectException(ExceptionInterface::class);
         $this->expectExceptionMessage($exception->getMessage() . PHP_EOL . $issues->toString());
+        $this->expectExceptionCode($exception->getCode());
 
         throw RuntimeException::combineExceptionWithIssues($exception, $issues);
     }

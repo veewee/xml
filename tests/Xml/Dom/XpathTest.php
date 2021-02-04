@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Tests\Dom;
 
+use DOMXPath;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Xpath;
+use function Psl\Fun\identity;
 use function VeeWee\Xml\DOM\xpath\xpath;
 
 final class XpathTest extends TestCase
@@ -22,5 +24,16 @@ final class XpathTest extends TestCase
 
         $aliasedSearch = $xpath->query('alias:item');
         static::assertCount(1, $aliasedSearch);
+    }
+
+    
+    public function test_it_can_locate_stuff(): void
+    {
+        $doc = Document::fromXmlString('<root />');
+        $xpath = Xpath::fromDocument($doc);
+
+        $result = $xpath->locate(identity());
+
+        static::assertInstanceOf(DOMXPath::class, $result);
     }
 }
