@@ -52,12 +52,15 @@ final class Level
      */
     public function toString(): string
     {
-        /** @psalm-suppress RedundantIdentityWithTrue */
-        return match (true) {
-            $this->isWarning() => 'warning',
-            $this->isError() => 'error',
-            default => 'fatal'
-        };
+        if ($this->isWarning()) {
+            return 'warning';
+        }
+
+        if ($this->isError()) {
+            return 'error';
+        }
+
+        return 'fatal';
     }
 
     public function matches(Level $level): bool

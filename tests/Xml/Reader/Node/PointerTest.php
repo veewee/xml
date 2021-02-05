@@ -60,5 +60,16 @@ final class PointerTest extends TestCase
         static::assertSame(2, $pointer->getNextSiblingPosition());
         static::assertSame(0, $pointer->getDepth());
         static::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
+
+        $nextPos = $pointer->getNextSiblingPosition();
+        $pointer->enterElement($element4 = new ElementNode($nextPos, 'item', 'item', '', '', []));
+        static::assertSame(1, $pointer->getDepth());
+        static::assertSame(2, $element4->position());
+        static::assertEquals(new NodeSequence($element4), $pointer->getNodeSequence());
+
+        $pointer->leaveElement();
+        static::assertSame(3, $pointer->getNextSiblingPosition());
+        static::assertSame(0, $pointer->getDepth());
+        static::assertEquals(new NodeSequence(), $pointer->getNodeSequence());
     }
 }

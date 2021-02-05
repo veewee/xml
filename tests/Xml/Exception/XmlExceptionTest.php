@@ -32,4 +32,31 @@ final class RuntimeExceptionTest extends TestCase
 
         throw RuntimeException::combineExceptionWithIssues($exception, $issues);
     }
+
+    public function test_it_can_throw_an_exception_with_only_xml_errors(): void
+    {
+        $issues = new IssueCollection(
+            $this->createIssue(Level::fatal()),
+            $this->createIssue(Level::warning()),
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
+        $this->expectException(ExceptionInterface::class);
+        $this->expectExceptionMessage('got 99 issues' . PHP_EOL . $issues->toString());
+        $this->expectExceptionCode(0);
+
+        throw RuntimeException::fromIssues('got 99 issues', $issues);
+    }
+
+    public function test_it_can_throw_an_exception_with_only_a_message(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
+        $this->expectException(ExceptionInterface::class);
+        $this->expectExceptionMessage('got 99 issues');
+        $this->expectExceptionCode(0);
+
+        throw RuntimeException::withMessage('got 99 issues');
+    }
 }

@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Exception;
 
 use Exception;
+use Psl\Type;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
 final class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
     private function __construct(string $message, Exception $previous = null)
     {
-        parent::__construct(
-            $message,
-            (int) ($previous ? $previous->getCode() : 0),
-            $previous
-        );
+        try {
+            $code = Type\int()->coerce($previous ? $previous->getCode() : 0);
+        } catch (Type\Exception\CoercionException $exception) {
+            $code = 0;
+        }
+
+        parent::__construct($message, $code, $previous);
     }
 
     public static function withMessage(string $message): self

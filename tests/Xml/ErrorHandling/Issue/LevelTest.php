@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Issue;
+namespace VeeWee\Xml\Tests\ErrorHandling\Issue;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
-use VeeWee\Xml\Tests\ErrorHandling\Issue\UseIssueTrait;
 
 final class LevelTest extends TestCase
 {
