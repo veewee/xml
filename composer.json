@@ -1,6 +1,9 @@
 {
     "name": "veewee/xml",
-    "description": "Sane XML usage",
+    "description": "XML without worries",
+    "keywords": [
+        "dom", "xml", "xsd", "xslt", "dom-manipulation", "reader", "xpath"
+    ],
     "type": "library",
     "require": {
         "php": "^8.0",
