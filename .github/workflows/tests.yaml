@@ -24,4 +24,4 @@ jobs:
             - name: Run the tests
               run: composer run tests
             - name: Check tests quality
-              run: composer parallel coverage infection || true
+              run: composer run testquality

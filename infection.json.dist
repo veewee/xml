@@ -13,6 +13,11 @@
         "text": "infection.log"
     },
     "mutators": {
-        "@default": true
+        "@default": true,
+        "CastInt": {
+            "ignore": [
+                "VeeWee\\Xml\\Exception\\RuntimeException::__construct"
+            ]
+        }
     }
 }
