@@ -11,17 +11,15 @@ Since not all code is in one big master class, you will find that it is not too 
 
 ```php
 use Psl\Type;
-use Psl\Fun;
 use VeeWee\XML\DOM\Configurator;
 use VeeWee\XML\DOM\Document;
 use VeeWee\XML\DOM\Validator;
 use VeeWee\XML\DOM\Xpath;
-use function Psl\Fun\when;
 use function VeeWee\XML\DOM\Loader\xml_file_loader;
 
 $doc = Document::configure(
     Configurator\utf8(),
-    when($debug, Configurator\pretty_print(), Configurator\trim_spaces()),
+    $debug ? Configurator\pretty_print() : Configurator\trim_spaces(),
     Configurator\Loader(xml_file_loader('data.xml')),
     Configurator\validator(
         Validator\internal_xsd_validator()
