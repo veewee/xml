@@ -11,15 +11,18 @@ Since not all code is in one big master class, you will find that it is not too 
 
 ```php
 use Psl\Type;
+use Psl\Fun;
 use VeeWee\XML\DOM\Configurator;
 use VeeWee\XML\DOM\Document;
 use VeeWee\XML\DOM\Validator;
 use VeeWee\XML\DOM\Xpath;
+use function Psl\Fun\when;
+use function VeeWee\XML\DOM\Loader\xml_file_loader;
 
-$doc = Document::fromXmlFile(
-    'data.xml',
+$doc = Document::configure(
     Configurator\utf8(),
-    Configurator\trim_spaces(),
+    when($debug, Configurator\pretty_print(), Configurator\trim_spaces()),
+    Configurator\Loader(xml_file_loader('data.xml')),
     Configurator\validator(
         Validator\internal_xsd_validator()
     ),
@@ -277,13 +280,17 @@ Document::configure(
 
 Makes the output of the DOM document human-readable.
 
+⚠️ This configurator needs to be called before loading the XML!
+
 ```php
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
+use function VeeWee\Xml\Dom\Configurator\loader;
+use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-$doc = Document::fromXmlFile(
-    'data.xml',
-    pretty_print()
+$doc = Document::configure(
+    pretty_print(),
+    loader(xml_file_loader('data.xml'))
 );
 ```
 
@@ -291,13 +298,17 @@ $doc = Document::fromXmlFile(
 
 Trims all whitespaces from the DOM document in order to make it as small as possible in bytesize.
 
+⚠️ This configurator needs to be called before loading the XML!
+
 ```php
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;
+use function VeeWee\Xml\Dom\Configurator\loader;
+use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-$doc = Document::fromXmlFile(
-    'data.xml',
-    trim_spaces()
+$doc = Document::configure(
+    trim_spaces(),
+    loader(xml_file_loader('data.xml'))
 );
 ```
 
@@ -305,13 +316,17 @@ $doc = Document::fromXmlFile(
 
 Marks the DOM document as UTF-8.
 
+⚠️ This configurator needs to be called before loading the XML!
+
 ```php
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\utf8;
+use function VeeWee\Xml\Dom\Configurator\loader;
+use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-$doc = Document::fromXmlFile(
-    'data.xml',
-    utf8()
+$doc = Document::configure(
+    utf8(),
+    loader(xml_file_loader('data.xml'))
 );
 ```
 
@@ -621,7 +636,7 @@ use function VeeWee\Xml\Dom\Mapper\xslt_template;
 $doc = Document::fromXmlFile('data.xml');
 $xslt = Document::fromXmlFile('xml-to-yaml-converter.xslt');
 
-echo $doc->map(xslt_template($xslt, ...$processorConfgigurators));
+echo $doc->map(xslt_template($xslt, ...$processorConfigurators));
 ```
 
 For more information on the processor configurators, [see the XSLT documentation](xslt.md#configurators); 
