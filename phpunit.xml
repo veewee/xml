@@ -10,19 +10,6 @@
     beStrictAboutTodoAnnotatedTests="true"
     verbose="true"
 >
-  <coverage cacheDirectory=".phpunit.cache/code-coverage"
-      processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-    <exclude>
-      <file>src/bootstrap.php</file>
-    </exclude>
-    <report>
-      <clover outputFile=".phpunit.cache/clover/clover.xml" />
-      <html outputDirectory=".phpunit.cache/report" lowUpperBound="99" highLowerBound="99" />
-    </report>
-  </coverage>
   <testsuites>
     <testsuite name="default">
       <directory suffix="Test.php">tests</directory>

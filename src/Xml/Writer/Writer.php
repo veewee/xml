@@ -58,20 +58,14 @@ final class Writer
     {
         $xmlWriter = $this->writer;
         $cursor = $writer($xmlWriter);
-        $flush = static function() use ($xmlWriter): void {
-            $xmlWriter->flush(true);
-        };
 
         disallow_issues(
-            static function () use ($cursor, $flush) : void {
+            static function () use ($cursor) : void {
                 foreach ($cursor as $written) {
                     disallow_libxml_false_returns(
                         $written,
                         'Could not write the provided XML to the stream.'
                     );
-
-                    // TODO: Do we really need to manually flush and if so : should we do it on every write?
-                    $flush();
                 }
             }
         );

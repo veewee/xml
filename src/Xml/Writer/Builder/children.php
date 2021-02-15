@@ -12,7 +12,7 @@ use XMLWriter;
  *
  * @return callable(XMLWriter): Generator<bool>
  */
-function nodes(iterable $nodeBuilders): callable
+function children(iterable $nodeBuilders): callable
 {
     return
         /**
