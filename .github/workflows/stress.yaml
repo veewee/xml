@@ -17,8 +17,8 @@ jobs:
               uses: shivammathur/setup-php@master
               with:
                   php-version: ${{ matrix.php-versions }}
+                  coverage: none
                   tools: 'composer:v2'
-                  extensions: pcov, mbstring, posix
             - name: Install dependencies
               run: composer update --prefer-dist --no-progress --no-suggest
             - name: Run the stress tests
