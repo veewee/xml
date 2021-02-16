@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Locator;
+namespace VeeWee\Tests\Xml\Dom\Locator;
 
 use PHPUnit\Framework\TestCase;
 use Psl\Type;

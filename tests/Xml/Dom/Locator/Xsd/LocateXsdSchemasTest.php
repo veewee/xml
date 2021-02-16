@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Locator\Xsd;
+namespace VeeWee\Tests\Xml\Dom\Locator\Xsd;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;

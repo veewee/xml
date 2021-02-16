@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Reader\Matcher;
+namespace VeeWee\Tests\Xml\Reader\Matcher;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Reader\Node\AttributeNode;

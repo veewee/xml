@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom;
+namespace VeeWee\Tests\Xml\Dom;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Dom\Document;
-use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function Psl\Fun\identity;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;
 use function VeeWee\Xml\Dom\Configurator\utf8;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\ErrorHandling;
+namespace VeeWee\Tests\Xml\ErrorHandling;
 
 use Generator;
 use PHPUnit\Framework\TestCase;

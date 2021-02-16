@@ -10,22 +10,13 @@
     beStrictAboutTodoAnnotatedTests="true"
     verbose="true"
 >
-  <coverage cacheDirectory=".phpunit.cache/code-coverage"
-      processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-    <exclude>
-      <file>src/bootstrap.php</file>
-    </exclude>
-    <report>
-      <clover outputFile=".phpunit.cache/clover/clover.xml" />
-      <html outputDirectory=".phpunit.cache/report" lowUpperBound="99" highLowerBound="99" />
-    </report>
-  </coverage>
+  <php>
+    <!-- Run on very limited memory to make sure there are no memory leaks! -->
+    <ini name="memory_limit" value="50M" />
+  </php>
   <testsuites>
     <testsuite name="default">
-      <directory suffix="Test.php">tests/Xml</directory>
+      <directory suffix="Test.php">tests/Stress</directory>
     </testsuite>
   </testsuites>
 </phpunit>

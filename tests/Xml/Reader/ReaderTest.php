@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Reader;
+namespace VeeWee\Tests\Xml\Reader;
 
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use VeeWee\Xml\Reader\Reader;
-use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function Psl\Fun\identity;
 use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 use function VeeWee\Xml\Reader\Matcher\all;

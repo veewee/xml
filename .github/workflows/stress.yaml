@@ -1,0 +1,25 @@
+name: Stress
+
+on: [push, pull_request]
+jobs:
+    run:
+        runs-on: ${{ matrix.operating-system }}
+        strategy:
+            matrix:
+                operating-system: [ubuntu-latest]
+                php-versions: ['8.0']
+            fail-fast: false
+        name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@master
+            - name: Install PHP
+              uses: shivammathur/setup-php@master
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  tools: 'composer:v2'
+                  extensions: pcov, mbstring, posix
+            - name: Install dependencies
+              run: composer update --prefer-dist --no-progress --no-suggest
+            - name: Run the stress tests
+              run: composer run stress

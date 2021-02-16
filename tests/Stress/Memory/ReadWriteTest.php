@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Writer;
+namespace VeeWee\Tests\Stress\Memory;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
@@ -16,14 +16,23 @@ use function VeeWee\Xml\Writer\Builder\prefixed_attribute;
 use function VeeWee\Xml\Writer\Builder\prefixed_element;
 use function VeeWee\Xml\Writer\Configurator\indentation;
 
-final class WriterTest extends TestCase
+final class ReadWriteTest extends TestCase
 {
-    public function test_it_can_generate_a_shitload_of_xml_tags_without_memory_issues(): void
-    {
-        $file = tempnam(sys_get_temp_dir(), 'xmlwriter');
-//        fwrite(STDOUT, $file);
+    private string $file = '';
 
-        $writer = Writer::forFile($file, indentation('  '));
+    protected function setUp(): void
+    {
+        $this->file = tempnam(sys_get_temp_dir(), 'xmlwriter');
+    }
+
+    protected function tearDown(): void
+    {
+        @unlink($this->file);
+    }
+
+    public function test_it_can_handle_a_shitload_of_xml(): void
+    {
+        $writer = Writer::forFile($this->file, indentation('  '));
         $writer->write(
             document('1.0', 'UTF-8', children([
                 element('root', namespace_attribute('http://fizzbuzz.com', 'fizzbuzz'), children(
@@ -32,11 +41,8 @@ final class WriterTest extends TestCase
             ]))
         );
 
-        $size = filesize($file) / (1024**2);
+        $size = filesize($this->file) / (1024**2);
         static::assertGreaterThan(200, $size);
-        // var_dump($size . 'MB');
-
-        unlink($file);
     }
 
     private function provideFizzBuzzTags(): Generator

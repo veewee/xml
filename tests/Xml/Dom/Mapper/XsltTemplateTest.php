@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Mapper;
+namespace VeeWee\Tests\Xml\Mapper;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;

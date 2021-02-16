@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Reader\Node;
+namespace VeeWee\Tests\Xml\Reader\Node;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

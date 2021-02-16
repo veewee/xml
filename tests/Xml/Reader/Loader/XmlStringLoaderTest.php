@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Reader\Loader;
+namespace VeeWee\Tests\Xml\Reader\Loader;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Exception\RuntimeException;
