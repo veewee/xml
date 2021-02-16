@@ -20,8 +20,6 @@ use function VeeWee\Xml\Writer\Configurator\indentation;
 
 final class ReadWriteTest extends TestCase
 {
-    const MAX_MEMORY_IN_MB = 25;
-
     private string $file = '';
     private string $previousLimit = '';
 
@@ -29,7 +27,7 @@ final class ReadWriteTest extends TestCase
     {
         $this->file = tempnam(sys_get_temp_dir(), 'xmlwriter');
         $this->previousLimit = ini_get('memory_limit');
-        ini_set('memory_limit', self::MAX_MEMORY_IN_MB.'MB');
+        ini_set('memory_limit', $_ENV['STRESS_MAX_MB'].'MB');
 
         fwrite(STDOUT, 'Writing to file: '.$this->file.PHP_EOL);
     }
@@ -42,14 +40,20 @@ final class ReadWriteTest extends TestCase
 
     public function test_it_can_handle_a_shitload_of_xml(): void
     {
+        $maxMemoryMb = (int) $_ENV['STRESS_MAX_MB'];
+
+        fwrite(STDOUT, 'Running Read/Write stress test...'.PHP_EOL);
+        fwrite(STDOUT, 'Number of tags: '.$_ENV['STRESS_TAGS_M'].'M'.PHP_EOL);
+        fwrite(STDOUT, 'Max memory: '.$_ENV['STRESS_MAX_MB'].'MB'.PHP_EOL.PHP_EOL);
+
         $size = $this->writeALot();
         fwrite(STDOUT, 'Written: '.$size.'MB'.PHP_EOL);
-        static::assertGreaterThan(self::MAX_MEMORY_IN_MB, $size);
-        static::assertLessThan(self::MAX_MEMORY_IN_MB, memory_get_peak_usage(true) / (1024**2));
+        static::assertGreaterThan($maxMemoryMb, $size);
+        static::assertLessThan($maxMemoryMb, memory_get_peak_usage(true) / (1024**2));
 
         $numberOfFizzBuzzTags = $this->readALot();
         self::assertGreaterThan(50000, $numberOfFizzBuzzTags);
-        static::assertLessThan(self::MAX_MEMORY_IN_MB, memory_get_peak_usage(true) / (1024**2));
+        static::assertLessThan($maxMemoryMb, memory_get_peak_usage(true) / (1024**2));
     }
 
     private function writeALot(): float
@@ -99,7 +103,7 @@ final class ReadWriteTest extends TestCase
 
     private function provideFizzBuzzTags(): Generator
     {
-        $amount = (1024 ** 2);
+        $amount = ((int) $_ENV['STRESS_TAGS_M']) * (1024 ** 2);
 
         for ($i=1; $i<$amount; $i++) {
             yield match (true) {
