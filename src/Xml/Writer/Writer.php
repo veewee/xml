@@ -9,6 +9,8 @@ use XMLWriter;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
+use function VeeWee\Xml\Writer\Configurator\open;
+use function VeeWee\Xml\Writer\Opener\xml_file_opener;
 
 final class Writer
 {
@@ -24,28 +26,25 @@ final class Writer
      */
     public static function configure(callable ... $configurators): self
     {
-        return new self(pipe(...$configurators)(new XMLWriter()));
+        return self::fromUnsafeWriter(new XMLWriter(), ...$configurators);
     }
 
     /**
-     * @param string $file
+     * @param list<(callable(XMLWriter): XMLWriter)> $configurators
+     */
+    public static function fromUnsafeWriter(XMLWriter $writer, callable ... $configurators): self
+    {
+        return new self(pipe(...$configurators)($writer));
+    }
+
+    /**
      * @param list<(callable(XMLWriter): XMLWriter)> $configurators
      *
-     * @return self
      */
     public static function forFile(string $file, callable ... $configurators): self
     {
         return self::configure(
-            static fn (XMLWriter $writer): XMLWriter  => disallow_issues(
-                static function () use ($writer, $file): XMLWriter {
-                    disallow_libxml_false_returns(
-                        $writer->openUri($file),
-                        'Could not write to file %s'.$file
-                    );
-
-                    return $writer;
-                }
-            ),
+            open(xml_file_opener($file)),
             ...$configurators
         );
     }
