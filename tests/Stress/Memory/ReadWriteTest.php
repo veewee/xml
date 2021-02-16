@@ -45,9 +45,11 @@ final class ReadWriteTest extends TestCase
         $size = $this->writeALot();
         fwrite(STDOUT, 'Written: '.$size.'MB'.PHP_EOL);
         static::assertGreaterThan(self::MAX_MEMORY_IN_MB, $size);
+        static::assertLessThan(self::MAX_MEMORY_IN_MB, memory_get_peak_usage(true) / (1024**2));
 
         $numberOfFizzBuzzTags = $this->readALot();
         self::assertGreaterThan(50000, $numberOfFizzBuzzTags);
+        static::assertLessThan(self::MAX_MEMORY_IN_MB, memory_get_peak_usage(true) / (1024**2));
     }
 
     private function writeALot(): float
