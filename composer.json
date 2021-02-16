@@ -52,7 +52,7 @@
         "tests": "./tools/phpunit.phar --coverage-text --color",
         "stress": [
             "Composer\\Config::disableProcessTimeout",
-            "./tools/phpunit.phar --configuration phpunit.stress.xml"
+            "@php -c stress.ini ./tools/phpunit.phar --configuration phpunit.stress.xml --no-coverage"
         ],
         "testquality": "@parallel coverage infection",
         "coverage": "@php ./tools/full-coverage-check.php .phpunit.cache/clover/clover.xml",

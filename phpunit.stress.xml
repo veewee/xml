@@ -10,10 +10,6 @@
     beStrictAboutTodoAnnotatedTests="true"
     verbose="true"
 >
-  <php>
-    <!-- Run on very limited memory to make sure there are no memory leaks! -->
-    <ini name="memory_limit" value="50M" />
-  </php>
   <testsuites>
     <testsuite name="default">
       <directory suffix="Test.php">tests/Stress</directory>

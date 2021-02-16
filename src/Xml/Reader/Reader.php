@@ -77,6 +77,7 @@ final class Reader
                         $pointer->leaveElement();
                         break;
                     case XMLReader::ELEMENT:
+                        $isEmptyElement = (bool) ($reader->isEmptyElement);
                         $element = ElementNode::fromReader(
                             $reader,
                             $pointer->getNextSiblingPosition(),
@@ -90,8 +91,13 @@ final class Reader
                         );
 
                         $pointer->enterElement($element);
+                        $result = $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
 
-                        return $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
+                        if ($isEmptyElement) {
+                            $pointer->leaveElement();
+                        }
+
+                        return $result;
                 }
 
                 return null;
