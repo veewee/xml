@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Writer\Builder;
 use Generator;
 use XMLWriter;
 
-interface BuilderInterface
+interface Builder
 {
     /**
      * @return Generator<bool>

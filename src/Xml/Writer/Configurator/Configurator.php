@@ -6,7 +6,7 @@ namespace VeeWee\Xml\Writer\Configurator;
 
 use XMLWriter;
 
-interface ConfiguratorInterface
+interface Configurator
 {
     public function __invoke(XMLWriter $writer): XMLWriter;
 }

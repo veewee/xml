@@ -33,7 +33,7 @@ final class WriterTest extends TestCase
         );
 
         $size = filesize($file) / (1024**2);
-        self::assertGreaterThan(200, $size);
+        static::assertGreaterThan(200, $size);
         // var_dump($size . 'MB');
 
         unlink($file);

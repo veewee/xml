@@ -38,5 +38,6 @@
     <stubs>
         <file name="stubs/Psl.phpstub" />
         <file name="stubs/XMLReader.phpstub" />
+        <file name="stubs/XMLWriter.phpstub" />
     </stubs>
 </psalm>

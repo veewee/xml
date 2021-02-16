@@ -9,8 +9,8 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @param callable(XMLWriter): void $opener
- * @return callable(XMLWriter): bool XMLWriter
+ * @param callable(XMLWriter): bool $opener
+ * @return callable(XMLWriter): XMLWriter
  */
 function open(callable $opener): callable
 {
