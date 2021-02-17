@@ -138,6 +138,27 @@ final class ReaderTest extends TestCase
             ]
         ];
 
+        yield 'self-closing-with-position-check' => [
+            <<<'EOXML'
+                <root>
+                    <user name="Jos" />
+                    <user name="Bos" />
+                    <user name="Mos" />
+                    <foo>Bar</foo>
+                    <user />
+                    <user name="Dos" />
+                </root>
+            EOXML,
+            all(
+                node_name('user'),
+                static fn (NodeSequence $sequence): bool => ($sequence->current()->position() % 2 === 0),
+            ),
+            [
+                '<user name="Bos"/>',
+                '<user name="Dos"/>',
+            ]
+        ];
+
         yield 'nested' => [
             <<<'EOXML'
                 <root>

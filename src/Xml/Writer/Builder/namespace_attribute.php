@@ -10,7 +10,7 @@ use XMLWriter;
 /**
  * @return callable(XMLWriter): Generator<bool>
  */
-function namespace_attribute(string $namespace, ?string $prefix): callable
+function namespace_attribute(string $namespace, ?string $prefix = null): callable
 {
     return
         /**

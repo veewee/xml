@@ -52,13 +52,13 @@ final class ReadWriteTest extends TestCase
         static::assertLessThan($maxMemoryMb, memory_get_peak_usage(true) / (1024**2));
 
         $numberOfFizzBuzzTags = $this->readALot();
-        self::assertGreaterThan(50000, $numberOfFizzBuzzTags);
+        static::assertGreaterThan(50000, $numberOfFizzBuzzTags);
         static::assertLessThan($maxMemoryMb, memory_get_peak_usage(true) / (1024**2));
     }
 
     private function writeALot(): float
     {
-        $this->time(function(): void {
+        $this->time(function (): void {
             $writer = Writer::forFile($this->file, indentation('  '));
             $writer->write(
                 document('1.0', 'UTF-8', children([
