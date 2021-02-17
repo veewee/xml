@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Reader\Node;
 
 use InvalidArgumentException;
-use Psl\Exception\InvariantViolationException;
 use Webmozart\Assert\Assert;
-use function Psl\Arr\at;
-use function Psl\Arr\last;
 
 final class NodeSequence
 {
@@ -45,22 +42,15 @@ final class NodeSequence
     {
         $this->guardSequenceNotEmpty();
 
-        /** @var ElementNode $result */
-        $result = last($this->elementNodes);
+        $elementCount = count($this->elementNodes);
 
-        return $result;
+        return $this->elementNodes[$elementCount-1];
     }
 
     public function parent(): ?ElementNode
     {
-        try {
-            $elementCount = count($this->elementNodes);
-            $element = at($this->elementNodes, $elementCount - 2);
-        } catch (InvariantViolationException) {
-            return null;
-        }
-
-        return $element;
+        $elementCount = count($this->elementNodes);
+        return $this->elementNodes[$elementCount - 2] ?? null;
     }
 
     /**

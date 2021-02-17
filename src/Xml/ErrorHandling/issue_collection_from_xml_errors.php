@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\ErrorHandling;
 
 use LibXMLError;
-use Psl\Arr;
+use Psl\Dict;
+use Psl\Vec;
 use VeeWee\Xml\ErrorHandling\Issue\Issue;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
@@ -15,7 +16,7 @@ use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 function issue_collection_from_xml_errors(array $errors): IssueCollection
 {
     return new IssueCollection(
-        ...Arr\filter_nulls(Arr\map(
+        ...Vec\filter_nulls(Dict\map(
             $errors,
             static fn (LibXMLError $error): ?Issue => issue_from_xml_error($error)
         ))
