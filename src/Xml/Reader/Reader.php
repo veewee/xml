@@ -79,7 +79,7 @@ final class Reader
                 }
 
                 if ($reader->nodeType === XMLReader::ELEMENT) {
-                    $isEmptyElement = (bool) ($reader->isEmptyElement);
+                    $isEmptyElement = $reader->isEmptyElement;
                     $element = ElementNode::fromReader(
                         $reader,
                         $pointer->getNextSiblingPosition(),
