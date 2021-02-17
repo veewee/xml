@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Writer\Builder;
 
 use PHPUnit\Framework\TestCase;
-use VeeWee\Tests\Xml\Writer\Util\UseInMemoryWriterTrait;
+use VeeWee\Tests\Xml\Writer\Helper\UseInMemoryWriterTrait;
 use VeeWee\Xml\Writer\Writer;
 use XMLWriter;
 use function VeeWee\Xml\Writer\Builder\prefixed_element;

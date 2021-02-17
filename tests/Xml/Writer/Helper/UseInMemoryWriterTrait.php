@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Writer\Util;
+namespace VeeWee\Tests\Xml\Writer\Helper;
 
 use XMLWriter;
 

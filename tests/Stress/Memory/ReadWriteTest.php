@@ -6,6 +6,7 @@ namespace VeeWee\Tests\Stress\Memory;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\Helper\TmpFileTrait;
 use VeeWee\Xml\Reader\Reader;
 use VeeWee\Xml\Writer\Writer;
 use function Safe\tempnam;
@@ -20,6 +21,8 @@ use function VeeWee\Xml\Writer\Configurator\indentation;
 
 final class ReadWriteTest extends TestCase
 {
+    use TmpFileTrait;
+
     private string $file = '';
     private string $previousLimit = '';
 
@@ -29,7 +32,7 @@ final class ReadWriteTest extends TestCase
         $this->previousLimit = ini_get('memory_limit');
         ini_set('memory_limit', $_ENV['STRESS_MAX_MB'].'MB');
 
-        fwrite(STDOUT, 'Writing to file: '.$this->file.PHP_EOL);
+        $this->logLine('Writing to file: '.$this->file);
     }
 
     protected function tearDown(): void
@@ -42,12 +45,12 @@ final class ReadWriteTest extends TestCase
     {
         $maxMemoryMb = (int) $_ENV['STRESS_MAX_MB'];
 
-        fwrite(STDOUT, 'Running Read/Write stress test...'.PHP_EOL);
-        fwrite(STDOUT, 'Number of tags: '.$_ENV['STRESS_TAGS_M'].'M'.PHP_EOL);
-        fwrite(STDOUT, 'Max memory: '.$_ENV['STRESS_MAX_MB'].'MB'.PHP_EOL.PHP_EOL);
+        $this->logLine('Running Read/Write stress test...');
+        $this->logLine('Number of tags: '.$_ENV['STRESS_TAGS_M'].'M');
+        $this->logLine('Max memory: '.$_ENV['STRESS_MAX_MB'].'MB'.PHP_EOL);
 
         $size = $this->writeALot();
-        fwrite(STDOUT, 'Written: '.$size.'MB'.PHP_EOL);
+        $this->logLine('Written: '.$size.'MB');
         static::assertGreaterThan($maxMemoryMb, $size);
         static::assertLessThan($maxMemoryMb, memory_get_peak_usage(true) / (1024**2));
 
@@ -74,7 +77,7 @@ final class ReadWriteTest extends TestCase
 
     private function readALot(): int
     {
-        fwrite(STDOUT, 'Reading...'.PHP_EOL);
+        $this->logLine('Reading...');
 
         return $this->time(
             function () {
@@ -96,9 +99,14 @@ final class ReadWriteTest extends TestCase
         $result = $run();
         $stop = hrtime(true);
 
-        fwrite(STDOUT, 'Action took: '.(($stop-$start)/1e+6).'ms'.PHP_EOL);
+        $this->logLine('Action took: '.(($stop-$start)/1e+6).'ms');
 
         return $result;
+    }
+
+    private function logLine(string $line): void
+    {
+        fwrite(STDOUT, $line.PHP_EOL);
     }
 
     private function provideFizzBuzzTags(): Generator

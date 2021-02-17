@@ -68,5 +68,9 @@ final class Writer
                 }
             }
         );
+
+        // Flush the content to the file.
+        // Make sure to keep the buffer in case you are using an in-memory writer.
+        $this->writer->flush(false);
     }
 }
