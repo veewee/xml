@@ -72,26 +72,34 @@ final class Reader
         yield from stop_on_first_issue(
             static fn (): bool => $reader->read(),
             static function () use ($reader, $pointer, $matcher) : ?string {
-                switch ($reader->nodeType) {
-                    case XMLReader::END_ELEMENT:
-                        $pointer->leaveElement();
-                        break;
-                    case XMLReader::ELEMENT:
-                        $element = ElementNode::fromReader(
-                            $reader,
-                            $pointer->getNextSiblingPosition(),
-                            static function () use ($reader): array {
-                                $attributes = [];
-                                while ($reader->moveToNextAttribute()) {
-                                    $attributes[] = AttributeNode::fromReader($reader);
-                                }
-                                return $attributes;
+                if ($reader->nodeType === XMLReader::END_ELEMENT) {
+                    $pointer->leaveElement();
+
+                    return null;
+                }
+
+                if ($reader->nodeType === XMLReader::ELEMENT) {
+                    $isEmptyElement = $reader->isEmptyElement;
+                    $element = ElementNode::fromReader(
+                        $reader,
+                        $pointer->getNextSiblingPosition(),
+                        static function () use ($reader): array {
+                            $attributes = [];
+                            while ($reader->moveToNextAttribute()) {
+                                $attributes[] = AttributeNode::fromReader($reader);
                             }
-                        );
+                            return $attributes;
+                        }
+                    );
 
-                        $pointer->enterElement($element);
+                    $pointer->enterElement($element);
+                    $result = $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
 
-                        return $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
+                    if ($isEmptyElement) {
+                        $pointer->leaveElement();
+                    }
+
+                    return $result;
                 }
 
                 return null;

@@ -6,8 +6,8 @@ namespace VeeWee\Xml\Dom\Builder;
 
 use DOMDocument;
 use DOMNode;
+use function is_array;
 use function Psl\Iter\reduce;
-use function Psl\Type\is_array;
 
 /**
  * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Builder;
+namespace VeeWee\Tests\Xml\Dom\Builder;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,6 @@ final class ElementTest extends TestCase
         static::assertSame($doc, $node->ownerDocument);
     }
 
-    
     public function test_it_can_build_an_element_with_configurators(): void
     {
         $doc = new DOMDocument();
@@ -33,7 +32,6 @@ final class ElementTest extends TestCase
         static::assertSame($doc, $node->ownerDocument);
     }
 
-    
     public function test_it_can_build_an_element_with_value(): void
     {
         $doc = new DOMDocument();

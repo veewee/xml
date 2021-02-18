@@ -8,7 +8,7 @@ use DOMDocument;
 use Safe\Exceptions\PcreException;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
-use function Psl\Iter\map;
+use function Psl\Dict\map;
 use function Safe\preg_split;
 
 /**

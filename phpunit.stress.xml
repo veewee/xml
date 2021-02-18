@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    executionOrder="random"
+    forceCoversAnnotation="false"
+    beStrictAboutCoversAnnotation="false"
+    beStrictAboutOutputDuringTests="true"
+    beStrictAboutTodoAnnotatedTests="true"
+    verbose="true"
+>
+  <php>
+    <env name="STRESS_MAX_MB" value="20" />
+    <env name="STRESS_TAGS_M" value="1" />
+  </php>
+  <testsuites>
+    <testsuite name="default">
+      <directory suffix="Test.php">tests/Stress</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

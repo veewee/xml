@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Reader\Configurator;
+namespace VeeWee\Tests\Xml\Reader\Configurator;
 
 use PHPUnit\Framework\TestCase;
 use ValueError;

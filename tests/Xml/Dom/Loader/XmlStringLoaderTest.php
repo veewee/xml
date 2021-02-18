@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Loader;
+namespace VeeWee\Tests\Xml\Dom\Loader;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;

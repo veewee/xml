@@ -12,7 +12,8 @@
         "ext-xml": "*",
         "ext-xsl": "*",
         "ext-xmlreader": "*",
-        "azjezz/psl": "^1.0",
+        "ext-xmlwriter": "*",
+        "azjezz/psl": "^1.3",
         "webmozart/assert": "^1.9",
         "thecodingmachine/safe": "^1.3"
     },
@@ -37,7 +38,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "VeeWee\\Xml\\Tests\\": "tests/Xml"
+            "VeeWee\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -48,7 +49,11 @@
         "cs": "PHP_CS_FIXER_IGNORE_ENV=1 php ./tools/php-cs-fixer.phar fix --dry-run",
         "cs:fix": "PHP_CS_FIXER_IGNORE_ENV=1 php ./tools/php-cs-fixer.phar fix",
         "psalm": "./tools/psalm.phar --no-cache",
-        "tests": "./tools/phpunit.phar",
+        "tests": "./tools/phpunit.phar --coverage-text --color",
+        "stress": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php -c stress.ini ./tools/phpunit.phar --configuration phpunit.stress.xml --no-coverage"
+        ],
         "testquality": "@parallel coverage infection",
         "coverage": "@php ./tools/full-coverage-check.php .phpunit.cache/clover/clover.xml",
         "infection": [
@@ -58,7 +63,7 @@
         "ci": [
             "@autoload",
             "@parallel cs psalm tests",
-            "@parallel coverage infection"
+            "@parallel coverage infection stress"
         ]
     }
 }

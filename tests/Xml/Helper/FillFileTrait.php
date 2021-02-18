@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Helper;
+namespace VeeWee\Tests\Xml\Helper;
 
 trait FillFileTrait
 {

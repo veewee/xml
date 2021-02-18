@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Currently Psalm thinks that namespaces cannot be null. But they can!
+ */
+class XMLWriter
+{
+    public static function startElementNs(?string $prefix, string $name, ?string $namespace): bool;
+    public static function startAttributeNs(?string $prefix, string $name, ?string $namespace): bool;
+}

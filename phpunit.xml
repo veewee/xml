@@ -25,7 +25,7 @@
   </coverage>
   <testsuites>
     <testsuite name="default">
-      <directory suffix="Test.php">tests</directory>
+      <directory suffix="Test.php">tests/Xml</directory>
     </testsuite>
   </testsuites>
 </phpunit>

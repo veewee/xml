@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\ErrorHandling\Assertion;
+namespace VeeWee\Tests\Xml\ErrorHandling\Assertion;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

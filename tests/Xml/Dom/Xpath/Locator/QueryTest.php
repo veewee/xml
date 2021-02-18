@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Xpath\Locator;
+namespace VeeWee\Tests\Xml\Dom\Xpath\Locator;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;

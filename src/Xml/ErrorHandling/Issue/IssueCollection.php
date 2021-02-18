@@ -6,10 +6,11 @@ namespace VeeWee\Xml\ErrorHandling\Issue;
 
 use Countable;
 use IteratorAggregate;
-use Psl\Arr;
+use Psl\Dict;
 use Psl\Iter\Iterator;
 use Psl\Math;
 use Psl\Str;
+use Psl\Vec;
 
 /**
  * @template-implements IteratorAggregate<int, Issue>
@@ -45,7 +46,7 @@ final class IssueCollection implements Countable, IteratorAggregate
      */
     public function filter(callable $filter): self
     {
-        return new self(...Arr\filter($this->issues, $filter));
+        return new self(...Dict\filter($this->issues, $filter));
     }
 
     public function getHighestLevel(): ?Level
@@ -57,7 +58,7 @@ final class IssueCollection implements Countable, IteratorAggregate
 
     public function toString(): string
     {
-        $values = Arr\values(Arr\map($this->issues, static fn (Issue $error): string => $error->toString()));
+        $values = Vec\values(Dict\map($this->issues, static fn (Issue $error): string => $error->toString()));
 
         return Str\join($values, PHP_EOL);
     }

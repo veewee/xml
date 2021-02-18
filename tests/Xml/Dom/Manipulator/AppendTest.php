@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Manipulator;
+namespace VeeWee\Tests\Xml\Dom\Manipulator;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;

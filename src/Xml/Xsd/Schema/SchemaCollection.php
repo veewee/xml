@@ -6,9 +6,9 @@ namespace VeeWee\Xml\Xsd\Schema;
 
 use Countable;
 use IteratorAggregate;
-use function Psl\Arr\filter;
-use function Psl\Arr\map;
-use function Psl\Arr\values;
+use function Psl\Dict\filter;
+use function Psl\Dict\map;
+use function Psl\Vec\values;
 
 /**
  * @psalm-immutable

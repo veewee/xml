@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Loader;
+namespace VeeWee\Tests\Xml\Dom\Loader;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
-use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
 final class XmlFileLoaderTest extends TestCase

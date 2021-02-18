@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Exception;
+namespace VeeWee\Tests\Xml\Exception;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
 use VeeWee\Xml\Exception\ExceptionInterface;
 use VeeWee\Xml\Exception\RuntimeException;
-use VeeWee\Xml\Tests\ErrorHandling\Issue\UseIssueTrait;
 
 final class RuntimeExceptionTest extends TestCase
 {

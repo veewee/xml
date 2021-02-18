@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Validator;
+namespace VeeWee\Tests\Xml\Dom\Validator;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
-use VeeWee\Xml\Tests\ErrorHandling\Issue\UseIssueTrait;
 
 use function VeeWee\Xml\Dom\Validator\validator_chain;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Dom\Validator;
+namespace VeeWee\Tests\Xml\Dom\Validator;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\Reader\Configurator;
+namespace VeeWee\Tests\Xml\Reader\Configurator;
 
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Reader\Reader;
-use VeeWee\Xml\Tests\Helper\FillFileTrait;
 use XMLReader;
 use function VeeWee\Xml\Reader\Configurator\xsd_schema;
 use function VeeWee\Xml\Reader\Matcher\node_name;

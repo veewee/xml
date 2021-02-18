@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Tests\ErrorHandling\Issue;
+namespace VeeWee\Tests\Xml\ErrorHandling\Issue;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\ErrorHandling\Issue\Level;

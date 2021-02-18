@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\ErrorHandling;
 
 use Generator;
-use Psl\Arr;
+use Psl\Vec;
 
 use VeeWee\Xml\Exception\RuntimeException;
 use function libxml_clear_errors;
@@ -31,7 +31,7 @@ function stop_on_first_issue(callable $tick, callable $run): Generator
     libxml_clear_errors();
 
     $detectIssues = static function (): void {
-        $issues = issue_collection_from_xml_errors(Arr\values(libxml_get_errors()));
+        $issues = issue_collection_from_xml_errors(Vec\values(libxml_get_errors()));
         if ($issues->count()) {
             throw RuntimeException::fromIssues('Detected issues during the parsing of the XML Stream', $issues);
         }
