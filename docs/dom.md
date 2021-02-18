@@ -184,7 +184,7 @@ element('foo',
 <foo xmlns:acme="https://acme.com" acme:hello="world" />
 ```
 
-#### namespaced_attributed
+#### namespaced_attributes
 
 
 Operates on a `DOMElement` and adds a namespaced attribute with specified key and value
