@@ -1,15 +1,23 @@
 #!/usr/bin/env php
 <?php
 
+require_once dirname(__DIR__).'/vendor/autoload.php';
+
+use Psl\Type;
+use VeeWee\Xml\Dom\Document;
+use function Psl\invariant;
+
 (static function (array $argv) {
-    $file = $argv[1] ?? null;
-    if (!$file || !file_exists($file)) {
-        throw new RuntimeException('Expected clover.xml as first argument. Invalid clover.xml file provided.');
+    if (!$file = $argv[1] ?? null) {
+        throw new InvalidArgumentException('Expected clover.xml as first argument.');
     }
 
-    $xml = simplexml_load_file($file);
-    $totalElements = (int) current($xml->xpath('/coverage/project/metrics/@elements'));
-    $checkedElements = (int) current($xml->xpath('/coverage/project/metrics/@coveredelements'));
+    $xpath = Document::fromXmlFile($file)->xpath();
+    $totalElements = $xpath->evaluate('number(/coverage/project/metrics/@elements)', Type\float());
+    $checkedElements = $xpath->evaluate('number(/coverage/project/metrics/@coveredelements)', Type\float());
+
+    invariant($totalElements > 0, 'No code metrics could be found!');
+    invariant(!is_nan($checkedElements), 'No covered elements could be found!');
     $coverage = round(($checkedElements / $totalElements) * 100, 2);
 
     if ($coverage !== 100.0) {

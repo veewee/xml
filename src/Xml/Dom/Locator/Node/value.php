@@ -6,18 +6,18 @@ namespace VeeWee\Xml\Dom\Locator\Node;
 
 use DOMNode;
 use Psl\Type\Exception\CoercionException;
-use Psl\Type\Type;
+use Psl\Type\TypeInterface;
 
 /**
  * @template T
  *
- * @param Type<T> $type
+ * @param TypeInterface<T> $type
  *
  * @return T
  *
  * @throws CoercionException
  */
-function value(DOMNode $node, Type $type)
+function value(DOMNode $node, TypeInterface $type)
 {
     return $type->coerce($node->nodeValue);
 }

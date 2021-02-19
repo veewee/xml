@@ -5,18 +5,18 @@ namespace VeeWee\Xml\Dom\Xpath\Locator;
 
 use DOMNode;
 use DOMXPath;
-use Psl\Type\Type;
+use Psl\Type\TypeInterface;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
  * @template T
  *
- * @param Type<T> $type
+ * @param TypeInterface<T> $type
  *
  * @return callable(DOMXPath): T
  */
-function evaluate(string $query, Type $type, DOMNode $node = null): callable
+function evaluate(string $query, TypeInterface $type, DOMNode $node = null): callable
 {
     return
         /**

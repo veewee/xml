@@ -9,7 +9,7 @@ use DOMNode;
 use DOMNodeList;
 use DOMXPath;
 use InvalidArgumentException;
-use Psl\Type\Type;
+use Psl\Type\TypeInterface;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\Dom\Xpath\Locator\evaluate;
@@ -65,12 +65,12 @@ final class Xpath
     /**
      * @template T
      *
-     * @param Type<T> $type
+     * @param TypeInterface<T> $type
      *
      * @return T
      * @throws RuntimeException
      */
-    public function evaluate(string $expression, Type $type, DOMNode $contextNode = null)
+    public function evaluate(string $expression, TypeInterface $type, DOMNode $contextNode = null)
     {
         return $this->locate(evaluate($expression, $type, $contextNode));
     }
