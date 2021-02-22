@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Dom\Locator\Xsd;
 
 use DOMDocument;
 use Safe\Exceptions\PcreException;
+use VeeWee\Xml\Xmlns\Xmlns;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function Safe\preg_split;
@@ -15,7 +16,7 @@ use function Safe\preg_split;
  */
 function locate_namespaced_xsd_schemas(DOMDocument $document): SchemaCollection
 {
-    $schemaNs = 'http://www.w3.org/2001/XMLSchema-instance';
+    $schemaNs = Xmlns::xsd()->value();
     $attributes = $document->documentElement->attributes;
     $collection = new SchemaCollection();
 
