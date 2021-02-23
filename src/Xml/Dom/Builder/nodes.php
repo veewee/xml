@@ -8,6 +8,7 @@ use DOMDocument;
 use DOMNode;
 use function is_array;
 use function Psl\Iter\reduce;
+use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 
 /**
  * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
@@ -20,7 +21,7 @@ function nodes(callable ... $builders): callable
         /**
          * @return list<DOMNode>
          */
-        static fn (DOMDocument $document): array
+        static fn (DOMNode $node): array
             => reduce(
                 $builders,
                 /**
@@ -28,8 +29,8 @@ function nodes(callable ... $builders): callable
                  * @param callable(DOMDocument): (DOMNode|list<DOMNode>) $builder
                  * @return list<DOMNode>
                  */
-                static function (array $builds, callable $builder) use ($document): array {
-                    $result = $builder($document);
+                static function (array $builds, callable $builder) use ($node): array {
+                    $result = $builder(detect_document($node));
                     $newBuilds = is_array($result) ? $result : [$result];
 
                     return [...$builds, ...$newBuilds];

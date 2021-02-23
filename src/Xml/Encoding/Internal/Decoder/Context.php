@@ -6,7 +6,7 @@ namespace VeeWee\Xml\Encoding\Internal\Decoder;
 
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Xmlns\Xmlns;
-use function VeeWee\Xml\Encoding\Internal\Decoder\Parser\known_namespace_prefixes;
+use function VeeWee\Xml\Encoding\Internal\Decoder\Builder\known_namespace_prefixes;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Encoding\Internal\Decoder\Parser;
+namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
 use DOMElement;
 
