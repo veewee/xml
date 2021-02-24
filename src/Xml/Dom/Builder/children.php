@@ -9,7 +9,7 @@ use DOMNode;
 /**
  * @template T of DOMNode
  *
- * @param list<callable(DOMNode): DOMNode> $builders
+ * @param list<callable(T): DOMNode> $builders
  *
  * @return callable(T): T
  */

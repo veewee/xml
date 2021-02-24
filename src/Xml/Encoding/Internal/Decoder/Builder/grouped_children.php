@@ -14,7 +14,6 @@ use function Psl\Iter\reduce_with_keys;
 /**
  * @psalm-internal VeeWee\Xml\Encoding
  *
- * @return array
  */
 function grouped_children(DOMElement $element, Context $context): array
 {
