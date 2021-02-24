@@ -56,6 +56,7 @@ require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/grouped_children.ph
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/known_namespace_prefixes.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/name.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/namespaces.php';
+require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/unwrap_element.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/children.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/element.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/is_node_list.php';

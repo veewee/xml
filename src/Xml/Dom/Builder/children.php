@@ -7,9 +7,11 @@ namespace VeeWee\Xml\Dom\Builder;
 use DOMNode;
 
 /**
+ * @template T of DOMNode
+ *
  * @param list<callable(DOMNode): DOMNode> $builders
  *
- * @return callable(DOMNode): DOMNode
+ * @return callable(T): T
  */
 function children(callable ...$builders): callable
 {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use DOMElement;
+use DOMNode;
 use Psl\Type\Exception\AssertException;
 use function Psl\Dict\filter_keys;
 use function Psl\Dict\map_with_key;
@@ -23,7 +24,7 @@ use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuild
 
 /**
  * @param array<string, string|array> $data
- * @return callable(DOMElement): DOMElement
+ * @return callable(DOMNode): DOMElement
  * @throws AssertException
  */
 function element(string $name, array $data): callable
@@ -57,8 +58,8 @@ function element(string $name, array $data): callable
         ...values(map_with_key(
             $element,
             /**
-             * @param string|array<array-key, string|array> $value
-             * @return callable(DOMElement): DOMElement
+             * @param string|array<int|string, array|string> $value
+             * @return callable(DOMNode): DOMElement
              */
             static fn (string $name, string|array $value): callable
                 => parent_node($name, $value)

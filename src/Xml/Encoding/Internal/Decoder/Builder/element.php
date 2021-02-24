@@ -11,6 +11,7 @@ use function Psl\Dict\merge;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding
+ * @return array<string, string|array>
  */
 function element(DOMElement $element, Context $context): array
 {
