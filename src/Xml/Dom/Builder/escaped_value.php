@@ -12,7 +12,7 @@ use DOMElement;
 function escaped_value(string $value): callable
 {
     return static function (DOMElement $node) use ($value): DOMElement {
-        $node->nodeValue = htmlspecialchars($value);
+        $node->nodeValue = htmlspecialchars($value, ENT_XML1|ENT_QUOTES);
 
         return $node;
     };

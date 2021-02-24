@@ -32,7 +32,18 @@ final class Xmlns
         return new self('http://www.w3.org/2001/XMLSchema-instance');
     }
 
-    public static function load(string $namespace)
+    /**
+     * @psalm-pure
+     */
+    public static function phpXpath(): self
+    {
+        return new self('http://php.net/xpath');
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function load(string $namespace): self
     {
         return new self($namespace);
     }

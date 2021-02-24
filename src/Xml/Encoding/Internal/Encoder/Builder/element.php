@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
+use DOMElement;
+use DOMNode;
+use Psl\Type\Exception\AssertException;
 use function Psl\Dict\filter_keys;
 use function Psl\Dict\map_with_key;
 use function Psl\Dict\merge;
@@ -20,6 +23,11 @@ use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\escaped_value;
 use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuilder;
 
+/**
+ * @param array<string, string|array> $data
+ * @return callable(DOMNode): DOMElement
+ * @throws AssertException
+ */
 function element(string $name, array $data): callable
 {
     $nullableMap = union(dict(string(), string()), null());
@@ -29,25 +37,29 @@ function element(string $name, array $data): callable
 
     $element = filter_keys(
         $data,
-        static fn ($key): bool => !in_array($key, ['@attributes', '@namespaces', '@value'], true)
+        static fn (string $key): bool => !in_array($key, ['@attributes', '@namespaces', '@value'], true)
     );
 
     $currentNamespace = $namespaces[''] ?? null;
     $namedNamespaces = reduce_with_keys(
         filter_keys($namespaces ?? []),
-        static fn (array $namespaces, string $prefix, string $namespace)
+        /**
+         * @param array<string string> $namespaces
+         * @return array<string string>
+         */
+        static fn (array $namespaces, string $prefix, string $namespace): array
             => merge($namespaces, ['xmlns:'.$prefix => $namespace]),
         []
     );
 
-    $buildTerminatedChild = static fn(string $name, string $value)
+    $buildTerminatedChild = static fn (string $name, string $value): callable
         => buildChildren(elementBuilder($name, escaped_value($value)));
-    $buildNestedChild = static fn(string $name, array $value)
+    $buildNestedChild = static fn (string $name, array $value): callable
         => is_node_list($value)
             ? children($name, $value)
             : buildChildren(element($name, $value));
 
-    $buildChildElement = static fn(string $name, string|array $value)
+    $buildChildElement = static fn (string $name, string|array $value): callable
         => is_string($value)
             ? $buildTerminatedChild($name, $value)
             : $buildNestedChild($name, $value);

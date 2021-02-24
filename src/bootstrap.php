@@ -29,6 +29,7 @@ require_once __DIR__.'/Xml/Dom/Locator/Node/value.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_all_xsd_schemas.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_namespaced_xsd_schemas.php';
 require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_no_namespaced_xsd_schemas.php';
+require_once __DIR__.'/Xml/Dom/Locator/document_element.php';
 require_once __DIR__.'/Xml/Dom/Locator/elements_with_namespaced_tagname.php';
 require_once __DIR__.'/Xml/Dom/Locator/elements_with_tagname.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Node/append_external_node.php';

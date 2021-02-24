@@ -8,7 +8,7 @@ use DOMElement;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding
- * @return array<string, DOMElement|array<DOMElement>>
+ * @return array<string, DOMElement|list<DOMElement>>
  */
 function group_child_elements(DOMElement $element): array
 {
