@@ -8,9 +8,7 @@ use DOMDocument;
 use DOMNode;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use function Psl\Dict\map_with_key;
-use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\nodes;
-use function VeeWee\Xml\Dom\Builder\value;
 
 /**
  * @param array<string, string|array> $data
@@ -28,7 +26,7 @@ function root(array $data): callable
         ...map_with_key(
             $data,
             static fn (string $key, array|string $value): callable
-                => is_array($value) ? element($key, $value) : elementBuilder($key, value($value))
+                => parent_node($key, $value)
         )
     );
 }

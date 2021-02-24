@@ -59,6 +59,7 @@ require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/namespaces.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/children.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/element.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/is_node_list.php';
+require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/parent_node.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/root.php';
 require_once __DIR__.'/Xml/Encoding/decode.php';
 require_once __DIR__.'/Xml/Encoding/encode.php';

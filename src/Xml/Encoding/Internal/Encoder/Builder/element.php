@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use DOMElement;
-use DOMNode;
 use Psl\Type\Exception\AssertException;
 use function Psl\Dict\filter_keys;
 use function Psl\Dict\map_with_key;
@@ -18,14 +17,13 @@ use function Psl\Type\union;
 use function Psl\Vec\filter_nulls;
 use function Psl\Vec\values;
 use function VeeWee\Xml\Dom\Builder\attributes;
-use function VeeWee\Xml\Dom\Builder\children as buildChildren;
 use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\escaped_value;
 use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuilder;
 
 /**
  * @param array<string, string|array> $data
- * @return callable(DOMNode): DOMElement
+ * @return callable(DOMElement): DOMElement
  * @throws AssertException
  */
 function element(string $name, array $data): callable
@@ -44,31 +42,27 @@ function element(string $name, array $data): callable
     $namedNamespaces = reduce_with_keys(
         filter_keys($namespaces ?? []),
         /**
-         * @param array<string string> $namespaces
-         * @return array<string string>
+         * @param array<string, string> $namespaces
+         * @return array<string, string>
          */
         static fn (array $namespaces, string $prefix, string $namespace): array
             => merge($namespaces, ['xmlns:'.$prefix => $namespace]),
         []
     );
 
-    $buildTerminatedChild = static fn (string $name, string $value): callable
-        => buildChildren(elementBuilder($name, escaped_value($value)));
-    $buildNestedChild = static fn (string $name, array $value): callable
-        => is_node_list($value)
-            ? children($name, $value)
-            : buildChildren(element($name, $value));
-
-    $buildChildElement = static fn (string $name, string|array $value): callable
-        => is_string($value)
-            ? $buildTerminatedChild($name, $value)
-            : $buildNestedChild($name, $value);
-
     $children = filter_nulls([
         $attributes ? attributes($attributes) : null,
         $namedNamespaces ? attributes($namedNamespaces) : null,
         $value ? escaped_value($value) : null,
-        ...values(map_with_key($element, $buildChildElement)),
+        ...values(map_with_key(
+            $element,
+            /**
+             * @param string|array<array-key, string|array> $value
+             * @return callable(DOMElement): DOMElement
+             */
+            static fn (string $name, string|array $value): callable
+                => parent_node($name, $value)
+        )),
     ]);
 
     return $currentNamespace
