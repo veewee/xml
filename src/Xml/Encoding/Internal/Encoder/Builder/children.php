@@ -13,8 +13,6 @@ use function VeeWee\Xml\Dom\Builder\value;
 /**
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @param array<array-key, string|array> $children
- *
  * @return callable(DOMElement): DOMElement
  */
 function children(string $name, array $children): callable
@@ -23,7 +21,6 @@ function children(string $name, array $children): callable
         ...map(
             $children,
             /**
-             * @param string|array<string, string|array> $data
              * @return callable(DOMElement): DOMElement
              */
             static fn (array|string $data): callable => is_array($data)

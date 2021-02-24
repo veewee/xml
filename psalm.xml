@@ -34,6 +34,11 @@
                 <directory name="tests"/>
             </errorLevel>
         </UndefinedClass>
+        <MixedArgumentTypeCoercion>
+            <errorLevel type="suppress">
+                <directory name="src/Xml/Encoding/Internal/Encoder/Builder" />
+            </errorLevel>
+        </MixedArgumentTypeCoercion>
     </issueHandlers>
     <stubs>
         <file name="stubs/DOM.phpstub" />
@@ -41,4 +46,7 @@
         <file name="stubs/XMLReader.phpstub" />
         <file name="stubs/XMLWriter.phpstub" />
     </stubs>
+    <plugins>
+        <pluginClass class="Psl\Integration\Psalm\Plugin" />
+    </plugins>
 </psalm>

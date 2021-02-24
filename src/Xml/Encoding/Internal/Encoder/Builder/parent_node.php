@@ -14,7 +14,6 @@ use function VeeWee\Xml\Dom\Builder\escaped_value;
 /**
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @param array<int, string|array>|array<string, string|array>|string $data
  * @return callable(DOMNode): DOMElement
  *
  * @throws AssertException

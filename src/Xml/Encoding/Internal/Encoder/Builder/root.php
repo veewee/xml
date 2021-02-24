@@ -11,7 +11,6 @@ use function Psl\Dict\map_with_key;
 use function VeeWee\Xml\Dom\Builder\nodes;
 
 /**
- * @param array<string, string|array> $data
  * @return callable(DOMDocument): list<DOMNode>
  *
  * @throws EncodingException

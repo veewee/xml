@@ -24,7 +24,6 @@ use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuild
 /**
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @param array<string, string|array> $data
  * @return callable(DOMElement): DOMElement
  *
  * @throws AssertException

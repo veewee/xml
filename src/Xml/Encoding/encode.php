@@ -12,7 +12,6 @@ use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Encoding\Internal\Encoder\Builder\root;
 
 /**
- * @param array<string, array|string> $data
  * @param list<callable(DOMDocument): DOMDocument> $configurators
  *
  * @throws RuntimeException
