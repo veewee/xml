@@ -60,6 +60,7 @@ require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/unwrap_element.php'
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/children.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/element.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/is_node_list.php';
+require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/normalize_data.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/parent_node.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/root.php';
 require_once __DIR__.'/Xml/Encoding/decode.php';

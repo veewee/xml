@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Encoding;
 
+use JsonSerializable;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -15,6 +16,7 @@ final class EncodingTest extends TestCase
 {
     /**
      * @dataProvider provideBidirectionalCases
+     * @dataProvider provideEncodingOnly
      */
     public function test_it_encodes(string $xml, array $data)
     {
@@ -24,6 +26,7 @@ final class EncodingTest extends TestCase
 
     /**
      * @dataProvider provideBidirectionalCases
+     * @dataProvider provideDecodingOnly
      */
     public function test_it_decodes(string $xml, array $data)
     {
@@ -161,6 +164,55 @@ final class EncodingTest extends TestCase
                     ],
                 ],
             ]]
+        ];
+    }
+
+    public function provideEncodingOnly()
+    {
+        yield 'normalizable-types' => [
+            'xml' => <<<EOXML
+            <root>
+                <id type="1">132</id>
+                <json-array>
+                    <field1>999</field1>
+                </json-array>
+                <json-value>1</json-value>
+                <price>121</price>
+            </root>
+            EOXML,
+            'data' => [
+                'root' => [
+                    'id' => [
+                        '@attributes' => [
+                            'type' => 1
+                        ],
+                        '@value' => 132
+                    ],
+                    'json-array' => new class implements JsonSerializable {
+                        public function jsonSerialize()
+                        {
+                            return [
+                                'field1' => 999
+                            ];
+                        }
+                    },
+                    'json-value' => new class implements JsonSerializable {
+                        public function jsonSerialize()
+                        {
+                            return 1;
+                        }
+                    },
+                    'price' => 121
+                ]
+            ]
+        ];
+    }
+
+    public function provideDecodingOnly()
+    {
+        yield 'cdata' => [
+            'xml' => '<hello><![CDATA[Jos & Bos]]></hello>',
+            'data' => ['hello' => 'Jos & Bos']
         ];
     }
 
