@@ -115,4 +115,4 @@ $data = typed(
 ```
 
 It works exactly the same as the [decode](#decode) function but with an additional type parameter.
-Structuring the shape of the type-result is done by the [https://github.com/azjezz/psl](azjezz/psl) package.
+Structuring the shape of the type-result is done by the [azjezz/psl](https://github.com/azjezz/psl) package.
