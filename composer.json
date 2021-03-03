@@ -2,7 +2,8 @@
     "name": "veewee/xml",
     "description": "XML without worries",
     "keywords": [
-        "dom", "xml", "xsd", "xslt", "dom-manipulation", "reader", "xpath"
+        "dom", "xml", "xsd", "xslt", "dom-manipulation", "reader", "writer", "xpath",
+        "xml_encode", "xml_decode", "array-to-xml", "xml-to-array"
     ],
     "type": "library",
     "require": {
