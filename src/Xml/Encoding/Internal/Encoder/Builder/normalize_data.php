@@ -6,10 +6,13 @@ namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use JsonSerializable;
 use Psl\Type\Exception\CoercionException;
+use VeeWee\Xml\Encoding\XmlSerializable;
 use function Psl\Dict\map;
 use function Psl\Type\string;
 
 /**
+ * @psalm-internal VeeWee\Xml\Encoding
+ *
  * @template T
  * @param T $data
  *
@@ -19,6 +22,10 @@ use function Psl\Type\string;
  */
 function normalize_data(mixed $data): array|string
 {
+    if ($data instanceof XmlSerializable) {
+        return normalize_data($data->xmlSerialize());
+    }
+
     if (is_iterable($data)) {
         return map(
             $data,
@@ -27,9 +34,7 @@ function normalize_data(mixed $data): array|string
     }
 
     if ($data instanceof JsonSerializable) {
-        return normalize_data(
-            $data->jsonSerialize()
-        );
+        return normalize_data($data->jsonSerialize());
     }
 
     return string()->coerce($data);

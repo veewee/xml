@@ -12,6 +12,7 @@ use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\escaped_value;
 
 /**
+ * @psalm-internal VeeWee\Xml\Encoding
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
  * @return callable(DOMNode): DOMElement

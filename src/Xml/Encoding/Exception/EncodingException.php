@@ -22,4 +22,13 @@ final class EncodingException extends Exception implements ExceptionInterface
     {
         return new self('Invalid parent node provided. Expected type array<array|string>, got '.$actualType);
     }
+
+    public static function wrapException(Exception $exception): self
+    {
+        if ($exception instanceof EncodingException) {
+            return $exception;
+        }
+
+        return new self($exception->getMessage(), $exception);
+    }
 }

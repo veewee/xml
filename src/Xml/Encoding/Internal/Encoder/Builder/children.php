@@ -11,6 +11,8 @@ use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\value;
 
 /**
+ * @psalm-internal VeeWee\Xml\Encoding
+ *
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
  * @return callable(DOMElement): DOMElement

@@ -11,6 +11,7 @@ use function Psl\Dict\map_with_key;
 use function VeeWee\Xml\Dom\Builder\nodes;
 
 /**
+ * @psalm-internal VeeWee\Xml\Encoding
  * @return callable(DOMDocument): list<DOMNode>
  *
  * @throws EncodingException

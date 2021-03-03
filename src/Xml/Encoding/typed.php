@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Encoding;
 use DOMDocument;
 use Psl\Type\Exception\CoercionException;
 use Psl\Type\TypeInterface;
-use VeeWee\Xml\Exception\RuntimeException;
+use VeeWee\Xml\Encoding\Exception\EncodingException;
 
 /**
  * @template T
@@ -18,9 +18,9 @@ use VeeWee\Xml\Exception\RuntimeException;
  * @return T
  *
  * @throws CoercionException
- * @throws RuntimeException
+ * @throws EncodingException
  */
 function typed(string $xml, TypeInterface $type, callable ... $configurators)
 {
-    return $type->coerce(decode($xml, ...$configurators));
+    return $type->coerce(xml_decode($xml, ...$configurators));
 }

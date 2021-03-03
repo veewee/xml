@@ -7,10 +7,10 @@ namespace VeeWee\Tests\Xml\Encoding;
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
-use VeeWee\Xml\Exception\RuntimeException;
+use VeeWee\Xml\Encoding\XmlSerializable;
 use function Psl\Fun\identity;
-use function VeeWee\Xml\Encoding\decode;
-use function VeeWee\Xml\Encoding\encode;
+use function VeeWee\Xml\Encoding\xml_decode;
+use function VeeWee\Xml\Encoding\xml_encode;
 
 final class EncodingTest extends TestCase
 {
@@ -20,7 +20,7 @@ final class EncodingTest extends TestCase
      */
     public function test_it_encodes(string $xml, array $data)
     {
-        $actual = encode($data, identity());
+        $actual = xml_encode($data, identity());
         static::assertXmlStringEqualsXmlString($xml, $actual);
     }
 
@@ -30,7 +30,7 @@ final class EncodingTest extends TestCase
      */
     public function test_it_decodes(string $xml, array $data)
     {
-        $actual = decode($xml, identity());
+        $actual = xml_decode($xml, identity());
         static::assertSame($data, $actual);
     }
 
@@ -40,7 +40,7 @@ final class EncodingTest extends TestCase
     public function test_it_errors_while_encoding_invalid_xml(string $xml, array $data)
     {
         $this->expectException(EncodingException::class);
-        encode($data);
+        xml_encode($data);
     }
 
     /**
@@ -48,8 +48,8 @@ final class EncodingTest extends TestCase
      */
     public function test_it_errors_while_decoding_invalid_xml(string $xml)
     {
-        $this->expectException(RuntimeException::class);
-        decode($xml);
+        $this->expectException(EncodingException::class);
+        xml_decode($xml);
     }
 
     public function provideBidirectionalCases()
@@ -173,6 +173,10 @@ final class EncodingTest extends TestCase
             'xml' => <<<EOXML
             <root>
                 <id type="1">132</id>
+                <xml-array>
+                    <field1>123</field1>
+                </xml-array>
+                <xml-value>2</xml-value>
                 <json-array>
                     <field1>999</field1>
                 </json-array>
@@ -188,6 +192,20 @@ final class EncodingTest extends TestCase
                         ],
                         '@value' => 132
                     ],
+                    'xml-array' => new class implements XmlSerializable {
+                        public function xmlSerialize(): array
+                        {
+                            return [
+                                'field1' => 123
+                            ];
+                        }
+                    },
+                    'xml-value' => new class implements XmlSerializable {
+                        public function xmlSerialize(): int
+                        {
+                            return 2;
+                        }
+                    },
                     'json-array' => new class implements JsonSerializable {
                         public function jsonSerialize()
                         {

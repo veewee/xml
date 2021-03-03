@@ -21,4 +21,26 @@ final class EncodingExceptionTest extends TestCase
 
         throw EncodingException::invalidRoot('int');
     }
+
+    public function test_it_can_wrap_any_exception(): void
+    {
+        $exception = new Exception('hello there', 1);
+        $actual = EncodingException::wrapException($exception);
+
+        static::assertNotSame($exception, $actual);
+
+        $this->expectException(EncodingException::class);
+        $this->expectExceptionMessage($exception->getMessage());
+        $this->expectExceptionCode(1);
+
+        throw $actual;
+    }
+
+    public function test_it_does_not_wrap_an_encoding_exception(): void
+    {
+        $exception = EncodingException::invalidRoot('mixed');
+        $actual = EncodingException::wrapException($exception);
+
+        static::assertSame($exception, $actual);
+    }
 }
