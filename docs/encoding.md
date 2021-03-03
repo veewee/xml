@@ -178,7 +178,7 @@ You can choose to use the [typed](#typed) function to transform those strings in
 Whilst encoding the array back to a string, the encoder tries to transform the provided values into a string.
 Currently, we support following transformations in this order:
 
-- `VeeWee\Xml\Encoding\XmlSerializable`: Transforms objects to a normalizable value by using the `xmlSerialize` function.
+- `VeeWee\Xml\Encoding\XmlSerializable`: Transforms objects to a normalizable value by using the `xmlSerialize()` function.
 - `iterables`: Any iterable will be converted to an array first.
 - `JsonSerializable`: Transforms objects to arrays by using the `jsonSerialize()` function.
 - `Stringable`: Transforms objects by using the `__toString()` function.
