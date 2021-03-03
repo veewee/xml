@@ -26,7 +26,21 @@ final class XpathTest extends TestCase
         static::assertCount(1, $aliasedSearch);
     }
 
-    
+    public function test_it_can_prepare_xpath_from_dom_node(): void
+    {
+        $doc = Document::fromXmlString(
+            $xml = '<hello xmlns="http://namespace"><item /></hello>'
+        );
+        $rootNode = $doc->toUnsafeDocument()->documentElement;
+
+        $xpath = Xpath::fromUnsafeNode($rootNode, Xpath\Configurator\namespaces([
+            'alias' => 'http://namespace',
+        ]));
+
+        $aliasedSearch = $xpath->query('alias:item');
+        static::assertCount(1, $aliasedSearch);
+    }
+
     public function test_it_can_locate_stuff(): void
     {
         $doc = Document::fromXmlString('<root />');

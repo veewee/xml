@@ -167,6 +167,23 @@ element('hello', ...$configurators);
 <hello />
 ```
 
+#### escaped_value
+
+Operates on a `DOMElement` and sets the node value.
+All XML entities `<>"'` will be escaped.
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\escaped_value;
+
+element('hello', escaped_value('<"\'>'));
+```
+
+```xml
+<hello>&lt;&quot;&apos;&gt;</hello>
+```
+
+
 #### namespaced_attribute
 
 Operates on a `DOMElement` and adds a namespaced attribute with specified key and value
@@ -430,6 +447,17 @@ The locators are split up based on what they are locating.
 ### Document
 
 The Document locators can be called directly from the `Document` class.
+It will return the root document element of the provided XML.
+
+#### document_element
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Locator\document_element;
+
+$doc = Document::fromXmlFile('some.xml');
+$rootElement = $doc->locate(document_element());
+```
 
 #### elements_with_namespaced_tagname
 
@@ -469,6 +497,32 @@ $products = locate_by_namespaced_tag_name($element, 'http://amazon.com', 'produc
 use function VeeWee\Xml\Dom\Locator\Element\locate_by_tag_name;
 
 $products = locate_by_tag_name($element, 'product');
+```
+
+### Namespaces
+
+These locators can be run on `DOMNode` instances.
+
+#### Namespaces\linked_namespaces
+
+This function returns a list of all namespaces that are linked to a specific DOM node.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Namespaces\linked_namespaces;
+
+/** @var DOMNodeList<DOMNameSpaceNode> $namespaces */
+$namespaces = linked_namespaces($element);
+```
+
+#### Namespaces\recursive_linked_namespaces
+
+This function returns a list of all namespaces that are linked to a specific DOM node and all of its children.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Namespaces\recursive_linked_namespaces;
+
+/** @var DOMNodeList<DOMNameSpaceNode> $namespaces */
+$namespaces = recursive_linked_namespaces($element);
 ```
 
 ### Node

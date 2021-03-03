@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use Psl\Type\TypeInterface;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Fun\pipe;
+use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 use function VeeWee\Xml\Dom\Xpath\Locator\evaluate;
 use function VeeWee\Xml\Dom\Xpath\Locator\query;
 use function VeeWee\Xml\Dom\Xpath\Locator\query_single;
@@ -30,6 +31,21 @@ final class Xpath
     {
         return new self(
             pipe(...$configurators)(new DOMXPath($document->toUnsafeDocument()))
+        );
+    }
+
+    /**
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
+     */
+    public static function fromUnsafeNode(DOMNode $node, callable ... $configurators): self
+    {
+        return self::fromDocument(
+            Document::fromUnsafeDocument(
+                detect_document($node)
+            ),
+            ...$configurators
         );
     }
 

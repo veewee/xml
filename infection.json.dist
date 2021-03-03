@@ -16,7 +16,7 @@
         "@default": true,
         "CastInt": {
             "ignore": [
-                "VeeWee\\Xml\\Exception\\RuntimeException::__construct"
+                "VeeWee\\Xml\\*Exception::__construct"
             ]
         }
     }

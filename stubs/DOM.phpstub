@@ -1,0 +1,5 @@
+<?php
+
+class DOMNameSpaceNode extends DOMNode{
+    public string $namespaceURI;
+}
