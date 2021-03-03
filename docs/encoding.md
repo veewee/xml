@@ -27,15 +27,15 @@ $xml = xml_encode($data, utf8(), pretty_print());
 
 The encoding components consist out of following functions
 
-- [decode](#decode): Decodes an XML string into an array
-- [encode](#encode): Encodes an array into an XML string
 - [typed](#typed): Decodes an XML string into a defined well-typed shape.
+- [xml_decode](#xml_decode): Decodes an XML string into an array
+- [xml_encode](#xml_encode): Encodes an array into an XML string
 
 More information about [the PHP format can be found here](#php-format).
 
 ## Functions
 
-#### decode
+#### xml_decode
 
 Decode transforms an XML string into an array.
 
@@ -58,7 +58,7 @@ In the example above, we run an XSD validator before parsing the XML into an arr
 
 More information about [the PHP format can be found here](#php-format).
 
-#### encode
+#### xml_encode
 
 Encode transforms an array into an XML string.
 
@@ -120,7 +120,7 @@ $data = typed(
 );
 ```
 
-It works exactly the same as the [decode](#decode) function but with an additional type parameter.
+It works exactly the same as the [xml_decode](#xml_decode) function but with an additional type parameter.
 Structuring the shape of the type-result is done by the [azjezz/psl](https://github.com/azjezz/psl) package.
 
 More information about [the PHP format can be found here](#php-format).
