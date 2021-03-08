@@ -27,6 +27,7 @@ $xml = xml_encode($data, utf8(), pretty_print());
 
 The encoding components consist out of following functions
 
+- [document_encode](#document_encode): Encodes an array into a DOM [Document](dom.md).
 - [typed](#typed): Decodes an XML string into a defined well-typed shape.
 - [xml_decode](#xml_decode): Decodes an XML string into an array
 - [xml_encode](#xml_encode): Encodes an array into an XML string
@@ -34,6 +35,30 @@ The encoding components consist out of following functions
 More information about [the PHP format can be found here](#php-format).
 
 ## Functions
+
+#### document_encode
+
+The `document_encode` function transforms an array into a DOM [Document](dom.md).
+This way, you can make some changes before transforming it ack to an XML string.
+
+```php
+use function VeeWee\Xml\Dom\Configurator\pretty_print;
+use function VeeWee\Xml\Dom\Configurator\utf8;
+use function VeeWee\Xml\Encoding\document_encode;
+
+$doc = document_encode(['hello' => 'world'], utf8(), pretty_print());
+
+// Do whatever DOM manipulation you want before transforming it back to an XML string.
+
+```
+
+The first argument is the data structure.
+The component does data normalization for you so that you can pass in any custom types like iterables, json serializable objects, ...
+
+Besides the data, you can apply any [DOM configurator](dom.md#configurators) you please.
+In the example above, we tell the DOM document to be UTF8 and pretty printed.
+
+More information about [the PHP format can be found here](#php-format).
 
 #### xml_decode
 

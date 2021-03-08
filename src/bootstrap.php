@@ -64,6 +64,7 @@ require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/normalize_data.php'
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/parent_node.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Encoder/Builder/root.php';
 require_once __DIR__.'/Xml/Encoding/Internal/wrap_exception.php';
+require_once __DIR__.'/Xml/Encoding/document_encode.php';
 require_once __DIR__.'/Xml/Encoding/typed.php';
 require_once __DIR__.'/Xml/Encoding/xml_decode.php';
 require_once __DIR__.'/Xml/Encoding/xml_encode.php';
