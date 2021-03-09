@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use VeeWee\Xml\Encoding\XmlSerializable;
 use function Psl\Fun\identity;
+use function VeeWee\Xml\Encoding\document_encode;
 use function VeeWee\Xml\Encoding\xml_decode;
 use function VeeWee\Xml\Encoding\xml_encode;
 
@@ -22,6 +23,16 @@ final class EncodingTest extends TestCase
     {
         $actual = xml_encode($data, identity());
         static::assertXmlStringEqualsXmlString($xml, $actual);
+    }
+
+    /**
+     * @dataProvider provideBidirectionalCases
+     * @dataProvider provideEncodingOnly
+     */
+    public function test_it_encodes_to_document(string $xml, array $data)
+    {
+        $actual = document_encode($data, identity());
+        static::assertXmlStringEqualsXmlString($xml, $actual->toXmlString());
     }
 
     /**
