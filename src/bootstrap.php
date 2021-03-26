@@ -35,6 +35,7 @@ require_once __DIR__.'/Xml/Dom/Locator/elements_with_tagname.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Node/append_external_node.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Node/import_node_deeply.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Node/replace_by_external_node.php';
+require_once __DIR__.'/Xml/Dom/Manipulator/Node/replace_by_external_nodes.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/append.php';
 require_once __DIR__.'/Xml/Dom/Mapper/xml_string.php';
 require_once __DIR__.'/Xml/Dom/Mapper/xslt_template.php';

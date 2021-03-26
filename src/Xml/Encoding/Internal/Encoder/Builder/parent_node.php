@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use DOMElement;
 use DOMNode;
+use Psl\Exception\InvariantViolationException;
 use Psl\Type\Exception\AssertException;
 use function VeeWee\Xml\Dom\Builder\children as buildChildren;
 use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
@@ -18,6 +19,7 @@ use function VeeWee\Xml\Dom\Builder\escaped_value;
  * @return callable(DOMNode): DOMElement
  *
  * @throws AssertException
+ * @throws InvariantViolationException
  */
 function parent_node(string $name, array|string $data): callable
 {

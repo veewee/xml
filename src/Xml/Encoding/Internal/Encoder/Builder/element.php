@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use DOMElement;
+use Psl\Exception\InvariantViolationException;
 use Psl\Type\Exception\AssertException;
 use function Psl\Dict\filter_keys;
 use function Psl\Dict\map_with_key;
@@ -28,6 +29,7 @@ use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuild
  * @return callable(DOMElement): DOMElement
  *
  * @throws AssertException
+ * @throws InvariantViolationException
  */
 function element(string $name, array $data): callable
 {

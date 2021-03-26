@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use DOMDocument;
 use DOMNode;
+use Psl\Exception\InvariantViolationException;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use function Psl\Dict\map_with_key;
 use function VeeWee\Xml\Dom\Builder\nodes;
@@ -15,6 +16,7 @@ use function VeeWee\Xml\Dom\Builder\nodes;
  * @return callable(DOMDocument): list<DOMNode>
  *
  * @throws EncodingException
+ * @throws InvariantViolationException
  */
 function root(array $data): callable
 {

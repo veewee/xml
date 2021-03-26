@@ -655,6 +655,16 @@ use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_node;
 $copiedNode = replace_by_external_node($documentNode, $externalNode);
 ```
 
+#### replace_by_external_nodes
+
+Makes it possible to replace a `DOMNode` from the current document with a list of `DOMNode` from an external document.
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_nodes;
+
+$copiedNode = replace_by_external_nodes($documentNode, $externalNodes);
+```
+
 ## Mappers
 
 Converts the DOM document to something else.
