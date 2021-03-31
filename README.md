@@ -27,8 +27,9 @@ composer require veewee/xml
 These components are not implemented yet, but have been thought about.
 Stay tuned if you want to use these!
 
-* ?External: [Saxon/C](https://www.saxonica.com/saxon-c/php_api.xml): XSLT 3.0/2.0, XQuery 3.1, XPath 3.1 and Schema Validation 1.0/1.1
-* ?External: [XSLT2](https://github.com/genkgo/xsl)
+* External: [Saxon/C](https://www.saxonica.com/saxon-c/php_api.xml): XSLT 3.0/2.0, XQuery 3.1, XPath 3.1 and Schema Validation 1.0/1.1
+* ~~External: [XSLT2](https://github.com/genkgo/xsl)~~ (prefer saxon/c)
+* External: [symfony/dom-crawler](https://symfony.com/doc/current/components/dom_crawler.html) iterator for the dom component
 
 ## About
 
