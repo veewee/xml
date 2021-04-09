@@ -785,6 +785,22 @@ $doc = Document::fromXmlFile('some.xml');
 $issues = $doc->validate(xsd_validator('myown.xsd'));
 ```
 
+#### Writing your own validator
+
+A validator can be any `callable` that takes a `DOMDocument` and returns an `IssueCollection`.
+
+```php
+namespace VeeWee\Xml\Dom\Validator;
+
+use DOMDocument;
+use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
+
+interface Validator
+{
+    public function __invoke(DOMDocument $document): IssueCollection;
+}
+```
+
 # XPath
 
 One of the most commonly used components inside DOM is the XPath component.
