@@ -14,6 +14,9 @@ final class NodeSequence
      */
     private array $elementNodes;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(ElementNode ... $elementNodes)
     {
         $this->elementNodes = $elementNodes;

@@ -5,16 +5,25 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Collection;
 
 use Countable;
+use DOMElement;
 use DOMNode;
 use DOMNodeList;
+use DOMXPath;
+use Generator;
+use InvalidArgumentException;
 use IteratorAggregate;
 use Psl\Type\TypeInterface;
 use VeeWee\Xml\Dom\Xpath;
 use VeeWee\Xml\Exception\RuntimeException;
+use Webmozart\Assert\Assert;
 use function Psl\Iter\reduce;
 use function Psl\Vec\filter;
 use function Psl\Vec\flat_map;
 use function Psl\Vec\map;
+use function Psl\Vec\values;
+use function VeeWee\Xml\Dom\Locator\Node\ancestors;
+use function VeeWee\Xml\Dom\Locator\Node\children;
+use function VeeWee\Xml\Dom\Locator\Node\siblings;
 
 /**
  * @template T of DOMNode
@@ -28,6 +37,7 @@ final class NodeList implements Countable, IteratorAggregate
     private array $nodes;
 
     /**
+     * @no-named-arguments
      * @param list<T> $nodes
      */
     public function __construct(...$nodes)
@@ -37,17 +47,39 @@ final class NodeList implements Countable, IteratorAggregate
 
     /**
      * @template X of DOMNode
-     * @param DOMNodeList<X> $list
+     * @return self<X>
      *
+     * @psalm-suppress InvalidReturnType, InvalidReturnStatement - It is empty alright!
+     */
+    public static function empty(): self
+    {
+        return new self();
+    }
+
+    /**
+     * @template X of DOMNode
      * @return NodeList<X>
      */
     public static function fromDOMNodeList(DOMNodeList $list): self
     {
-        return new self(...$list);
+        return new self(...values($list->getIterator()));
     }
 
     /**
-     * @return \Generator<T>
+     * @template X of DOMNode
+     * @param class-string<X> $type
+     * @return NodeList<X>
+     * @throws InvalidArgumentException
+     */
+    public static function typed(string $type, iterable $nodes): self
+    {
+        Assert::allIsInstanceOf($nodes, $type);
+
+        return new self(...values($nodes));
+    }
+
+    /**
+     * @return Generator<T>
      */
     public function getIterator()
     {
@@ -79,6 +111,22 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
+     * @template X of DOMNode
+     * @param callable(T): iterable<X> $mapper
+     *
+     * @return NodeList<X>
+     */
+    public function detect(callable $mapper): self
+    {
+        return new self(
+            ...flat_map(
+                $this->nodes,
+                $mapper
+            )
+        );
+    }
+
+    /**
      * @param callable(T): bool $predicate
      * @return NodeList<T>
      */
@@ -88,25 +136,15 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * TODO : configurators?
-     * TODO : DOMElement is not set correctly on the query locator
-     *
-     * @throws RuntimeException
      * @return NodeList<T>
      */
-    public function query(string $xpath): self
+    public function eq(int $index): self
     {
-        return new self(
-            ...flat_map(
-                $this->nodes,
-                /**
-                 * @param T $node
-                 * @return DOMNodeList<T>
-                 */
-                static fn (DOMNode $node): DOMNodeList
-                    => Xpath::fromUnsafeNode($node)->query($xpath, $node)
-            )
-        );
+        if (!array_key_exists($index, $this->nodes)) {
+            return self::empty();
+        }
+
+        return new self($this->nodes[$index]);
     }
 
     /**
@@ -121,14 +159,33 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
+     * @throws RuntimeException
+     * @return NodeList<DOMNode>
+     */
+    public function query(string $xpath, callable ... $configurators): self
+    {
+        return $this->detect(
+            /**
+             * @param T $node
+             * @return NodeList<DOMNode>
+             */
+            static fn (DOMNode $node): NodeList
+                => Xpath::fromUnsafeNode($node, ...$configurators)->query($xpath, $node)
+        );
+    }
+
+    /**
      * @template X
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      * @param TypeInterface<X> $type
      * @return list<X>
      */
-    public function evaluate(string $expression, TypeInterface $type): array
+    public function evaluate(string $expression, TypeInterface $type, callable ... $configurators): array
     {
         return $this->map(
-            static fn (DOMNode $node): mixed => Xpath::fromUnsafeNode($node)->evaluate($expression, $type, $node)
+            static fn (DOMNode $node): mixed
+                => Xpath::fromUnsafeNode($node, ...$configurators)->evaluate($expression, $type, $node)
         );
     }
 
@@ -148,41 +205,53 @@ final class NodeList implements Countable, IteratorAggregate
         return $this->item($this->count() - 1);
     }
 
+    /**
+     * @return NodeList<DOMElement>
+     */
     public function siblings(): self
     {
-        return new self(
-            ...flat_map(
-                $this->nodes,
-                static fn (DOMNode $node) => filter(
-                    $node->parentNode->childNodes ?? [],
-                    static fn (DOMNode $sibling): bool => $sibling !== $node
-                )
-            )
+        return $this->detect(
+            /**
+             * @return iterable<DOMElement>
+             */
+            static fn (DOMNode $node): NodeList => siblings($node)
         );
     }
 
+    /**
+     * @return NodeList<DOMElement>
+     */
     public function ancestors(): self
     {
-        return new self(
-            ...flat_map(
-                $this->nodes,
-                static function (DOMNode $current) {
-                    while ($current->parentNode !== null) {
-                        yield $current->parentNode;
-                        $current = $current->parentNode;
-                    }
-                }
-            )
+        return $this->detect(
+            /**
+             * @return iterable<DOMElement>
+             */
+            static fn (DOMNode $node): NodeList => ancestors($node)
         );
     }
 
+    /**
+     * @return NodeList<DOMElement>
+     */
     public function children(): self
     {
-        return new self(
-            ...flat_map(
-                $this->nodes,
-                static fn (DOMNode $node): DOMNodeList => $node->childNodes
-            )
+        return $this->detect(
+            /**
+             * @return iterable<DOMElement>
+             */
+            static fn (DOMNode $node): NodeList => children($node)
         );
+    }
+
+    /**
+     * @template X of DOMNode
+     * @param class-string<X> $type
+     * @return NodeList<X>
+     * @throws InvalidArgumentException
+     */
+    public function expectAllOfType(string $type): self
+    {
+        return self::typed($type, $this);
     }
 }

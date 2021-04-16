@@ -42,11 +42,13 @@ Of course, the example above only gives you a small idea of all the implemented 
 Let's find out more by segregating the DOM component into its composable blocks:
 
 * [Builders](#builders): Let you build XML by using a declarative API.
+* [Collection](#collection): A wrapper for dealing with lists of nodes.
 * [Configurators](#configurators): Specify how you want to configure your DOM document.
 * [Loaders](#loaders): Determine where the XML should be loaded from.
 * [Locators](#locators): Enables you to locate specific XML elements.
 * [Manipulators](#manipulators): Allows you to manipulate any DOM document.
 * [Mappers](#mappers): Converts the DOM document to something else.
+* [Predicates](#predicates): Check if a DOMNode is of a specific type.
 * [Validators](#validators): Validate the content of your XML document.
 * [XPath](#xpath): Query for specific elements based on XPath queries.
 
@@ -272,6 +274,33 @@ element('hello', value('world'));
 ```xml
 <hello>world</hello>
 ```
+## Collection
+
+This package provides a type-safe replacement for `DOMNodeList` with few more options.
+Some examples:
+
+```php
+use DOMElement;
+use Psl\Type;
+use VeeWee\Xml\Dom\Collection\NodeList;
+use function VeeWee\Xml\Dom\Locator\Node\value;
+
+$totalPrice = NodeList::fromDOMNodeList($list)
+    ->expectAllOfType(DOMElement::class)
+    ->filter(fn(DOMElement $element) => $element->nodeName === 'item')
+    ->eq(0)
+    ->siblings()
+    ->children()
+    ->query('./price')
+    ->reduce(
+        static fn (int $total, DOMElement $price): int
+            => $total + value($price, Type\int()),
+        0
+    );
+```
+
+Most of the functions on the NodeList class are straight forward and documented elsewere.
+Feel free to scroll through or let your IDE autocomplete the class to find out what is inside there!
 
 ## Configurators
 
@@ -508,9 +537,10 @@ These locators can be run on `DOMNode` instances.
 This function returns a list of all namespaces that are linked to a specific DOM node.
 
 ```php
+use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Namespaces\linked_namespaces;
 
-/** @var DOMNodeList<DOMNameSpaceNode> $namespaces */
+/** @var NodeList<DOMNameSpaceNode> $namespaces */
 $namespaces = linked_namespaces($element);
 ```
 
@@ -519,15 +549,26 @@ $namespaces = linked_namespaces($element);
 This function returns a list of all namespaces that are linked to a specific DOM node and all of its children.
 
 ```php
+use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Namespaces\recursive_linked_namespaces;
 
-/** @var DOMNodeList<DOMNameSpaceNode> $namespaces */
+/** @var NodeList<DOMNameSpaceNode> $namespaces */
 $namespaces = recursive_linked_namespaces($element);
 ```
 
 ### Node
 
 These locators can be run on any `DOMNode` instance.
+
+#### Node\ancestors
+
+Fetch all ancestor elements from a specific `DOMNode`.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Node\ancestors;
+
+$ancestorNodes = ancestors($element);
+```
 
 #### Node\children
 
@@ -548,6 +589,16 @@ If the node is not linked to a document yet, it throws a `InvalidArgumentExcepti
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 
 $document = detect_document($element);
+```
+
+#### Node\siblings
+
+Fetch all sibling elements from a specific `DOMNode`.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Node\siblings;
+
+$ancestorNodes = siblings($element);
 ```
 
 #### Node\value
@@ -733,6 +784,38 @@ use VeeWee\Xml\Dom\Document;
 
 $document = Document::fromXmlFile('some.xml');
 $result = $document->map($mapper);
+```
+
+## Predicates
+
+Check if a DOMNode is of a specific type.
+
+#### is_document
+
+Checks if a node is of type `DOMDocument`.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_document;
+
+if (is_document($someNode)) {
+   // ...
+}
+```
+
+#### is_element
+
+Checks if a node is of type `DOMElement`.
+
+```php
+use VeeWee\XML\DOM\Document;
+use function VeeWee\Xml\Dom\Predicate\is_element;
+
+$doc = Document::fromXmlFile('some.xml');
+$item = $doc->xpath()->query('item')->item(0);
+
+if (is_element($item)) {
+   // ...
+}
 ```
 
 ## Validators

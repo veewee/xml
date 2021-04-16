@@ -12,7 +12,7 @@ final class ChildrenTest extends TestCase
 {
     public function test_it_can_detect_children(): void
     {
-        $doc = Document::fromXmlString('<hello><world /></hello>');
+        $doc = Document::fromXmlString('<hello><world /><moon /></hello>');
         $domdoc = $doc->toUnsafeDocument();
 
         $children = children($domdoc);
@@ -20,7 +20,8 @@ final class ChildrenTest extends TestCase
         static::assertSame('hello', $children->item(0)->nodeName);
 
         $children = children($domdoc->documentElement);
-        static::assertCount(1, $children);
+        static::assertCount(2, $children);
         static::assertSame('world', $children->item(0)->nodeName);
+        static::assertSame('moon', $children->item(1)->nodeName);
     }
 }

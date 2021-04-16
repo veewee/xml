@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom;
 
-use DOMElement;
 use DOMNode;
-use DOMNodeList;
 use DOMXPath;
 use InvalidArgumentException;
 use Psl\Type\TypeInterface;
+use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Fun\pipe;
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
@@ -62,9 +61,11 @@ final class Xpath
     }
 
     /**
+     * @template T of DOMNode
      * @throws RuntimeException
+     * @return NodeList<T>
      */
-    public function query(string $expression, DOMNode $contextNode = null): DOMNodeList
+    public function query(string $expression, DOMNode $contextNode = null): NodeList
     {
         return $this->locate(query($expression, $contextNode));
     }
@@ -73,7 +74,7 @@ final class Xpath
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function querySingle(string $expression, DOMNode $contextNode = null): DOMElement
+    public function querySingle(string $expression, DOMNode $contextNode = null): DOMNode
     {
         return $this->locate(query_single($expression, $contextNode));
     }

@@ -8,9 +8,6 @@ use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
 /**
- * @psalm-pure
- *
- *
  * @throws InvalidArgumentException
  */
 function assert_strict_prefixed_name(string $qualifiedName): void
