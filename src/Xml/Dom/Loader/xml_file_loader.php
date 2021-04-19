@@ -10,13 +10,13 @@ use Webmozart\Assert\Assert;
 /**
  * @return callable(DOMDocument): void
  */
-function xml_file_loader(string $file): callable
+function xml_file_loader(string $file, int $options = 0): callable
 {
-    return static function (DOMDocument $document) use ($file): void {
+    return static function (DOMDocument $document) use ($file, $options): void {
         load(
-            static function () use ($document, $file): bool {
+            static function () use ($document, $file, $options): bool {
                 Assert::fileExists($file);
-                return (bool) $document->load($file);
+                return (bool) $document->load($file, $options);
             }
         );
     };
