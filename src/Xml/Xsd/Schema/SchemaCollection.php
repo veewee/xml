@@ -6,11 +6,11 @@ namespace VeeWee\Xml\Xsd\Schema;
 
 use Countable;
 use IteratorAggregate;
-use function Psl\Dict\filter;
-use function Psl\Dict\map;
-use function Psl\Vec\values;
+use function Psl\Vec\filter;
+use function Psl\Vec\map;
 
 /**
+ *
  * @psalm-immutable
  * @template-implements IteratorAggregate<int, Schema>
  */
@@ -21,6 +21,9 @@ final class SchemaCollection implements Countable, IteratorAggregate
      */
     private array $schemas;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(Schema ... $schemas)
     {
         $this->schemas = $schemas;
@@ -56,14 +59,14 @@ final class SchemaCollection implements Countable, IteratorAggregate
     public function filter(callable $filter): self
     {
         /** @psalm-suppress ImpureFunctionCall */
-        return new self(...values(filter($this->schemas, $filter)));
+        return new self(...filter($this->schemas, $filter));
     }
 
     /**
      * @template T
      * @param callable(Schema): T $mapper
      *
-     * @return array<array-key,T>
+     * @return list<T>
      */
     public function map(callable $mapper)
     {

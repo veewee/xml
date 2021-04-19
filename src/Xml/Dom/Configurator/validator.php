@@ -24,7 +24,6 @@ function validator(callable $validator, ?Level $minimumLevel = null): callable
          * @throws RuntimeException
          */
         static function (DOMDocument $document) use ($validator, $minimumLevel): DOMDocument {
-            /** @var IssueCollection $issues */
             $issues = $validator($document)
                 ->filter(static fn (Issue  $issue): bool => $issue->level()->value() >= $minimumLevel->value());
 

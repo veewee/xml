@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Locator\Element;
 
 use DOMElement;
-use DOMNodeList;
+use VeeWee\Xml\Dom\Collection\NodeList;
 
 /**
- * @return DOMNodeList<DOMElement>
+ * @return NodeList<DOMElement>
  */
-function locate_by_tag_name(DOMElement $node, string $tag): DOMNodeList
+function locate_by_tag_name(DOMElement $node, string $tag): NodeList
 {
-    return $node->getElementsByTagName($tag);
+    return NodeList::fromDOMNodeList($node->getElementsByTagName($tag));
 }

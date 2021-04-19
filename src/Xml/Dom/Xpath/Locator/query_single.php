@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
-use DOMElement;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -15,7 +14,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return callable(DOMXPath): DOMElement
+ * @return callable(DOMXPath): DOMNode
  */
 function query_single(string $query, DOMNode $node = null): callable
 {
@@ -24,10 +23,8 @@ function query_single(string $query, DOMNode $node = null): callable
          * @throws InvalidArgumentException
          * @throws RuntimeException
          */
-        static function (DOMXPath $xpath) use ($query, $node): DOMElement {
+        static function (DOMXPath $xpath) use ($query, $node): DOMNode {
             $node = $node ?? $xpath->document->documentElement;
-
-            /** @var DOMNodeList<DOMElement> $list */
             $list = disallow_issues(
                 static fn (): DOMNodeList => disallow_libxml_false_returns(
                     $xpath->query($query, $node),

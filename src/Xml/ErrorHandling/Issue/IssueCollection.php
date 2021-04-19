@@ -22,6 +22,9 @@ final class IssueCollection implements Countable, IteratorAggregate
      */
     private array $issues;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(Issue ...$errors)
     {
         $this->issues = $errors;
