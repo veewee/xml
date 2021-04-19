@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Locator\Xsd;
 
 use DOMDocument;
-use Safe\Exceptions\PcreException;
+use Psl\Regex\Exception\RuntimeException;
 use VeeWee\Xml\Xmlns\Xmlns;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function Psl\Dict\map;
-use function Safe\preg_split;
+use function Psl\Regex\split;
 
 /**
- * @throws PcreException
+ * @throws RuntimeException
  */
 function locate_no_namespaced_xsd_schemas(DOMDocument $document): SchemaCollection
 {
@@ -23,8 +23,8 @@ function locate_no_namespaced_xsd_schemas(DOMDocument $document): SchemaCollecti
         return new SchemaCollection();
     }
 
-    /** @var list<string> $parts */
-    $parts = preg_split('/\s+/', trim($schemaLocNoNamespace->textContent));
+    /** @psalm-suppress MissingThrowsDocblock - Covered the runtime exception! */
+    $parts = split(trim($schemaLocNoNamespace->textContent), '/\s+/');
 
     return new SchemaCollection(
         ...map(

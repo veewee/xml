@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Locator\Xsd;
 
 use DOMDocument;
-use Safe\Exceptions\PcreException;
+use Psl\Regex\Exception\RuntimeException;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 
 /**
- * @throws PcreException
+ * @throws RuntimeException
  */
 function locate_all_xsd_schemas(DOMDocument $document): SchemaCollection
 {
