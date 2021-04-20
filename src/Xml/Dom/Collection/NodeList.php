@@ -20,6 +20,7 @@ use function Psl\Iter\reduce;
 use function Psl\Vec\filter;
 use function Psl\Vec\flat_map;
 use function Psl\Vec\map;
+use function Psl\Vec\sort;
 use function Psl\Vec\values;
 use function VeeWee\Xml\Dom\Locator\Node\ancestors;
 use function VeeWee\Xml\Dom\Locator\Node\children;
@@ -253,5 +254,15 @@ final class NodeList implements Countable, IteratorAggregate
     public function expectAllOfType(string $type): self
     {
         return self::typed($type, $this);
+    }
+
+    /**
+     * @param callable(T, T): int $sorter
+     *
+     * @return NodeList<T>
+     */
+    public function sort(callable $sorter): self
+    {
+        return new self(...sort($this->nodes, $sorter));
     }
 }

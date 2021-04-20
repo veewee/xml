@@ -246,4 +246,22 @@ final class NodeListTest extends TestCase
         $prices = $this->loadPrices();
         $prices->expectAllOfType(DOMAttr::class);
     }
+
+    public function test_it_can_sort(): void
+    {
+        $prices = $this->loadPrices();
+        $sorted = $prices->sort(static fn (DOMNode $a, DOMNode $b) => $b->nodeValue <=> $a->nodeValue);
+
+        static::assertSame(
+            [
+                $prices->item(3),
+                $prices->item(2),
+                $prices->item(1),
+                $prices->item(0),
+            ],
+            [
+                ...$sorted
+            ]
+        );
+    }
 }

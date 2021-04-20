@@ -7,6 +7,8 @@ namespace VeeWee\Xml\Dom;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
+use VeeWee\Xml\Dom\Traverser\Traverser;
+use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Fun\pipe;
@@ -14,6 +16,7 @@ use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class Document
@@ -154,6 +157,15 @@ final class Document
     public function map(callable $mapper)
     {
         return $mapper($this->document);
+    }
+
+    /**
+     * @no-named-arguments
+     */
+    public function traverse(Visitor ... $visitors): DOMNode
+    {
+        $traverser = new Traverser(...$visitors);
+        return $traverser->traverse($this->map(document_element()));
     }
 
     public function toXmlString(): string
