@@ -49,6 +49,7 @@ Let's find out more by segregating the DOM component into its composable blocks:
 * [Manipulators](#manipulators): Allows you to manipulate any DOM document.
 * [Mappers](#mappers): Converts the DOM document to something else.
 * [Predicates](#predicates): Check if a DOMNode is of a specific type.
+* [Traverser](#traverser): Traverse over a complete DOM tree and perform visitor-based manipulations.
 * [Validators](#validators): Validate the content of your XML document.
 * [XPath](#xpath): Query for specific elements based on XPath queries.
 
@@ -338,6 +339,24 @@ $doc = Document::configure(
 );
 ```
 
+#### traverse
+
+Takes a list of [Visitors](#visitors) as argument and [traverses](#traverse) over de DOM tree.
+The visitors can be used to do DOM manipulations.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Visitor;
+use function VeeWee\Xml\Dom\Configurator\traverse;
+
+$doc = Document::fromXmlFile(
+    $file,
+    traverse(
+        new Visitor\SortAttributes(),
+    )
+);
+```
+
 #### trim_spaces
 
 Trims all whitespaces from the DOM document in order to make it as small as possible in bytesize.
@@ -472,6 +491,25 @@ $document = Document::configure($loader, ...$configurators);
 
 Locators can be used to search for specific elements inside your DOM document.
 The locators are split up based on what they are locating.
+
+### Attributes
+
+The attributes locators will return attributes and can be called on a `DOMNode`.
+
+#### attributes_list
+
+This function will look for all attributes on a `DOMNode`.
+For nodes that don't support attributes, you will receive an empty `NodeList`.
+The result of this function will be of type `NodeList<DOMAttr`.
+
+```php
+use DOMAttr;
+use function VeeWee\Xml\Dom\Locator\Attributes\attributes_list;
+
+$attributes = attributes_list($element)->sort(
+    static fn (DOMAttr $a, DOMAttr $b): int => $a->nodeName <=> $b->nodeName
+);
+```
 
 ### Document
 
@@ -696,6 +734,16 @@ use function VeeWee\Xml\Dom\Manipulator\Node\import_node_deeply;
 $copiedNode = import_node_deeply($documentNode, $externalNode);
 ```
 
+#### remove
+
+Makes it possible to remove any type of `DOMNode` directly. This include attributes.
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Node\remove;
+
+$removedNode = remove($node);
+```
+
 #### replace_by_external_node
 
 Makes it possible to replace a `DOMNode` from the current document with a `DOMNode` from an external document.
@@ -790,6 +838,18 @@ $result = $document->map($mapper);
 
 Check if a DOMNode is of a specific type.
 
+#### is_attribute
+
+Checks if a node is of type `DOMAttr`.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_attribute;
+
+if (is_attribute($someNode)) {
+   // ...
+}
+```
+
 #### is_document
 
 Checks if a node is of type `DOMDocument`.
@@ -817,6 +877,147 @@ if (is_element($item)) {
    // ...
 }
 ```
+
+#### is_non_empty_text
+
+Checks if a node is of type `DOMText` and that its value is not just a whitespace.
+This behaves in the opposite  way of the `is_whitespace()` function and uses the `is_text()` function internally.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_non_empty_text;
+
+if (is_non_empty_text($someNode)) {
+   // ...
+}
+```
+
+#### is_text
+
+Checks if a node is of type `DOMText`.
+You can also check for `is_whitespace()` or `is_non_empty_text()` if you want to do a deeper check.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_text;
+
+if (is_text($someNode)) {
+   // ...
+}
+```
+
+#### is_whitespace
+
+Checks if a node is of type `DOMText` and that its value consists of just whitespaces.
+This behaves in the opposite  way of the `is_non_empty_text()` function and uses the `is_text()` function internally.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_whitespace;
+
+if (is_whitespace($someNode)) {
+   // ...
+}
+```
+
+## Traverser
+
+Traverse over a complete DOM tree and perform visitor-based manipulations.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Visitor;
+
+$doc = Document::fromXmlFile($file);
+$doc->traverse(new Visitor\SortAttributes());
+```
+
+The traverse method will iterate over every node in the complete DOM tree.
+It takes a list of visitors that will be triggered for every node.
+The visitors allow you to look for specific things and for example replace them with something else.
+
+
+### Visitors
+
+Imagine you want to replace all attribute values in all XML tags with 'wazzup'.
+Here is an example visitor that implements this feature:
+
+```php
+use DOMNode;
+use VeeWee\Xml\Dom\Traverser\Action;
+use VeeWee\Xml\Dom\Traverser\Visitor\AbstractVisitor;
+use function VeeWee\Xml\Dom\Builder\attribute;
+use function VeeWee\Xml\Dom\Predicate\is_attribute;
+
+class WazzupVisitor extends AbstractVisitor
+{
+    public function onNodeLeave(DOMNode $node) : Action
+    {
+        if (!is_attribute($node)) {
+            return new Action\Noop();
+        }
+
+        attribute($node->nodeName, 'WAZZUP')($node);
+
+        return new Action\Noop();
+    }
+}
+```
+
+So how does it work? Every time the traverser sees a DOMNode, it will trigger all provided visitors.
+The visitor above will look for attribute nodes. All other nodes will be ignored.
+Next it will replace the attribute with value WAZZUP and add it to the node.
+Finally, we tell the traverser that the visitor is finished and no additional actions need to be performed.
+
+Here is a list of built-in visitors that can be used as a base to build your own.
+
+#### SortAttributes
+
+The SortAttributes visitor will sort all element's attributes in alphabetic order.
+This makes XML easier to compary by using a diff tool.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Visitor;
+
+$doc = Document::fromXmlFile($file);
+$doc->traverse(new Visitor\SortAttributes());
+```
+
+#### Building your own visitor
+
+A visitor needs to implement the visitor interface.
+It contains both an `onNodeEnter` and an `onNodeLeave` method.
+The result of these functions is an action that can be performed by the traverser:
+
+```php
+namespace VeeWee\Xml\Dom\Traverser;
+
+use DOMNode;
+
+interface Visitor
+{
+    public function onNodeEnter(DOMNode $node): Action;
+    public function onNodeLeave(DOMNode $node): Action;
+}
+```
+
+An action looks like this:
+
+```php
+namespace VeeWee\Xml\Dom\Traverser;
+
+use DOMNode;
+
+interface Action
+{
+    public function __invoke(DOMNode $currentNode): void;
+}
+```
+
+Finally, here is a list of built-in actions:
+
+* `Noop`: This tells the traverser that no additional action needs to be executed.
+* `ReplaceNode($newNode)`: Can be used to replace a node with another one. 
+* `RemoveNode`: Can be used to remove the node from the XML tree.
+
 
 ## Validators
 

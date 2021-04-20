@@ -18,7 +18,7 @@ use function Psl\Str\join;
         ->files()
         ->name('*.php')
         ->notName('bootstrap.php')
-        ->notContains(['/^final class/m', '/^interface/m'])
+        ->notContains(['/^final class/m', '/^abstract class/m', '/^interface/m'])
         ->sortByName()
         ->getIterator();
 

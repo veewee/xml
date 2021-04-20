@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Dom;
 
 use DOMDocument;
+use DOMNode;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Action;
+use VeeWee\Xml\Dom\Traverser\Visitor\AbstractVisitor;
 use function Psl\Fun\identity;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;
 use function VeeWee\Xml\Dom\Configurator\utf8;
+use function VeeWee\Xml\Dom\Locator\document_element;
+use function VeeWee\Xml\Dom\Predicate\is_text;
 
 final class DocumentTest extends TestCase
 {
@@ -107,5 +112,23 @@ final class DocumentTest extends TestCase
         $mapped = $wrapper->map(identity());
 
         static::assertSame($mapped, $doc);
+    }
+    
+    public function test_it_can_traverse(): void
+    {
+        $doc = Document::fromXmlString('<hello>world</hello>');
+        $result = $doc->traverse(
+            new class() extends AbstractVisitor {
+                public function onNodeLeave(DOMNode $node): Action
+                {
+                    return is_text($node)
+                        ? new Action\RemoveNode()
+                        : new Action\Noop();
+                }
+            }
+        );
+
+        static::assertXmlStringEqualsXmlString('<hello />', $doc->toXmlString());
+        static::assertSame($result, $doc->map(document_element()));
     }
 }
