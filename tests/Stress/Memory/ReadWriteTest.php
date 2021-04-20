@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\TmpFileTrait;
 use VeeWee\Xml\Reader\Reader;
 use VeeWee\Xml\Writer\Writer;
-use function Safe\tempnam;
 use function VeeWee\Xml\Reader\Matcher\node_name;
 use function VeeWee\Xml\Writer\Builder\children;
 use function VeeWee\Xml\Writer\Builder\document;
