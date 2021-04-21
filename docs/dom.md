@@ -954,7 +954,7 @@ class WazzupVisitor extends AbstractVisitor
             return new Action\Noop();
         }
 
-        attribute($node->nodeName, 'WAZZUP')($node);
+        attribute($node->nodeName, 'WAZZUP')($node->parentNode);
 
         return new Action\Noop();
     }
