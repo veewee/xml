@@ -14,7 +14,7 @@ use VeeWee\Xml\Dom\Traverser\Visitor\OptimizeNamespaces;
 function optimize_namespaces(string $prefix = 'test'): callable
 {
     return static function (DOMDocument $document) use ($prefix) : DOMDocument {
-        Document::fromUnsafeDocument($document)->traverse(new OptimizeNamespaces());
+        Document::fromUnsafeDocument($document)->traverse(new OptimizeNamespaces($prefix));
 
         return canonicalize()($document);
     };
