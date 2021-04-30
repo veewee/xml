@@ -5,29 +5,20 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
 use DOMElement;
-use VeeWee\Xml\Encoding\Internal\Decoder\Context;
+use DOMNameSpaceNode;
 use function Psl\Dict\filter;
 use function Psl\Dict\merge;
-use function Psl\Iter\reduce;
-use function Psl\Vec\keys;
+use function VeeWee\Xml\Dom\Locator\Attributes\xmlns_attributes_list;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding
  */
-function namespaces(DOMElement $element, Context $context): array
+function namespaces(DOMElement $element): array
 {
     return filter([
-        '@namespaces' => reduce(
-            ['', ...keys($context->knownNamespaces())],
-            static function (array $namespaces, string $prefix) use ($element): array {
-                $attrName = join(':', filter(['xmlns', $prefix]));
-
-                if (!$element->hasAttribute($attrName)) {
-                    return $namespaces;
-                }
-
-                return merge($namespaces, [$prefix => $element->getAttribute($attrName)]);
-            },
+        '@namespaces' => xmlns_attributes_list($element)->reduce(
+            static fn (array $namespaces, DOMNameSpaceNode $node)
+                => merge($namespaces, [(string) $node->prefix => $node->namespaceURI]),
             []
         ),
     ]);

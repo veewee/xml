@@ -73,7 +73,6 @@ require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/attributes.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/element.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/group_child_elements.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/grouped_children.php';
-require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/known_namespace_prefixes.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/name.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/namespaces.php';
 require_once __DIR__.'/Xml/Encoding/Internal/Decoder/Builder/unwrap_element.php';

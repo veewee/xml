@@ -22,10 +22,9 @@ function xml_decode(string $xml, callable ... $configurators): array
     return wrap_exception(
         static function () use ($xml, $configurators): array {
             $doc = Document::fromXmlString($xml, ...$configurators);
-            $context = Context::fromDocument($doc);
             $root = $doc->locate(document_element());
 
-            return element($root, $context);
+            return element($root);
         }
     );
 }
