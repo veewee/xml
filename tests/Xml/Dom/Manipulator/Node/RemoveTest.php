@@ -71,4 +71,28 @@ final class RemoveTest extends TestCase
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello/>');
         static::assertSame($result, $node);
     }
+
+    public function test_it_can_remove_namespaced_attributes(): void
+    {
+        $doc = Document::fromXmlString('<hello xmlns:who="http://test.com" who:a="world"/>');
+        $root = $doc->map(document_element());
+        $node = $root->attributes->getNamedItem('who:a');
+
+        $result = remove($node);
+
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello xmlns:who="http://test.com/>');
+        static::assertSame($result, $node);
+    }
+
+    public function test_it_can_remove_xmlns_attributes(): void
+    {
+        $doc = Document::fromXmlString('<hello xmlns:who="http://world.com"/>');
+        $root = $doc->map(document_element());
+        $node = $root->attributes->getNamedItem('xmlns:who');
+
+        $result = remove($node);
+
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello/>');
+        static::assertSame($result, $node);
+    }
 }

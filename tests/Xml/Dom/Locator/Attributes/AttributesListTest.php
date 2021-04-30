@@ -6,7 +6,7 @@ namespace VeeWee\Tests\Xml\Dom\Locator\Attributes;
 
 use PHPUnit\Framework\TestCase;
 
-final class AttributesList extends TestCase
+final class AttributesListTest extends TestCase
 {
     public function test_it_can_fetch_attribute_list_from_element(): void
     {

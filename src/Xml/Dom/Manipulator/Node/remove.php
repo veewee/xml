@@ -8,6 +8,7 @@ use DOMNode;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Predicate\is_attribute;
 use function VeeWee\Xml\Dom\Predicate\is_element;
+use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
@@ -26,7 +27,7 @@ function remove(DOMNode $target): DOMNode
                 throw RuntimeException::withMessage('Can not remove a node without parent');
             }
 
-            if (is_attribute($target) && is_element($parent)) {
+            if ((is_attribute($target) || is_xmlns_attribute($target)) && is_element($parent)) {
                 disallow_libxml_false_returns(
                     $parent->removeAttributeNode($target),
                     'Could not remove attribute from dom element'

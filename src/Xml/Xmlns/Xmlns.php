@@ -19,6 +19,14 @@ final class Xmlns
     /**
      * @psalm-pure
      */
+    public static function xmlns(): self
+    {
+        return new self('http://www.w3.org/2000/xmlns/');
+    }
+
+    /**
+     * @psalm-pure
+     */
     public static function xml(): self
     {
         return new self('http://www.w3.org/XML/1998/namespace');
@@ -27,7 +35,7 @@ final class Xmlns
     /**
      * @psalm-pure
      */
-    public static function xsd(): self
+    public static function xsi(): self
     {
         return new self('http://www.w3.org/2001/XMLSchema-instance');
     }

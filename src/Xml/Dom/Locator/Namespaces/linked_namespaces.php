@@ -21,5 +21,5 @@ function linked_namespaces(DOMNode $node): NodeList
 {
     $xpath = Xpath::fromUnsafeNode($node);
 
-    return $xpath->query('namespace::*', $node);
+    return $xpath->query('./namespace::*', $node);
 }

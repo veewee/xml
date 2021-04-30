@@ -26,6 +26,10 @@ final class Traverser
     {
         $this->enterNode($node);
 
+        foreach (xmlns_attributes_list($node) as $attribute) {
+            $this->traverse($attribute);
+        }
+
         foreach (attributes_list($node) as $attribute) {
             $this->traverse($attribute);
         }
