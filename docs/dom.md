@@ -329,6 +329,22 @@ Feel free to scroll through or let your IDE autocomplete the class to find out w
 
 Specify how you want to configure your DOM document.
 
+#### canonicalize
+
+The loader runs canonicalization (C14N) on the document and applies some other optimalizations like cdata stripping and basic namespace optimizations.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\loader;
+use function VeeWee\Xml\Dom\Configurator\canonicalize;
+use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+
+Document::configure(
+    loader(xml_string_loader($xml)),
+    canonicalize()
+);
+```
+
 #### loader
 
 The loader configurator takes a [loader](#loaders) to specify the source of the DOM Document.
@@ -340,6 +356,20 @@ use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 Document::configure(
     loader(xml_string_loader('<xml />'))
+);
+```
+
+#### normalize
+
+This configurator normalizes an XML file to return the DOMDocument back in a "normal" form.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\normalize;
+
+Document::fromUnsafeDocument(
+    $document,
+    normalize()
 );
 ```
 
@@ -464,8 +494,14 @@ Loads an XML document from a file.
 
 ```php
 use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\loader;
+use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
 $doc = Document::fromXmlFile('some-xml.xml', ...$configurators);
+
+// or
+
+$doc = Document::configure(loader(xml_file_loader($file, LIBXML_NOCDATA)));
 ```
 
 #### xml_node_loader
@@ -484,8 +520,14 @@ Loads an XML document from a string.
 
 ```php
 use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\loader;
+use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 $doc = Document::fromXmlString('<xml />', ...$configurators);
+
+// or
+
+$doc = Document::configure(loader(xml_string_loader($xml, LIBXML_NOCDATA)));
 ```
 
 #### Writing your own loader
