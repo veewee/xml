@@ -8,7 +8,7 @@ use DOMElement;
 use function Psl\Iter\reduce_with_keys;
 
 /**
- * @param array<non-empty-string, non-empty-string> $attributes - A map of namespace prefix with namespace URI
+ * @param array<string, string> $attributes - A map of namespace prefix with namespace URI
  * @return callable(DOMElement): DOMElement
  */
 function xmlns_attributes(array $attributes): callable
