@@ -9,8 +9,6 @@ use VeeWee\Xml\Xmlns\Xmlns;
 use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
 /**
- * @param string $prefix
- * @param string $namespaceURI
  * @return callable(DOMElement): DOMElement
  */
 function xmlns_attribute(string $prefix, string $namespaceURI): callable
