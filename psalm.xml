@@ -50,6 +50,7 @@
         <pluginClass class="Psl\Integration\Psalm\Plugin" />
     </plugins>
     <ignoreExceptions>
+        <class name="InvalidArgumentException" />
         <class name="Psl\Regex\Exception\InvalidPatternException" />
         <class name="Psl\Exception\InvariantViolationException" />
     </ignoreExceptions>

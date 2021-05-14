@@ -17,7 +17,7 @@ use function Psl\Regex\split;
  */
 function locate_no_namespaced_xsd_schemas(DOMDocument $document): SchemaCollection
 {
-    $schemaNs = Xmlns::xsd()->value();
+    $schemaNs = Xmlns::xsi()->value();
     $attributes = $document->documentElement->attributes;
     if (!$schemaLocNoNamespace = $attributes->getNamedItemNS($schemaNs, 'noNamespaceSchemaLocation')) {
         return new SchemaCollection();

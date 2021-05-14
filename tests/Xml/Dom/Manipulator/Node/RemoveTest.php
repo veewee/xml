@@ -10,6 +10,7 @@ use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Manipulator\Node\remove;
+use function VeeWee\Xml\Dom\Manipulator\Node\remove_namespace;
 
 final class RemoveTest extends TestCase
 {
@@ -67,6 +68,30 @@ final class RemoveTest extends TestCase
         $node = $root->attributes->getNamedItem('who');
 
         $result = remove($node);
+
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello/>');
+        static::assertSame($result, $node);
+    }
+
+    public function test_it_can_remove_namespaced_attributes(): void
+    {
+        $doc = Document::fromXmlString('<hello xmlns:who="http://test.com" who:a="world"/>');
+        $root = $doc->map(document_element());
+        $node = $root->getAttributeNode('who:a');
+
+        $result = remove($node);
+
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello xmlns:who="http://test.com" />');
+        static::assertSame($result, $node);
+    }
+
+    public function test_it_can_remove_xmlns_attributes(): void
+    {
+        $doc = Document::fromXmlString('<hello xmlns:who="http://world.com"/>');
+        $root = $doc->map(document_element());
+        $node = $root->getAttributeNode('xmlns:who');
+
+        $result = remove_namespace($node, $root);
 
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello/>');
         static::assertSame($result, $node);

@@ -272,6 +272,28 @@ use function VeeWee\Xml\Dom\Builder\value;
 element('hello', value('world'));
 ```
 
+#### xmlns_attribute
+
+Operates on a `DOMElement` and adds a xmlns namespace attribute.
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
+
+element('hello', xmlns_attribute('ns', 'http://ns.com'));
+```
+
+#### xmlns_attributes
+
+Operates on a `DOMElement` and adds multiple xmlns namespace attributes.
+
+```php
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\xmlns_attributes;
+
+element('hello', xmlns_attributes(['ns' => 'http://ns.com']));
+```
+
 ```xml
 <hello>world</hello>
 ```
@@ -500,7 +522,7 @@ The attributes locators will return attributes and can be called on a `DOMNode`.
 
 This function will look for all attributes on a `DOMNode`.
 For nodes that don't support attributes, you will receive an empty `NodeList`.
-The result of this function will be of type `NodeList<DOMAttr`.
+The result of this function will be of type `NodeList<DOMAttr>`.
 
 ```php
 use DOMAttr;
@@ -508,6 +530,21 @@ use function VeeWee\Xml\Dom\Locator\Attributes\attributes_list;
 
 $attributes = attributes_list($element)->sort(
     static fn (DOMAttr $a, DOMAttr $b): int => $a->nodeName <=> $b->nodeName
+);
+```
+
+#### xmlns_attributes_list
+
+This function will look for all xmlns attributes on a `DOMNode`.
+For nodes that don't support attributes, you will receive an empty `NodeList`.
+The result of this function will be of type `NodeList<DOMNameSpaceNode>`.
+
+```php
+use DOMNameSpaceNode;
+use function VeeWee\Xml\Dom\Locator\Attributes\xmlns_attributes_list;
+
+$attributes = xmlns_attributes_list($element)->sort(
+    static fn (DOMNameSpaceNode $a, DOMNameSpaceNode $b): int => $a->prefix <=> $b->prefix
 );
 ```
 
@@ -744,6 +781,16 @@ use function VeeWee\Xml\Dom\Manipulator\Node\remove;
 $removedNode = remove($node);
 ```
 
+#### remove_namespace
+
+Makes it possible to remove a `DOMNamespaceNode` from an element.
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Node\remove_namespace;
+
+$removedNamespace = remove_namespace($namespace, $element);
+```
+
 #### replace_by_external_node
 
 Makes it possible to replace a `DOMNode` from the current document with a `DOMNode` from an external document.
@@ -850,6 +897,18 @@ if (is_attribute($someNode)) {
 }
 ```
 
+#### is_default_xmlns_attribute
+
+Checks if a node is of type `DOMNameSpaceNode` and is the default xmlns.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
+
+if (is_default_xmlns_attribute($namespace)) {
+   // ...
+}
+```
+
 #### is_document
 
 Checks if a node is of type `DOMDocument`.
@@ -858,6 +917,18 @@ Checks if a node is of type `DOMDocument`.
 use function VeeWee\Xml\Dom\Predicate\is_document;
 
 if (is_document($someNode)) {
+   // ...
+}
+```
+
+#### is_document_element
+
+Checks if a node is the root `DOMElement` of  the `DOMDocument`.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_document_element;
+
+if (is_document_element($rootNode)) {
    // ...
 }
 ```
@@ -900,6 +971,18 @@ You can also check for `is_whitespace()` or `is_non_empty_text()` if you want to
 use function VeeWee\Xml\Dom\Predicate\is_text;
 
 if (is_text($someNode)) {
+   // ...
+}
+```
+
+#### is_xmlns_attribute
+
+Checks if a node is of type `DOMNameSpaceNode`.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
+
+if (is_xmlns_attribute($namespace)) {
    // ...
 }
 ```
