@@ -10,11 +10,13 @@ use VeeWee\Xml\Xmlns\Xmlns;
 final class XmlnsTest extends TestCase
 {
     /**
-     *
      * @dataProvider provideKnownXmlnses
      */
-    public function test_it_knows_some_xmlnses(Xmlns $xmlns, string $uri): void
+    public function test_it_knows_some_xmlnses(callable $factory, string $uri): void
     {
+        // Fix for code coverage:
+        $xmlns = $factory();
+
         static::assertSame($xmlns->value(), $uri);
         static::assertTrue($xmlns->matches(Xmlns::load($uri)));
     }
@@ -22,19 +24,19 @@ final class XmlnsTest extends TestCase
     public function provideKnownXmlnses()
     {
         yield 'xml' => [
-            Xmlns::xml(),
+            static fn() => Xmlns::xml(),
             'http://www.w3.org/XML/1998/namespace'
         ];
         yield 'xsi' => [
-            Xmlns::xsi(),
+            static fn() => Xmlns::xsi(),
             'http://www.w3.org/2001/XMLSchema-instance'
         ];
         yield 'phpXpath' => [
-            Xmlns::phpXpath(),
+            static fn() => Xmlns::phpXpath(),
             'http://php.net/xpath'
         ];
         yield 'xmlns' => [
-            Xmlns::xmlns(),
+            static fn() => Xmlns::xmlns(),
             'http://www.w3.org/2000/xmlns/'
         ];
     }
