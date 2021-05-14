@@ -16,14 +16,14 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
  *
  * @throws RuntimeException
  */
-function rename(DOMNode $target, string $newQName): DOMNode
+function rename(DOMNode $target, string $newQName, ?string $newNamespaceURI = null): DOMNode
 {
     if (is_attribute($target)) {
-        return rename_attribute($target, $newQName);
+        return rename_attribute($target, $newQName, $newNamespaceURI);
     }
 
     if (is_element($target)) {
-        return rename_element($target, $newQName);
+        return rename_element($target, $newQName, $newNamespaceURI);
     }
 
     throw RuntimeException::withMessage('Can not rename dom node with type ' . get_class($target));

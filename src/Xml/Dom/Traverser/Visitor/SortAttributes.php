@@ -19,14 +19,13 @@ final class SortAttributes extends AbstractVisitor
             return new Action\Noop();
         }
 
-        $attributes = attributes_list($node)->sort(
-            static fn (DOMAttr $a, DOMAttr $b): int => $a->nodeName <=> $b->nodeName
-        );
-
-        foreach ($attributes as $attribute) {
-            // Appending is sufficient - that will overwrite the existing one and place it at then end of the node
-            append($attribute)($node);
-        }
+        attributes_list($node)
+            ->sort(static fn (DOMAttr $a, DOMAttr $b): int => $a->nodeName <=> $b->nodeName)
+            ->forEach(
+                static function (DOMAttr $attr) use ($node): void {
+                    append($attr)($node);
+                }
+            );
 
         return new Action\Noop();
     }

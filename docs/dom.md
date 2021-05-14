@@ -345,6 +345,25 @@ Document::configure(
 );
 ```
 
+#### comparable
+
+The loader runs following optimization on the provided XML, in order to make it comparable:
+
+* [Namespace optimizations](#TODO)
+* [Canonicalization](#canonicalize)
+* [Attribute sorting](#sortattributes)
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\comparable;
+
+Document::fromXmlFile(
+    $file,
+    comparable()
+);
+```
+
+
 #### loader
 
 The loader configurator takes a [loader](#loaders) to specify the source of the DOM Document.
@@ -370,6 +389,23 @@ use function VeeWee\Xml\Dom\Configurator\normalize;
 Document::fromUnsafeDocument(
     $document,
     normalize()
+);
+```
+
+#### optimize_namespaces
+
+This configurator detects all and renames all namespaces in order to optimize them.
+The optimasation itself, must be triggered by using a load function with `LIBXML_NSCLEAN`.
+This optimization is included in the `comparable()` and `canonicalize()` configurator.
+
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\optimize_namespaces;
+
+Document::fromUnsafeDocument(
+    $document,
+    optimize_namespaces('prefix')
 );
 ```
 
@@ -810,6 +846,21 @@ $doc->manipulate(
 );
 ```
 
+#### optimize_namespaces
+
+```php
+use DOMDocument;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Manipulator\Document\optimize_namespaces;
+
+$doc = Document::empty();
+$doc->manipulate(
+    static function (DOMDocument $document): void {
+        optimize_namespaces($document, 'prefix');
+    }
+);
+```
+
 ### Node
 
 Node specific manipulators operate on `DOMNode` instances.
@@ -860,8 +911,17 @@ Internally, this function uses an element and attribute rename functionality, wh
 use function VeeWee\Xml\Dom\Manipulator\Attribute\rename as rename_attribute;
 use function VeeWee\Xml\Dom\Manipulator\Element\rename as rename_element;
 
-rename_attribute($attr, 'foo');
-rename_element($element, 'foo');
+rename_attribute($attr, 'foo', $newUri);
+rename_element($element, 'foo', $newUri);
+```
+
+Besides renaming attributes and elements, you can also rename an xmlns namespace.
+This however, operates on the `DOMDocument`:
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Namespaces\rename;
+
+rename($doc, 'http://namespace', 'prefix');
 ```
 
 #### remove_namespace

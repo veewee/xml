@@ -15,7 +15,7 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
 function parent_element(DOMNode $child): DOMElement
 {
     $parent = $child->parentNode;
-    if (!$parent || !is_element($parent)) {
+    if (!$parent|| !is_element($parent)) {
         throw RuntimeException::withMessage('Can not find parent element for '.$child::class.' '.$child->nodeName);
     }
 

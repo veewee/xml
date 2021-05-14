@@ -14,10 +14,10 @@ use function VeeWee\Xml\Dom\Manipulator\Node\remove;
 /**
  * @throws RuntimeException
  */
-function rename(DOMAttr $target, string $newQName): DOMAttr
+function rename(DOMAttr $target, string $newQName, ?string $newNamespaceURI = null): DOMAttr
 {
     $element = parent_element($target);
-    $namespace = $target->namespaceURI;
+    $namespace = $newNamespaceURI ?? $target->namespaceURI;
     $value = $target->nodeValue;
 
     $builder = $namespace
