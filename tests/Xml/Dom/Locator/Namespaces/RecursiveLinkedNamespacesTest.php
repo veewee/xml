@@ -44,7 +44,7 @@ final class RecursiveLinkedNamespacesTest extends TestCase
                 'xmlns' => 'http://hello.com',
                 'world' => 'http://world.com',
             ],
-            $parse(recursive_linked_namespaces($element->childNodes->item(0)))
+            $parse(recursive_linked_namespaces($element->firstElementChild))
         );
     }
 }

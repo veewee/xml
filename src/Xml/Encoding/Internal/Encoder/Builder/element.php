@@ -7,6 +7,7 @@ namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 use DOMElement;
 use Psl\Exception\InvariantViolationException;
 use Psl\Type\Exception\AssertException;
+use VeeWee\Xml\Xmlns\Xmlns;
 use function Psl\Dict\filter_keys;
 use function Psl\Dict\map_with_key;
 use function Psl\Dict\merge;
@@ -20,6 +21,7 @@ use function Psl\Vec\values;
 use function VeeWee\Xml\Dom\Builder\attributes;
 use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\escaped_value;
+use function VeeWee\Xml\Dom\Builder\namespaced_attributes;
 use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuilder;
 
 /**
@@ -57,7 +59,7 @@ function element(string $name, array $data): callable
 
     $children = filter_nulls([
         $attributes ? attributes($attributes) : null,
-        $namedNamespaces ? attributes($namedNamespaces) : null,
+        $namedNamespaces ? namespaced_attributes(Xmlns::xmlns()->value(), $namedNamespaces) : null,
         $value ? escaped_value($value) : null,
         ...values(map_with_key(
             $element,

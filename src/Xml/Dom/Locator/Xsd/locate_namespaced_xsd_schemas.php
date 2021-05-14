@@ -16,7 +16,7 @@ use function Psl\Regex\split;
  */
 function locate_namespaced_xsd_schemas(DOMDocument $document): SchemaCollection
 {
-    $schemaNs = Xmlns::xsd()->value();
+    $schemaNs = Xmlns::xsi()->value();
     $attributes = $document->documentElement->attributes;
     $collection = new SchemaCollection();
 

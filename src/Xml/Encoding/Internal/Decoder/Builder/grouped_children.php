@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
 use DOMElement;
-use VeeWee\Xml\Encoding\Internal\Decoder\Context;
 use function Psl\Dict\filter;
 use function Psl\Dict\map;
 use function Psl\Dict\merge;
@@ -15,7 +14,7 @@ use function Psl\Iter\reduce_with_keys;
  * @psalm-internal VeeWee\Xml\Encoding
  *
  */
-function grouped_children(DOMElement $element, Context $context): array
+function grouped_children(DOMElement $element): array
 {
     return filter(
         reduce_with_keys(
@@ -31,8 +30,8 @@ function grouped_children(DOMElement $element, Context $context): array
                     [
                         $name => is_array($child)
                             ? [...map($child, static fn (DOMElement $child): array|string
-                                => unwrap_element(element($child, $context)))]
-                            : unwrap_element(element($child, $context))
+                                => unwrap_element(element($child)))]
+                            : unwrap_element(element($child))
                     ]
                 ),
             [],

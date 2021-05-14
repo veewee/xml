@@ -25,13 +25,21 @@ final class XmlnsTest extends TestCase
             Xmlns::xml(),
             'http://www.w3.org/XML/1998/namespace'
         ];
-        yield 'xsd' => [
-            Xmlns::xsd(),
+        yield 'xsi' => [
+            Xmlns::xsi(),
             'http://www.w3.org/2001/XMLSchema-instance'
         ];
         yield 'phpXpath' => [
             Xmlns::phpXpath(),
             'http://php.net/xpath'
+        ];
+        yield 'xmlns' => [
+            Xmlns::xmlns(),
+            'http://www.w3.org/2000/xmlns/'
+        ];
+        yield 'xml' => [
+            Xmlns::xml(),
+            'http://www.w3.org/XML/1998/namespace'
         ];
     }
 }

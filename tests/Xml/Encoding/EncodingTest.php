@@ -163,8 +163,8 @@ final class EncodingTest extends TestCase
             EOXML,
             'data' => ['root' => [
                 '@namespaces' => [
-                    '' => 'http://rooty.root',
                     'test' => 'http://testy.test',
+                    '' => 'http://rooty.root',
                 ],
                 'test:item' => [
                     'id:int' => [
