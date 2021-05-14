@@ -37,9 +37,5 @@ final class XmlnsTest extends TestCase
             Xmlns::xmlns(),
             'http://www.w3.org/2000/xmlns/'
         ];
-        yield 'xml' => [
-            Xmlns::xml(),
-            'http://www.w3.org/XML/1998/namespace'
-        ];
     }
 }

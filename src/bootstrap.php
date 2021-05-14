@@ -10,6 +10,8 @@ require_once __DIR__.'/Xml/Dom/Builder/namespaced_attributes.php';
 require_once __DIR__.'/Xml/Dom/Builder/namespaced_element.php';
 require_once __DIR__.'/Xml/Dom/Builder/nodes.php';
 require_once __DIR__.'/Xml/Dom/Builder/value.php';
+require_once __DIR__.'/Xml/Dom/Builder/xmlns_attribute.php';
+require_once __DIR__.'/Xml/Dom/Builder/xmlns_attributes.php';
 require_once __DIR__.'/Xml/Dom/Configurator/loader.php';
 require_once __DIR__.'/Xml/Dom/Configurator/pretty_print.php';
 require_once __DIR__.'/Xml/Dom/Configurator/traverse.php';
