@@ -18,7 +18,7 @@ final class AttributesListTest extends TestCase
     {
         $actual = attributes_list($node);
 
-        self::assertEquals($expected, [...$actual]);
+        static::assertEquals($expected, [...$actual]);
     }
 
     public function provideTestCases()

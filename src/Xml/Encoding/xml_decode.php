@@ -7,7 +7,6 @@ namespace VeeWee\Xml\Encoding;
 use DOMDocument;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
-use VeeWee\Xml\Encoding\Internal\Decoder\Context;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Encoding\Internal\Decoder\Builder\element;
 use function VeeWee\Xml\Encoding\Internal\wrap_exception;

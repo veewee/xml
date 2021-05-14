@@ -8,7 +8,6 @@ use DOMNode;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_document_element;
-use function VeeWee\Xml\Dom\Predicate\is_element;
 
 final class IsDocumentElementTest extends TestCase
 {

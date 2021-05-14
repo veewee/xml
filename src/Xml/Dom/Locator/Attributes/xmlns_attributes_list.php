@@ -17,7 +17,7 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
  */
 function xmlns_attributes_list(DOMNode $node): NodeList
 {
-    if ( ! is_element($node)) {
+    if (! is_element($node)) {
         return NodeList::empty();
     }
 

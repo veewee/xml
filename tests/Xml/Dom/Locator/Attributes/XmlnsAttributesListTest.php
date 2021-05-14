@@ -18,7 +18,7 @@ final class XmlnsAttributesListTest extends TestCase
     {
         $actual = xmlns_attributes_list($node);
 
-        self::assertEquals($expected, [...$actual]);
+        static::assertEquals($expected, [...$actual]);
     }
 
     public function provideTestCases()
