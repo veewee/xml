@@ -3,3 +3,7 @@
 class DOMNameSpaceNode extends DOMNode{
     public string $namespaceURI;
 }
+
+class DOMDOcument {
+    public function C14N(): string|false;
+}

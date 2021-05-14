@@ -21,7 +21,6 @@ final class XmlStringLoaderTest extends TestCase
         static::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
-    
     public function test_it_can_not_load_invalid_xml_string(): void
     {
         $doc = new DOMDocument();
@@ -32,5 +31,15 @@ final class XmlStringLoaderTest extends TestCase
         $this->expectErrorMessage('Could not load the DOM Document');
 
         $loader($doc);
+    }
+
+    public function test_it_can_load_with_options(): void
+    {
+        $doc = new DOMDocument();
+        $xml = '<hello><![CDATA[HELLO]]></hello>';
+        $loader = xml_string_loader($xml, LIBXML_NOCDATA);
+
+        $loader($doc);
+        static::assertSame('<hello>HELLO</hello>', $doc->saveXML($doc->documentElement));
     }
 }
