@@ -7,19 +7,16 @@ namespace VeeWee\Tests\Xml\Dom\Traverser\Action;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Traverser\Action;
-use VeeWee\Xml\Dom\Traverser\Action\ReplaceNode;
-use function Psl\Iter\first;
-use function VeeWee\Xml\Dom\Builder\element;
+use VeeWee\Xml\Dom\Traverser\Action\RenameNode;
 
-final class ReplaceNodeTest extends TestCase
+final class RenameNodeTest extends TestCase
 {
     public function test_it_runs_action(): void
     {
         $doc = Document::fromXmlString('<hello><world /></hello>');
         $node = $doc->xpath()->querySingle('//world');
-        $new = $doc->build(element('jos'));
 
-        $action = new ReplaceNode(first($new));
+        $action = new RenameNode('jos');
 
         static::assertInstanceOf(Action::class, $action);
         $action($node);

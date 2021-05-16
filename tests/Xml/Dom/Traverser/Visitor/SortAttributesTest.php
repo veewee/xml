@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Traverser\Visitor;
+namespace VeeWee\Tests\Xml\Dom\Traverser\Visitor;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Visitor\SortAttributes;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class SortAttributesTest extends TestCase

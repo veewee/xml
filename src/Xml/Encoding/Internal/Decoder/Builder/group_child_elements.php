@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
 use DOMElement;
-use function VeeWee\Xml\Dom\Locator\Node\children;
+use function VeeWee\Xml\Dom\Locator\Element\children;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding

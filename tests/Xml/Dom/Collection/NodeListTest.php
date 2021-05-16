@@ -9,6 +9,7 @@ use DOMElement;
 use DOMNode;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Psl\Collection\MutableVector;
 use Psl\Type;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Dom\Document;
@@ -120,7 +121,26 @@ final class NodeListTest extends TestCase
         );
     }
 
-    
+    public function test_it_can_loop_over_all_items(): void
+    {
+        $x = new MutableVector([]);
+        $this->loadProducts()->forEach(
+            static function (DOMElement $element) use ($x) : void {
+                $x->add($element->nodeValue);
+            }
+        );
+
+        static::assertSame(
+            [
+                'product 0',
+                'product 1',
+                'product 2',
+                'product 3',
+            ],
+            $x->toArray()
+        );
+    }
+
     public function test_it_can_filter(): void
     {
         $all = $this->loadProducts();

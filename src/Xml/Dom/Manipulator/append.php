@@ -9,6 +9,7 @@ use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
 /**
+ * @no-named-arguments
  * @throws RuntimeException
  * @return callable(DOMNode): DOMNode
  */

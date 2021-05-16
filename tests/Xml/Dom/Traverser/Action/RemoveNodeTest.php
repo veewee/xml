@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Traverser\Action;
+namespace VeeWee\Tests\Xml\Dom\Traverser\Action;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Traverser\Action;
+use VeeWee\Xml\Dom\Traverser\Action\RemoveNode;
 use function VeeWee\Xml\Dom\Locator\document_element;
 
 final class RemoveNodeTest extends TestCase
