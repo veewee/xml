@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Traverser;
+namespace VeeWee\Tests\Xml\Dom\Traverser;
 
 use DOMNode;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Action;
+use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor\AbstractVisitor;
 use function VeeWee\Xml\Dom\Builder\attribute;
 use function VeeWee\Xml\Dom\Locator\document_element;

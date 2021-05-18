@@ -22,13 +22,13 @@ use function Psl\Vec\flat_map;
 use function Psl\Vec\map;
 use function Psl\Vec\sort;
 use function Psl\Vec\values;
-use function VeeWee\Xml\Dom\Locator\Node\ancestors;
-use function VeeWee\Xml\Dom\Locator\Node\children;
-use function VeeWee\Xml\Dom\Locator\Node\siblings;
+use function VeeWee\Xml\Dom\Locator\Element\ancestors;
+use function VeeWee\Xml\Dom\Locator\Element\children;
+use function VeeWee\Xml\Dom\Locator\Element\siblings;
 
 /**
  * @template T of DOMNode
- * @implements IteratorAggregate<T>
+ * @implements IteratorAggregate<int, T>
  */
 final class NodeList implements Countable, IteratorAggregate
 {
@@ -80,7 +80,7 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @return Generator<T>
+     * @return Generator<int, T>
      */
     public function getIterator()
     {
@@ -109,6 +109,16 @@ final class NodeList implements Countable, IteratorAggregate
     public function map(callable $mapper): array
     {
         return map($this->nodes, $mapper);
+    }
+
+    /**
+     * @param callable(T): void $mapper
+     */
+    public function forEach(callable $mapper): void
+    {
+        foreach ($this->nodes as $node) {
+            $mapper($node);
+        }
     }
 
     /**

@@ -629,6 +629,27 @@ $products = $doc->locate(elements_with_tagname('product'));
 
 These locators can be run on `DOMElement` instances.
 
+#### Element\ancestors
+
+Fetch all ancestor elements from a specific `DOMNode`.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Element\ancestors;
+
+$ancestorNodes = ancestors($element);
+```
+
+#### Element\children
+
+Fetch all child `DOMElement`'s from a specific `DOMNode`.
+If you only want all types of children (`DOMText`, ...), you can use the `Node\children()` locator.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Element\children;
+
+$childElements = children($element);
+```
+
 #### locate_by_namespaced_tag_name
 
 ```php
@@ -644,6 +665,25 @@ use function VeeWee\Xml\Dom\Locator\Element\locate_by_tag_name;
 
 $products = locate_by_tag_name($element, 'product');
 ```
+
+#### Element\parent_element
+
+```php
+use function VeeWee\Xml\Dom\Locator\Element\parent_element;
+
+$products = parent_element($element);
+```
+
+#### Element\siblings
+
+Fetch all sibling elements from a specific `DOMNode`.
+
+```php
+use function VeeWee\Xml\Dom\Locator\Element\siblings;
+
+$ancestorNodes = siblings($element);
+```
+
 
 ### Namespaces
 
@@ -677,24 +717,15 @@ $namespaces = recursive_linked_namespaces($element);
 
 These locators can be run on any `DOMNode` instance.
 
-#### Node\ancestors
-
-Fetch all ancestor elements from a specific `DOMNode`.
-
-```php
-use function VeeWee\Xml\Dom\Locator\Node\ancestors;
-
-$ancestorNodes = ancestors($element);
-```
-
 #### Node\children
 
-Fetch all child elements from a specific `DOMNode`.
+Fetch all child nodes from a specific `DOMNode`. This can be any kind of node: `DOMText`, `DOMElement`, ...
+If you only want the element children, you can use the `Element\children()` locator.
 
 ```php
 use function VeeWee\Xml\Dom\Locator\Node\children;
 
-$childElements = children($element);
+$childNodes = children($element);
 ```
 
 #### Node\detect_document
@@ -706,16 +737,6 @@ If the node is not linked to a document yet, it throws a `InvalidArgumentExcepti
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 
 $document = detect_document($element);
-```
-
-#### Node\siblings
-
-Fetch all sibling elements from a specific `DOMNode`.
-
-```php
-use function VeeWee\Xml\Dom\Locator\Node\siblings;
-
-$ancestorNodes = siblings($element);
 ```
 
 #### Node\value
@@ -821,6 +842,26 @@ Makes it possible to remove any type of `DOMNode` directly. This include attribu
 use function VeeWee\Xml\Dom\Manipulator\Node\remove;
 
 $removedNode = remove($node);
+```
+#### rename
+
+Makes it possible to rename `DOMElement` and `DOMAttr`nodes.
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Node\rename;
+
+rename($node, 'foo');
+rename($node, 'a:foo');
+```
+
+Internally, this function uses an element and attribute rename functionality, which can also be used standalone:
+
+```php
+use function VeeWee\Xml\Dom\Manipulator\Attribute\rename as rename_attribute;
+use function VeeWee\Xml\Dom\Manipulator\Element\rename as rename_element;
+
+rename_attribute($attr, 'foo');
+rename_element($element, 'foo');
 ```
 
 #### remove_namespace
@@ -1142,6 +1183,7 @@ Finally, here is a list of built-in actions:
 * `Noop`: This tells the traverser that no additional action needs to be executed.
 * `ReplaceNode($newNode)`: Can be used to replace a node with another one. 
 * `RemoveNode`: Can be used to remove the node from the XML tree.
+* `RenameNode`: Can be used to rename the node.
 
 
 ## Validators

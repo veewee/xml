@@ -8,7 +8,7 @@ use DOMDocument;
 use DOMElement;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Exception\RuntimeException;
-use function VeeWee\Xml\Dom\Locator\Node\children;
+use function VeeWee\Xml\Dom\Locator\Element\children;
 use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_nodes;
 
 final class ReplaceByExternalNodesTest extends TestCase

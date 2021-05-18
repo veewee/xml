@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Dom\Locator\Node;
+namespace VeeWee\Tests\Xml\Dom\Locator\Element;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Locator\Node\ancestors;
+use function VeeWee\Xml\Dom\Locator\Element\ancestors;
 
 final class AncestorsTest extends TestCase
 {

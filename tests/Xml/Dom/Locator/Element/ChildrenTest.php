@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Dom\Locator\Node;
+namespace VeeWee\Tests\Xml\Dom\Locator\Element;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Locator\Node\children;
+use function VeeWee\Xml\Dom\Locator\Element\children;
 
 final class ChildrenTest extends TestCase
 {
@@ -20,9 +20,8 @@ final class ChildrenTest extends TestCase
         static::assertSame('hello', $children->item(0)->nodeName);
 
         $children = children($domdoc->documentElement);
-        static::assertCount(3, $children);
+        static::assertCount(2, $children);
         static::assertSame('world', $children->item(0)->nodeName);
         static::assertSame('moon', $children->item(1)->nodeName);
-        static::assertSame('Comment', $children->item(2)->nodeValue);
     }
 }
