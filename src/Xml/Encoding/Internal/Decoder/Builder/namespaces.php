@@ -9,7 +9,7 @@ use DOMNameSpaceNode;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Dict\filter;
 use function Psl\Dict\merge;
-use function VeeWee\Xml\Dom\Locator\Attributes\xmlns_attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding

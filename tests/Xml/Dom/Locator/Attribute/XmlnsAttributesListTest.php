@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Dom\Locator\Attributes;
+namespace VeeWee\Tests\Xml\Dom\Locator\Attribute;
 
 use DOMNode;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Locator\Attributes\xmlns_attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
 
 final class XmlnsAttributesListTest extends TestCase
 {

@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Dom\Traverser\Visitor;
 use DOMAttr;
 use DOMNode;
 use VeeWee\Xml\Dom\Traverser\Action;
-use function VeeWee\Xml\Dom\Locator\Attributes\attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
 use function VeeWee\Xml\Dom\Manipulator\append;
 use function VeeWee\Xml\Dom\Predicate\is_element;
 

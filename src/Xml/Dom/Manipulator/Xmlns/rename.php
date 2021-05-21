@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Manipulator\Namespaces;
+namespace VeeWee\Xml\Dom\Manipulator\Xmlns;
 
 use DOMDocument;
 use DOMElement;
@@ -13,8 +13,8 @@ use VeeWee\Xml\Dom\Xpath;
 use VeeWee\Xml\Exception\RuntimeException;
 use function sprintf;
 use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
-use function VeeWee\Xml\Dom\Locator\Attributes\attributes_list;
-use function VeeWee\Xml\Dom\Locator\Attributes\xmlns_attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
 use function VeeWee\Xml\Dom\Manipulator\Node\remove_namespace;
 use function VeeWee\Xml\Dom\Manipulator\Node\rename as rename_node;
 use function VeeWee\Xml\Dom\Predicate\is_attribute;
