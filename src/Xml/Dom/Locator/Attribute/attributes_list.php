@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Locator\Attributes;
+namespace VeeWee\Xml\Dom\Locator\Attribute;
 
 use DOMAttr;
 use DOMNode;

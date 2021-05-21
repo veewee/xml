@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Dom\Manipulator\Namespaces;
+namespace VeeWee\Tests\Xml\Dom\Manipulator\Xmlns;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
-use function VeeWee\Xml\Dom\Manipulator\Namespaces\rename;
+use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class RenameTest extends TestCase

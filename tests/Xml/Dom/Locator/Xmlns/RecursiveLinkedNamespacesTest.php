@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Dom\Locator\Namespaces;
+namespace VeeWee\Tests\Xml\Dom\Locator\Xmlns;
 
 use DOMNameSpaceNode;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +11,7 @@ use VeeWee\Xml\Dom\Document;
 use function Psl\Dict\merge;
 use function Psl\Iter\reduce;
 use function VeeWee\Xml\Dom\Locator\document_element;
-use function VeeWee\Xml\Dom\Locator\Namespaces\recursive_linked_namespaces;
+use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
 
 final class RecursiveLinkedNamespacesTest extends TestCase
 {

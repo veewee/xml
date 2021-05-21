@@ -10,8 +10,8 @@ use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Xmlns\Xmlns;
 use function Psl\Dict\unique;
 use function Psl\Vec\values;
-use function VeeWee\Xml\Dom\Locator\Namespaces\recursive_linked_namespaces;
-use function VeeWee\Xml\Dom\Manipulator\Namespaces\rename;
+use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
+use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename;
 
 /**
  * @throws RuntimeException

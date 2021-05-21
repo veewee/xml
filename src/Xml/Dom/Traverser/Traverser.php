@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Traverser;
 
 use DOMNode;
-use function VeeWee\Xml\Dom\Locator\Attributes\attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
 
 final class Traverser
 {

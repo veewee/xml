@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Locator\Namespaces;
+namespace VeeWee\Xml\Dom\Locator\Xmlns;
 
 use DOMNameSpaceNode;
 use DOMNode;
@@ -17,9 +17,9 @@ use VeeWee\Xml\Exception\RuntimeException;
  * @throws RuntimeException
  * @throws InvalidArgumentException
  */
-function recursive_linked_namespaces(DOMNode $node): NodeList
+function linked_namespaces(DOMNode $node): NodeList
 {
     $xpath = Xpath::fromUnsafeNode($node);
 
-    return $xpath->query('.//namespace::*', $node);
+    return $xpath->query('./namespace::*', $node);
 }

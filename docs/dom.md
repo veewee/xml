@@ -592,7 +592,7 @@ $document = Document::configure($loader, ...$configurators);
 Locators can be used to search for specific elements inside your DOM document.
 The locators are split up based on what they are locating.
 
-### Attributes
+### Attribute
 
 The attributes locators will return attributes and can be called on a `DOMNode`.
 
@@ -604,7 +604,7 @@ The result of this function will be of type `NodeList<DOMAttr>`.
 
 ```php
 use DOMAttr;
-use function VeeWee\Xml\Dom\Locator\Attributes\attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
 
 $attributes = attributes_list($element)->sort(
     static fn (DOMAttr $a, DOMAttr $b): int => $a->nodeName <=> $b->nodeName
@@ -619,7 +619,7 @@ The result of this function will be of type `NodeList<DOMNameSpaceNode>`.
 
 ```php
 use DOMNameSpaceNode;
-use function VeeWee\Xml\Dom\Locator\Attributes\xmlns_attributes_list;
+use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
 
 $attributes = xmlns_attributes_list($element)->sort(
     static fn (DOMNameSpaceNode $a, DOMNameSpaceNode $b): int => $a->prefix <=> $b->prefix
@@ -720,35 +720,6 @@ use function VeeWee\Xml\Dom\Locator\Element\siblings;
 $ancestorNodes = siblings($element);
 ```
 
-
-### Namespaces
-
-These locators can be run on `DOMNode` instances.
-
-#### Namespaces\linked_namespaces
-
-This function returns a list of all namespaces that are linked to a specific DOM node.
-
-```php
-use VeeWee\Xml\Dom\Collection\NodeList;
-use function VeeWee\Xml\Dom\Locator\Namespaces\linked_namespaces;
-
-/** @var NodeList<DOMNameSpaceNode> $namespaces */
-$namespaces = linked_namespaces($element);
-```
-
-#### Namespaces\recursive_linked_namespaces
-
-This function returns a list of all namespaces that are linked to a specific DOM node and all of its children.
-
-```php
-use VeeWee\Xml\Dom\Collection\NodeList;
-use function VeeWee\Xml\Dom\Locator\Namespaces\recursive_linked_namespaces;
-
-/** @var NodeList<DOMNameSpaceNode> $namespaces */
-$namespaces = recursive_linked_namespaces($element);
-```
-
 ### Node
 
 These locators can be run on any `DOMNode` instance.
@@ -784,6 +755,34 @@ use Psl\Type;
 use function VeeWee\Xml\Dom\Locator\Node\value;
 
 $productPrice = value($product, Type\float());
+```
+
+### Xmlns
+
+These locators can be run on `DOMNode` instances.
+
+#### Xmlns\linked_namespaces
+
+This function returns a list of all namespaces that are linked to a specific DOM node.
+
+```php
+use VeeWee\Xml\Dom\Collection\NodeList;
+use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
+
+/** @var NodeList<DOMNameSpaceNode> $namespaces */
+$namespaces = linked_namespaces($element);
+```
+
+#### Xmlns\recursive_linked_namespaces
+
+This function returns a list of all namespaces that are linked to a specific DOM node and all of its children.
+
+```php
+use VeeWee\Xml\Dom\Collection\NodeList;
+use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
+
+/** @var NodeList<DOMNameSpaceNode> $namespaces */
+$namespaces = recursive_linked_namespaces($element);
 ```
 
 ### Xsd
@@ -919,7 +918,7 @@ Besides renaming attributes and elements, you can also rename an xmlns namespace
 This however, operates on the `DOMDocument`:
 
 ```php
-use function VeeWee\Xml\Dom\Manipulator\Namespaces\rename;
+use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename;
 
 rename($doc, 'http://namespace', 'prefix');
 ```

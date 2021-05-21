@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Xml\Dom\Locator\Attributes;
+namespace VeeWee\Xml\Dom\Locator\Attribute;
 
 use DOMNameSpaceNode;
 use DOMNode;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Exception\RuntimeException;
-use function VeeWee\Xml\Dom\Locator\Namespaces\linked_namespaces;
+use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
 use function VeeWee\Xml\Dom\Predicate\is_element;
 
 /**
