@@ -21,10 +21,10 @@ use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
 /**
  * @throws RuntimeException
  */
-function rename(DOMElement $target, string $newQName): DOMElement
+function rename(DOMElement $target, string $newQName, ?string $newNamespaceURI = null): DOMElement
 {
     $parent = parent_element($target);
-    $namespace = $target->namespaceURI;
+    $namespace = $newNamespaceURI ?? $target->namespaceURI;
     $builder = $namespace
         ? namespaced_element($namespace, $newQName)
         : element($newQName);
