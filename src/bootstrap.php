@@ -45,6 +45,7 @@ require_once __DIR__.'/Xml/Dom/Locator/Xsd/locate_no_namespaced_xsd_schemas.php'
 require_once __DIR__.'/Xml/Dom/Locator/document_element.php';
 require_once __DIR__.'/Xml/Dom/Locator/elements_with_namespaced_tagname.php';
 require_once __DIR__.'/Xml/Dom/Locator/elements_with_tagname.php';
+require_once __DIR__.'/Xml/Dom/Locator/root_namespace.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Attribute/rename.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Document/optimize_namespaces.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Element/rename.php';
