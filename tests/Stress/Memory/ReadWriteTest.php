@@ -29,7 +29,7 @@ final class ReadWriteTest extends TestCase
     {
         $this->file = tempnam(sys_get_temp_dir(), 'xmlwriter');
         $this->previousLimit = ini_get('memory_limit');
-        ini_set('memory_limit', $_ENV['STRESS_MAX_MB'].'MB');
+        ini_set('memory_limit', $_ENV['STRESS_MAX_MB'].'M');
 
         $this->logLine('Writing to file: '.$this->file);
     }
