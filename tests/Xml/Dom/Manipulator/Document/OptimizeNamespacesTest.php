@@ -18,11 +18,10 @@ final class OptimizeNamespacesTest extends TestCase
     public function test_it_can_optimize_namespaces(string $input, string $expected): void
     {
         $optimized = Document::fromXmlString($input);
-        $document = $optimized->map(document_element());
 
         optimize_namespaces($optimized->toUnsafeDocument(), 'ns');
 
-        $actual = xml_string()($document);
+        $actual = xml_string()($optimized->map(document_element()));
         static::assertSame($expected, $actual);
     }
 
@@ -112,6 +111,22 @@ final class OptimizeNamespacesTest extends TestCase
                 <item sku="jaak" id="2">Jaak</item>
                 <item ns1:id="3" ns2:sku="jaak">Jul</item>
             </foo>
+            EOXML,
+        ];
+        yield 'default-namespace' => [
+            <<<EOXML
+            <foo xmlns="http://whatever">
+                <bar xmlns:whatever="http://whatever">
+                    <whatever:baz/>
+                </bar>
+            </foo>
+            EOXML,
+            <<<EOXML
+            <ns1:foo xmlns:ns1="http://whatever">
+                <ns1:bar>
+                    <ns1:baz/>
+                </ns1:bar>
+            </ns1:foo>
             EOXML,
         ];
     }
