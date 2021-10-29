@@ -96,10 +96,10 @@ final class ComparableTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:ns1="http://z" xmlns:ns2="http://a" target="universe" version="1.9">
+            <foo xmlns:ns1="http://a" xmlns:ns2="http://z" target="universe" version="1.9">
               <item id="1" sku="jos">Jos</item>
               <item id="2" sku="jaak">Jaak</item>
-              <item ns1:id="3" ns2:sku="jaak">Jul</item>
+              <item ns1:sku="jaak" ns2:id="3">Jul</item>
             </foo>
             EOXML,
         ];

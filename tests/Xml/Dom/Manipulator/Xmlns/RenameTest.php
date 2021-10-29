@@ -134,5 +134,24 @@ final class RenameTest extends TestCase
             </foo>
             EOXML,
         ];
+
+        yield 'default-namespace' => [
+            <<<EOXML
+            <foo xmlns="http://replace">
+                <abc />
+                <bar xmlns:whatever="http://replace">
+                    <whatever:baz/>
+                </bar>
+            </foo>
+            EOXML,
+            <<<EOXML
+            <foo:foo xmlns:foo="http://replace">
+                <foo:abc/>
+                <foo:bar>
+                    <foo:baz/>
+                </foo:bar>
+            </foo:foo>
+            EOXML,
+        ];
     }
 }

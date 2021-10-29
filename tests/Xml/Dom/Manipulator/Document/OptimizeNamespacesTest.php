@@ -18,11 +18,10 @@ final class OptimizeNamespacesTest extends TestCase
     public function test_it_can_optimize_namespaces(string $input, string $expected): void
     {
         $optimized = Document::fromXmlString($input);
-        $document = $optimized->map(document_element());
 
         optimize_namespaces($optimized->toUnsafeDocument(), 'ns');
 
-        $actual = xml_string()($document);
+        $actual = xml_string()($optimized->map(document_element()));
         static::assertSame($expected, $actual);
     }
 
@@ -59,9 +58,9 @@ final class OptimizeNamespacesTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:ns1="http://whatever" xmlns:ns2="http://otherns">
+            <foo xmlns:ns1="http://otherns" xmlns:ns2="http://whatever">
                 <bar>
-                    <ns2:baz xmlns:ns2="http://otherns"/>
+                    <ns1:baz/>
                 </bar>
             </foo>
             EOXML,
@@ -107,11 +106,27 @@ final class OptimizeNamespacesTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:ns1="http://z" xmlns:ns2="http://a" version="1.9" target="universe">
+            <foo xmlns:ns1="http://a" xmlns:ns2="http://z" version="1.9" target="universe">
                 <item id="1" sku="jos">Jos</item>
                 <item sku="jaak" id="2">Jaak</item>
-                <item ns1:id="3" ns2:sku="jaak">Jul</item>
+                <item ns1:sku="jaak" ns2:id="3">Jul</item>
             </foo>
+            EOXML,
+        ];
+        yield 'default-namespace' => [
+            <<<EOXML
+            <foo xmlns="http://whatever">
+                <bar xmlns:whatever="http://whatever">
+                    <whatever:baz/>
+                </bar>
+            </foo>
+            EOXML,
+            <<<EOXML
+            <ns1:foo xmlns:ns1="http://whatever">
+                <ns1:bar>
+                    <ns1:baz/>
+                </ns1:bar>
+            </ns1:foo>
             EOXML,
         ];
     }

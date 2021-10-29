@@ -3,3 +3,4 @@
 .phpunit.cache
 composer.lock
 infection.log
+.php_cs.cache

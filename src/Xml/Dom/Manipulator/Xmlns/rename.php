@@ -65,7 +65,7 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
     // Go through the linked nodes and remove all matching xmlns attributes
     // Finally rename the node in order to use the new prefix.
     $linkedNodes->forEach(
-        static function (DOMNode $node) use ($namespaceURI, $newPrefix, $predicate): void {
+        static function (DOMNode $node) use ($namespaceURI, $newPrefix, $predicate, $root): void {
             // Wrapped in a closure so that psalm knows it all...
             $newQname = static fn (DOMNode $node): string => $newPrefix.':'.$node->localName;
 
@@ -87,7 +87,14 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
                         => $xmlns->namespaceURI === $namespaceURI && $xmlns->prefix !== $newPrefix
                 )
                 ->forEach(
-                    static function (DOMNameSpaceNode $xmlns) use ($node) {
+                    static function (DOMNameSpaceNode $xmlns) use ($node, $root, $newQname, $namespaceURI, $predicate) {
+                        // Before removing the default xmlns on the root node
+                        // We need to make sure to rename it to the new namespace
+                        // Otherwise the namespace will be lost!
+                        if ($node === $root && $predicate($node)) {
+                            rename_node($node, $newQname($node), $namespaceURI);
+                        }
+
                         remove_namespace($xmlns, $node);
                     }
                 );

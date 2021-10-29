@@ -206,4 +206,40 @@ final class RenameTest extends TestCase
         $this->expectExceptionMessage('Can not rename dom node with type '.$node::class);
         rename($node, 'something');
     }
+
+    public function test_it_can_rename_root_element(): void
+    {
+        $doc = Document::fromXmlString('<hello><world /></hello>');
+        $root = $doc->map(document_element());
+
+        $result = rename($root, 'goodbye');
+
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<goodbye><world /></goodbye>');
+        static::assertSame($doc->map(document_element()), $result);
+        static::assertNotSame($root, $result);
+    }
+
+    public function test_it_can_rename_root_element_with_namespace(): void
+    {
+        $doc = Document::fromXmlString('<hello><world /></hello>');
+        $root = $doc->map(document_element());
+
+        $result = rename($root, 'foo:goodbye', 'https://foo');
+
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<foo:goodbye xmlns:foo="https://foo"><world /></foo:goodbye>');
+        static::assertSame($doc->map(document_element()), $result);
+        static::assertNotSame($root, $result);
+    }
+
+    public function test_it_can_rename_root_element_with_default_namespace(): void
+    {
+        $doc = Document::fromXmlString('<hello><world /></hello>');
+        $root = $doc->map(document_element());
+
+        $result = rename($root, 'goodbye', 'https://foo');
+
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<goodbye xmlns="https://foo"><world /></goodbye>');
+        static::assertSame($doc->map(document_element()), $result);
+        static::assertNotSame($root, $result);
+    }
 }

@@ -23,7 +23,8 @@ use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
  */
 function rename(DOMElement $target, string $newQName, ?string $newNamespaceURI = null): DOMElement
 {
-    $parent = parent_element($target);
+    $isRootElement = $target->ownerDocument && $target === $target->ownerDocument->documentElement;
+    $parent = $isRootElement ? $target->ownerDocument : parent_element($target);
     $namespace = $newNamespaceURI ?? $target->namespaceURI;
     $builder = $namespace
         ? namespaced_element($namespace, $newQName)
