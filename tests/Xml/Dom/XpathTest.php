@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Xpath;
 use function Psl\Fun\identity;
-use function VeeWee\Xml\DOM\xpath\xpath;
 
 final class XpathTest extends TestCase
 {
