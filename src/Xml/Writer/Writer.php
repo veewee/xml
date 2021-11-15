@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer;
 
+use Generator;
 use VeeWee\Xml\Exception\RuntimeException;
 use XMLWriter;
 use function Psl\Fun\pipe;
@@ -50,7 +51,7 @@ final class Writer
     }
 
     /**
-     * @param callable(XMLWriter): \Generator<bool> $writer
+     * @param callable(XMLWriter): Generator<bool> $writer
      * @throws RuntimeException
      */
     public function write(callable $writer): void

@@ -5,7 +5,6 @@
     forbidEcho="true"
     strictBinaryOperands="true"
     phpVersion="8.0"
-    allowPhpStormGenerics="true"
     allowStringToStandInForClass="true"
     rememberPropertyAssignmentsAfterCall="false"
     skipChecksOnUnresolvableIncludes="false"

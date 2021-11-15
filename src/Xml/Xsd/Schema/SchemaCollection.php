@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Xsd\Schema;
 
 use Countable;
 use IteratorAggregate;
+use Traversable;
 use function Psl\Vec\filter;
 use function Psl\Vec\map;
 
@@ -29,7 +30,7 @@ final class SchemaCollection implements Countable, IteratorAggregate
         $this->schemas = $schemas;
     }
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         yield from $this->schemas;
     }
