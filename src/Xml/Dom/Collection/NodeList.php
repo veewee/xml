@@ -13,6 +13,7 @@ use Generator;
 use InvalidArgumentException;
 use IteratorAggregate;
 use Psl\Type\TypeInterface;
+use Traversable;
 use VeeWee\Xml\Dom\Xpath;
 use VeeWee\Xml\Exception\RuntimeException;
 use Webmozart\Assert\Assert;
@@ -82,7 +83,7 @@ final class NodeList implements Countable, IteratorAggregate
     /**
      * @return Generator<int, T>
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         yield from $this->nodes;
     }

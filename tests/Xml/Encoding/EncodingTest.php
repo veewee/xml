@@ -218,7 +218,7 @@ final class EncodingTest extends TestCase
                         }
                     },
                     'json-array' => new class implements JsonSerializable {
-                        public function jsonSerialize()
+                        public function jsonSerialize(): array
                         {
                             return [
                                 'field1' => 999
@@ -226,7 +226,7 @@ final class EncodingTest extends TestCase
                         }
                     },
                     'json-value' => new class implements JsonSerializable {
-                        public function jsonSerialize()
+                        public function jsonSerialize(): mixed
                         {
                             return 1;
                         }

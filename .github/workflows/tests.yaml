@@ -8,6 +8,11 @@ jobs:
             matrix:
                 operating-system: [ubuntu-latest]
                 php-versions: ['8.0']
+                experimental: [false]
+                include:
+                  - operating-system: ubuntu-latest
+                    php-versions: '8.1'
+                    experimental: true
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
         steps:
@@ -18,10 +23,12 @@ jobs:
               with:
                   php-version: ${{ matrix.php-versions }}
                   tools: 'composer:v2'
+                  ini-values: error_reporting=E_ALL
                   extensions: pcov, mbstring, posix
             - name: Install dependencies
               run: composer update --prefer-dist --no-progress --no-suggest
             - name: Run the tests
               run: composer run tests
             - name: Check tests quality
-              run: composer run testquality
+              run: composer run testquality || (cat infection.log && exit 1)
+              continue-on-error: ${{ matrix.experimental }}

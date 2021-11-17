@@ -7,15 +7,15 @@
     ],
     "type": "library",
     "require": {
-        "php": "^8.0",
+        "php": "~8.0.0 || ~8.1.0",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-xml": "*",
         "ext-xsl": "*",
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",
-        "azjezz/psl": "^1.6",
-        "webmozart/assert": "^1.9"
+        "azjezz/psl": "^1.9 || ^2.0",
+        "webmozart/assert": "^1.10"
     },
     "require-dev": {
         "symfony/finder": "^5.2",

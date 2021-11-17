@@ -21,7 +21,6 @@ function disallow_issues(callable $run)
 
     return $result->proceed(
         /**
-         * @template T
          * @param T $value
          * @return T
          */
