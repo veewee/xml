@@ -7,7 +7,12 @@ jobs:
         strategy:
             matrix:
                 operating-system: [ubuntu-latest]
-                php-versions: ['8.0', '8.1']
+                php-versions: ['8.0']
+                experimental: [false]
+                include:
+                  - operating-system: ubuntu-latest
+                    php-versions: '8.1'
+                    experimental: true
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
         steps:
@@ -26,3 +31,4 @@ jobs:
               run: composer run tests
             - name: Check tests quality
               run: composer run testquality || (cat infection.log && exit 1)
+              continue-on-error: ${{ matrix.experimental }}
