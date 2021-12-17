@@ -860,6 +860,35 @@ $doc->manipulate(
 );
 ```
 
+### Element
+
+Element specific manipulators operate on `DOMElement` instances.
+
+#### copy_named_xmlns_attributes
+
+Makes it possible to copy all names xmlns attributes from one element to an other element.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Manipulator\Element\copy_named_xmlns_attributes;
+
+$doc = Document::fromXmlString(
+    <<<EOXML
+    <root>
+        <a xmlns:foo="http://foo" />
+        <b />
+    </root>
+    EOXML
+);
+
+$a = $doc->xpath()->querySingle('//a');
+$b = $doc->xpath()->querySingle('//b');
+
+copy_named_xmlns_attributes($b, $a);
+
+// > $b will contain xmlns:foo="http://foo"
+```
+
 ### Node
 
 Node specific manipulators operate on `DOMNode` instances.
