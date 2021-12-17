@@ -45,5 +45,29 @@ final class OptimizeNamespacesTest extends TestCase
             </foo>
             EOXML,
         ];
+        yield 'duplicate-namespaced-and-root-xmlns-on-root' => [
+            <<<EOXML
+            <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soapinterop.org/store1">
+                <xsd:include schemaLocation="./store1.xsd" />
+            </schema>
+            EOXML,
+            <<<EOXML
+            <ns1:schema xmlns:ns1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soapinterop.org/store1">
+                <ns1:include schemaLocation="./store1.xsd"/>
+            </ns1:schema>
+            EOXML,
+        ];
+        yield 'duplicate-namespaced-and-root-xmlns-on-child' => [
+            <<<EOXML
+            <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soapinterop.org/store1">
+                <xsd:include xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaLocation="./store1.xsd" />
+            </schema>
+            EOXML,
+            <<<EOXML
+            <ns1:schema xmlns:ns1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soapinterop.org/store1">
+                <ns1:include schemaLocation="./store1.xsd"/>
+            </ns1:schema>
+            EOXML,
+        ];
     }
 }
