@@ -11,6 +11,7 @@ use DOMNode;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Dom\Xpath;
 use VeeWee\Xml\Exception\RuntimeException;
+use function Psl\invariant;
 use function sprintf;
 use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
 use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
@@ -81,23 +82,25 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
             // @codeCoverageIgnoreEnd
 
             // Remove old xmlns declarations:
-            xmlns_attributes_list($node)
+            $namespaceNodes = xmlns_attributes_list($node)
                 ->filter(
                     static fn (DOMNameSpaceNode $xmlns): bool
                         => $xmlns->namespaceURI === $namespaceURI && $xmlns->prefix !== $newPrefix
-                )
-                ->forEach(
-                    static function (DOMNameSpaceNode $xmlns) use ($node, $root, $newQname, $namespaceURI, $predicate) {
-                        // Before removing the default xmlns on the root node
-                        // We need to make sure to rename it to the new namespace
-                        // Otherwise the namespace will be lost!
-                        if ($node === $root && $predicate($node)) {
-                            rename_node($node, $newQname($node), $namespaceURI);
-                        }
-
-                        remove_namespace($xmlns, $node);
-                    }
                 );
+
+            foreach ($namespaceNodes as $xmlns) {
+                // Before removing the default xmlns on the root node
+                // We need to make sure to rename it to the new namespace
+                // Otherwise the namespace will be lost!
+                if ($node === $root && $predicate($node)) {
+                    // The root node renaming can result in a new DOMNode.
+                    // Make sure to use this new node to avoid issues with e.g. duplicate namespace declarations.
+                    $node = rename_node($node, $newQname($node), $namespaceURI);
+                    invariant(is_element($node), 'Expected the root node to be a DOM element');
+                }
+
+                remove_namespace($xmlns, $node);
+            }
 
             // If the DOM element is part of the namespace URI, rename it!
             // (Remember: this function also accepts regular DOM elements with xmlns declarations that are not linked to the namespace)
