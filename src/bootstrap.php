@@ -48,6 +48,7 @@ require_once __DIR__.'/Xml/Dom/Locator/elements_with_tagname.php';
 require_once __DIR__.'/Xml/Dom/Locator/root_namespace.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Attribute/rename.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Document/optimize_namespaces.php';
+require_once __DIR__.'/Xml/Dom/Manipulator/Element/copy_named_xmlns_attributes.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Element/rename.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Node/append_external_node.php';
 require_once __DIR__.'/Xml/Dom/Manipulator/Node/import_node_deeply.php';
