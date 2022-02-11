@@ -7,6 +7,7 @@ namespace VeeWee\Xml\Dom\Loader;
 use DOMDocument;
 
 /**
+ * @param non-empty-string $xml
  * @param int $options - bitmask of LIBXML_* constants https://www.php.net/manual/en/libxml.constants.php
  * @return callable(DOMDocument): void
  */

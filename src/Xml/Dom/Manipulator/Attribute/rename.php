@@ -18,7 +18,7 @@ function rename(DOMAttr $target, string $newQName, ?string $newNamespaceURI = nu
 {
     $element = parent_element($target);
     $namespace = $newNamespaceURI ?? $target->namespaceURI;
-    $value = $target->nodeValue;
+    $value = $target->nodeValue ?? '';
 
     $builder = $namespace
         ? namespaced_attribute($namespace, $newQName, $value)

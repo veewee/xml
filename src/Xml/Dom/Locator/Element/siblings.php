@@ -11,6 +11,7 @@ use function Psl\Vec\filter;
 use function VeeWee\Xml\Dom\Predicate\is_element;
 
 /**
+ * @psalm-suppress RedundantConditionGivenDocblockType - Seems better to do an additional check here psalm!
  *
  * @return NodeList<DOMElement>
  */

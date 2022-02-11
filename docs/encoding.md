@@ -6,8 +6,10 @@ By using these functions there is no need for ever using the `SimpleXML` library
 ## Example
 
 ```php
+use VeeWee\Xml\Dom\Traverser\Visitor\RemoveNamespaces;
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
 use function VeeWee\Xml\Dom\Configurator\utf8;
+use function VeeWee\Xml\Dom\Configurator\traverse;
 use function VeeWee\Xml\Dom\Configurator\validator;
 use function VeeWee\Xml\Dom\Validator\xsd_validator;
 use function VeeWee\Xml\Encoding\xml_decode;
@@ -15,7 +17,8 @@ use function VeeWee\Xml\Encoding\xml_encode;
 
 $data = xml_decode(
     file_get_contents('file.xml'),
-    validator(xsd_validator('some-schema.xsd'))
+    validator(xsd_validator('some-schema.xsd')),
+    traverse(new RemoveNamespaces())
 );
 
 // You can read or change the data

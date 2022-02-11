@@ -10,7 +10,8 @@
         "customPath": ".\/tools\/phpunit.phar"
     },
     "logs": {
-        "text": "infection.log"
+        "text": ".phpunit.cache/infection.log",
+        "html": ".phpunit.cache/infection"
     },
     "mutators": {
         "@default": true,

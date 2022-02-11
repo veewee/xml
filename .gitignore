@@ -2,5 +2,4 @@
 .phpunit.result.cache
 .phpunit.cache
 composer.lock
-infection.log
 .php-cs-fixer.cache

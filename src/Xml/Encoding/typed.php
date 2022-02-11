@@ -12,6 +12,7 @@ use VeeWee\Xml\Encoding\Exception\EncodingException;
 /**
  * @template T
  *
+ * @psalm-param non-empty-string $xml
  * @psalm-param TypeInterface<T> $type
  * @param list<callable(DOMDocument): DOMDocument> $configurators
  *

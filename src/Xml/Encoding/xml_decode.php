@@ -12,6 +12,7 @@ use function VeeWee\Xml\Encoding\Internal\Decoder\Builder\element;
 use function VeeWee\Xml\Encoding\Internal\wrap_exception;
 
 /**
+ * @param non-empty-string $xml
  * @param list<callable(DOMDocument): DOMDocument> $configurators
  *
  * @throws EncodingException

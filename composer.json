@@ -65,5 +65,10 @@
             "@parallel cs psalm tests",
             "@parallel coverage infection stress"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "veewee/composer-run-parallel": true
+        }
     }
 }
