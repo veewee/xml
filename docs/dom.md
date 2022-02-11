@@ -1235,6 +1235,20 @@ $doc = Document::fromXmlFile($file);
 $doc->traverse(new Visitor\SortAttributes());
 ```
 
+#### RemoveNamespaces
+
+Because life is too short, sometimes you don't want to deal with namespaces...
+This visitor removes all xmlns declarations and prefixes from your XML document.
+This can also be used in combination with `xml_decode`, which will result in an unprefixed result.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Visitor;
+
+$doc = Document::fromXmlFile($file);
+$doc->traverse(new Visitor\RemoveNamespaces());
+```
+
 #### Building your own visitor
 
 A visitor needs to implement the visitor interface.
