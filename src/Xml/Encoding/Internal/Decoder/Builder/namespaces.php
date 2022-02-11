@@ -21,7 +21,9 @@ function namespaces(DOMElement $element): array
     return filter([
         '@namespaces' => xmlns_attributes_list($element)->reduce(
             static fn (array $namespaces, DOMNameSpaceNode $node)
-                => merge($namespaces, [(string) $node->prefix => $node->namespaceURI]),
+                => $node->namespaceURI
+                    ? merge($namespaces, [(string) $node->prefix => $node->namespaceURI])
+                    : $namespaces,
             []
         ),
     ]);

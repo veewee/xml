@@ -31,6 +31,7 @@ $xml = xml_encode($data, utf8(), pretty_print());
 The encoding components consist out of following functions
 
 - [document_encode](#document_encode): Encodes an array into a DOM [Document](dom.md).
+- [element_decode](#element_decode): Decodes a DOMElement into an array.
 - [typed](#typed): Decodes an XML string into a defined well-typed shape.
 - [xml_decode](#xml_decode): Decodes an XML string into an array
 - [xml_encode](#xml_encode): Encodes an array into an XML string
@@ -60,6 +61,35 @@ The component does data normalization for you so that you can pass in any custom
 
 Besides the data, you can apply any [DOM configurator](dom.md#configurators) you please.
 In the example above, we tell the DOM document to be UTF8 and pretty printed.
+
+More information about [the PHP format can be found here](#php-format).
+
+### element_decode
+
+Decode a DOMElement into an array.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Visitor\RemoveNamespaces;
+use function VeeWee\Xml\Dom\Configurator\traverse
+use function VeeWee\Xml\Encoding\element_decode;
+
+$doc = Document::fromXmlFile($file);
+$element = $doc->xpath()->querySingle('//catalog:items/products[0]/item')
+
+$data = element_decode($element, traverse(new RemoveNamespaces()));
+
+// $data = ['name' => 'x', 'category' => 'z'];
+```
+
+Works similar to `xml_encode`.
+It takes any DOMElement as input and transforms this element to a decoded XML array.
+This way, you can use the DOM Document as a starting base to query data, but transform a resulting XML element into an array.
+
+:exclamation: Since ext-dom reimports the node into a fresh document, namespaces might have been moved on a parent element.
+
+Besides the element, you can apply any [DOM configurator](dom.md#configurators) you please.
+In the example above, we run an XSD validator before parsing the XML into an array!
 
 More information about [the PHP format can be found here](#php-format).
 
