@@ -6,10 +6,13 @@ namespace VeeWee\Tests\Xml\Encoding;
 
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use VeeWee\Xml\Encoding\XmlSerializable;
 use function Psl\Fun\identity;
+use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Encoding\document_encode;
+use function VeeWee\Xml\Encoding\element_decode;
 use function VeeWee\Xml\Encoding\xml_decode;
 use function VeeWee\Xml\Encoding\xml_encode;
 
@@ -17,6 +20,7 @@ final class EncodingTest extends TestCase
 {
     /**
      * @dataProvider provideBidirectionalCases
+     * @dataProvider provideRiskyBidirectionalCases
      * @dataProvider provideEncodingOnly
      */
     public function test_it_encodes(string $xml, array $data)
@@ -27,6 +31,7 @@ final class EncodingTest extends TestCase
 
     /**
      * @dataProvider provideBidirectionalCases
+     * @dataProvider provideRiskyBidirectionalCases
      * @dataProvider provideEncodingOnly
      */
     public function test_it_encodes_to_document(string $xml, array $data)
@@ -37,11 +42,25 @@ final class EncodingTest extends TestCase
 
     /**
      * @dataProvider provideBidirectionalCases
+     * @dataProvider provideRiskyBidirectionalCases
      * @dataProvider provideDecodingOnly
      */
     public function test_it_decodes(string $xml, array $data)
     {
         $actual = xml_decode($xml, identity());
+        static::assertSame($data, $actual);
+    }
+
+    /**
+     * @dataProvider provideBidirectionalCases
+     * @dataProvider provideDecodingOnly
+     */
+    public function test_it_decodes_from_element(string $xml, array $data)
+    {
+        $doc = Document::fromXmlString($xml);
+        $element = $doc->locate(document_element());
+
+        $actual = element_decode($element, identity());
         static::assertSame($data, $actual);
     }
 
@@ -153,6 +172,10 @@ final class EncodingTest extends TestCase
                 ]
             ]
         ];
+    }
+
+    public function provideRiskyBidirectionalCases()
+    {
         yield 'namespaced' => [
             'xml' => <<<EOXML
                 <root xmlns="http://rooty.root" xmlns:test="http://testy.test">
