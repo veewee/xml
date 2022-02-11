@@ -2,7 +2,6 @@
 <psalm
     errorLevel="1"
     resolveFromConfigFile="true"
-    forbidEcho="true"
     strictBinaryOperands="true"
     phpVersion="8.0"
     allowStringToStandInForClass="true"

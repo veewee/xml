@@ -8,5 +8,5 @@ use DOMNode;
 
 function is_whitespace(DOMNode $node): bool
 {
-    return is_text($node) && trim($node->nodeValue) === '';
+    return is_text($node) && trim($node->nodeValue ?? '') === '';
 }

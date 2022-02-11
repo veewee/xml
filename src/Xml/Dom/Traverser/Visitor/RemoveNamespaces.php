@@ -5,11 +5,15 @@ namespace VeeWee\Xml\Dom\Traverser\Visitor;
 
 use DOMNode;
 use VeeWee\Xml\Dom\Traverser\Action;
+use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
 use function VeeWee\Xml\Dom\Predicate\is_element;
 
 final class RemoveNamespaces extends AbstractVisitor
 {
+    /**
+     * @throws RuntimeException
+     */
     public function onNodeLeave(DOMNode $node): Action
     {
         if (!is_element($node)) {

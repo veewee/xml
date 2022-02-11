@@ -57,6 +57,7 @@ final class Document
     }
 
     /**
+     * @param non-empty-string $xml
      * @param list<callable(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
