@@ -266,6 +266,24 @@ final class EncodingTest extends TestCase
             'xml' => '<hello><![CDATA[Jos & Bos]]></hello>',
             'data' => ['hello' => 'Jos & Bos']
         ];
+        yield 'falsy values' => [
+            'xml' => <<<EOXML
+                <root>
+                   <zero>0</zero>
+                   <one>1</one>
+                   <empty-string />
+                   <string>string</string>
+                </root>
+            EOXML,
+            'data' => [
+                'root' => [
+                    'zero' => '0',
+                    'one' => '1',
+                    'empty-string' => '',
+                    'string' => 'string',
+                ]
+            ]
+        ];
     }
 
     public function provideInvalidXml()
