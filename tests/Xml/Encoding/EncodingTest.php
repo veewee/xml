@@ -44,6 +44,7 @@ final class EncodingTest extends TestCase
      * @dataProvider provideBidirectionalCases
      * @dataProvider provideRiskyBidirectionalCases
      * @dataProvider provideDecodingOnly
+     * @dataProvider provideRiskyDecodingOnly
      */
     public function test_it_decodes(string $xml, array $data)
     {
@@ -108,6 +109,7 @@ final class EncodingTest extends TestCase
                     'default' => 'world',
                     'value' => 'Toon',
                 ],
+                '@value' => ''
             ]]
         ];
         yield 'nested-single-child' => [
@@ -169,6 +171,45 @@ final class EncodingTest extends TestCase
                             'category' => ['M', 'N', 'O']
                         ]
                     ]
+                ]
+            ]
+        ];
+        yield 'falsy values' => [
+            'xml' => <<<EOXML
+                <root>
+                   <zero>0</zero>
+                   <one>1</one>
+                   <empty-string />
+                   <string>string</string>
+                   <attributes attr1="val1">0</attributes>
+                   <empty-attributes attr1="val1" />
+                   <falsy-attributes attr1="0" />
+                </root>
+            EOXML,
+            'data' => [
+                'root' => [
+                    'zero' => '0',
+                    'one' => '1',
+                    'empty-string' => '',
+                    'string' => 'string',
+                    'attributes' => [
+                        '@attributes' => [
+                            'attr1' => 'val1',
+                        ],
+                        '@value' => '0',
+                    ],
+                    'empty-attributes' => [
+                        '@attributes' => [
+                            'attr1' => 'val1',
+                        ],
+                        '@value' => '',
+                    ],
+                    'falsy-attributes' => [
+                        '@attributes' => [
+                            'attr1' => '0',
+                        ],
+                        '@value' => '',
+                    ],
                 ]
             ]
         ];
@@ -265,6 +306,82 @@ final class EncodingTest extends TestCase
         yield 'cdata' => [
             'xml' => '<hello><![CDATA[Jos & Bos]]></hello>',
             'data' => ['hello' => 'Jos & Bos']
+        ];
+    }
+
+    public function provideRiskyDecodingOnly()
+    {
+        yield 'falsy namespaced' => [
+            'xml' => <<<EOXML
+                <root>
+                   <a xmlns="http://a" attr1="val1" />
+                   <b xmlns="http://b" attr1="val1">0</b>
+                   <x:c xmlns:x="http://x" attr1="val1" />
+                   <x:d xmlns:x="http://x" attr1="val1">0</x:d>
+                   <c xmlns="http://c" attr1="val1" />
+                   <c xmlns="http://c" attr1="val1">0</c>
+                </root>
+            EOXML,
+            'data' => [
+                'root' => [
+                    'a' => [
+                        '@namespaces' => [
+                            '' => 'http://a',
+                        ],
+                        '@attributes' => [
+                            'attr1' => 'val1',
+                        ],
+                        '@value' => '',
+                    ],
+                    'b' => [
+                        '@namespaces' => [
+                            '' => 'http://b',
+                        ],
+                        '@attributes' => [
+                            'attr1' => 'val1',
+                        ],
+                        '@value' => '0',
+                    ],
+                    'x:c' => [
+                        '@namespaces' => [
+                            'x' => 'http://x',
+                        ],
+                        '@attributes' => [
+                            'attr1' => 'val1',
+                        ],
+                        '@value' => '',
+                    ],
+                    'x:d' => [
+                        '@namespaces' => [
+                            'x' => 'http://x',
+                        ],
+                        '@attributes' => [
+                            'attr1' => 'val1',
+                        ],
+                        '@value' => '0',
+                    ],
+                    'c' => [
+                        [
+                            '@namespaces' => [
+                                '' => 'http://c',
+                            ],
+                            '@attributes' => [
+                                'attr1' => 'val1',
+                            ],
+                            '@value' => '',
+                        ],
+                        [
+                            '@namespaces' => [
+                                '' => 'http://c',
+                            ],
+                            '@attributes' => [
+                                'attr1' => 'val1',
+                            ],
+                            '@value' => '0',
+                        ],
+                    ]
+                ]
+            ],
         ];
     }
 

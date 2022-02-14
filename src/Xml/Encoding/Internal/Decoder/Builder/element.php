@@ -31,7 +31,8 @@ function element(DOMElement $element): array
                 $namespaces,
                 $attributes,
                 $children ?: ['@value' => $element->textContent]
-            )
+            ),
+            static fn (mixed $data): bool => $data !== []
         )
     ];
 }

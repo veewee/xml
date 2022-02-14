@@ -48,7 +48,7 @@ function element(string $name, array $data): callable
     $children = filter_nulls([
         $attributes ? attributes($attributes) : null,
         $namedNamespaces ? xmlns_attributes($namedNamespaces) : null,
-        $value ? escaped_value($value) : null,
+        $value !== null ? escaped_value($value) : null,
         ...values(map_with_key(
             $element,
             /**
