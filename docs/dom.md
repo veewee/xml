@@ -41,6 +41,7 @@ $count = $xpath->evaluate('count(.//item)', Type\int(), $currentNode);
 Of course, the example above only gives you a small idea of all the implemented features.
 Let's find out more by segregating the DOM component into its composable blocks:
 
+* [Assertions](#assertions): Assert if a DOMNode is of a specific type.
 * [Builders](#builders): Let you build XML by using a declarative API.
 * [Collection](#collection): A wrapper for dealing with lists of nodes.
 * [Configurators](#configurators): Specify how you want to configure your DOM document.
@@ -53,6 +54,47 @@ Let's find out more by segregating the DOM component into its composable blocks:
 * [Validators](#validators): Validate the content of your XML document.
 * [XPath](#xpath): Query for specific elements based on XPath queries.
 
+
+## Assertions
+
+Assert if a DOMNode is of a specific type.
+
+#### assert_document
+
+Assert if a node is of type `DOMDocument`.
+
+```php
+use Psl\Type\Exception\AssertException;
+use function VeeWee\Xml\Dom\Assert\assert_document;
+
+try {
+    assert_document($someNode)
+} catch (AssertException $e) {
+    // Deal with it
+}
+```
+
+#### assert_element
+
+Assert if a node is of type `DOMElement`.
+
+```php
+use Psl\Type\Exception\AssertException;
+use VeeWee\XML\DOM\Document;
+use function VeeWee\Xml\Dom\Assert\assert_element;
+
+$doc = Document::fromXmlFile('some.xml');
+$item = $doc->xpath()->query('item')->item(0);
+
+use Psl\Type\Exception\AssertException;
+use function VeeWee\Xml\Dom\Assert\assert_document;
+
+try {
+    assert_element($someNode)
+} catch (AssertException $e) {
+    // Deal with it
+}
+```
 
 ## Builders
 

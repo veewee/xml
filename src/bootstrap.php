@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+require_once __DIR__.'/Xml/Dom/Assert/assert_document.php';
+require_once __DIR__.'/Xml/Dom/Assert/assert_element.php';
 require_once __DIR__.'/Xml/Dom/Builder/attribute.php';
 require_once __DIR__.'/Xml/Dom/Builder/attributes.php';
 require_once __DIR__.'/Xml/Dom/Builder/children.php';
