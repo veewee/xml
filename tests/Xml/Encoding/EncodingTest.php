@@ -13,6 +13,7 @@ use function Psl\Fun\identity;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Encoding\document_encode;
 use function VeeWee\Xml\Encoding\element_decode;
+use function VeeWee\Xml\Encoding\element_encode;
 use function VeeWee\Xml\Encoding\xml_decode;
 use function VeeWee\Xml\Encoding\xml_encode;
 
@@ -38,6 +39,17 @@ final class EncodingTest extends TestCase
     {
         $actual = document_encode($data, identity());
         static::assertXmlStringEqualsXmlString($xml, $actual->toXmlString());
+    }
+
+    /**
+     * @dataProvider provideBidirectionalCases
+     * @dataProvider provideRiskyBidirectionalCases
+     * @dataProvider provideEncodingOnly
+     */
+    public function test_it_encodes_to_element(string $xml, array $data)
+    {
+        $actual = element_encode($data);
+        static::assertXmlStringEqualsXmlString($xml, $actual);
     }
 
     /**
@@ -72,6 +84,15 @@ final class EncodingTest extends TestCase
     {
         $this->expectException(EncodingException::class);
         xml_encode($data);
+    }
+
+    /**
+     * @dataProvider provideInvalidXml
+     */
+    public function test_it_errors_while_encoding_invalid_xml_element(string $xml, array $data)
+    {
+        $this->expectException(EncodingException::class);
+        element_encode($data);
     }
 
     /**
