@@ -96,7 +96,7 @@ More information about [the PHP format can be found here](#php-format).
 
 #### element_encode
 
-Encode transforms an array into an XML string, as a partial document.
+Encode transforms an array into an XML string, as a partial document. For encoding to a full document, use [xml_encode](#xml_encode).
 
 ```php
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
@@ -114,7 +114,7 @@ The component does data normalization for you so that you can pass in any custom
 Besides the data, you can apply any [DOM configurator](dom.md#configurators) you please.
 In the example above, we tell the DOM document to be pretty printed.
 
-If you need to generate a full document, you should use the function `xml_encode`.
+If you need to generate a full document with xml header, you should use the function `xml_encode`.
 
 More information about [the PHP format can be found here](#php-format).
 
@@ -143,7 +143,7 @@ More information about [the PHP format can be found here](#php-format).
 
 #### xml_encode
 
-Encode transforms an array into an XML string, as a full document.
+Encode transforms an array into an XML string, as a full document. For encoding to a partial document, use [element_encode](#element_encode).
 
 ```php
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
@@ -161,7 +161,7 @@ The component does data normalization for you so that you can pass in any custom
 Besides the data, you can apply any [DOM configurator](dom.md#configurators) you please.
 In the example above, we tell the DOM document to be UTF8 and pretty printed. 
 
-This function will transform the data to a full xml document string. If you need to render a partial xml document, you can use the function `element_encode`. 
+This function will transform the data to a full xml document string. If you need to render a partial xml document without xml header, you can use the function `element_encode`. 
 
 More information about [the PHP format can be found here](#php-format).
 
