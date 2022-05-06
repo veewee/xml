@@ -32,10 +32,10 @@ The encoding components consist out of following functions
 
 - [document_encode](#document_encode): Encodes an array into a DOM [Document](dom.md).
 - [element_decode](#element_decode): Decodes a DOMElement into an array.
-- [element_encode](#element_encode): Encodes an array into an XML string.
+- [element_encode](#element_encode): Encodes an array into an XML string, as a partial document
 - [typed](#typed): Decodes an XML string into a defined well-typed shape.
 - [xml_decode](#xml_decode): Decodes an XML string into an array
-- [xml_encode](#xml_encode): Encodes an array into an XML string
+- [xml_encode](#xml_encode): Encodes an array into an XML string, as a full document
 
 More information about [the PHP format can be found here](#php-format).
 
@@ -96,7 +96,7 @@ More information about [the PHP format can be found here](#php-format).
 
 #### element_encode
 
-Encode transforms an array into an XML string.
+Encode transforms an array into an XML string, as a partial document.
 
 ```php
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
@@ -143,7 +143,7 @@ More information about [the PHP format can be found here](#php-format).
 
 #### xml_encode
 
-Encode transforms an array into an XML string.
+Encode transforms an array into an XML string, as a full document.
 
 ```php
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
