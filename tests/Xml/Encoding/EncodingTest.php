@@ -13,11 +13,14 @@ use function Psl\Fun\identity;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Encoding\document_encode;
 use function VeeWee\Xml\Encoding\element_decode;
+use function VeeWee\Xml\Encoding\element_encode;
 use function VeeWee\Xml\Encoding\xml_decode;
 use function VeeWee\Xml\Encoding\xml_encode;
 
 final class EncodingTest extends TestCase
 {
+    private const XML_HEADER = '<?xml version="1.0"?>';
+
     /**
      * @dataProvider provideBidirectionalCases
      * @dataProvider provideRiskyBidirectionalCases
@@ -27,6 +30,7 @@ final class EncodingTest extends TestCase
     {
         $actual = xml_encode($data, identity());
         static::assertXmlStringEqualsXmlString($xml, $actual);
+        static::assertStringStartsWith(self::XML_HEADER, $actual);
     }
 
     /**
@@ -38,6 +42,19 @@ final class EncodingTest extends TestCase
     {
         $actual = document_encode($data, identity());
         static::assertXmlStringEqualsXmlString($xml, $actual->toXmlString());
+        static::assertStringStartsWith(self::XML_HEADER, $actual->toXmlString());
+    }
+
+    /**
+     * @dataProvider provideBidirectionalCases
+     * @dataProvider provideRiskyBidirectionalCases
+     * @dataProvider provideEncodingOnly
+     */
+    public function test_it_encodes_to_element(string $xml, array $data)
+    {
+        $actual = element_encode($data);
+        static::assertXmlStringEqualsXmlString($xml, $actual);
+        static::assertStringStartsNotWith(self::XML_HEADER, $actual);
     }
 
     /**
@@ -72,6 +89,15 @@ final class EncodingTest extends TestCase
     {
         $this->expectException(EncodingException::class);
         xml_encode($data);
+    }
+
+    /**
+     * @dataProvider provideInvalidXml
+     */
+    public function test_it_errors_while_encoding_invalid_xml_element(string $xml, array $data)
+    {
+        $this->expectException(EncodingException::class);
+        element_encode($data);
     }
 
     /**
