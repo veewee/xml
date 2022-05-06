@@ -19,6 +19,8 @@ use function VeeWee\Xml\Encoding\xml_encode;
 
 final class EncodingTest extends TestCase
 {
+    private const XML_HEADER = '<?xml version="1.0"?>';
+
     /**
      * @dataProvider provideBidirectionalCases
      * @dataProvider provideRiskyBidirectionalCases
@@ -28,6 +30,7 @@ final class EncodingTest extends TestCase
     {
         $actual = xml_encode($data, identity());
         static::assertXmlStringEqualsXmlString($xml, $actual);
+        static::assertStringStartsWith(self::XML_HEADER, $actual);
     }
 
     /**
@@ -39,6 +42,7 @@ final class EncodingTest extends TestCase
     {
         $actual = document_encode($data, identity());
         static::assertXmlStringEqualsXmlString($xml, $actual->toXmlString());
+        static::assertStringStartsWith(self::XML_HEADER, $actual->toXmlString());
     }
 
     /**
@@ -50,6 +54,7 @@ final class EncodingTest extends TestCase
     {
         $actual = element_encode($data);
         static::assertXmlStringEqualsXmlString($xml, $actual);
+        static::assertStringStartsNotWith(self::XML_HEADER, $actual);
     }
 
     /**
