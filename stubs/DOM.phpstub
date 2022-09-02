@@ -1,11 +1,11 @@
 <?php
 
-class DOMNameSpaceNode extends DOMNode{
+class DOMNameSpaceNode extends DOMNode {
     public string $namespaceURI;
     public string $nodeName;
     public string $prefix;
 }
 
-class DOMDOcument {
+class DOMDocument {
     public function C14N(): string|false;
 }
