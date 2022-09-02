@@ -1,6 +1,11 @@
 name: Analyzers
 
-on: [push, pull_request]
+on:
+  pull_request: ~
+  push: ~
+  schedule:
+    - cron: '0 9 * * 5'
+
 jobs:
     run:
         runs-on: ${{ matrix.operating-system }}
