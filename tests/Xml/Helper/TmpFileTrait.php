@@ -7,7 +7,7 @@ namespace VeeWee\Tests\Xml\Helper;
 trait TmpFileTrait
 {
     /**
-     * @param callable(string): void
+     * @param callable(string): void $run
      */
     private function createTmpFile(callable $run): void
     {
