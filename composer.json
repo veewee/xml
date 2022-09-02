@@ -14,7 +14,7 @@
         "ext-xsl": "*",
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",
-        "azjezz/psl": "^1.9 || ^2.0",
+        "azjezz/psl": "^1.9",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {

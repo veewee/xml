@@ -18,7 +18,6 @@ function profiler(string $profilingFile): callable
 {
     return static fn (XSLTProcessor $processor)
     => disallow_issues(static function () use ($processor, $profilingFile) : XSLTProcessor {
-
         // ext-xsl doesn't trigger errors if the file does not exist. We'll do it for you!
         Assert::notEmpty($profilingFile);
         $dir = dirname($profilingFile);
