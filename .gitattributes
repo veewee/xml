@@ -8,4 +8,4 @@ tools/*         binary
 /.gitignore     export-ignore
 /phpunit.xml    export-ignore
 /phive.xml      export-ignore
-/*.phpstub      linguist-language=PHP
+*.phpstub       linguist-language=PHP
