@@ -10,6 +10,7 @@ Since not all code is in one big master class, you will find that it is not too 
 ## Examples
 
 ```php
+use DOMDocument;
 use Psl\Type;
 use VeeWee\XML\DOM\Configurator;
 use VeeWee\XML\DOM\Document;
@@ -24,7 +25,7 @@ $doc = Document::configure(
     Configurator\validator(
         Validator\internal_xsd_validator()
     ),
-    new MyCustomMergeImportsConfigurator()
+    static fn (DOMDocument $document) => (new MyCustomMergeImportsConfigurator())($document),
 );
 
 $xpath = $doc->xpath(
