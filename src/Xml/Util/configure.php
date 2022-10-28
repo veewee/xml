@@ -16,23 +16,23 @@ use Psl\Iter;
  *
  * @template T
  *
- * @param Closure(T): T ...$stages
+ * @param callable(T): T ...$stages
  *
  * @return Closure(T): T
  *
  * @pure
  */
-function configure(Closure ...$stages): Closure
+function configure(callable ...$stages): Closure
 {
     return static fn ($input) => Iter\reduce(
         $stages,
         /**
          * @param T $input
-         * @param (Closure(T): T) $next
+         * @param (callable(T): T) $next
          *
          * @return T
          */
-        static fn (mixed $input, Closure $next): mixed => $next($input),
+        static fn (mixed $input, callable $next): mixed => $next($input),
         $input
     );
 }

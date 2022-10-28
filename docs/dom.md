@@ -25,7 +25,7 @@ $doc = Document::configure(
     Configurator\validator(
         Validator\internal_xsd_validator()
     ),
-    static fn (DOMDocument $document) => (new MyCustomMergeImportsConfigurator())($document),
+    new MyCustomMergeImportsConfigurator(),
 );
 
 $xpath = $doc->xpath(
