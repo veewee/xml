@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
+use Closure;
 use DOMElement;
 use DOMNode;
 use Psl\Exception\InvariantViolationException;
@@ -16,12 +17,12 @@ use function VeeWee\Xml\Dom\Builder\escaped_value;
  * @psalm-internal VeeWee\Xml\Encoding
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @return callable(DOMNode): DOMElement
+ * @return \Closure(DOMNode): DOMElement
  *
  * @throws AssertException
  * @throws InvariantViolationException
  */
-function parent_node(string $name, array|string $data): callable
+function parent_node(string $name, array|string $data): Closure
 {
     if (is_string($data)) {
         return buildChildren(elementBuilder($name, escaped_value($data)));

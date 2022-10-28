@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader\Matcher;
 
+use Closure;
 use Psl\Iter;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 
 /**
- * @param list<callable(NodeSequence): bool> $matchers
+ * @param list<\Closure(NodeSequence): bool> $matchers
  *
- * @return callable(NodeSequence): bool
+ * @return \Closure(NodeSequence): bool
  */
-function all(callable ... $matchers): callable
+function all(Closure ... $matchers): Closure
 {
     return static fn (NodeSequence $sequence): bool => Iter\all(
         $matchers,
         /**
-         * @param callable(NodeSequence): bool $matcher
+         * @param \Closure(NodeSequence): bool $matcher
          */
-        static fn (callable $matcher): bool => $matcher($sequence)
+        static fn (Closure $matcher): bool => $matcher($sequence)
     );
 }

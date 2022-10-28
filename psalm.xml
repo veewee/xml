@@ -45,7 +45,7 @@
         <file name="stubs/XMLWriter.phpstub" />
     </stubs>
     <plugins>
-        <pluginClass class="Psl\Integration\Psalm\Plugin" />
+        <pluginClass class="Psl\Psalm\Plugin" />
     </plugins>
     <ignoreExceptions>
         <class name="InvalidArgumentException" />

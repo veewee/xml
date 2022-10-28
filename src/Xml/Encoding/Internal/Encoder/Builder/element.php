@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
+use Closure;
 use DOMElement;
 use Psl\Exception\InvariantViolationException;
 use Psl\Type\Exception\AssertException;
@@ -25,12 +26,12 @@ use function VeeWee\Xml\Dom\Builder\xmlns_attributes;
  * @psalm-internal VeeWee\Xml\Encoding
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @return callable(DOMElement): DOMElement
+ * @return \Closure(DOMElement): DOMElement
  *
  * @throws AssertException
  * @throws InvariantViolationException
  */
-function element(string $name, array $data): callable
+function element(string $name, array $data): Closure
 {
     $nullableMap = union(dict(string(), string()), null());
     $attributes = $nullableMap->assert($data['@attributes'] ?? null);
@@ -53,9 +54,9 @@ function element(string $name, array $data): callable
             $element,
             /**
              * @param string|array<int|string, array|string> $value
-             * @return callable(DOMElement): DOMElement
+             * @return \Closure(DOMElement): DOMElement
              */
-            static fn (string $name, string|array $value): callable
+            static fn (string $name, string|array $value): Closure
                 => parent_node($name, $value)
         )),
     ]);

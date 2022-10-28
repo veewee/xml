@@ -55,7 +55,7 @@ final class DetectIssuesTest extends TestCase
         );
 
         static::assertTrue($result->isFailed());
-        static::assertSame($exception, $result->getException());
+        static::assertSame($exception, $result->getThrowable());
         static::assertCount(1, $errors);
     }
 

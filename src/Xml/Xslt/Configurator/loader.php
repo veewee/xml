@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xslt\Configurator;
 
+use Closure;
 use XSLTProcessor;
 
 /**
- * @param callable(XSLTProcessor): void $loader
+ * @param \Closure(XSLTProcessor): void $loader
  *
- * @return callable(XSLTProcessor): XSLTProcessor
+ * @return \Closure(XSLTProcessor): XSLTProcessor
  */
-function loader(callable $loader): callable
+function loader(Closure $loader): Closure
 {
     return static function (XSLTProcessor $processor) use ($loader): XSLTProcessor {
         $loader($processor);

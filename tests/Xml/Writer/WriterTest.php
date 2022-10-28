@@ -68,7 +68,6 @@ final class WriterTest extends TestCase
         static::assertXmlStringEqualsXmlString($result, '<root />');
     }
 
-    
     public function test_it_throws_error_on_not_initialized(): void
     {
         $this->expectErrorMessage('Invalid or uninitialized XMLWriter object');
@@ -77,7 +76,6 @@ final class WriterTest extends TestCase
         $emptyWriter->write(element('root'));
     }
 
-    
     public function test_it_throws_error_on_invalid_write(): void
     {
         $this->expectException(RuntimeException::class);

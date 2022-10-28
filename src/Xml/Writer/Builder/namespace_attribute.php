@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer\Builder;
 
+use Closure;
 use Generator;
 use XMLWriter;
 
 /**
- * @return callable(XMLWriter): Generator<bool>
+ * @return \Closure(XMLWriter): Generator<bool>
  */
-function namespace_attribute(string $namespace, ?string $prefix = null): callable
+function namespace_attribute(string $namespace, ?string $prefix = null): Closure
 {
     return
         /**

@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Configurator;
 
+use Closure;
 use DOMDocument;
 use VeeWee\Xml\Dom\Traverser\Visitor\SortAttributes;
-use function Psl\Fun\pipe;
+use function VeeWee\Xml\Util\configure;
 
 /**
- * @return callable(DOMDocument): DOMDocument
+ * @return \Closure(DOMDocument): DOMDocument
  */
-function comparable(): callable
+function comparable(): Closure
 {
-    return pipe(
+    return configure(
         optimize_namespaces(),
         canonicalize(),
         traverse(new SortAttributes()),

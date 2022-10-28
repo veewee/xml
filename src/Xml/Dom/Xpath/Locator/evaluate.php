@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
+use Closure;
 use DOMNode;
 use DOMXPath;
 use Psl\Type\TypeInterface;
@@ -14,9 +15,9 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  *
  * @param TypeInterface<T> $type
  *
- * @return callable(DOMXPath): T
+ * @return \Closure(DOMXPath): T
  */
-function evaluate(string $query, TypeInterface $type, DOMNode $node = null): callable
+function evaluate(string $query, TypeInterface $type, DOMNode $node = null): Closure
 {
     return
         /**

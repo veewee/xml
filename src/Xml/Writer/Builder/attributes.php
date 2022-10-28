@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer\Builder;
 
+use Closure;
 use Generator;
 use XMLWriter;
 
 /**
  * @param array<string, string> $attributes
- * @return callable(XMLWriter): Generator<bool>
+ * @return \Closure(XMLWriter): Generator<bool>
  */
-function attributes(array $attributes): callable
+function attributes(array $attributes): Closure
 {
     return
         /**

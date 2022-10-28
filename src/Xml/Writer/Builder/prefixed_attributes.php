@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer\Builder;
 
+use Closure;
 use Generator;
 use XMLWriter;
 use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
 /**
  * @param array<string, string> $attributes
- * @return callable(XMLWriter): Generator<bool>
+ * @return \Closure(XMLWriter): Generator<bool>
  */
-function prefixed_attributes(array $attributes): callable
+function prefixed_attributes(array $attributes): Closure
 {
     return
         /**

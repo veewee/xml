@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Configurator;
 
+use Closure;
 use DOMDocument;
 
 /**
- * @param callable(DOMDocument): void $loader
+ * @param \Closure(DOMDocument): void $loader
  *
- * @return callable(DOMDocument): DOMDocument
+ * @return \Closure(DOMDocument): DOMDocument
  */
-function loader(callable $loader): callable
+function loader(Closure $loader): Closure
 {
     return static function (DOMDocument $document) use ($loader): DOMDocument {
         $loader($document);

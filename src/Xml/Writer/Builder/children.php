@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer\Builder;
 
+use Closure;
 use Generator;
 use XMLWriter;
 
 /**
- * @param iterable<(callable(XMLWriter): Generator<bool>)> $nodeBuilders
+ * @param iterable<(\Closure(XMLWriter): Generator<bool>)> $nodeBuilders
  *
- * @return callable(XMLWriter): Generator<bool>
+ * @return \Closure(XMLWriter): Generator<bool>
  */
-function children(iterable $nodeBuilders): callable
+function children(iterable $nodeBuilders): Closure
 {
     return
         /**

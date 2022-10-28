@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom;
 
+use Closure;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
@@ -11,13 +12,13 @@ use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
-use function Psl\Fun\pipe;
 use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
+use function VeeWee\Xml\Util\configure;
 
 final class Document
 {
@@ -32,23 +33,23 @@ final class Document
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function configure(callable ... $configurators): self
+    public static function configure(Closure ... $configurators): self
     {
-        $document = pipe(...$configurators)(new DOMDocument());
+        $document = configure(...$configurators)(new DOMDocument());
 
         return new self($document);
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromXmlFile(string $file, callable ...$configurators): self
+    public static function fromXmlFile(string $file, Closure ...$configurators): self
     {
         return self::configure(
             loader(xml_file_loader($file)),
@@ -58,11 +59,11 @@ final class Document
 
     /**
      * @param non-empty-string $xml
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromXmlString(string $xml, callable ...$configurators): self
+    public static function fromXmlString(string $xml, Closure ...$configurators): self
     {
         return self::configure(
             loader(xml_string_loader($xml)),
@@ -71,11 +72,11 @@ final class Document
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromXmlNode(DOMNode $node, callable ...$configurators): self
+    public static function fromXmlNode(DOMNode $node, Closure ...$configurators): self
     {
         return self::configure(
             loader(xml_node_loader($node)),
@@ -84,14 +85,14 @@ final class Document
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromUnsafeDocument(DOMDocument $document, callable ...$configurators): self
+    public static function fromUnsafeDocument(DOMDocument $document, Closure ...$configurators): self
     {
         return new self(
-            pipe(...$configurators)($document)
+            configure(...$configurators)($document)
         );
     }
 
@@ -102,21 +103,21 @@ final class Document
 
     /**
      * @template T
-     * @param callable(DOMDocument): T $locator
+     * @param \Closure(DOMDocument): T $locator
      *
      * @return T
      */
-    public function locate(callable $locator)
+    public function locate(Closure $locator)
     {
         return $locator($this->document);
     }
 
     /**
-     * @param callable(DOMDocument): mixed $manipulator
+     * @param \Closure(DOMDocument): mixed $manipulator
      *
      * @return $this
      */
-    public function manipulate(callable $manipulator): self
+    public function manipulate(Closure $manipulator): self
     {
         $manipulator($this->document);
 
@@ -124,38 +125,38 @@ final class Document
     }
 
     /**
-     * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
+     * @param list<\Closure(DOMDocument): (list<DOMNode>|DOMNode)> $builders
      *
      * @return list<DOMNode>
      */
-    public function build(callable ... $builders): array
+    public function build(Closure ... $builders): array
     {
         return Builder\nodes(...$builders)($this->document);
     }
 
     /**
-     * @param callable(DOMDocument): IssueCollection $validator
+     * @param \Closure(DOMDocument): IssueCollection $validator
      */
-    public function validate(callable $validator): IssueCollection
+    public function validate(Closure $validator): IssueCollection
     {
         return $validator($this->document);
     }
 
     /**
-     * @param list<callable(DOMXPath): DOMXPath> $configurators
+     * @param list<\Closure(DOMXPath): DOMXPath> $configurators
      */
-    public function xpath(callable ...$configurators): Xpath
+    public function xpath(Closure ...$configurators): Xpath
     {
         return Xpath::fromDocument($this, ...$configurators);
     }
 
     /**
      * @template T
-     * @param callable(DOMDocument): T $mapper
+     * @param \Closure(DOMDocument): T $mapper
      *
      * @return T
      */
-    public function map(callable $mapper)
+    public function map(Closure $mapper)
     {
         return $mapper($this->document);
     }

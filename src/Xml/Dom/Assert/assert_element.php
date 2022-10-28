@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Assert;
 
 use DOMElement;
-use DOMNode;
 use Psl\Type\Exception\AssertException;
-use function Psl\Type\object;
+use function Psl\Type\instance_of;
 
 /**
  * @psalm-assert DOMElement $node
  * @throws AssertException
  */
-function assert_element(?DOMNode $node): DOMElement
+function assert_element(mixed $node): DOMElement
 {
-    return object(DOMElement::class)->assert($node);
+    return instance_of(DOMElement::class)->assert($node);
 }

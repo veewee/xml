@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling;
 
+use Closure;
 use Generator;
-use Psl\Vec;
 
+use Psl\Vec;
 use VeeWee\Xml\Exception\RuntimeException;
 use function libxml_clear_errors;
 use function libxml_get_errors;
@@ -19,13 +20,13 @@ use function libxml_use_internal_errors;
  *
  * @template Tr
  *
- * @psalm-param (callable(): bool) $tick
- * @psalm-param (callable(): ?Tr) $run
+ * @psalm-param (\Closure(): bool) $tick
+ * @psalm-param (\Closure(): ?Tr) $run
  * @psalm-return Generator<int, Tr, null, mixed>
  *
  * @throws RuntimeException
  */
-function stop_on_first_issue(callable $tick, callable $run): Generator
+function stop_on_first_issue(Closure $tick, Closure $run): Generator
 {
     $previousErrorReporting = libxml_use_internal_errors(true);
     libxml_clear_errors();

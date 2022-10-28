@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xslt\Configurator;
 
+use Closure;
 use XSLTProcessor;
 
 /**
@@ -19,9 +20,9 @@ use XSLTProcessor;
  *     \XSL_SECPREF_DEFAULT
  * > $preferences
  *
- * @return callable(XSLTProcessor): XSLTProcessor
+ * @return \Closure(XSLTProcessor): XSLTProcessor
  */
-function security_preferences(int $preferences): callable
+function security_preferences(int $preferences): Closure
 {
     return static function (XSLTProcessor $processor) use ($preferences) : XSLTProcessor {
         $processor->setSecurityPrefs($preferences);

@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Builder;
 
+use Closure;
 use DOMNode;
 
 /**
  * @template T of DOMNode
  *
- * @param list<callable(T): DOMNode> $builders
+ * @param list<\Closure(T): DOMNode> $builders
  *
- * @return callable(T): T
+ * @return \Closure(T): T
  */
-function children(callable ...$builders): callable
+function children(Closure ...$builders): Closure
 {
     return static function (DOMNode $node) use ($builders): DOMNode {
         foreach ($builders as $builder) {

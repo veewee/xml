@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xslt\Configurator;
 
+use Closure;
 use Webmozart\Assert\Assert;
 use XSLTProcessor;
 use function dirname;
@@ -12,9 +13,9 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
  * @param non-empty-string $profilingFile
- * @return callable(XSLTProcessor): XSLTProcessor
+ * @return \Closure(XSLTProcessor): XSLTProcessor
  */
-function profiler(string $profilingFile): callable
+function profiler(string $profilingFile): Closure
 {
     return static fn (XSLTProcessor $processor)
     => disallow_issues(static function () use ($processor, $profilingFile) : XSLTProcessor {

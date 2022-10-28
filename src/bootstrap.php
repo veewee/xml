@@ -119,6 +119,7 @@ require_once __DIR__.'/Xml/Reader/Loader/xml_string_loader.php';
 require_once __DIR__.'/Xml/Reader/Matcher/all.php';
 require_once __DIR__.'/Xml/Reader/Matcher/node_attribute.php';
 require_once __DIR__.'/Xml/Reader/Matcher/node_name.php';
+require_once __DIR__.'/Xml/Util/configure.php';
 require_once __DIR__.'/Xml/Writer/Builder/attribute.php';
 require_once __DIR__.'/Xml/Writer/Builder/attributes.php';
 require_once __DIR__.'/Xml/Writer/Builder/children.php';
