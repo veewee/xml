@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom;
 
-use Closure;
 use DOMNode;
 use DOMXPath;
 use InvalidArgumentException;
@@ -25,9 +24,9 @@ final class Xpath
     }
 
     /**
-     * @param list<\Closure(DOMXPath): DOMXPath> $configurators
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      */
-    public static function fromDocument(Document $document, Closure ... $configurators): self
+    public static function fromDocument(Document $document, callable ... $configurators): self
     {
         return new self(
             configure(...$configurators)(new DOMXPath($document->toUnsafeDocument()))
@@ -35,11 +34,11 @@ final class Xpath
     }
 
     /**
-     * @param list<\Closure(DOMXPath): DOMXPath> $configurators
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public static function fromUnsafeNode(DOMNode $node, Closure ... $configurators): self
+    public static function fromUnsafeNode(DOMNode $node, callable ... $configurators): self
     {
         return self::fromDocument(
             Document::fromUnsafeDocument(
@@ -51,12 +50,12 @@ final class Xpath
 
     /**
      * @template T
-     * @param \Closure(DOMXpath): T $locator
+     * @param callable(DOMXpath): T $locator
      *
      * @return T
      * @throws RuntimeException
      */
-    public function locate(Closure $locator)
+    public function locate(callable $locator)
     {
         return $locator($this->xpath);
     }

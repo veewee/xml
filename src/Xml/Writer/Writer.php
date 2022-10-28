@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer;
 
-use Closure;
 use Generator;
 use VeeWee\Xml\Exception\RuntimeException;
 use XMLWriter;
@@ -24,26 +23,26 @@ final class Writer
     }
 
     /**
-     * @param list<(\Closure(XMLWriter): XMLWriter)> $configurators
+     * @param list<(callable(XMLWriter): XMLWriter)> $configurators
      */
-    public static function configure(Closure ... $configurators): self
+    public static function configure(callable ... $configurators): self
     {
         return self::fromUnsafeWriter(new XMLWriter(), ...$configurators);
     }
 
     /**
-     * @param list<(\Closure(XMLWriter): XMLWriter)> $configurators
+     * @param list<(callable(XMLWriter): XMLWriter)> $configurators
      */
-    public static function fromUnsafeWriter(XMLWriter $writer, Closure ... $configurators): self
+    public static function fromUnsafeWriter(XMLWriter $writer, callable ... $configurators): self
     {
         return new self(configure(...$configurators)($writer));
     }
 
     /**
-     * @param list<(\Closure(XMLWriter): XMLWriter)> $configurators
+     * @param list<(callable(XMLWriter): XMLWriter)> $configurators
      *
      */
-    public static function forFile(string $file, Closure ... $configurators): self
+    public static function forFile(string $file, callable ... $configurators): self
     {
         return self::configure(
             open(xml_file_opener($file)),
@@ -52,10 +51,10 @@ final class Writer
     }
 
     /**
-     * @param \Closure(XMLWriter): Generator<bool> $writer
+     * @param callable(XMLWriter): Generator<bool> $writer
      * @throws RuntimeException
      */
-    public function write(Closure $writer): void
+    public function write(callable $writer): void
     {
         $xmlWriter = $this->writer;
         $cursor = $writer($xmlWriter);

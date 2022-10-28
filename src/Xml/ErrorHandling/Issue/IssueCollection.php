@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling\Issue;
 
-use Closure;
 use Countable;
 use IteratorAggregate;
 use Psl\Dict;
@@ -46,11 +45,11 @@ final class IssueCollection implements Countable, IteratorAggregate
     }
 
     /**
-     * @param (\Closure(Issue): bool) $filter
+     * @param (callable(Issue): bool) $filter
      */
-    public function filter(Closure $filter): self
+    public function filter(callable $filter): self
     {
-        return new self(...Dict\filter($this->issues, $filter));
+        return new self(...Dict\filter($this->issues, $filter(...)));
     }
 
     public function getHighestLevel(): ?Level

@@ -12,6 +12,7 @@ use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
+use function Psl\Vec\map;
 use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 use function VeeWee\Xml\Dom\Loader\xml_node_loader;
@@ -33,11 +34,11 @@ final class Document
     }
 
     /**
-     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function configure(Closure ... $configurators): self
+    public static function configure(callable ... $configurators): self
     {
         $document = configure(...$configurators)(new DOMDocument());
 
@@ -45,11 +46,11 @@ final class Document
     }
 
     /**
-     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromXmlFile(string $file, Closure ...$configurators): self
+    public static function fromXmlFile(string $file, callable ...$configurators): self
     {
         return self::configure(
             loader(xml_file_loader($file)),
@@ -59,11 +60,11 @@ final class Document
 
     /**
      * @param non-empty-string $xml
-     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromXmlString(string $xml, Closure ...$configurators): self
+    public static function fromXmlString(string $xml, callable ...$configurators): self
     {
         return self::configure(
             loader(xml_string_loader($xml)),
@@ -72,11 +73,11 @@ final class Document
     }
 
     /**
-     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromXmlNode(DOMNode $node, Closure ...$configurators): self
+    public static function fromXmlNode(DOMNode $node, callable ...$configurators): self
     {
         return self::configure(
             loader(xml_node_loader($node)),
@@ -85,11 +86,11 @@ final class Document
     }
 
     /**
-     * @param list<\Closure(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromUnsafeDocument(DOMDocument $document, Closure ...$configurators): self
+    public static function fromUnsafeDocument(DOMDocument $document, callable ...$configurators): self
     {
         return new self(
             configure(...$configurators)($document)
@@ -103,21 +104,21 @@ final class Document
 
     /**
      * @template T
-     * @param \Closure(DOMDocument): T $locator
+     * @param callable(DOMDocument): T $locator
      *
      * @return T
      */
-    public function locate(Closure $locator)
+    public function locate(callable $locator)
     {
         return $locator($this->document);
     }
 
     /**
-     * @param \Closure(DOMDocument): mixed $manipulator
+     * @param callable(DOMDocument): mixed $manipulator
      *
      * @return $this
      */
-    public function manipulate(Closure $manipulator): self
+    public function manipulate(callable $manipulator): self
     {
         $manipulator($this->document);
 
@@ -125,38 +126,41 @@ final class Document
     }
 
     /**
-     * @param list<\Closure(DOMDocument): (list<DOMNode>|DOMNode)> $builders
+     * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
      *
      * @return list<DOMNode>
      */
-    public function build(Closure ... $builders): array
+    public function build(callable ... $builders): array
     {
-        return Builder\nodes(...$builders)($this->document);
+        return Builder\nodes(...map(
+            $builders,
+            fn (callable $builder): Closure => $builder(...)
+        ))($this->document);
     }
 
     /**
-     * @param \Closure(DOMDocument): IssueCollection $validator
+     * @param callable(DOMDocument): IssueCollection $validator
      */
-    public function validate(Closure $validator): IssueCollection
+    public function validate(callable $validator): IssueCollection
     {
         return $validator($this->document);
     }
 
     /**
-     * @param list<\Closure(DOMXPath): DOMXPath> $configurators
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      */
-    public function xpath(Closure ...$configurators): Xpath
+    public function xpath(callable ...$configurators): Xpath
     {
         return Xpath::fromDocument($this, ...$configurators);
     }
 
     /**
      * @template T
-     * @param \Closure(DOMDocument): T $mapper
+     * @param callable(DOMDocument): T $mapper
      *
      * @return T
      */
-    public function map(Closure $mapper)
+    public function map(callable $mapper)
     {
         return $mapper($this->document);
     }

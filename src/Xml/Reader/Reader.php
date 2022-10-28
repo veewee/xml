@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader;
 
-use Closure;
 use Generator;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Reader\Node\AttributeNode;
@@ -20,52 +19,52 @@ use function VeeWee\Xml\Util\configure;
 final class Reader
 {
     /**
-     * @var \Closure(): XMLReader $factory
+     * @var callable(): XMLReader $factory
      */
     private $factory;
 
     /**
-     * @param \Closure(): XMLReader $factory
+     * @param callable(): XMLReader $factory
      */
     private function __construct(
-        Closure $factory
+        callable $factory
     ) {
         $this->factory = $factory;
     }
 
     /**
-     * @param \Closure(): XMLReader $loader
-     * @param list<\Closure(XMLReader): XMLReader> $configurators
+     * @param callable(): XMLReader $loader
+     * @param list<callable(XMLReader): XMLReader> $configurators
      */
-    public static function configure(Closure $loader, Closure ... $configurators): self
+    public static function configure(callable $loader, callable ... $configurators): self
     {
         return new self(static fn () => configure(...$configurators)($loader()));
     }
 
     /**
-     * @param list<\Closure(XMLReader): XMLReader> $configurators
+     * @param list<callable(XMLReader): XMLReader> $configurators
      */
-    public static function fromXmlFile(string $file, Closure ... $configurators): self
+    public static function fromXmlFile(string $file, callable ... $configurators): self
     {
         return self::configure(xml_file_loader($file), ...$configurators);
     }
 
     /**
-     * @param list<\Closure(XMLReader): XMLReader> $configurators
+     * @param list<callable(XMLReader): XMLReader> $configurators
      */
-    public static function fromXmlString(string $xml, Closure ... $configurators): self
+    public static function fromXmlString(string $xml, callable ... $configurators): self
     {
         return self::configure(xml_string_loader($xml), ...$configurators);
     }
 
     /**
-     * @param \Closure(NodeSequence): bool $matcher
+     * @param callable(NodeSequence): bool $matcher
      *
      * @return Generator<string>
      *
      * @throws RuntimeException
      */
-    public function provide(Closure $matcher): Generator
+    public function provide(callable $matcher): Generator
     {
         $reader = ($this->factory)();
         $pointer = Pointer::create();

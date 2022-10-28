@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Collection;
 
-use Closure;
 use Countable;
 use DOMElement;
 use DOMNode;
@@ -104,19 +103,19 @@ final class NodeList implements Countable, IteratorAggregate
 
     /**
      * @template R
-     * @param \Closure(T): R $mapper
+     * @param callable(T): R $mapper
      *
      * @return list<R>
      */
-    public function map(Closure $mapper): array
+    public function map(callable $mapper): array
     {
-        return map($this->nodes, $mapper);
+        return map($this->nodes, $mapper(...));
     }
 
     /**
-     * @param \Closure(T): void $mapper
+     * @param callable(T): void $mapper
      */
-    public function forEach(Closure $mapper): void
+    public function forEach(callable $mapper): void
     {
         foreach ($this->nodes as $node) {
             $mapper($node);
@@ -125,27 +124,27 @@ final class NodeList implements Countable, IteratorAggregate
 
     /**
      * @template X of DOMNode
-     * @param \Closure(T): iterable<X> $mapper
+     * @param callable(T): iterable<X> $mapper
      *
      * @return NodeList<X>
      */
-    public function detect(Closure $mapper): self
+    public function detect(callable $mapper): self
     {
         return new self(
             ...flat_map(
                 $this->nodes,
-                $mapper
+                $mapper(...)
             )
         );
     }
 
     /**
-     * @param \Closure(T): bool $predicate
+     * @param callable(T): bool $predicate
      * @return NodeList<T>
      */
-    public function filter(Closure $predicate): self
+    public function filter(callable $predicate): self
     {
-        return new self(...filter($this->nodes, $predicate));
+        return new self(...filter($this->nodes, $predicate(...)));
     }
 
     /**
@@ -162,21 +161,21 @@ final class NodeList implements Countable, IteratorAggregate
 
     /**
      * @template R
-     * @param \Closure(R, T): R $reducer
+     * @param callable(R, T): R $reducer
      * @param R $initial
      * @return R
      */
-    public function reduce(Closure $reducer, mixed $initial): mixed
+    public function reduce(callable $reducer, mixed $initial): mixed
     {
-        return reduce($this->nodes, $reducer, $initial);
+        return reduce($this->nodes, $reducer(...), $initial);
     }
 
     /**
-     * @param list<\Closure(DOMXPath): DOMXPath> $configurators
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      * @throws RuntimeException
      * @return NodeList<DOMNode>
      */
-    public function query(string $xpath, Closure ... $configurators): self
+    public function query(string $xpath, callable ... $configurators): self
     {
         return $this->detect(
             /**
@@ -190,11 +189,11 @@ final class NodeList implements Countable, IteratorAggregate
 
     /**
      * @template X
-     * @param list<\Closure(DOMXPath): DOMXPath> $configurators
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      * @param TypeInterface<X> $type
      * @return list<X>
      */
-    public function evaluate(string $expression, TypeInterface $type, Closure ... $configurators): array
+    public function evaluate(string $expression, TypeInterface $type, callable ... $configurators): array
     {
         return $this->map(
             static fn (DOMNode $node): mixed
@@ -269,12 +268,12 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @param \Closure(T, T): int $sorter
+     * @param callable(T, T): int $sorter
      *
      * @return NodeList<T>
      */
-    public function sort(Closure $sorter): self
+    public function sort(callable $sorter): self
     {
-        return new self(...sort($this->nodes, $sorter));
+        return new self(...sort($this->nodes, $sorter(...)));
     }
 }
