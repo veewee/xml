@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer\Builder;
 
+use Closure;
 use Generator;
 use XMLWriter;
 
 /**
- * @param list<(callable(XMLWriter): Generator<bool>)> $configurators
+ * @param list<(\Closure(XMLWriter): Generator<bool>)> $configurators
  *
- * @return callable(XMLWriter): Generator<bool>
+ * @return \Closure(XMLWriter): Generator<bool>
  */
-function prefixed_element(string $prefix, string $name, callable ...$configurators): callable
+function prefixed_element(string $prefix, string $name, Closure ...$configurators): Closure
 {
     return
         /**

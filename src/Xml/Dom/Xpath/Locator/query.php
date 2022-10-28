@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
+use Closure;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -12,9 +13,9 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
  * @template T of DOMNode
- * @return callable(DOMXPath): NodeList<T>
+ * @return \Closure(DOMXPath): NodeList<T>
  */
-function query(string $query, DOMNode $node = null): callable
+function query(string $query, DOMNode $node = null): Closure
 {
     return
         /**

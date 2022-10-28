@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling;
 
-use Exception;
+use Closure;
+use Throwable;
 use VeeWee\Xml\Exception\RuntimeException;
 
 /**
  * @template T
  *
- * @param callable(): T $run
+ * @param \Closure(): T $run
  *
  * @throws RuntimeException
  * @return T
  */
-function disallow_issues(callable $run)
+function disallow_issues(Closure $run)
 {
     [$result, $issues] = detect_issues($run);
 
+    /** @psalm-suppress ArgumentTypeCoercion - Psalm does not support generic closures... */
     return $result->proceed(
         /**
          * @param T $value
@@ -31,7 +33,11 @@ function disallow_issues(callable $run)
 
             return $value;
         },
-        static function (Exception $exception) use ($issues) {
+        /**
+         * @throws RuntimeException
+         * @return never
+         */
+        static function (Throwable $exception) use ($issues) {
             throw RuntimeException::combineExceptionWithIssues($exception, $issues);
         }
     );

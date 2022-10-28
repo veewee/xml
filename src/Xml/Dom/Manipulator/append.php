@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator;
 
+use Closure;
 use DOMNode;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
@@ -11,9 +12,9 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 /**
  * @no-named-arguments
  * @throws RuntimeException
- * @return callable(DOMNode): DOMNode
+ * @return \Closure(DOMNode): DOMNode
  */
-function append(DOMNode ... $nodes): callable
+function append(DOMNode ... $nodes): Closure
 {
     return static fn (DOMNode $target): DOMNode => disallow_issues(
         static function () use ($target, $nodes) {

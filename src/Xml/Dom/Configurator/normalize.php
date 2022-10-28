@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Configurator;
 
+use Closure;
 use DOMDocument;
 
 /**
- * @return callable(DOMDocument): DOMDocument
+ * @return \Closure(DOMDocument): DOMDocument
  */
-function normalize(): callable
+function normalize(): Closure
 {
     return static function (DOMDocument $document): DOMDocument {
         $document->normalizeDocument();

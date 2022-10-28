@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer\Builder;
 
+use Closure;
 use Generator;
 use XMLWriter;
 
 /**
- * @param list<(callable(XMLWriter): Generator<bool>)> $configurators
+ * @param list<(\Closure(XMLWriter): Generator<bool>)> $configurators
  *
- * @return callable(XMLWriter): Generator<bool>
+ * @return \Closure(XMLWriter): Generator<bool>
  */
-function document(string $version, string $charset, callable ... $configurators): callable
+function document(string $version, string $charset, Closure ... $configurators): Closure
 {
     return
         /**

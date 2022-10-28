@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xslt;
 
+use Closure;
 use VeeWee\Xml\Dom\Document;
 use XSLTProcessor;
-use function Psl\Fun\pipe;
 use function VeeWee\Xml\Dom\Mapper\from_template_document;
+use function VeeWee\Xml\Util\configure;
 use function VeeWee\Xml\Xslt\Configurator\loader;
 use function VeeWee\Xml\Xslt\Transformer\document_to_string;
 
@@ -21,19 +22,19 @@ final class Processor
     }
 
     /**
-     * @param list<callable(XSLTProcessor): XSLTProcessor> $configurators
+     * @param list<\Closure(XSLTProcessor): XSLTProcessor> $configurators
      */
-    public static function configure(callable ... $configurators): self
+    public static function configure(Closure ... $configurators): self
     {
         return new self(
-            pipe(...$configurators)(new XSLTProcessor())
+            configure(...$configurators)(new XSLTProcessor())
         );
     }
 
     /**
-     * @param list<callable(XSLTProcessor): XSLTProcessor> $configurators
+     * @param list<\Closure(XSLTProcessor): XSLTProcessor> $configurators
      */
-    public static function fromTemplateDocument(Document $template, callable ... $configurators): self
+    public static function fromTemplateDocument(Document $template, Closure ... $configurators): self
     {
         return self::configure(
             loader(from_template_document($template)),
@@ -43,10 +44,10 @@ final class Processor
 
     /**
      * @template T
-     * @param callable(XSLTProcessor): T $transformer
+     * @param \Closure(XSLTProcessor): T $transformer
      * @return T
      */
-    public function transform(callable $transformer): mixed
+    public function transform(Closure $transformer): mixed
     {
         return $transformer($this->processor);
     }

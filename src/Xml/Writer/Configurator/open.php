@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Writer\Configurator;
 
+use Closure;
 use XMLWriter;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @param callable(XMLWriter): bool $opener
- * @return callable(XMLWriter): XMLWriter
+ * @param \Closure(XMLWriter): bool $opener
+ * @return \Closure(XMLWriter): XMLWriter
  */
-function open(callable $opener): callable
+function open(Closure $opener): Closure
 {
     return static fn (XMLWriter $writer): XMLWriter => disallow_issues(
         static function () use ($writer, $opener): XMLWriter {

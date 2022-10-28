@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Configurator;
 
+use Closure;
 use DOMDocument;
 use VeeWee\Xml\ErrorHandling\Issue\Issue;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
@@ -11,11 +12,11 @@ use VeeWee\Xml\ErrorHandling\Issue\Level;
 use VeeWee\Xml\Exception\RuntimeException;
 
 /**
- * @param callable(DOMDocument): IssueCollection $validator
+ * @param \Closure(DOMDocument): IssueCollection $validator
  *
- * @return callable(DOMDocument): DOMDocument
+ * @return \Closure(DOMDocument): DOMDocument
  */
-function validator(callable $validator, ?Level $minimumLevel = null): callable
+function validator(Closure $validator, ?Level $minimumLevel = null): Closure
 {
     $minimumLevel = $minimumLevel ?? Level::warning();
 

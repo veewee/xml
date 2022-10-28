@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Exception;
 
-use Exception;
+use Throwable;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
 final class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
-    private function __construct(string $message, Exception $previous = null)
+    private function __construct(string $message, Throwable $previous = null)
     {
         parent::__construct(
             $message,
@@ -28,7 +28,7 @@ final class RuntimeException extends \RuntimeException implements ExceptionInter
         return new self($message . PHP_EOL . $errors->toString());
     }
 
-    public static function combineExceptionWithIssues(Exception $exception, IssueCollection $errors): self
+    public static function combineExceptionWithIssues(Throwable $exception, IssueCollection $errors): self
     {
         return new self(
             $exception->getMessage() . PHP_EOL . $errors->toString(),

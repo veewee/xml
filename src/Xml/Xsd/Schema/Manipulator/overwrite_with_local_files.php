@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xsd\Schema\Manipulator;
 
+use Closure;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 
 /**
  * @param array<string, string> $map - Key=namspace, value=location
  *
- * @return callable(SchemaCollection): SchemaCollection
+ * @return \Closure(SchemaCollection): SchemaCollection
  */
-function overwrite_with_local_files(array $map): callable
+function overwrite_with_local_files(array $map): Closure
 {
     return static fn (SchemaCollection $schemas): SchemaCollection =>
         new SchemaCollection(

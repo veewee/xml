@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal;
 
+use Closure;
 use Exception;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 
@@ -11,12 +12,12 @@ use VeeWee\Xml\Encoding\Exception\EncodingException;
  * @psalm-internal VeeWee\Xml\Encoding
  *
  * @template T
- * @param callable(): T $run
+ * @param \Closure(): T $run
  * @return T
  *
  * @throws EncodingException
  */
-function wrap_exception(callable $run)
+function wrap_exception(Closure $run)
 {
     try {
         return $run();

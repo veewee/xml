@@ -7,19 +7,20 @@
     ],
     "type": "library",
     "require": {
-        "php": "~8.0.0 || ~8.1.0",
+        "php": "~8.1.0 || ~8.2.0",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-xml": "*",
         "ext-xsl": "*",
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",
-        "azjezz/psl": "^1.9",
+        "azjezz/psl": "^2.0.3",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "symfony/finder": "^5.2",
-        "veewee/composer-run-parallel": "^1.0.0"
+        "symfony/finder": "^6.1",
+        "veewee/composer-run-parallel": "^1.0.0",
+        "php-standard-library/psalm-plugin": "^2.0"
     },
     "license": "MIT",
     "authors": [

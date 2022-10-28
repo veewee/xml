@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xsd\Schema;
 
+use Closure;
 use Countable;
 use IteratorAggregate;
 use Traversable;
@@ -46,18 +47,18 @@ final class SchemaCollection implements Countable, IteratorAggregate
     }
 
     /**
-     * @param callable(SchemaCollection): SchemaCollection $manipulator
+     * @param \Closure(SchemaCollection): SchemaCollection $manipulator
      */
-    public function manipulate(callable $manipulator): self
+    public function manipulate(Closure $manipulator): self
     {
         /** @psalm-suppress ImpureFunctionCall */
         return $manipulator($this);
     }
 
     /**
-     * @param callable(Schema): bool $filter
+     * @param \Closure(Schema): bool $filter
      */
-    public function filter(callable $filter): self
+    public function filter(Closure $filter): self
     {
         /** @psalm-suppress ImpureFunctionCall */
         return new self(...filter($this->schemas, $filter));
@@ -65,11 +66,11 @@ final class SchemaCollection implements Countable, IteratorAggregate
 
     /**
      * @template T
-     * @param callable(Schema): T $mapper
+     * @param \Closure(Schema): T $mapper
      *
      * @return list<T>
      */
-    public function map(callable $mapper)
+    public function map(Closure $mapper)
     {
         /** @psalm-suppress ImpureFunctionCall */
         return map($this->schemas, $mapper);

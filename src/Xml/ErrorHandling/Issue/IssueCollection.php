@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling\Issue;
 
+use Closure;
 use Countable;
 use IteratorAggregate;
 use Psl\Dict;
@@ -45,9 +46,9 @@ final class IssueCollection implements Countable, IteratorAggregate
     }
 
     /**
-     * @param (callable(Issue): bool) $filter
+     * @param (\Closure(Issue): bool) $filter
      */
-    public function filter(callable $filter): self
+    public function filter(Closure $filter): self
     {
         return new self(...Dict\filter($this->issues, $filter));
     }

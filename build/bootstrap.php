@@ -3,10 +3,10 @@
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use function Psl\Arr\concat;
-use function Psl\Arr\map;
 use function Psl\Fun\pipe;
 use function Psl\Str\join;
+use function Psl\Vec\concat;
+use function Psl\Vec\map;
 
 (static function (): void {
     $root = dirname(__DIR__);

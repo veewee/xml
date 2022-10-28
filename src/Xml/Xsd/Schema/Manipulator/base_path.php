@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xsd\Schema\Manipulator;
 
+use Closure;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function strlen;
@@ -11,9 +12,9 @@ use const PHP_URL_SCHEME;
 
 /**
  *
- * @return callable(SchemaCollection): SchemaCollection
+ * @return \Closure(SchemaCollection): SchemaCollection
  */
-function base_path(string $basePath): callable
+function base_path(string $basePath): Closure
 {
     /**
      * Thanks Symfony!

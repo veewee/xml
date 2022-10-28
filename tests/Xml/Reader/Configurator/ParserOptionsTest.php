@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Reader\Configurator;
 
 use PHPUnit\Framework\TestCase;
-use ValueError;
+use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Reader\Reader;
 use XMLReader;
 use function VeeWee\Xml\Reader\Configurator\parser_options;
@@ -19,7 +19,7 @@ final class ParserOptionsTest extends TestCase
         $reader = Reader::fromXmlString($xml, parser_options([9019203 => true]));
         $iterator = $reader->provide(node_name('user'));
 
-        $this->expectException(ValueError::class);
+        $this->expectException(RuntimeException::class);
 
         [...$iterator];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader\Node;
 
+use Closure;
 use XMLReader;
 
 /**
@@ -25,9 +26,9 @@ final class ElementNode
     }
 
     /**
-     * @param callable(): list<AttributeNode>  $attributesProvider
+     * @param \Closure(): list<AttributeNode>  $attributesProvider
      */
-    public static function fromReader(XMLReader $reader, int $position, callable $attributesProvider): self
+    public static function fromReader(XMLReader $reader, int $position, Closure $attributesProvider): self
     {
         return new self(
             $position,

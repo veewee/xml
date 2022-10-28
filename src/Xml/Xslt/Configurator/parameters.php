@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Xslt\Configurator;
 
+use Closure;
 use XSLTProcessor;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
@@ -16,9 +17,9 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  *
  * @param array<string, string> $parameters
  *
- * @return callable(XSLTProcessor): XSLTProcessor
+ * @return \Closure(XSLTProcessor): XSLTProcessor
  */
-function parameters(array $parameters): callable
+function parameters(array $parameters): Closure
 {
     return static fn (XSLTProcessor $processor)
         => disallow_issues(static function () use ($processor, $parameters) : XSLTProcessor {
