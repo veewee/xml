@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VeeWee\Xml\Util;
+namespace VeeWee\Xml\Internal;
 
 use Closure;
 

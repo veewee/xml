@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling;
 
-use Closure;
 use Throwable;
 use VeeWee\Xml\Exception\RuntimeException;
 
 /**
  * @template T
  *
- * @param \Closure(): T $run
+ * @param callable(): T $run
  *
  * @throws RuntimeException
  * @return T
  */
-function disallow_issues(Closure $run)
+function disallow_issues(callable $run)
 {
     [$result, $issues] = detect_issues($run);
 

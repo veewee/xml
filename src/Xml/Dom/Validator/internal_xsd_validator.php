@@ -10,13 +10,13 @@ use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
-use function VeeWee\Xml\Util\configure;
+use function VeeWee\Xml\Internal\configure;
 
 /**
- * @param list<\Closure(SchemaCollection): SchemaCollection> $schemaManipulators
+ * @param list<callable(SchemaCollection): SchemaCollection> $schemaManipulators
  * @return \Closure(DOMDocument): IssueCollection
  */
-function internal_xsd_validator(Closure ... $schemaManipulators): Closure
+function internal_xsd_validator(callable ... $schemaManipulators): Closure
 {
     return static function (DOMDocument $document) use ($schemaManipulators) : IssueCollection {
         $schemas = configure(...$schemaManipulators)(locate_all_xsd_schemas($document));

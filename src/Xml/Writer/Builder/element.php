@@ -9,11 +9,11 @@ use Generator;
 use XMLWriter;
 
 /**
- * @param list<(\Closure(XMLWriter): Generator<bool>)> $configurators
+ * @param list<(callable(XMLWriter): Generator<bool>)> $configurators
  *
  * @return \Closure(XMLWriter): Generator<bool>
  */
-function element(string $name, Closure ...$configurators): Closure
+function element(string $name, callable ...$configurators): Closure
 {
     return
         /**

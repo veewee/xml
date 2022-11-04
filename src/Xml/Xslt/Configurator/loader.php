@@ -8,11 +8,11 @@ use Closure;
 use XSLTProcessor;
 
 /**
- * @param \Closure(XSLTProcessor): void $loader
+ * @param callable(XSLTProcessor): void $loader
  *
  * @return \Closure(XSLTProcessor): XSLTProcessor
  */
-function loader(Closure $loader): Closure
+function loader(callable $loader): Closure
 {
     return static function (XSLTProcessor $processor) use ($loader): XSLTProcessor {
         $loader($processor);

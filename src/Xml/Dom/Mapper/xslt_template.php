@@ -11,10 +11,10 @@ use VeeWee\Xml\Xslt\Processor;
 use XSLTProcessor;
 
 /**
- * @param list<\Closure(XSLTProcessor): XSLTProcessor> $configurators
+ * @param list<callable(XSLTProcessor): XSLTProcessor> $configurators
  * @return \Closure(DOMDocument): string
  */
-function xslt_template(Document $template, Closure ... $configurators): Closure
+function xslt_template(Document $template, callable ... $configurators): Closure
 {
     return static fn (DOMDocument $document): string
         => Processor::fromTemplateDocument($template, ...$configurators)->transformDocumentToString(

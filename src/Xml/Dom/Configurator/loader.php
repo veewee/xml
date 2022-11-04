@@ -8,11 +8,11 @@ use Closure;
 use DOMDocument;
 
 /**
- * @param \Closure(DOMDocument): void $loader
+ * @param callable(DOMDocument): void $loader
  *
  * @return \Closure(DOMDocument): DOMDocument
  */
-function loader(Closure $loader): Closure
+function loader(callable $loader): Closure
 {
     return static function (DOMDocument $document) use ($loader): DOMDocument {
         $loader($document);

@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Xslt;
 use VeeWee\Xml\Dom\Document;
 use XSLTProcessor;
 use function VeeWee\Xml\Dom\Mapper\from_template_document;
-use function VeeWee\Xml\Util\configure;
+use function VeeWee\Xml\Internal\configure;
 use function VeeWee\Xml\Xslt\Configurator\loader;
 use function VeeWee\Xml\Xslt\Transformer\document_to_string;
 

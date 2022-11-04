@@ -10,18 +10,18 @@ use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use function Psl\Iter\reduce;
 
 /**
- * @param list<\Closure(DOMDocument): IssueCollection> $validators
+ * @param list<callable(DOMDocument): IssueCollection> $validators
  * @return \Closure(DOMDocument): IssueCollection
  */
-function validator_chain(Closure ... $validators): Closure
+function validator_chain(callable ... $validators): Closure
 {
     return static fn (DOMDocument $document): IssueCollection =>
         reduce(
             $validators,
             /**
-             * @param \Closure(DOMDocument): IssueCollection $validator
+             * @param callable(DOMDocument): IssueCollection $validator
              */
-            static fn (IssueCollection $issues, $validator): IssueCollection
+            static fn (IssueCollection $issues, callable $validator): IssueCollection
                 => new IssueCollection(
                     ...$issues->getIterator(),
                     ...$validator($document)->getIterator()

@@ -9,7 +9,7 @@ use VeeWee\Xml\Exception\RuntimeException;
 use XMLWriter;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
-use function VeeWee\Xml\Util\configure;
+use function VeeWee\Xml\Internal\configure;
 use function VeeWee\Xml\Writer\Configurator\open;
 use function VeeWee\Xml\Writer\Opener\xml_file_opener;
 
