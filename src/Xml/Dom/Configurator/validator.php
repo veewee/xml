@@ -12,11 +12,11 @@ use VeeWee\Xml\ErrorHandling\Issue\Level;
 use VeeWee\Xml\Exception\RuntimeException;
 
 /**
- * @param \Closure(DOMDocument): IssueCollection $validator
+ * @param callable(DOMDocument): IssueCollection $validator
  *
  * @return \Closure(DOMDocument): DOMDocument
  */
-function validator(Closure $validator, ?Level $minimumLevel = null): Closure
+function validator(callable $validator, ?Level $minimumLevel = null): Closure
 {
     $minimumLevel = $minimumLevel ?? Level::warning();
 

@@ -12,9 +12,9 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 use VeeWee\Xml\Reader\Node\Pointer;
 use XMLReader;
 use function VeeWee\Xml\ErrorHandling\stop_on_first_issue;
+use function VeeWee\Xml\Internal\configure;
 use function VeeWee\Xml\Reader\Loader\xml_file_loader;
 use function VeeWee\Xml\Reader\Loader\xml_string_loader;
-use function VeeWee\Xml\Util\configure;
 
 final class Reader
 {

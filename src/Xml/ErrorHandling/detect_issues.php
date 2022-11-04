@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling;
 
-use Closure;
 use LibXMLError;
 use Psl\Result;
 use Psl\Result\ResultInterface;
@@ -22,15 +21,15 @@ use function libxml_use_internal_errors;
  *
  * @template Tr
  *
- * @psalm-param \Closure(): Tr $run
+ * @psalm-param callable(): Tr $run
  * @psalm-return array{ResultInterface<Tr>, IssueCollection}
  */
-function detect_issues(Closure $run): array
+function detect_issues(callable $run): array
 {
     $previousErrorReporting = libxml_use_internal_errors(true);
     libxml_clear_errors();
 
-    $result = Result\wrap($run);
+    $result = Result\wrap($run(...));
 
     /** @var list<LibXMLError> $errors */
     $errors = libxml_get_errors();

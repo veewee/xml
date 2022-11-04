@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding;
 
-use Closure;
 use DOMDocument;
 use DOMElement;
 use VeeWee\Xml\Dom\Document;
@@ -14,11 +13,11 @@ use function VeeWee\Xml\Encoding\Internal\Decoder\Builder\element;
 use function VeeWee\Xml\Encoding\Internal\wrap_exception;
 
 /**
- * @param list<\Closure(DOMDocument): DOMDocument> $configurators
+ * @param list<callable(DOMDocument): DOMDocument> $configurators
  *
  * @throws EncodingException
  */
-function element_decode(DOMElement $element, Closure ... $configurators): array
+function element_decode(DOMElement $element, callable ... $configurators): array
 {
     return wrap_exception(
         static function () use ($element, $configurators): array {

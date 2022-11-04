@@ -10,11 +10,11 @@ use DOMNode;
 /**
  * @template T of DOMNode
  *
- * @param list<\Closure(T): DOMNode> $builders
+ * @param list<callable(T): DOMNode> $builders
  *
- * @return \Closure(T): T
+ * @return Closure(T): T
  */
-function children(Closure ...$builders): Closure
+function children(callable ...$builders): Closure
 {
     return static function (DOMNode $node) use ($builders): DOMNode {
         foreach ($builders as $builder) {

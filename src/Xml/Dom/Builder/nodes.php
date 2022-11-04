@@ -12,11 +12,11 @@ use function Psl\Iter\reduce;
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 
 /**
- * @param list<\Closure(DOMDocument): (list<DOMNode>|DOMNode)> $builders
+ * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
  *
  * @return \Closure(DOMDocument): list<DOMNode>
  */
-function nodes(Closure ... $builders): Closure
+function nodes(callable ... $builders): Closure
 {
     return
         /**
@@ -27,10 +27,10 @@ function nodes(Closure ... $builders): Closure
                 $builders,
                 /**
                  * @param list<DOMNode> $builds
-                 * @param \Closure(DOMDocument): (DOMNode|list<DOMNode>) $builder
+                 * @param callable(DOMDocument): (DOMNode|list<DOMNode>) $builder
                  * @return list<DOMNode>
                  */
-                static function (array $builds, Closure $builder) use ($node): array {
+                static function (array $builds, callable $builder) use ($node): array {
                     $result = $builder(detect_document($node));
                     $newBuilds = is_array($result) ? $result : [$result];
 

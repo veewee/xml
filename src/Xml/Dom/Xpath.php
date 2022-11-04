@@ -14,7 +14,7 @@ use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 use function VeeWee\Xml\Dom\Xpath\Locator\evaluate;
 use function VeeWee\Xml\Dom\Xpath\Locator\query;
 use function VeeWee\Xml\Dom\Xpath\Locator\query_single;
-use function VeeWee\Xml\Util\configure;
+use function VeeWee\Xml\Internal\configure;
 
 final class Xpath
 {

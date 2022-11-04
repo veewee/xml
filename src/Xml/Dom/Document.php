@@ -19,7 +19,7 @@ use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
-use function VeeWee\Xml\Util\configure;
+use function VeeWee\Xml\Internal\configure;
 
 final class Document
 {

@@ -7,7 +7,7 @@ namespace VeeWee\Xml\Dom\Configurator;
 use Closure;
 use DOMDocument;
 use VeeWee\Xml\Dom\Traverser\Visitor\SortAttributes;
-use function VeeWee\Xml\Util\configure;
+use function VeeWee\Xml\Internal\configure;
 
 /**
  * @return \Closure(DOMDocument): DOMDocument

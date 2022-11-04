@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Loader;
 
-use Closure;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @param \Closure(): bool $loader
+ * @param callable(): bool $loader
  * @throws RuntimeException
  */
-function load(Closure $loader): void
+function load(callable $loader): void
 {
     disallow_issues(
         static function () use ($loader) {

@@ -9,7 +9,7 @@ use Generator;
 use XMLWriter;
 
 /**
- * @param iterable<(\Closure(XMLWriter): Generator<bool>)> $nodeBuilders
+ * @param iterable<(callable(XMLWriter): Generator<bool>)> $nodeBuilders
  *
  * @return \Closure(XMLWriter): Generator<bool>
  */
