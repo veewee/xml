@@ -28,6 +28,7 @@ These components are not implemented yet, but have been thought about.
 Stay tuned if you want to use these!
 
 * External: [Saxon/C](https://www.saxonica.com/saxon-c/php_api.xml): XSLT 3.0/2.0, XQuery 3.1, XPath 3.1 and Schema Validation 1.0/1.1
+  * Awaiting PHP8 support: https://saxonica.plan.io/issues/4842
 * ~~External: [XSLT2](https://github.com/genkgo/xsl)~~ (prefer saxon/c)
 
 ## About
