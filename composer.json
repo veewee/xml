@@ -20,7 +20,8 @@
     "require-dev": {
         "symfony/finder": "^6.1",
         "veewee/composer-run-parallel": "^1.0.0",
-        "php-standard-library/psalm-plugin": "^2.0"
+        "vimeo/psalm": "^5.1",
+        "php-standard-library/psalm-plugin": "^2.2"
     },
     "license": "MIT",
     "authors": [
@@ -48,7 +49,7 @@
         ],
         "cs": "PHP_CS_FIXER_IGNORE_ENV=1 php ./tools/php-cs-fixer.phar fix --dry-run",
         "cs:fix": "PHP_CS_FIXER_IGNORE_ENV=1 php ./tools/php-cs-fixer.phar fix",
-        "psalm": "./tools/psalm.phar --no-cache",
+        "psalm": "./vendor/bin/psalm --no-cache --stats",
         "tests": "./tools/phpunit.phar --coverage-text --color",
         "stress": [
             "Composer\\Config::disableProcessTimeout",

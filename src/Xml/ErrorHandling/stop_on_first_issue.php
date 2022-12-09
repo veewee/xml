@@ -23,6 +23,8 @@ use function libxml_use_internal_errors;
  * @psalm-param (callable(): ?Tr) $run
  * @psalm-return Generator<int, Tr, null, mixed>
  *
+ * @psalm-suppress InvalidReturnType - Psalm gets lost here and thinks it returns "never"
+ *
  * @throws RuntimeException
  */
 function stop_on_first_issue(callable $tick, callable $run): Generator

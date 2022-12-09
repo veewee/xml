@@ -23,7 +23,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php-versions }}
                   tools: 'composer:v2'
-                  extensions: pcov, mbstring, posix
+                  extensions: pcov, mbstring, posix, xdebug, dom, libxml, xml, xsl, xmlreader, xmlwriter
             - name: Install dependencies
               run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
             - name: Run the tests

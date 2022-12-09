@@ -21,5 +21,5 @@ function recursive_linked_namespaces(DOMNode $node): NodeList
 {
     $xpath = Xpath::fromUnsafeNode($node);
 
-    return $xpath->query('.//namespace::*', $node);
+    return $xpath->query('.//namespace::*', $node)->expectAllOfType(DOMNameSpaceNode::class);
 }

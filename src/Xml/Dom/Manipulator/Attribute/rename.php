@@ -10,6 +10,7 @@ use function VeeWee\Xml\Dom\Builder\attribute;
 use function VeeWee\Xml\Dom\Builder\namespaced_attribute;
 use function VeeWee\Xml\Dom\Locator\Element\parent_element;
 use function VeeWee\Xml\Dom\Manipulator\Node\remove;
+use function VeeWee\Xml\Dom\Predicate\is_attribute;
 
 /**
  * @throws RuntimeException
@@ -34,7 +35,7 @@ function rename(DOMAttr $target, string $newQName, ?string $newNamespaceURI = nu
     $result = $element->getAttributeNode($newQName);
 
     /** @psalm-suppress TypeDoesNotContainType - It can actually be null if the exact node name is not found. */
-    if (!$result) {
+    if (!$result || !is_attribute($result)) {
         throw RuntimeException::withMessage(
             'Unable to rename attribute '.$target->nodeName.' into '.$newQName.'. You might need to swap xmlns prefix first!'
         );

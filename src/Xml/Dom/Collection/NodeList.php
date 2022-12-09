@@ -60,6 +60,7 @@ final class NodeList implements Countable, IteratorAggregate
 
     /**
      * @template X of DOMNode
+     * @param DOMNodeList<X> $list
      * @return NodeList<X>
      */
     public static function fromDOMNodeList(DOMNodeList $list): self

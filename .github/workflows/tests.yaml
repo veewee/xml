@@ -25,7 +25,7 @@ jobs:
                   php-version: ${{ matrix.php-versions }}
                   tools: 'composer:v2'
                   ini-values: error_reporting=E_ALL
-                  extensions: pcov, mbstring, posix
+                  extensions: pcov, mbstring, posix, dom, libxml, xml, xsl, xmlreader, xmlwriter
             - name: Install dependencies
               run: composer update --prefer-dist --no-progress --no-suggest
             - name: Run the tests

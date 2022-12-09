@@ -6,6 +6,21 @@
  */
 class XMLReader
 {
+    public readonly int $attributeCount;
+    public readonly string $baseURI;
+    public readonly int $depth;
+    public readonly bool $hasAttributes;
+    public readonly bool $hasValue;
+    public readonly bool $isDefault;
+    public readonly bool $isEmptyElement;
+    public readonly string $localName;
+    public readonly string $name;
+    public readonly string $namespaceURI;
+    public readonly int $nodeType;
+    public readonly string $prefix;
+    public readonly string $value;
+    public readonly string $xmlLang;
+
     public static function open(string $source, ?string $encoding = null, int $flags = 0): XMLReader|false;
     public static function XML(string $uri, ?string $encoding = null, int $flags = 0): XMLReader|false;
 }
