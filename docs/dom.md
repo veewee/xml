@@ -60,6 +60,21 @@ Let's find out more by segregating the DOM component into its composable blocks:
 
 Assert if a DOMNode is of a specific type.
 
+#### assert_attribute
+
+Assert if a node is of type `DOMAttr`.
+
+```php
+use Psl\Type\Exception\AssertException;
+use function VeeWee\Xml\Dom\Assert\assert_attribute;
+
+try {
+    assert_attribute($someNode)
+} catch (AssertException $e) {
+    // Deal with it
+}
+```
+
 #### assert_document
 
 Assert if a node is of type `DOMDocument`.
@@ -70,6 +85,21 @@ use function VeeWee\Xml\Dom\Assert\assert_document;
 
 try {
     assert_document($someNode)
+} catch (AssertException $e) {
+    // Deal with it
+}
+```
+
+#### assert_dome_node_list
+
+Assert if a variable is of type `DOMNodeList`.
+
+```php
+use Psl\Type\Exception\AssertException;
+use function VeeWee\Xml\Dom\Assert\assert_dom_node_list;
+
+try {
+    assert_dom_node_list($someVar)
 } catch (AssertException $e) {
     // Deal with it
 }

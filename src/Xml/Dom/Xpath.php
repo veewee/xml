@@ -61,9 +61,8 @@ final class Xpath
     }
 
     /**
-     * @template T of DOMNode
      * @throws RuntimeException
-     * @return NodeList<T>
+     * @return NodeList<DOMNode>
      */
     public function query(string $expression, DOMNode $contextNode = null): NodeList
     {

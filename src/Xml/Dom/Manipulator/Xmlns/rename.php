@@ -12,6 +12,7 @@ use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Dom\Xpath;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\invariant;
+use function Psl\Type\non_empty_string;
 use function sprintf;
 use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
 use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
@@ -49,7 +50,7 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
     // otherwise XMLNS namespace will be removed again after dealing with the elements that declare the xmlns.
     $linkedNodes = $xpath->query(
         sprintf('//*[namespace-uri()=\'%1$s\' or @*[namespace-uri()=\'%1$s\'] or namespace::*]', $namespaceURI)
-    )->reduce(
+    )->expectAllOfType(DOMElement::class)->reduce(
         static fn (NodeList $list, DOMElement $element): NodeList
             => new NodeList(
                 ...[$element],
@@ -68,7 +69,7 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
     $linkedNodes->forEach(
         static function (DOMNode $node) use ($namespaceURI, $newPrefix, $predicate, $root): void {
             // Wrapped in a closure so that psalm knows it all...
-            $newQname = static fn (DOMNode $node): string => $newPrefix.':'.$node->localName;
+            $newQname = static fn (DOMNode $node): string => $newPrefix.':'.non_empty_string()->assert($node->localName);
 
             if (is_attribute($node)) {
                 rename_node($node, $newQname($node), $namespaceURI);

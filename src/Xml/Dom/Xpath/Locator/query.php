@@ -8,30 +8,27 @@ use DOMNode;
 use DOMNodeList;
 use DOMXPath;
 use VeeWee\Xml\Dom\Collection\NodeList;
+use function VeeWee\Xml\Dom\Assert\assert_dom_node_list;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @template T of DOMNode
- * @return \Closure(DOMXPath): NodeList<T>
+ * @return \Closure(DOMXPath): NodeList<DOMNode>
  */
 function query(string $query, DOMNode $node = null): Closure
 {
-    return
-        /**
-         * @return NodeList<T>
-         */
-        static function (DOMXPath $xpath) use ($query, $node): NodeList {
-            $node = $node ?? $xpath->document->documentElement;
+    return static function (DOMXPath $xpath) use ($query, $node): NodeList {
+        $node = $node ?? $xpath->document->documentElement;
 
-            /** @var DOMNodeList<T> $list */
-            $list = disallow_issues(
-                static fn (): DOMNodeList => disallow_libxml_false_returns(
+        $list = disallow_issues(
+            static fn (): DOMNodeList => assert_dom_node_list(
+                disallow_libxml_false_returns(
                     $xpath->query($query, $node),
                     'Failed querying XPath query: '.$query
-                ),
-            );
+                )
+            ),
+        );
 
-            return NodeList::fromDOMNodeList($list);
-        };
+        return NodeList::fromDOMNodeList($list);
+    };
 }
