@@ -20,7 +20,7 @@
     "require-dev": {
         "symfony/finder": "^6.1",
         "veewee/composer-run-parallel": "^1.0.0",
-        "vimeo/psalm": "^5.1",
+        "vimeo/psalm": "^5.4",
         "php-standard-library/psalm-plugin": "^2.2"
     },
     "license": "MIT",

@@ -32,7 +32,7 @@ final class IssueCollection implements Countable, IteratorAggregate
 
     /**
      * @psalm-suppress LessSpecificImplementedReturnType
-     * @return Iterator<int, Issue>
+     * @return Iterator<int<0,max>, Issue>
      */
     public function getIterator(): Iterator
     {

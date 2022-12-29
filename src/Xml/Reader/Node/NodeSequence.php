@@ -27,7 +27,7 @@ final class NodeSequence
      */
     public function pop(): self
     {
-        $this->guardSequenceNotEmpty();
+        $this->calculateNonEmptyElementsCount();
         $popped = $this->elementNodes;
         array_pop($popped);
         return new self(...$popped);
@@ -43,17 +43,17 @@ final class NodeSequence
      */
     public function current(): ElementNode
     {
-        $this->guardSequenceNotEmpty();
-
-        $elementCount = count($this->elementNodes);
-
-        return $this->elementNodes[$elementCount-1];
+        return $this->elementNodes[$this->calculateNonEmptyElementsCount() -1];
     }
 
     public function parent(): ?ElementNode
     {
-        $elementCount = count($this->elementNodes);
-        return $this->elementNodes[$elementCount - 2] ?? null;
+        $count = count($this->elementNodes);
+        if ($count <= 1) {
+            return null;
+        }
+
+        return $this->elementNodes[$count - 2];
     }
 
     /**
@@ -67,8 +67,11 @@ final class NodeSequence
     /**
      * @throws InvalidArgumentException
      */
-    private function guardSequenceNotEmpty(): void
+    private function calculateNonEmptyElementsCount(): int
     {
-        Assert::minCount($this->elementNodes, 1, 'The node sequence is empty. Can not fetch current item!');
+        $count = count($this->elementNodes);
+        Assert::true($count > 0, 'The node sequence is empty. Can not fetch current item!');
+
+        return $count;
     }
 }
