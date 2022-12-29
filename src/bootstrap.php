@@ -18,6 +18,7 @@ require_once __DIR__.'/Xml/Dom/Builder/xmlns_attribute.php';
 require_once __DIR__.'/Xml/Dom/Builder/xmlns_attributes.php';
 require_once __DIR__.'/Xml/Dom/Configurator/canonicalize.php';
 require_once __DIR__.'/Xml/Dom/Configurator/comparable.php';
+require_once __DIR__.'/Xml/Dom/Configurator/document_uri.php';
 require_once __DIR__.'/Xml/Dom/Configurator/loader.php';
 require_once __DIR__.'/Xml/Dom/Configurator/normalize.php';
 require_once __DIR__.'/Xml/Dom/Configurator/optimize_namespaces.php';
