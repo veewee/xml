@@ -437,6 +437,22 @@ Document::fromXmlFile(
 ```
 
 
+#### document_uri
+
+Allows you to keep track of the document uri, even if you are using an in-memory string.
+Internally, it sets `DOMDocument::$documentURI`, which gets used as `file` in the [error-handling issues component](./error-handling.md#issues).
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\document_uri;
+
+$wsdl = 'http://myservice.com?wsdl';
+Document::fromXmlString(
+    $loadFromHttp($wsdl),
+    document_uri($wsdl)
+);
+```
+
 #### loader
 
 The loader configurator takes a [loader](#loaders) to specify the source of the DOM Document.
