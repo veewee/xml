@@ -31,4 +31,4 @@ jobs:
             - name: Run the tests
               run: composer run tests
             - name: Check tests quality
-              run: composer run testquality || (cat infection.log && exit 1)
+              run: composer run testquality
