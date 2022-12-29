@@ -18,6 +18,7 @@ use VeeWee\Xml\Dom\Xpath;
 use VeeWee\Xml\Exception\RuntimeException;
 use Webmozart\Assert\Assert;
 use function Psl\Iter\reduce;
+use function Psl\Str\format;
 use function Psl\Vec\filter;
 use function Psl\Vec\flat_map;
 use function Psl\Vec\map;
@@ -95,6 +96,17 @@ final class NodeList implements Countable, IteratorAggregate
     public function item(int $index)
     {
         return $this->nodes[$index] ?? null;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @return T
+     */
+    public function expectItem(int $index, string $message = '')
+    {
+        Assert::notNull($item = $this->item($index), format($message ?: 'No item found at index %s', $index));
+
+        return $item;
     }
 
     public function count(): int
@@ -211,11 +223,43 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
+     * @throws InvalidArgumentException
+     * @return T
+     */
+    public function expectFirst(string $message = '')
+    {
+        return $this->expectItem(0, $message);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @return T
+     */
+    public function expectSingle(string $message = '')
+    {
+        Assert::true(
+            $this->count() === 1,
+            format($message ?: 'Expected to find exactly one node. Got %s', count($this))
+        );
+
+        return $this->expectItem(0);
+    }
+
+    /**
      * @return T|null
      */
     public function last()
     {
         return $this->item($this->count() - 1);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @return T
+     */
+    public function expectLast(string $message = '')
+    {
+        return $this->expectItem($this->count() - 1, $message);
     }
 
     /**

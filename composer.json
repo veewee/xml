@@ -59,7 +59,7 @@
         "coverage": "@php ./tools/full-coverage-check.php .phpunit.cache/clover/clover.xml",
         "infection": [
             "Composer\\Config::disableProcessTimeout",
-            "./tools/infection.phar"
+            "./tools/infection.phar --show-mutations -v"
         ],
         "ci": [
             "@autoload",

@@ -103,7 +103,20 @@ final class NodeListTest extends TestCase
         static::assertSame(null, $items->item(4));
     }
 
-    
+    public function test_it_can_expect_items()
+    {
+        $items = $this->loadProducts();
+
+        static::assertSame('0', $items->expectItem(0)->getAttribute('id'));
+        static::assertSame('1', $items->expectItem(1)->getAttribute('id'));
+        static::assertSame('2', $items->expectItem(2)->getAttribute('id'));
+        static::assertSame('3', $items->expectItem(3)->getAttribute('id'));
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('No item found at index 4');
+        static::assertSame(null, $items->expectItem(4, 'No item found at index %s'));
+    }
+
     public function test_it_can_map(): void
     {
         $items = $this->loadProducts()->map(
@@ -213,6 +226,44 @@ final class NodeListTest extends TestCase
         static::assertSame(null, NodeList::empty()->first());
     }
 
+    public function test_it_can_expect_first(): void
+    {
+        $prices = $this->loadPrices();
+
+        static::assertSame($prices->item(0), $prices->expectFirst());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('No first item was found');
+        NodeList::empty()->expectFirst('No first item was found');
+    }
+
+    public function test_it_can_expect_single(): void
+    {
+        $prices = $this->loadPrices();
+        $singlePrices = $prices->eq(0);
+
+        static::assertSame($prices->item(0), $singlePrices->expectSingle());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected single element, got 4 elements.');
+        $prices->expectSingle('Expected single element, got %s elements.');
+    }
+
+    public function test_it_can_expect_single_on_empty_list(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected single element, got 0 elements.');
+        NodeList::empty()->expectSingle('Expected single element, got %s elements.');
+    }
+
+    public function test_it_can_expect_single_on_a_two_item_list(): void
+    {
+        $prices = $this->loadPrices();
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected single element, got 2 elements.');
+        $prices->filter(static fn (DOMElement $price): bool => (int)$price->textContent >= 2)->expectSingle('Expected single element, got %s elements.');
+    }
+
     public function test_it_can_get_last(): void
     {
         $prices = $this->loadPrices();
@@ -221,6 +272,16 @@ final class NodeListTest extends TestCase
         static::assertSame(null, NodeList::empty()->last());
     }
 
+    public function test_it_can_expect_last(): void
+    {
+        $prices = $this->loadPrices();
+
+        static::assertSame($prices->item(3), $prices->expectLast());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('No last item was found');
+        NodeList::empty()->expectFirst('No last item was found');
+    }
     
     public function test_it_can_search_ancestors(): void
     {
