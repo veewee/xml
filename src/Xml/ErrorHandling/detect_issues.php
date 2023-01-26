@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\ErrorHandling;
 
-use LibXMLError;
 use Psl\Result;
 use Psl\Result\ResultInterface;
 
@@ -31,7 +30,6 @@ function detect_issues(callable $run): array
 
     $result = Result\wrap($run(...));
 
-    /** @var list<LibXMLError> $errors */
     $errors = libxml_get_errors();
     libxml_clear_errors();
     libxml_use_internal_errors($previousErrorReporting);

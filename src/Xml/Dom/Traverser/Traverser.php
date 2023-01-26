@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Dom\Traverser;
 
 use DOMNode;
 use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
+use function VeeWee\Xml\Dom\Locator\Node\children;
 
 final class Traverser
 {
@@ -30,7 +31,7 @@ final class Traverser
             $this->traverse($attribute);
         }
 
-        foreach ($node->childNodes as $child) {
+        foreach (children($node) as $child) {
             $this->traverse($child);
         }
 

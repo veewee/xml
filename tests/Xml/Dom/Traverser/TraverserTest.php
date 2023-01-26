@@ -11,6 +11,7 @@ use VeeWee\Xml\Dom\Traverser\Action;
 use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor\AbstractVisitor;
 use function VeeWee\Xml\Dom\Builder\attribute;
+use function VeeWee\Xml\Dom\Configurator\comparable;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 use function VeeWee\Xml\Dom\Predicate\is_attribute;
@@ -129,5 +130,52 @@ final class TraverserTest extends TestCase
         );
 
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello enter="yes" leave="yes" />');
+    }
+
+    
+    public function test_it_can_recursively_remove_empty_nodes(): void
+    {
+        $doc = Document::fromXmlString(
+            <<<EOXML
+            <movies>
+                <movie>
+                    <name>Terminator</name>
+                    <genre>
+                        <action />
+                        <romance />
+                    </genre>
+                    <prices>
+                        <oscar />
+                    </prices>
+                </movie>
+            </movies>
+        EOXML
+        );
+
+        $transformedNode = $doc->traverse(new class extends AbstractVisitor {
+            public function onNodeLeave(DOMNode $node): Action
+            {
+                if (!is_element($node)) {
+                    return new Action\Noop();
+                }
+
+                if (trim($node->textContent) !== '') {
+                    return new Action\Noop();
+                }
+
+                return new Action\RemoveNode();
+            }
+        });
+
+        $actual = Document::fromXmlNode($transformedNode, comparable());
+        $expected = Document::fromXmlString(<<<EOXML
+            <movies>
+                <movie>
+                    <name>Terminator</name>
+                </movie>
+            </movies>
+        EOXML, comparable());
+
+        static::assertSame($actual->toXmlString(), $expected->toXmlString());
     }
 }
