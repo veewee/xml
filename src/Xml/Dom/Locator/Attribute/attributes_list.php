@@ -19,7 +19,6 @@ function attributes_list(DOMNode $node): NodeList
         return NodeList::empty();
     }
 
-    /** @var list<DOMAttr> $attributes */
     $attributes = values($node->attributes);
 
     return new NodeList(...$attributes);
