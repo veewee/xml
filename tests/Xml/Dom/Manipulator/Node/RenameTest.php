@@ -13,6 +13,7 @@ use function VeeWee\Xml\Dom\Configurator\comparable;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Manipulator\Node\remove_namespace;
 use function VeeWee\Xml\Dom\Manipulator\Node\rename;
+use function VeeWee\Xml\Dom\Mapper\xml_string;
 use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
 
 final class RenameTest extends TestCase
