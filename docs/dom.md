@@ -75,6 +75,21 @@ try {
 }
 ```
 
+#### assert_cdata
+
+Assert if a node is of type `DOMCdataSection`.
+
+```php
+use Psl\Type\Exception\AssertException;
+use function VeeWee\Xml\Dom\Assert\assert_cdata;
+
+try {
+    assert_cdata($someNode)
+} catch (AssertException $e) {
+    // Deal with it
+}
+```
+
 #### assert_document
 
 Assert if a node is of type `DOMDocument`.
@@ -203,6 +218,26 @@ element('foo',
 
 ```xml
 <foo hello="world" bar="baz" />
+```
+
+#### cdata
+
+Operates on a `DOMNode` and creates a `DOMCdataSection`.
+It can contain a set of configurators that can be used to dynamically change the cdata's contents.
+
+```php
+use function VeeWee\Xml\Dom\Builder\attribute;
+use function VeeWee\Xml\Dom\Builder\element;
+use function VeeWee\Xml\Dom\Builder\cdata;
+use function VeeWee\Xml\Dom\Builder\children;
+
+element('hello', children(
+    cdata('<html>world</html>')
+));
+```
+
+```xml
+<hello><![CDATA[<html>world</html>]]></hello>
 ```
 
 #### children
@@ -1153,6 +1188,18 @@ Checks if a node is of type `DOMAttr`.
 use function VeeWee\Xml\Dom\Predicate\is_attribute;
 
 if (is_attribute($someNode)) {
+   // ...
+}
+```
+
+#### is_cdata
+
+Checks if a node is of type `DOMCdataSection`.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_cdata;
+
+if (is_cdata($someNode)) {
    // ...
 }
 ```

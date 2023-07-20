@@ -239,6 +239,16 @@ final class EncodingTest extends TestCase
                 ]
             ]
         ];
+        yield 'cdata' => [
+            'xml' => '<hello><![CDATA[<html>world</html>]]></hello>',
+            'data' => ['hello' => [
+                '@cdata' => '<html>world</html>'
+            ]]
+        ];
+        yield 'mixed cdata' => [
+            'xml' => '<hello>hello <![CDATA[<html>world</html>]]></hello>',
+            'data' => ['hello' => 'hello <html>world</html>']
+        ];
     }
 
     public function provideRiskyBidirectionalCases()

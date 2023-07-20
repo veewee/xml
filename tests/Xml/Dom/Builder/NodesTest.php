@@ -20,7 +20,7 @@ final class NodesTest extends TestCase
             static fn (DOMDocument $doc): array => [
                 element('many1')($doc),
                 element('many2')($doc),
-            ]
+            ],
         )($doc);
 
         static::assertCount(4, $nodes);

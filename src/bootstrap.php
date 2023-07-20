@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
 
 require_once __DIR__.'/Xml/Dom/Assert/assert_attribute.php';
+require_once __DIR__.'/Xml/Dom/Assert/assert_cdata.php';
 require_once __DIR__.'/Xml/Dom/Assert/assert_document.php';
 require_once __DIR__.'/Xml/Dom/Assert/assert_dom_node_list.php';
 require_once __DIR__.'/Xml/Dom/Assert/assert_element.php';
 require_once __DIR__.'/Xml/Dom/Builder/attribute.php';
 require_once __DIR__.'/Xml/Dom/Builder/attributes.php';
+require_once __DIR__.'/Xml/Dom/Builder/cdata.php';
 require_once __DIR__.'/Xml/Dom/Builder/children.php';
 require_once __DIR__.'/Xml/Dom/Builder/element.php';
 require_once __DIR__.'/Xml/Dom/Builder/escaped_value.php';
@@ -67,6 +69,7 @@ require_once __DIR__.'/Xml/Dom/Manipulator/append.php';
 require_once __DIR__.'/Xml/Dom/Mapper/xml_string.php';
 require_once __DIR__.'/Xml/Dom/Mapper/xslt_template.php';
 require_once __DIR__.'/Xml/Dom/Predicate/is_attribute.php';
+require_once __DIR__.'/Xml/Dom/Predicate/is_cdata.php';
 require_once __DIR__.'/Xml/Dom/Predicate/is_default_xmlns_attribute.php';
 require_once __DIR__.'/Xml/Dom/Predicate/is_document.php';
 require_once __DIR__.'/Xml/Dom/Predicate/is_document_element.php';
