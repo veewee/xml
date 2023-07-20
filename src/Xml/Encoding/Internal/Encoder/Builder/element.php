@@ -17,6 +17,8 @@ use function Psl\Type\union;
 use function Psl\Vec\filter_nulls;
 use function Psl\Vec\values;
 use function VeeWee\Xml\Dom\Builder\attributes;
+use function VeeWee\Xml\Dom\Builder\cdata;
+use function VeeWee\Xml\Dom\Builder\children as childrenBuilder;
 use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\escaped_value;
 use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuilder;
@@ -36,19 +38,22 @@ function element(string $name, array $data): Closure
     $nullableMap = union(dict(string(), string()), null());
     $attributes = $nullableMap->assert($data['@attributes'] ?? null);
     $namespaces = $nullableMap->assert($data['@namespaces'] ?? null);
+    $cdata = union(string(), null())->assert($data['@cdata'] ?? null);
     $value = union(string(), null())->assert($data['@value'] ?? null);
 
     $element = filter_keys(
         $data,
-        static fn (string $key): bool => !in_array($key, ['@attributes', '@namespaces', '@value'], true)
+        static fn (string $key): bool => !in_array($key, ['@attributes', '@namespaces', '@value', '@cdata'], true)
     );
 
     $currentNamespace = $namespaces[''] ?? null;
     $namedNamespaces = filter_keys($namespaces ?? []);
 
+    /** @var list<\Closure(\DOMElement): \DOMElement> $children */
     $children = filter_nulls([
         $attributes ? attributes($attributes) : null,
         $namedNamespaces ? xmlns_attributes($namedNamespaces) : null,
+        $cdata !== null ? childrenBuilder(cdata($cdata)) : null,
         $value !== null ? escaped_value($value) : null,
         ...values(map_with_key(
             $element,

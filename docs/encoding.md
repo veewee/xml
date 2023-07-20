@@ -232,7 +232,7 @@ More information about [the PHP format can be found here](#php-format).
                     'id' => 2,
                     'test:type' => 'hello'  
                 ],
-                '@value' => 'Moon'
+                '@cdata' => '<html>Moon</html>'
             ]
         ]
     ]
@@ -253,6 +253,10 @@ More information about [the PHP format can be found here](#php-format).
     - You can provide any value that can be coerced to a string as an element value.
     - If the element does not have attributes, you can directly pass the value to the element name. In that case there is no need for the `@value` section.
     - All XML entities `<>"'` will be encoded before inserting a value into XML.
+- The `@cdata` section can be used for escaping HTML/XML content inside your XML element.
+  - You can provide any value that can be coerced to a string as an element value.
+  - The content will be wrapped with `<[CDATA[ ]]>`, special XML entities will not be escaped
+  - During decoding, cdata information will get lost: the element's `@value` will contain escaped XML entities. This is because an element can contain a mix of cdata and text nodes.
 - You can nest a single element or an array of elements into a parent element.
 
 #### Decoded types
