@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
+use function VeeWee\Xml\Dom\Configurator\comparable;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Manipulator\Node\remove_namespace;
 use function VeeWee\Xml\Dom\Manipulator\Node\rename;
@@ -111,7 +112,13 @@ final class RenameTest extends TestCase
 
         $result = rename($node, 'thing');
 
-        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello><thing foo="bar" xmlns="http://ok" xmlns:whatever="http://whatever" /></hello>');
+        static::assertSame(
+            Document::fromUnsafeDocument($doc->map(comparable()))->toXmlString(),
+            Document::fromXmlString(
+                '<hello><thing xmlns="http://ok" xmlns:a="http://ok" xmlns:whatever="http://whatever" a:foo="bar"/></hello>',
+                comparable()
+            )->toXmlString(),
+        );
         static::assertSame($doc->xpath(namespaces(['a' => 'http://ok']))->querySingle('//a:thing'), $result);
     }
 
