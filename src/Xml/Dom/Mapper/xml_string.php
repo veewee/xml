@@ -6,13 +6,14 @@ namespace VeeWee\Xml\Dom\Mapper;
 
 use Closure;
 use DOMNode;
+use function Psl\Type\non_empty_string;
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 use function VeeWee\Xml\Dom\Predicate\is_document;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(DOMNode): string
+ * @return \Closure(DOMNode): non-empty-string
  */
 function xml_string(): Closure
 {
@@ -22,7 +23,7 @@ function xml_string(): Closure
             $node = is_document($node) ? null : $node;
 
             return disallow_libxml_false_returns(
-                $document->saveXML($node),
+                non_empty_string()->assert($document->saveXML($node)),
                 'Unable to output XML as string'
             );
         }

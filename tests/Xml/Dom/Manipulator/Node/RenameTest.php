@@ -113,7 +113,7 @@ final class RenameTest extends TestCase
         $result = rename($node, 'thing');
 
         static::assertSame(
-            Document::fromUnsafeDocument($doc->map(comparable()))->toXmlString(),
+            $doc->reconfigure(comparable())->toXmlString(),
             Document::fromXmlString(
                 '<hello><thing xmlns="http://ok" xmlns:a="http://ok" xmlns:whatever="http://whatever" a:foo="bar"/></hello>',
                 comparable()
