@@ -166,6 +166,16 @@ final class Document
     }
 
     /**
+     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     *
+     * @throws RuntimeException
+     */
+    public function reconfigure(callable ... $configurators): self
+    {
+        return self::fromUnsafeDocument($this->document, ...$configurators);
+    }
+
+    /**
      * @no-named-arguments
      */
     public function traverse(Visitor ... $visitors): DOMNode
@@ -174,6 +184,9 @@ final class Document
         return $traverser->traverse($this->map(document_element()));
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function toXmlString(): string
     {
         return $this->map(xml_string());

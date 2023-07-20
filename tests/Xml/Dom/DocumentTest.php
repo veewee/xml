@@ -21,7 +21,7 @@ final class DocumentTest extends TestCase
 {
     use FillFileTrait;
 
-    
+
     public function test_it_can_create_a_document_from_dom(): void
     {
         $document = new DOMDocument();
@@ -30,7 +30,7 @@ final class DocumentTest extends TestCase
         static::assertSame($document, $doc->toUnsafeDocument());
     }
 
-    
+
     public function test_it_can_create_an_empty_document(): void
     {
         $document = new DOMDocument();
@@ -39,7 +39,7 @@ final class DocumentTest extends TestCase
         static::assertEquals($document, $doc->toUnsafeDocument());
     }
 
-    
+
     public function test_it_can_create_a_configured_document(): void
     {
         $document = new DOMDocument();
@@ -48,7 +48,7 @@ final class DocumentTest extends TestCase
         static::assertEquals($document, $doc->toUnsafeDocument());
     }
 
-    
+
     public function test_it_can_add_various_configurators(): void
     {
         $doc = Document::fromXmlString(
@@ -64,7 +64,7 @@ final class DocumentTest extends TestCase
         static::assertXmlStringEqualsXmlString($xml, $doc->toXmlString());
     }
 
-    
+
     public function test_it_can_create_a_document_from_xml_nod(): void
     {
         $source = new DOMDocument();
@@ -78,7 +78,7 @@ final class DocumentTest extends TestCase
         static::assertXmlStringEqualsXmlString($xml, $doc->toXmlString());
     }
 
-    
+
     public function test_it_can_create_a_document_from_xml_file(): void
     {
         [$file, $handle] = $this->fillFile($xml = '<hello />');
@@ -93,7 +93,7 @@ final class DocumentTest extends TestCase
         fclose($handle);
     }
 
-    
+
     public function test_it_can_create_a_document_from_xml_string(): void
     {
         $doc = Document::fromXmlString(
@@ -104,7 +104,7 @@ final class DocumentTest extends TestCase
         static::assertXmlStringEqualsXmlString($xml, $doc->toXmlString());
     }
 
-    
+
     public function test_it_can_map(): void
     {
         $doc = new DOMDocument();
@@ -113,7 +113,7 @@ final class DocumentTest extends TestCase
 
         static::assertSame($mapped, $doc);
     }
-    
+
     public function test_it_can_traverse(): void
     {
         $doc = Document::fromXmlString('<hello>world</hello>');
@@ -130,5 +130,18 @@ final class DocumentTest extends TestCase
 
         static::assertXmlStringEqualsXmlString('<hello />', $doc->toXmlString());
         static::assertSame($result, $doc->map(document_element()));
+    }
+
+    public function test_it_can_reconfigure_document(): void
+    {
+        $doc1 = Document::fromXmlString('<hello />');
+        $xml1 = $doc1->toXmlString();
+
+        $doc2 = $doc1->reconfigure(identity());
+        $xml2 = $doc2->toXmlString();
+
+        static::assertNotSame($doc1, $doc2);
+        static::assertSame($doc1->toUnsafeDocument(), $doc2->toUnsafeDocument());
+        static::assertXmlStringEqualsXmlString($xml1, $xml2);
     }
 }
