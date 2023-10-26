@@ -208,6 +208,53 @@ $data = typed(
 It works exactly the same as the [xml_decode](#xml_decode) function but with an additional type parameter.
 Structuring the shape of the type-result is done by the [azjezz/psl](https://github.com/azjezz/psl) package.
 
+In modern systems, you might find the need to convert XML data to DTO objects.
+You can do so by using the typed class as well:
+
+```php
+use function Psl\Type\converted;
+use function Psl\Type\int;
+use function Psl\Type\instance_of;
+use function Psl\Type\shape;
+use function Psl\Type\string;
+use function Psl\Type\vector;
+use function VeeWee\Xml\Dom\Configurator\validator;
+use function VeeWee\Xml\Dom\Validator\xsd_validator;
+use function VeeWee\Xml\Encoding\typed;
+
+$myValidatedDto = typed(
+    <<<EOXML
+        <root>
+           <item>
+               <id>1</id>
+               <name>X</name>
+               <category>A</category>
+               <category>B</category>
+               <category>C</category>
+           </item>     
+        </root>
+    EOXML,
+    converted(
+      shape([
+          'root' => shape([
+              'item' => shape([
+                  'id' => int(),
+                  'name' => string(),
+                  'category' => vector(string()),
+              ])
+          ])
+      ]),
+      instance_of(MyDto::class),
+      fn (array $data): MyDto => MyDto::create(
+        $data['root']['item']['id'],
+        $data['root']['item']['name'],
+        $data['root']['item']['category'],
+      )
+    ),
+    validator(xsd_validator('some-schema.xsd'))
+);
+```
+
 More information about [the PHP format can be found here](#php-format).
 
 ## PHP Format
