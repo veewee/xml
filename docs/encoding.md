@@ -222,6 +222,16 @@ use function VeeWee\Xml\Dom\Configurator\validator;
 use function VeeWee\Xml\Dom\Validator\xsd_validator;
 use function VeeWee\Xml\Encoding\typed;
 
+class MyDto {
+    public function __construct(
+        public readonly int $id;   
+        public readonly string $name;   
+        /** @var list<string> */
+        public readonly array $categories;   
+    ) {
+    }
+}
+
 $myValidatedDto = typed(
     <<<EOXML
         <root>
