@@ -8,17 +8,14 @@ use Generator;
 use VeeWee\Xml\Reader\Node\AttributeNode;
 use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
-use function VeeWee\Xml\Reader\Matcher\node_attribute;
+use function VeeWee\Xml\Reader\Matcher\attribute_value;
 
-/**
- * @deprecated Use attribute_value instead! This will be removed in next major version
- */
-final class NodeAttributeTest extends AbstractMatcherTest
+final class AttributeValueTest extends AbstractMatcherTest
 {
     public static function provideRealXmlCases(): Generator
     {
         yield 'users' => [
-            node_attribute('country', 'BE'),
+            attribute_value('country', 'BE'),
             <<<'EOXML'
             <root>
                 <user country="BE">Jos</user>
@@ -32,7 +29,7 @@ final class NodeAttributeTest extends AbstractMatcherTest
             ]
         ];
         yield 'namespaced' => [
-            node_attribute('u:country', 'BE'),
+            attribute_value('u:country', 'BE'),
             <<<'EOXML'
             <root xmlns:u="https://users">
                 <user u:country="BE">Jos</user>
@@ -55,20 +52,20 @@ final class NodeAttributeTest extends AbstractMatcherTest
             ])
         );
 
-        yield 'it_returns_true_if_node_attribute_matches' => [
-            node_attribute('locale', 'nl'),
+        yield 'it_returns_true_if_attribute_value_matches' => [
+            attribute_value('locale', 'nl'),
             $sequence,
             true
         ];
 
-        yield 'it_returns_false_if_node_attribute_does_not_match' => [
-            node_attribute('locale', 'en'),
+        yield 'it_returns_false_if_attribute_value_does_not_match' => [
+            attribute_value('locale', 'en'),
             $sequence,
             false
         ];
 
-        yield 'it_returns_false_if_node_attribute_is_not_available' => [
-            node_attribute('unkown', 'en'),
+        yield 'it_returns_false_if_attribute_value_is_not_available' => [
+            attribute_value('unkown', 'en'),
             $sequence,
             false
         ];

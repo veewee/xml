@@ -15,6 +15,6 @@ use DOMDocument;
 function xml_string_loader(string $xml, int $options = 0): Closure
 {
     return static function (DOMDocument $document) use ($xml, $options): void {
-        load(static fn (): bool => (bool) $document->loadXML($xml, $options));
+        load(static fn (): bool => $document->loadXML($xml, $options));
     };
 }

@@ -18,7 +18,7 @@ function xml_file_loader(string $file, int $options = 0): Closure
         load(
             static function () use ($document, $file, $options): bool {
                 Assert::fileExists($file);
-                return (bool) $document->load($file, $options);
+                return $document->load($file, $options);
             }
         );
     };
