@@ -146,30 +146,210 @@ $reader = Reader::configure($yourLoader, ...$configurators);
 
 #### all
 
-All provided matchers need to match in order for this matcher to succceed:
+All provided matchers need to match in order for this matcher to succeed:
 
 ```php
+use \VeeWee\Xml\Reader\Matcher;
+
 Matcher\all(
     Matcher\node_name('item'),
     Matcher\node_attribute('locale', 'nl-BE')
 );
 ```
 
-#### node_attribute
+#### any
 
-Matches current element on attribute `locale="nl-BE"`.
+One of the provided matchers need to match in order for this matcher to succeed:
 
 ```php
-Matcher\node_attribute('locale', 'nl-BE');
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\any(
+    Matcher\node_name('item'),
+    Matcher\node_name('product'),
+);
 ```
 
-#### node_name
+#### attribute_local_name
+
+Matches current element based on attribute exists: `locale`.
+Also prefixed attributes will be matched `some:locale`.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\attribute_local_name('locale');
+```
+
+#### attribute_local_value
+
+Matches current element based on attribute value `locale="nl-BE"`.
+Also prefixed attributes will be matched `some:locale="nl-BE"`. 
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\attribute_local_value('locale', 'nl-BE');
+```
+
+#### attribute_name
+
+Matches current element based on attribute exists: `locale`.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\attribute_name('locale');
+// OR
+Matcher\attribute_name('prefixed:locale');
+```
+
+#### attribute_value
+
+Matches current element based on attribute value `locale="nl-BE"`.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\attribute_value('locale', 'nl-BE');
+// OR
+Matcher\attribute_value('prefixed:locale', 'nl-BE');
+```
+
+#### document_element
+
+Matches on the root document element only.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\document_element();
+```
+
+#### element_local_name
 
 Matches current element on node name `<item />`.
+Also prefixed elements will be matched: `<some:item />`.
 
 ```php
-Matcher\node_name('item');
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\element_local_name('item');
 ```
+
+#### element_name
+
+Matches current element on full node name `<item />`.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\element_name('item');
+// OR
+Matcher\element_name('some:item');
+```
+
+#### element_position
+
+Matches current element on the position of the element in the XML tree.
+Given following example:
+
+```xml
+<items>
+    <item />
+    <item />
+    <item />
+</items>
+```
+
+Only the middle `<item />` will be matched.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\element_position(1);
+```
+
+#### namespaced_attribute
+
+Matches current element based on attribute XMLNS namespace `https://some` and attribute key `locale`.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\namespaced_attribute('https://some', 'locale');
+```
+
+#### namespaced_attribute_value
+
+Matches current element based on attribute namespace `https://some` and value `locale="nl-BE"`.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\namespaced_attribute_value('https://some', 'locale', 'nl-BE');
+```
+
+#### namespaced_element
+
+Matches current element on namespace and element name `<item xmlns="https://some" />`.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\namespaced_element('https://some', 'item');
+```
+
+#### not
+
+Inverses a matcher's result.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\not(
+    Matcher\element_name('item')
+);
+```
+
+#### sequence
+
+Provide a sequence of matchers that represents the XML tree.
+Only the items that are described by the sequence will match.
+
+Given:
+
+```xml
+<root>
+    <users>
+        <user locale="nl">Jos</user>
+        <user>Bos</user>
+        <user>Mos</user>    
+    </users>
+</root>
+```
+
+This matcher will grab the `user` element with `locale="nl"`
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\not(
+    // Level 0: <root />
+    Matcher\document_element(),
+    // Level 1: <users />
+    // all() Acts as a wildcard to grab any element under document element.
+    // You could also go for the more exact element_name('users')
+    Matcher\all(), 
+    // Level 2: <user locale="nl">Jos</user>
+    // Searches for all elements that matches `<user />` and attribute `locale="nl"`
+    Matcher\all( 
+        element_name('user'),
+        attribute_value('locale', 'nl')
+    )
+);
+```
+
 
 #### Writing your own matcher
 
@@ -182,7 +362,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 
 interface Matcher
 {
-    publict function __invoke(NodeSequence $sequence): bool;
+    public function __invoke(NodeSequence $sequence): bool;
 }
 ```
 

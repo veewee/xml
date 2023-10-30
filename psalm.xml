@@ -32,6 +32,11 @@
                 <directory name="tests"/>
             </errorLevel>
         </UndefinedClass>
+        <MissingDependency>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </MissingDependency>
         <MixedArgumentTypeCoercion>
             <errorLevel type="suppress">
                 <directory name="src/Xml/Encoding/Internal/Encoder/Builder" />

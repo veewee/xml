@@ -7,17 +7,14 @@ namespace VeeWee\Tests\Xml\Reader\Matcher;
 use Generator;
 use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
-use function VeeWee\Xml\Reader\Matcher\node_name;
+use function VeeWee\Xml\Reader\Matcher\element_local_name;
 
-/**
- * @deprecated Use element_name instead! This will be removed in next major version
- */
-final class NodeNameTest extends AbstractMatcherTest
+final class ElementLocalNameTest extends AbstractMatcherTest
 {
     public static function provideRealXmlCases(): Generator
     {
         yield 'users' => [
-            node_name('user'),
+            element_local_name('user'),
             <<<'EOXML'
             <root>
                 <user>Jos</user>
@@ -32,7 +29,7 @@ final class NodeNameTest extends AbstractMatcherTest
             ]
         ];
         yield 'namespaced' => [
-            node_name('u:user'),
+            element_local_name('user'),
             <<<'EOXML'
             <root xmlns:u="https://users">
                 <u:user>Jos</u:user>
@@ -51,17 +48,17 @@ final class NodeNameTest extends AbstractMatcherTest
     public static function provideMatcherCases(): Generator
     {
         $sequence = new NodeSequence(
-            new ElementNode(1, 'item', 'item', '', '', [])
+            new ElementNode(1, 'x:item', 'item', 'https://x', 'x', [])
         );
 
-        yield 'it_returns_true_if_element_name_matches' => [
-            node_name('item'),
+        yield 'it_returns_true_if_local_element_name_matches' => [
+            element_local_name('item'),
             $sequence,
             true
         ];
 
-        yield 'it_returns_false_if_element_name_does_not_match' => [
-            node_name('other'),
+        yield 'it_returns_false_if_local_element_name_does_not_match' => [
+            element_local_name('other'),
             $sequence,
             false
         ];
