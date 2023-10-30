@@ -157,6 +157,8 @@ Matcher\all(
 );
 ```
 
+ℹ️ If you specify no matchers internally, it will act as a "wildcard" matcher that always returns true.
+
 #### any
 
 One of the provided matchers need to match in order for this matcher to succeed:
@@ -169,6 +171,8 @@ Matcher\any(
     Matcher\node_name('product'),
 );
 ```
+
+ℹ️ If you specify no matchers internally, it will act as a "never" matcher that always returns false.
 
 #### attribute_local_name
 
@@ -334,13 +338,11 @@ This matcher will grab the `user` element with `locale="nl"`
 ```php
 use \VeeWee\Xml\Reader\Matcher;
 
-Matcher\not(
+Matcher\sequence(
     // Level 0: <root />
     Matcher\document_element(),
     // Level 1: <users />
-    // all() Acts as a wildcard to grab any element under document element.
-    // You could also go for the more exact element_name('users')
-    Matcher\all(), 
+    Matcher\element_name('users'), 
     // Level 2: <user locale="nl">Jos</user>
     // Searches for all elements that matches `<user />` and attribute `locale="nl"`
     Matcher\all( 
