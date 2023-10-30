@@ -346,8 +346,8 @@ Matcher\sequence(
     // Level 2: <user locale="nl">Jos</user>
     // Searches for all elements that matches `<user />` and attribute `locale="nl"`
     Matcher\all( 
-        element_name('user'),
-        attribute_value('locale', 'nl')
+        Matcher\element_name('user'),
+        Matcher\attribute_value('locale', 'nl')
     )
 );
 ```
