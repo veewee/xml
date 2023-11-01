@@ -8,7 +8,7 @@ use Closure;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 
 /**
- * @param callable(NodeSequence) $matcher
+ * @param callable(NodeSequence): bool $matcher
  *
  * @return \Closure(NodeSequence): bool
  */

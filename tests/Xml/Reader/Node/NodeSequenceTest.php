@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Reader\Node;
 
+use Countable;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Reader\Node\ElementNode;
@@ -22,7 +23,7 @@ final class NodeSequenceTest extends TestCase
         $sequence->current();
     }
 
-    
+
     public function test_it_can_not_pop_empty_sequence(): void
     {
         $sequence = new NodeSequence();
@@ -30,7 +31,7 @@ final class NodeSequenceTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $sequence->pop();
     }
-    
+
     public function test_it_can_remember_sequences_in_an_immutable_way(): void
     {
         $sequence = new NodeSequence(
@@ -60,5 +61,68 @@ final class NodeSequenceTest extends TestCase
         static::assertNotSame($removedSequence, $emptySequence);
         static::assertNull($emptySequence->parent());
         static::assertSame([], $emptySequence->sequence());
+    }
+
+    
+    public function test_it_can_count_a_sequence(): void
+    {
+        $sequence = new NodeSequence(
+            new ElementNode(1, 'item1', 'item1', '', '', []),
+        );
+
+        static::assertInstanceOf(Countable::class, $sequence);
+        static::assertCount(1, $sequence);
+    }
+
+    
+    public function test_it_can_replay_sequence(): void
+    {
+        $sequence = new NodeSequence(
+            $element1 = new ElementNode(1, 'item1', 'item1', '', '', []),
+            $element2 = new ElementNode(1, 'item2', 'item2', '', '', []),
+        );
+
+        $replayed = [...$sequence->replay()];
+        static::assertCount(2, $replayed);
+        static::assertEquals(new NodeSequence($element1), $replayed[0]);
+        static::assertEquals(new NodeSequence($element1, $element2), $replayed[1]);
+    }
+
+    /**
+     * Added to keep both infections 'YieldValue' and psalm's non-negative-int happy.
+     * Yet it adds little value since it is not allowed to use the sequence like this in psalm.
+     * Meh ... :)
+     *
+     *
+     */
+    public function test_it_keeps_index_during_yielding(): void
+    {
+        $sequence = new NodeSequence(
+            el1: $element1 = new ElementNode(1, 'item1', 'item1', '', '', []),
+            el2: $element2 = new ElementNode(1, 'item2', 'item2', '', '', []),
+        );
+
+        $replayed = [...$sequence->replay()];
+        static::assertCount(2, $replayed);
+        static::assertEquals(new NodeSequence($element1), $replayed['el1']);
+        static::assertEquals(new NodeSequence($element1, $element2), $replayed['el2']);
+    }
+
+    
+    public function test_it_can_slice_node_sequence(): void
+    {
+        $emptySequence = new NodeSequence();
+        static::assertEquals($emptySequence, $emptySequence->slice(0, 100));
+
+        $sequence = new NodeSequence(
+            $element1 = new ElementNode(1, 'item1', 'item1', '', '', []),
+            $element2 = new ElementNode(1, 'item2', 'item2', '', '', []),
+        );
+
+        static::assertEquals($sequence, $sequence->slice(-1));
+        static::assertEquals(new NodeSequence($element1), $sequence->slice(-1, 1));
+        static::assertEquals(new NodeSequence($element1), $sequence->slice(0, 1));
+        static::assertEquals(new NodeSequence($element1, $element2), $sequence->slice(0));
+        static::assertEquals(new NodeSequence($element2), $sequence->slice(1, 1));
     }
 }

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader\Node;
 
+use Countable;
+use Generator;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;
+use function Psl\Vec\slice;
 
-final class NodeSequence
+final class NodeSequence implements Countable
 {
     /**
      * @var list<ElementNode>
@@ -62,6 +65,34 @@ final class NodeSequence
     public function sequence(): array
     {
         return $this->elementNodes;
+    }
+
+    public function count(): int
+    {
+        return \count($this->elementNodes);
+    }
+
+    /**
+     * @param non-negative-int $start
+     * @param non-negative-int|null $length
+     */
+    public function slice(int $start, ?int $length = null): self
+    {
+        return new self(...slice($this->elementNodes, $start, $length));
+    }
+
+    /**
+     * Replays every step in the sequence
+     *
+     * @return Generator<non-negative-int, NodeSequence, mixed, void>
+     */
+    public function replay(): Generator
+    {
+        $step = new self();
+        foreach ($this->elementNodes as $index => $node) {
+            $step = $step->append($node);
+            yield $index => $step;
+        }
     }
 
     /**

@@ -304,6 +304,67 @@ use \VeeWee\Xml\Reader\Matcher;
 Matcher\namespaced_element('https://some', 'item');
 ```
 
+#### nested
+
+Provide nested matchers that represents parts of an XML tree.
+It can be used similar to the `//user` xpath operator to search on any matching node at any level in the XML 
+
+Given:
+
+```xml
+<root>
+    <users>
+        <user locale="nl">Jos</user>
+        <user>Bos</user>
+        <user>Mos</user>    
+    </users>
+</root>
+```
+
+This matcher will grab the `user` element with `locale="nl"`
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\nested(
+    // Breakpoint 1: <root />
+    Matcher\document_element(),
+    // Breakpoint 2: <user locale="nl">Jos</user>
+    // Searches for all elements that matches `<user />` and attribute `locale="nl"` in the `<root />` document.
+    // Note that you can skip matching on `<users />` here : it's not an exact matcher
+    Matcher\all( 
+        Matcher\element_name('user'),
+        Matcher\attribute_value('locale', 'nl')
+    )
+);
+```
+
+Every provided matcher acts as a breakpoint in the `NodeSequence` for the next matcher,
+making it composable with the exact XML tree [sequence](#sequence) matcher as well.
+
+```php
+use \VeeWee\Xml\Reader\Matcher;
+
+Matcher\nested(
+    // Breakpoint 1: <root />
+    Matcher\document_element(),
+    // Breakpoint 2: <user />
+    // The nested matcher will provide the NodeSequence starting from the element after previous match.
+    // The sequence will basically receive: 'users > user'
+    Matcher\sequence( 
+        // Level 0: The element inside <root /> at level 0 must exactly match <users /> 
+        Matcher\element_name('users'),
+        // Level 1: The element inside <root /> at level 1 must exactly match <user />
+        Matcher\element_name('user'),
+    ),
+    // Breakpoint 3: <email />
+    // After matching a sequence, you can still continue matching deeper or adding even more sequences:
+    Matcher\element_name('email')
+);
+```
+
+If you want every level of the XML to match exactly, you might use the [sequence](#sequence) matcher instead.
+
 #### not
 
 Inverses a matcher's result.
@@ -318,8 +379,10 @@ Matcher\not(
 
 #### sequence
 
-Provide a sequence of matchers that represents the XML tree.
-Only the items that are described by the sequence will match.
+Provide a sequence of matchers that represents the exact XML tree.
+Every provided matcher step must result in an exact match with the matcher on the same index.
+It can be used similar to the `/root/users/user` xpath operator to search on an exact node match at every level in the XML.
+Only the items that are described by the sequence will match:
 
 Given:
 
@@ -351,6 +414,8 @@ Matcher\sequence(
     )
 );
 ```
+
+If you don't want every level of XML to match exactly, you might use the [nested](#nested) matcher instead.
 
 
 #### Writing your own matcher

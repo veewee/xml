@@ -136,6 +136,7 @@ require_once __DIR__.'/Xml/Reader/Matcher/element_position.php';
 require_once __DIR__.'/Xml/Reader/Matcher/namespaced_attribute.php';
 require_once __DIR__.'/Xml/Reader/Matcher/namespaced_attribute_value.php';
 require_once __DIR__.'/Xml/Reader/Matcher/namespaced_element.php';
+require_once __DIR__.'/Xml/Reader/Matcher/nested.php';
 require_once __DIR__.'/Xml/Reader/Matcher/node_attribute.php';
 require_once __DIR__.'/Xml/Reader/Matcher/node_name.php';
 require_once __DIR__.'/Xml/Reader/Matcher/not.php';
