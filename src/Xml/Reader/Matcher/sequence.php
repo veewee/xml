@@ -22,15 +22,12 @@ use function count;
 function sequence(callable ... $matcherSequence): Closure
 {
     return static function (NodeSequence $sequence) use ($matcherSequence) : bool {
-        $nodeSequence = $sequence->sequence();
-        if (count($matcherSequence) !== count($nodeSequence)) {
+        if (count($matcherSequence) !== $sequence->count()) {
             return false;
         }
 
-        $currentSequence = new NodeSequence();
-        foreach ($nodeSequence as $i => $node) {
-            $currentSequence = $currentSequence->append($node);
-            $matcher = $matcherSequence[$i];
+        foreach ($sequence->replay() as $index => $currentSequence) {
+            $matcher = $matcherSequence[$index];
             if (!$matcher($currentSequence)) {
                 return false;
             }
