@@ -15,6 +15,7 @@ use function Psl\Vec\map;
     require $root.'/vendor/autoload.php';
     $src = $root.'/src';
     $target = $src.'/bootstrap.php';
+    $tab = '    ';
 
     // Clear file first!
     write($target, '', WriteMode::TRUNCATE);
@@ -28,14 +29,35 @@ use function Psl\Vec\map;
         ->sortByName()
         ->getIterator();
 
+    $autoload = <<<'EOPHP'
+        foreach ($functions as $function => $file) {
+            if (!\function_exists($function)) {
+                require_once $file;
+            }
+        }
+    EOPHP;
+
+
     /** @var callable(list<SplFileInfo>):string $build */
     $build = pipe(
         static fn (iterable $files): iterable => map(
             $files,
-            static fn (SplFileInfo $file): string => 'require_once __DIR__.\'/'.$file->getRelativePathname().'\';'
+            static function (SplFileInfo $file) use ($tab): string {
+                $path = $file->getRelativePathname();
+                $function = $file->getFilenameWithoutExtension();
+                $namespace = str_replace('/', '\\', $file->getRelativePath());
+
+                return sprintf($tab.'$functions[\'%s\'] =  __DIR__.\'/%s\';', $namespace.'\\'.$function, $path);
+            }
         ),
-        static fn (iterable $codeLines): iterable => concat(['<?php declare(strict_types=1);', ''], $codeLines),
-        static fn (iterable $codeLines): iterable => concat($codeLines, ['']),
+        static fn (iterable $codeLines): iterable => concat([
+            '<?php declare(strict_types=1);',
+            '',
+            '(static function (): void {',
+            $tab . '/** @var array<string, string> $functions */',
+            $tab . '$functions = [];',
+        ], $codeLines),
+        static fn (iterable $codeLines): iterable => concat($codeLines, ['', $autoload, '})();', '']),
         static fn (iterable $codeLines): string => join($codeLines, PHP_EOL)
     );
 
