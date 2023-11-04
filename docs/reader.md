@@ -50,7 +50,7 @@ The reader will stream the content of the XML through PHP's XMLReader which work
 It keeps track of the elements it visits by storing all parent elements inside a `NodeSequence`.
 You can think about this NodeSequence as breadcrumbs: In current XML, it could look like `breakfast_menu > food > name`.
 
-The reader will keep only chunks of the XML in memory by reading the XML stream in chunks.
+The reader will keep only small parts of the XML in memory by reading the XML stream in chunks.
 When the reader detects the first `breakfast_menu` element, it will ask the provided matchers if you are interested in this tag.
 A matcher is a function that returns `true` when interested or `false` when it is not interested in this element.
 When the matcher returns `true`, the reader will read the complete outer XML of current tag and `yield` this matching XML to your logic.
