@@ -25,6 +25,63 @@ foreach ($provider as $nlItem) {
 }
 ```
 
+## How does it work?
+
+Given following example:
+
+```xml
+<breakfast_menu>
+  <food soldOut="false" bestSeller="true">
+    <name>Belgian Waffles</name>
+    <price>$5.95</price>
+    <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+    <calories>650</calories>
+  </food>
+  <food soldOut="false" bestSeller="false">
+    <name>Strawberry Belgian Waffles</name>
+    <price>$7.95</price>
+    <description>Light Belgian waffles covered with strawberries and whipped cream</description>
+    <calories>900</calories>
+  </food>
+</breakfast_menu>
+```
+
+The reader will stream the content of the XML through PHP's XMLReader which works stream-based internally.
+It keeps track of the elements it visits by storing all parent elements inside a `NodeSequence`.
+You can think about this NodeSequence as breadcrumbs: In current XML, it could look like `breakfast_menu > food > name`.
+
+The reader will keep only chunks of the XML in memory by reading the XML stream in chunks.
+When the reader detects the first `breakfast_menu` element, it will ask the provided matchers if you are interested in this tag.
+A matcher is a function that returns `true` when interested or `false` when it is not interested in this element.
+When the matcher returns `true`, the reader will read the complete outer XML of current tag and `yield` this matching XML to your logic.
+This means that the memory-safety of YOUR reader is based on the part inside the XML you are interested in:
+If you only match on the root node, it will yield the complete XML and therefore won't be memory-safe.
+
+After deciding if you are interested in the previous tag, it jumps over to the next tag: `breakfast_menu > food[position() = 1 AND @soldOUt=false AND @bestSeller = true]` and asks the matcher if you are interested in this.
+As you can see, also the attributes and position of the element inside its parent will be available inside the `NodeSequence`.
+This makes it possible to perform very exact / filtered matches.
+Then it goes even deeper in its children and asks if you are interested in:
+
+* `breakfast_menu > food[position() = 1 AND @soldOUt=false AND @bestSeller = true] > name`
+* `breakfast_menu > food[position() = 1 AND @soldOUt=false AND @bestSeller = true] > price`
+* `breakfast_menu > food[position() = 1 AND @soldOUt=false AND @bestSeller = true] > description`
+* `breakfast_menu > food[position() = 1 AND @soldOUt=false AND @bestSeller = true] > calories`
+
+Before it jumps back into the next `food` element to see if you are interested in:
+
+* `breakfast_menu > food[position() = 2 AND @soldOUt=false AND @bestSeller = false]`
+* `breakfast_menu > food[position() = 2 AND @soldOUt=false AND @bestSeller = false] > name`
+* `breakfast_menu > food[position() = 2 AND @soldOUt=false AND @bestSeller = false] > price`
+* `breakfast_menu > food[position() = 2 AND @soldOUt=false AND @bestSeller = false] > description`
+* `breakfast_menu > food[position() = 2 AND @soldOUt=false AND @bestSeller = false] > calories`
+
+When the reader gets to the bottom of the XML, the reading is finished and all the matches you are interested in are yielded.
+
+Matchers act similar to the {specification pattern](https://en.wikipedia.org/wiki/Specification_pattern).
+The cool part about this, is that it allows you to combine multiple matchers exactly as you would do with booleans.
+For example: `sequence(element_name('breakfast_menu', element_name('food'))` will look for the NodeSequence that matches `breakfast_menu > food`.
+
+
 ## Reader
 
 The Reader consists out of following composable blocks:
