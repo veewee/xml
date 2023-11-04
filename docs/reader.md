@@ -77,7 +77,7 @@ Before it jumps back into the next `food` element to see if you are interested i
 
 When the reader gets to the bottom of the XML, the reading is finished and all the matches you are interested in are yielded.
 
-Matchers act similar to the {specification pattern](https://en.wikipedia.org/wiki/Specification_pattern).
+Matchers act similar to the [specification pattern](https://en.wikipedia.org/wiki/Specification_pattern).
 The cool part about this, is that it allows you to combine multiple matchers exactly as you would do with booleans.
 For example: `sequence(element_name('breakfast_menu', element_name('food'))` will look for the NodeSequence that matches `breakfast_menu > food`.
 
