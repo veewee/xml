@@ -1385,6 +1385,16 @@ $doc = Document::fromXmlFile($file);
 $doc->traverse(new Visitor\RemoveNamespaces());
 ```
 
+This visitor allows some additional configurations:
+
+* `RemoveNamespaces:all()`: Removes all namespaces by default.
+* `RemoveNamespaces::prefixed()`: Removes all namespaces with a prefix (`xmlns:prefix=""`).
+* `RemoveNamespaces::unprefixed()`: Removes all namespaces without a prefix (`xmlns=""`).
+* `RemoveNamespaces::byPrefixNames(['a', 'b'])`: Removes all namespaces with a specific prefix.
+* `RemoveNamespaces::byNamespaceURIs(['http://xxx'])`: Removes all namespaces with a specific namespace URI.
+* `new RemoveNamespaces($yourFilter)`: If you want to apply a custom filter to select the namespaces you allow to be stripped.
+
+
 #### Building your own visitor
 
 A visitor needs to implement the visitor interface.
