@@ -12,7 +12,7 @@ jobs:
         strategy:
             matrix:
                 operating-system: [ubuntu-latest]
-                php-versions: ['8.1', '8.2']
+                php-versions: ['8.1', '8.2', '8.3']
                 experimental: [false]
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
@@ -27,7 +27,7 @@ jobs:
                   ini-values: error_reporting=E_ALL
                   extensions: pcov, mbstring, posix, dom, libxml, xml, xsl, xmlreader, xmlwriter
             - name: Install dependencies
-              run: composer update --prefer-dist --no-progress --no-suggest
+              run: composer update --ignore-platform-req=php --prefer-dist --no-progress --no-suggest
             - name: Run the tests
               run: composer run tests
             - name: Check tests quality

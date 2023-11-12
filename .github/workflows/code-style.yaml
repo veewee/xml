@@ -1,13 +1,17 @@
 name: CodeStyle
 
 on: [push, pull_request]
+
+env:
+  PHP_CS_FIXER_IGNORE_ENV: 1
+
 jobs:
     run:
         runs-on: ${{ matrix.operating-system }}
         strategy:
             matrix:
                 operating-system: [ubuntu-latest]
-                php-versions: ['8.1', '8.2']
+                php-versions: ['8.1', '8.2', '8.3']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
         steps:
@@ -20,6 +24,6 @@ jobs:
                   tools: 'composer:v2'
                   extensions: pcov, mbstring, posix
             - name: Install dependencies
-              run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
+              run: composer --ignore-platform-req=php update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
             - name: Run the tests
               run: composer run cs
