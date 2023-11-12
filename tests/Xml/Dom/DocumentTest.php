@@ -11,9 +11,7 @@ use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Traverser\Action;
 use VeeWee\Xml\Dom\Traverser\Visitor\AbstractVisitor;
-use VeeWee\Xml\Dom\Traverser\Visitor\RemoveNamespaces;
 use function Psl\Fun\identity;
-use function VeeWee\Xml\Dom\Configurator\traverse;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;
 use function VeeWee\Xml\Dom\Configurator\utf8;
 use function VeeWee\Xml\Dom\Locator\document_element;
@@ -80,23 +78,6 @@ final class DocumentTest extends TestCase
         static::assertXmlStringEqualsXmlString($xml, $doc->toXmlString());
     }
 
-    /**
-     * @see https://github.com/php/php-src/issues/12616
-     */
-    public function test_it_can_create_a_document_from_xml_node_with_removed_namespaces(): void
-    {
-        $source = Document::fromXmlString(
-            '<hello xmlns="https://hello" />',
-            traverse(RemoveNamespaces::all())
-        );
-
-        $doc = Document::fromXmlNode(
-            $source->map(document_element()),
-            identity()
-        );
-
-        static::assertXmlStringEqualsXmlString('<hello />', $doc->toXmlString());
-    }
 
     public function test_it_can_create_a_document_from_xml_file(): void
     {

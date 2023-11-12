@@ -15,6 +15,7 @@ use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Vec\map;
 use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
+use function VeeWee\Xml\Dom\Loader\xml_node_loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
@@ -79,9 +80,7 @@ final class Document
     public static function fromXmlNode(DOMNode $node, callable ...$configurators): self
     {
         return self::configure(
-            loader(xml_string_loader(
-                xml_string()($node)
-            )),
+            loader(xml_node_loader($node)),
             ...$configurators
         );
     }
