@@ -21,6 +21,6 @@ jobs:
                   tools: 'composer:v2'
                   extensions: pcov, mbstring, posix, dom, libxml, xml, xsl, xmlreader, xmlwriter
             - name: Install dependencies
-              run: composer update --ignore-platform-req=php --prefer-dist --no-progress --no-suggest
+              run: composer update --prefer-dist --no-progress --no-suggest
             - name: Run the stress tests
               run: composer run stress

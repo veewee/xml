@@ -27,7 +27,7 @@ jobs:
                   ini-values: error_reporting=E_ALL
                   extensions: pcov, mbstring, posix, dom, libxml, xml, xsl, xmlreader, xmlwriter
             - name: Install dependencies
-              run: composer update --ignore-platform-req=php --prefer-dist --no-progress --no-suggest
+              run: composer update --prefer-dist --no-progress --no-suggest
             - name: Run the tests
               run: composer run tests
             - name: Check tests quality

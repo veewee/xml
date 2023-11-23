@@ -24,6 +24,6 @@ jobs:
                   tools: 'composer:v2'
                   extensions: pcov, mbstring, posix
             - name: Install dependencies
-              run: composer --ignore-platform-req=php update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
+              run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-options }}
             - name: Run the tests
               run: composer run cs
