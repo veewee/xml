@@ -16,7 +16,7 @@ use function VeeWee\Xml\Internal\configure;
 /**
  * @param list<callable(DOMCdataSection): DOMCdataSection> $configurators
  *
- * @return \Closure(DOMNode): DOMCdataSection
+ * @return Closure(DOMNode): DOMCdataSection
  */
 function cdata(string $data, ...$configurators): Closure
 {

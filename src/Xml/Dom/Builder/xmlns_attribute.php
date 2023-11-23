@@ -10,7 +10,7 @@ use VeeWee\Xml\Xmlns\Xmlns;
 use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
 /**
- * @return \Closure(DOMElement): DOMElement
+ * @return Closure(DOMElement): DOMElement
  */
 function xmlns_attribute(string $prefix, string $namespaceURI): Closure
 {

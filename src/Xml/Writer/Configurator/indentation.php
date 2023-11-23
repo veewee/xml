@@ -9,7 +9,7 @@ use XMLWriter;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(XMLWriter): XMLWriter
+ * @return Closure(XMLWriter): XMLWriter
  */
 function indentation(string $indentation): Closure
 {

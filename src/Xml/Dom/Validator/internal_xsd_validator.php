@@ -14,7 +14,7 @@ use function VeeWee\Xml\Internal\configure;
 
 /**
  * @param list<callable(SchemaCollection): SchemaCollection> $schemaManipulators
- * @return \Closure(DOMDocument): IssueCollection
+ * @return Closure(DOMDocument): IssueCollection
  */
 function internal_xsd_validator(callable ... $schemaManipulators): Closure
 {
@@ -24,7 +24,7 @@ function internal_xsd_validator(callable ... $schemaManipulators): Closure
         return validator_chain(
             ...$schemas->map(
                 /**
-                 * @return \Closure(DOMDocument): IssueCollection
+                 * @return Closure(DOMDocument): IssueCollection
                  */
                 static fn (Schema $schema): Closure => xsd_validator($schema->location())
             )

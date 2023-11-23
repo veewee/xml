@@ -8,7 +8,7 @@ use Closure;
 use DOMXPath;
 
 /**
- * @return \Closure(DOMXPath): DOMXPath
+ * @return Closure(DOMXPath): DOMXPath
  */
 function all_functions(): Closure
 {

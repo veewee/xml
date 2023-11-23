@@ -40,7 +40,7 @@ final class ParametersTest extends TestCase
         );
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Unable to apply the XSLT template');
+        $this->expectExceptionMessage('Unable to apply the XSLT template');
         $processor->transformDocumentToString($doc);
     }
 

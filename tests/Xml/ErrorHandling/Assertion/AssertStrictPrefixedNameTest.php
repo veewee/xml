@@ -27,7 +27,7 @@ final class AssertStrictPrefixedNameTest extends TestCase
     public function test_it_throws_on_invalid_qnames(string $input): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage('The provided value "'.$input.'" is not a QName, expected ns:name instead.');
+        $this->expectExceptionMessage('The provided value "'.$input.'" is not a QName, expected ns:name instead.');
 
         assert_strict_prefixed_name($input);
     }

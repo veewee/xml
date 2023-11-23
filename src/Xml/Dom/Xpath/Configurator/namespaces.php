@@ -10,7 +10,7 @@ use DOMXPath;
 /**
  * @param array<string, string> $namespaces
  *
- * @return \Closure(DOMXPath): DOMXPath
+ * @return Closure(DOMXPath): DOMXPath
  */
 function namespaces(array $namespaces): Closure
 {

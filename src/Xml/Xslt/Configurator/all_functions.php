@@ -8,7 +8,7 @@ use Closure;
 use XSLTProcessor;
 
 /**
- * @return \Closure(XSLTProcessor): XSLTProcessor
+ * @return Closure(XSLTProcessor): XSLTProcessor
  */
 function all_functions(): Closure
 {

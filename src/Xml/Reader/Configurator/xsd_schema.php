@@ -11,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(XMLReader): XMLReader
+ * @return Closure(XMLReader): XMLReader
  */
 function xsd_schema(string $schemaFile): Closure
 {

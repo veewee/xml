@@ -13,7 +13,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(DOMXPath): NodeList<DOMNode>
+ * @return Closure(DOMXPath): NodeList<DOMNode>
  */
 function query(string $query, DOMNode $node = null): Closure
 {

@@ -11,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(XSLTProcessor): string
+ * @return Closure(XSLTProcessor): string
  */
 function document_to_string(Document $document): Closure
 {

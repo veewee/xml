@@ -16,7 +16,7 @@ use function VeeWee\Xml\Dom\Builder\value;
  *
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @return \Closure(DOMElement): DOMElement
+ * @return Closure(DOMElement): DOMElement
  */
 function children(string $name, array $children): Closure
 {
@@ -24,7 +24,7 @@ function children(string $name, array $children): Closure
         ...map(
             $children,
             /**
-             * @return \Closure(DOMElement): DOMElement
+             * @return Closure(DOMElement): DOMElement
              */
             static fn (array|string $data): Closure => is_array($data)
                 ? element($name, $data)

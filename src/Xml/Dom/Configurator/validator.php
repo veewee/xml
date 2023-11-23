@@ -14,7 +14,7 @@ use VeeWee\Xml\Exception\RuntimeException;
 /**
  * @param callable(DOMDocument): IssueCollection $validator
  *
- * @return \Closure(DOMDocument): DOMDocument
+ * @return Closure(DOMDocument): DOMDocument
  */
 function validator(callable $validator, ?Level $minimumLevel = null): Closure
 {

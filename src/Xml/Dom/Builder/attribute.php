@@ -8,7 +8,7 @@ use Closure;
 use DOMElement;
 
 /**
- * @return \Closure(DOMElement): DOMElement
+ * @return Closure(DOMElement): DOMElement
  */
 function attribute(string $name, string $value): Closure
 {

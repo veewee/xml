@@ -17,7 +17,7 @@ abstract class AbstractMatcherTest extends TestCase
     /**
      * @dataProvider provideRealXmlCases
      *
-     * @param \Closure(NodeSequence): bool $matcher
+     * @param Closure(NodeSequence): bool $matcher
      * @param list<string> $expected
      */
     public function test_real_xml_cases(Closure $matcher, string $xml, array $expected)
@@ -31,7 +31,7 @@ abstract class AbstractMatcherTest extends TestCase
     /**
      * @dataProvider provideMatcherCases
      *
-     * @param \Closure(NodeSequence): bool $matcher
+     * @param Closure(NodeSequence): bool $matcher
      */
     public function test_matcher_cases(Closure $matcher, NodeSequence $sequence, bool $expected)
     {

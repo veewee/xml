@@ -31,7 +31,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  *     >,
  *     bool> $options
  *
- * @return \Closure(XMLReader): XMLReader
+ * @return Closure(XMLReader): XMLReader
  */
 function parser_options(array $options): Closure
 {

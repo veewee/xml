@@ -25,7 +25,7 @@ final class PointerTest extends TestCase
     public function test_it_cannot_leave_element_on_empty(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage('Currently at root level. Can not leave element!');
+        $this->expectExceptionMessage('Currently at root level. Can not leave element!');
 
         $pointer = Pointer::create();
         $pointer->leaveElement();

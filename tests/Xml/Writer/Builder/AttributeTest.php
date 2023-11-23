@@ -36,7 +36,7 @@ final class AttributeTest extends TestCase
     public function test_it_can_not_write_attribute_to_invalid_context(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Could not write the provided XML to the stream.');
+        $this->expectExceptionMessage('Could not write the provided XML to the stream.');
 
         $this->runInMemory(static function (XMLWriter $xmlWriter): void {
             $writer = Writer::fromUnsafeWriter($xmlWriter);

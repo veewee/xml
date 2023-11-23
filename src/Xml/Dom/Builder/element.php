@@ -16,7 +16,7 @@ use function VeeWee\Xml\Internal\configure;
 /**
  * @param list<callable(DOMElement): DOMElement> $configurators
  *
- * @return \Closure(DOMNode): DOMElement
+ * @return Closure(DOMNode): DOMElement
  */
 function element(string $name, callable ...$configurators): Closure
 {

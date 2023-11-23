@@ -17,7 +17,7 @@ final class XmlFileLoaderTest extends TestCase
     public function test_it_invalid_file_loader(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('The file "invalid-file" does not exist.');
+        $this->expectExceptionMessage('The file "invalid-file" does not exist.');
 
         xml_file_loader('invalid-file')();
     }

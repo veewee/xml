@@ -10,7 +10,7 @@ use DOMDocument;
 /**
  * @param non-empty-string $xml
  * @param int $options - bitmask of LIBXML_* constants https://www.php.net/manual/en/libxml.constants.php
- * @return \Closure(DOMDocument): void
+ * @return Closure(DOMDocument): void
  */
 function xml_string_loader(string $xml, int $options = 0): Closure
 {

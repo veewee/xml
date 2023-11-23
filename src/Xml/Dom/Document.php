@@ -134,7 +134,7 @@ final class Document
     {
         return Builder\nodes(...map(
             $builders,
-            fn (callable $builder): Closure => $builder(...)
+            static fn (callable $builder): Closure => $builder(...)
         ))($this->document);
     }
 

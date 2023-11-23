@@ -10,7 +10,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 /**
  * @param callable(NodeSequence): bool $matcher
  *
- * @return \Closure(NodeSequence): bool
+ * @return Closure(NodeSequence): bool
  */
 function not(callable $matcher): Closure
 {

@@ -9,7 +9,7 @@ use DOMElement;
 use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
 /**
- * @return \Closure(DOMElement): DOMElement
+ * @return Closure(DOMElement): DOMElement
  */
 function namespaced_attribute(string $namespace, string $qualifiedName, string $value): Closure
 {

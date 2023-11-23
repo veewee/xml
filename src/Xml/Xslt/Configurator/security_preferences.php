@@ -20,7 +20,7 @@ use XSLTProcessor;
  *     \XSL_SECPREF_DEFAULT
  * > $preferences
  *
- * @return \Closure(XSLTProcessor): XSLTProcessor
+ * @return Closure(XSLTProcessor): XSLTProcessor
  */
 function security_preferences(int $preferences): Closure
 {

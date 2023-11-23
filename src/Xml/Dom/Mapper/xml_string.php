@@ -13,7 +13,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(DOMNode): non-empty-string
+ * @return Closure(DOMNode): non-empty-string
  */
 function xml_string(): Closure
 {

@@ -11,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(): XMLReader
+ * @return Closure(): XMLReader
  */
 function xml_string_loader(string $xml): Closure
 {

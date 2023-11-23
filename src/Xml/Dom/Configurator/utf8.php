@@ -8,7 +8,7 @@ use Closure;
 use DOMDocument;
 
 /**
- * @return \Closure(DOMDocument): DOMDocument
+ * @return Closure(DOMDocument): DOMDocument
  */
 function utf8(): Closure
 {

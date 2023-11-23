@@ -10,7 +10,7 @@ use XMLWriter;
 
 /**
  * @param array<string, string> $attributes
- * @return \Closure(XMLWriter): Generator<bool>
+ * @return Closure(XMLWriter): Generator<bool>
  */
 function attributes(array $attributes): Closure
 {

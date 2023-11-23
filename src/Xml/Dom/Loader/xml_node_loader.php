@@ -11,7 +11,7 @@ use DOMNode;
 use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
 
 /**
- * @return \Closure(DOMDocument): void
+ * @return Closure(DOMDocument): void
  */
 function xml_node_loader(DOMNode $importedNode): Closure
 {

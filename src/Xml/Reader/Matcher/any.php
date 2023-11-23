@@ -11,7 +11,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 /**
  * @param list<callable(NodeSequence): bool> $matchers
  *
- * @return \Closure(NodeSequence): bool
+ * @return Closure(NodeSequence): bool
  */
 function any(callable ... $matchers): Closure
 {

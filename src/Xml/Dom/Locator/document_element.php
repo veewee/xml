@@ -9,7 +9,7 @@ use DOMDocument;
 use DOMElement;
 
 /**
- * @return \Closure(DOMDocument): DOMElement
+ * @return Closure(DOMDocument): DOMElement
  */
 function document_element(): Closure
 {

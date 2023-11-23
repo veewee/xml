@@ -168,7 +168,7 @@ final class RenameTest extends TestCase
         $node = $root->getAttributeNode('a:who');
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Unable to rename attribute a:who into b:you');
+        $this->expectExceptionMessage('Unable to rename attribute a:who into b:you');
 
         rename($node, 'b:you');
     }

@@ -29,7 +29,7 @@ final class XmlFileOpenerTest extends TestCase
     public function test_it_errors_if_file_is_not_writable(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('The path "doesnotexist" is not writable.');
+        $this->expectExceptionMessage('The path "doesnotexist" is not writable.');
 
         Writer::forFile('doesnotexist');
     }

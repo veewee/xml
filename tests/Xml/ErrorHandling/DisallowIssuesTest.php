@@ -29,7 +29,7 @@ final class DisallowIssuesTest extends TestCase
     public function test_it_can_detect_xml_errors_inside_callable_and_return_ok(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('XML issues detected');
+        $this->expectExceptionMessage('XML issues detected');
 
         $result = ErrorHandling\disallow_issues(
             static function (): string {
@@ -45,7 +45,7 @@ final class DisallowIssuesTest extends TestCase
         $exception = new Exception('nonono');
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('nonono');
+        $this->expectExceptionMessage('nonono');
 
         ErrorHandling\disallow_issues(
             static function () use ($exception) {

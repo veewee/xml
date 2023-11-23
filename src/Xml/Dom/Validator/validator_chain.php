@@ -11,7 +11,7 @@ use function Psl\Iter\reduce;
 
 /**
  * @param list<callable(DOMDocument): IssueCollection> $validators
- * @return \Closure(DOMDocument): IssueCollection
+ * @return Closure(DOMDocument): IssueCollection
  */
 function validator_chain(callable ... $validators): Closure
 {

@@ -10,7 +10,7 @@ use DOMXPath;
 /**
  * @param non-empty-list<string> $functions
  *
- * @return \Closure(DOMXPath): DOMXPath
+ * @return Closure(DOMXPath): DOMXPath
  */
 function functions(array $functions): Closure
 {

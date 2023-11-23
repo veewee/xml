@@ -12,7 +12,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 /**
  * @no-named-arguments
  * @throws RuntimeException
- * @return \Closure(DOMNode): DOMNode
+ * @return Closure(DOMNode): DOMNode
  */
 function append(DOMNode ... $nodes): Closure
 {

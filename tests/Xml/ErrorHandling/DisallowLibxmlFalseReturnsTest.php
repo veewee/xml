@@ -20,7 +20,7 @@ final class DisallowLibxmlFalseReturnsTest extends TestCase
     public function test_it_throws_when_false(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('nope');
+        $this->expectExceptionMessage('nope');
 
         disallow_libxml_false_returns(false, 'nope');
     }

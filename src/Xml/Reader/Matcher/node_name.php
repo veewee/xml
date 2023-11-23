@@ -9,7 +9,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 
 /**
  * @deprecated Use element_name instead! This will be removed in next major version
- * @return \Closure(NodeSequence): bool
+ * @return Closure(NodeSequence): bool
  */
 function node_name(string $name): Closure
 {

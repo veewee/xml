@@ -17,7 +17,7 @@ use function count;
  *
  * @param non-empty-list<callable(NodeSequence): bool> $matcherSequence
  *
- * @return \Closure(NodeSequence): bool
+ * @return Closure(NodeSequence): bool
  */
 function sequence(callable ... $matcherSequence): Closure
 {

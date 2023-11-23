@@ -11,7 +11,7 @@ use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 /**
  * @param array<string, string> $map - Key=namspace, value=location
  *
- * @return \Closure(SchemaCollection): SchemaCollection
+ * @return Closure(SchemaCollection): SchemaCollection
  */
 function overwrite_with_local_files(array $map): Closure
 {

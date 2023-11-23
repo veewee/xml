@@ -19,7 +19,7 @@ final class NodeSequenceTest extends TestCase
         static::assertNull($sequence->parent());
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage('The node sequence is empty. Can not fetch current item!');
+        $this->expectExceptionMessage('The node sequence is empty. Can not fetch current item!');
         $sequence->current();
     }
 

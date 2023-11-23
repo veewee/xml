@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(DOMDocument): DOMDocument
+ * @return Closure(DOMDocument): DOMDocument
  */
 function canonicalize(): Closure
 {

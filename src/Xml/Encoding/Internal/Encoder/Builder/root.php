@@ -14,7 +14,7 @@ use function VeeWee\Xml\Dom\Builder\nodes;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding
- * @return \Closure(DOMDocument): list<DOMNode>
+ * @return Closure(DOMDocument): list<DOMNode>
  *
  * @throws EncodingException
  * @throws InvariantViolationException

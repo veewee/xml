@@ -60,7 +60,7 @@ final class ReaderTest extends TestCase
         $iterator = $reader->provide(static fn () => true);
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Detected issues during the parsing of the XML Stream');
+        $this->expectExceptionMessage('Detected issues during the parsing of the XML Stream');
         [...$iterator];
     }
 

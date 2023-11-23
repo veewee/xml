@@ -24,7 +24,7 @@ use function array_shift;
  *
  * @param non-empty-list<callable(NodeSequence): bool> $matchers
  *
- * @return \Closure(NodeSequence): bool
+ * @return Closure(NodeSequence): bool
  */
 function nested(callable ... $matchers): Closure
 {

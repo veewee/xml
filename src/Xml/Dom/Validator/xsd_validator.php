@@ -10,7 +10,7 @@ use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use function VeeWee\Xml\ErrorHandling\detect_issues;
 
 /**
- * @return \Closure(DOMDocument): IssueCollection
+ * @return Closure(DOMDocument): IssueCollection
  */
 function xsd_validator(string $xsd): Closure
 {
