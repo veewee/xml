@@ -8,7 +8,7 @@ use Closure;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 
 /**
- * @return \Closure(NodeSequence): bool
+ * @return Closure(NodeSequence): bool
  */
 function element_position(int $position): Closure
 {

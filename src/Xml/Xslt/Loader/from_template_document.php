@@ -11,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(XSLTProcessor): void
+ * @return Closure(XSLTProcessor): void
  */
 function from_template_document(Document $template): Closure
 {

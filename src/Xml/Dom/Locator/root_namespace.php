@@ -8,7 +8,7 @@ use Closure;
 use DOMDocument;
 
 /**
- * @return \Closure(DOMDocument): ?string
+ * @return Closure(DOMDocument): ?string
  */
 function root_namespace_uri(): Closure
 {

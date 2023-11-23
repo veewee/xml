@@ -10,7 +10,7 @@ use function Psl\Iter\reduce_with_keys;
 
 /**
  * @param array<string, string> $attributes
- * @return \Closure(DOMElement): DOMElement
+ * @return Closure(DOMElement): DOMElement
  */
 function namespaced_attributes(string $namespace, array $attributes): Closure
 {

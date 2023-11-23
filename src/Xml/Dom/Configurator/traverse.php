@@ -13,7 +13,7 @@ use VeeWee\Xml\Dom\Traverser\Visitor;
  * @no-named-arguments
  * @param list<Visitor> $visitors
  *
- * @return \Closure(DOMDocument): DOMDocument
+ * @return Closure(DOMDocument): DOMDocument
  */
 function traverse(Visitor ... $visitors): Closure
 {

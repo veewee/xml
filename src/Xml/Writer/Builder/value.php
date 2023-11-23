@@ -9,7 +9,7 @@ use Generator;
 use XMLWriter;
 
 /**
- * @return \Closure(XMLWriter): Generator<bool>
+ * @return Closure(XMLWriter): Generator<bool>
  */
 function value(string $value): Closure
 {

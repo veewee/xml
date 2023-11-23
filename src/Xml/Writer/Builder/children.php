@@ -11,7 +11,7 @@ use XMLWriter;
 /**
  * @param iterable<(callable(XMLWriter): Generator<bool>)> $nodeBuilders
  *
- * @return \Closure(XMLWriter): Generator<bool>
+ * @return Closure(XMLWriter): Generator<bool>
  */
 function children(iterable $nodeBuilders): Closure
 {

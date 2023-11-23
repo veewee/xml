@@ -8,7 +8,7 @@
     beStrictAboutCoversAnnotation="false"
     beStrictAboutOutputDuringTests="true"
     beStrictAboutTodoAnnotatedTests="true"
-    verbose="false"
+    verbose="true"
 >
   <coverage cacheDirectory=".phpunit.cache/code-coverage"
       processUncoveredFiles="true">

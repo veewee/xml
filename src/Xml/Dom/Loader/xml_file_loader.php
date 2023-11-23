@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
 
 /**
  * @param int $options - bitmask of LIBXML_* constants https://www.php.net/manual/en/libxml.constants.php
- * @return \Closure(DOMDocument): void
+ * @return Closure(DOMDocument): void
  */
 function xml_file_loader(string $file, int $options = 0): Closure
 {

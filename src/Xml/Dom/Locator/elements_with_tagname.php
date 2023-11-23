@@ -11,7 +11,7 @@ use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Element\locate_by_tag_name;
 
 /**
- * @return \Closure(DOMDocument): NodeList<DOMElement>
+ * @return Closure(DOMDocument): NodeList<DOMElement>
  */
 function elements_with_tagname(string $tagName): Closure
 {

@@ -10,7 +10,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 use function Psl\Iter\any;
 
 /**
- * @return \Closure(NodeSequence): bool
+ * @return Closure(NodeSequence): bool
  */
 function attribute_name(string $name): Closure
 {

@@ -10,7 +10,7 @@ use XSLTProcessor;
 /**
  * @param callable(XSLTProcessor): void $loader
  *
- * @return \Closure(XSLTProcessor): XSLTProcessor
+ * @return Closure(XSLTProcessor): XSLTProcessor
  */
 function loader(callable $loader): Closure
 {

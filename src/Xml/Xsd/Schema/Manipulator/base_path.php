@@ -12,7 +12,7 @@ use const PHP_URL_SCHEME;
 
 /**
  *
- * @return \Closure(SchemaCollection): SchemaCollection
+ * @return Closure(SchemaCollection): SchemaCollection
  */
 function base_path(string $basePath): Closure
 {

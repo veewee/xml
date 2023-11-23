@@ -9,7 +9,7 @@ use DOMDocument;
 
 /**
  * @param non-empty-string $documentUri
- * @return \Closure(DOMDocument): DOMDocument
+ * @return Closure(DOMDocument): DOMDocument
  */
 function document_uri(string $documentUri): Closure
 {

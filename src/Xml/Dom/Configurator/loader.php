@@ -10,7 +10,7 @@ use DOMDocument;
 /**
  * @param callable(DOMDocument): void $loader
  *
- * @return \Closure(DOMDocument): DOMDocument
+ * @return Closure(DOMDocument): DOMDocument
  */
 function loader(callable $loader): Closure
 {

@@ -12,7 +12,7 @@ use XSLTProcessor;
 
 /**
  * @param list<callable(XSLTProcessor): XSLTProcessor> $configurators
- * @return \Closure(DOMDocument): string
+ * @return Closure(DOMDocument): string
  */
 function xslt_template(Document $template, callable ... $configurators): Closure
 {

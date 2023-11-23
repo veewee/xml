@@ -9,7 +9,7 @@ use DOMXPath;
 use VeeWee\Xml\Xmlns\Xmlns;
 
 /**
- * @return \Closure(DOMXPath): DOMXPath
+ * @return Closure(DOMXPath): DOMXPath
  */
 function php_namespace(): Closure
 {

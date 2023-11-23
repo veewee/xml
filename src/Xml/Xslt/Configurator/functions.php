@@ -10,7 +10,7 @@ use XSLTProcessor;
 /**
  * @param non-empty-list<string> $functions
  *
- * @return \Closure(XSLTProcessor): XSLTProcessor
+ * @return Closure(XSLTProcessor): XSLTProcessor
  */
 function functions(array $functions): Closure
 {

@@ -11,7 +11,7 @@ use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
 /**
  * @param array<string, string> $attributes
- * @return \Closure(XMLWriter): Generator<bool>
+ * @return Closure(XMLWriter): Generator<bool>
  */
 function prefixed_attributes(array $attributes): Closure
 {

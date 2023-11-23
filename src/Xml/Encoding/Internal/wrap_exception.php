@@ -12,7 +12,7 @@ use VeeWee\Xml\Encoding\Exception\EncodingException;
  * @psalm-internal VeeWee\Xml\Encoding
  *
  * @template T
- * @param \Closure(): T $run
+ * @param Closure(): T $run
  * @return T
  *
  * @throws EncodingException

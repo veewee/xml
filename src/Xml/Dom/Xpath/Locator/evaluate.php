@@ -15,7 +15,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  *
  * @param TypeInterface<T> $type
  *
- * @return \Closure(DOMXPath): T
+ * @return Closure(DOMXPath): T
  */
 function evaluate(string $query, TypeInterface $type, DOMNode $node = null): Closure
 {

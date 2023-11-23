@@ -16,7 +16,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return \Closure(DOMXPath): DOMNode
+ * @return Closure(DOMXPath): DOMNode
  */
 function query_single(string $query, DOMNode $node = null): Closure
 {

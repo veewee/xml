@@ -10,7 +10,7 @@ use VeeWee\Xml\Dom\Traverser\Visitor\SortAttributes;
 use function VeeWee\Xml\Internal\configure;
 
 /**
- * @return \Closure(DOMDocument): DOMDocument
+ * @return Closure(DOMDocument): DOMDocument
  */
 function comparable(): Closure
 {

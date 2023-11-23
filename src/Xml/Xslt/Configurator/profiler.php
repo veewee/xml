@@ -13,7 +13,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
  * @param non-empty-string $profilingFile
- * @return \Closure(XSLTProcessor): XSLTProcessor
+ * @return Closure(XSLTProcessor): XSLTProcessor
  */
 function profiler(string $profilingFile): Closure
 {

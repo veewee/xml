@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
 use XMLWriter;
 
 /**
- * @return \Closure(XMLWriter): bool XMLWriter
+ * @return Closure(XMLWriter): bool XMLWriter
  */
 function xml_file_opener(string $file): Closure
 {

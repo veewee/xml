@@ -10,7 +10,7 @@ use function Psl\Iter\reduce_with_keys;
 
 /**
  * @param array<string, string> $attributes - A map of namespace prefix with namespace URI
- * @return \Closure(DOMElement): DOMElement
+ * @return Closure(DOMElement): DOMElement
  */
 function xmlns_attributes(array $attributes): Closure
 {

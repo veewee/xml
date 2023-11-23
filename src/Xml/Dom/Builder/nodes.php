@@ -14,7 +14,7 @@ use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 /**
  * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
  *
- * @return \Closure(DOMDocument): list<DOMNode>
+ * @return Closure(DOMDocument): list<DOMNode>
  */
 function nodes(callable ... $builders): Closure
 {

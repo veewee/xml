@@ -11,7 +11,7 @@ use XMLWriter;
 /**
  * @param list<(callable(XMLWriter): Generator<bool>)> $configurators
  *
- * @return \Closure(XMLWriter): Generator<bool>
+ * @return Closure(XMLWriter): Generator<bool>
  */
 function document(string $version, string $charset, callable ... $configurators): Closure
 {

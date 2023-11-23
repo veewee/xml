@@ -11,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
  * @param callable(XMLWriter): bool $opener
- * @return \Closure(XMLWriter): XMLWriter
+ * @return Closure(XMLWriter): XMLWriter
  */
 function open(callable $opener): Closure
 {
