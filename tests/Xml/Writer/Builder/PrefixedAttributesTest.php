@@ -39,7 +39,7 @@ final class PrefixedAttributesTest extends TestCase
     public function test_it_throws_exception_on_non_prefixed_attribute(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('The provided value "default" is not a QName, expected ns:name instead');
+        $this->expectExceptionMessage('The provided value "default" is not a QName, expected ns:name instead');
 
         $this->runInMemory(static function (XMLWriter $xmlWriter): void {
             $writer = Writer::fromUnsafeWriter($xmlWriter);

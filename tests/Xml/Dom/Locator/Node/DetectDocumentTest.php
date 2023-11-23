@@ -27,7 +27,7 @@ final class DetectDocumentTest extends TestCase
         $element = new DOMElement('name');
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage('Expected to find an ownerDocument on provided DOMNode.');
+        $this->expectExceptionMessage('Expected to find an ownerDocument on provided DOMNode.');
 
         detect_document($element);
     }

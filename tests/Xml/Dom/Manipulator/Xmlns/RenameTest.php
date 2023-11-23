@@ -30,7 +30,7 @@ final class RenameTest extends TestCase
         $document = Document::fromXmlString('<hello xmlns:ns1="http://ok" />')->toUnsafeDocument();
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Cannot rename the namespace uri http://replace because the prefix ns1 is already linked to uri http://ok');
+        $this->expectExceptionMessage('Cannot rename the namespace uri http://replace because the prefix ns1 is already linked to uri http://ok');
         rename($document, 'http://replace', 'ns1');
     }
 

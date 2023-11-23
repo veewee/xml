@@ -15,8 +15,8 @@ final class EvaluateTest extends TestCase
         $xpath = $this->provideXml()->xpath();
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Failed querying XPath query');
-        $this->expectErrorMessage('[ERROR] : Invalid expression');
+        $this->expectExceptionMessage('Failed querying XPath query');
+        $this->expectExceptionMessage('[ERROR] : Invalid expression');
 
         $xpath->evaluate('$p$m``m$^^$^^jibberish', Type\string());
     }

@@ -59,7 +59,7 @@ final class XsdSchemaTest extends TestCase
         $iterator = $reader->provide(node_name('user'));
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Detected issues during the parsing of the XML Stream');
+        $this->expectExceptionMessage('Detected issues during the parsing of the XML Stream');
         [...$iterator];
 
         fclose($xsdHandle);
@@ -74,7 +74,7 @@ final class XsdSchemaTest extends TestCase
         $iterator = $reader->provide(node_name('user'));
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('The file "unkown-file" does not exist.');
+        $this->expectExceptionMessage('The file "unkown-file" does not exist.');
         [...$iterator];
 
         fclose($xsdHandle);
@@ -103,7 +103,7 @@ final class XsdSchemaTest extends TestCase
         $iterator = $reader->provide(node_name('user'));
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Schema contains errors');
+        $this->expectExceptionMessage('Schema contains errors');
         [...$iterator];
 
         fclose($xsdHandle);

@@ -18,7 +18,7 @@ final class NamespacedAttributeTest extends TestCase
         $ns = 'https://namespace.com';
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage('The provided value "key1" is not a QName, expected ns:name instead');
+        $this->expectExceptionMessage('The provided value "key1" is not a QName, expected ns:name instead');
 
         element(
             'hello',

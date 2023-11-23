@@ -47,7 +47,7 @@ final class FunctionsTest extends TestCase
         );
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Not allowed to call handler \'strtoupper()\'');
+        $this->expectExceptionMessage('Not allowed to call handler \'strtoupper()\'');
         $processor->transformDocumentToString($doc);
     }
 

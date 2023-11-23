@@ -70,7 +70,7 @@ final class WriterTest extends TestCase
 
     public function test_it_throws_error_on_not_initialized(): void
     {
-        $this->expectErrorMessage('Invalid or uninitialized XMLWriter object');
+        $this->expectExceptionMessage('Invalid or uninitialized XMLWriter object');
 
         $emptyWriter = Writer::configure();
         $emptyWriter->write(element('root'));
@@ -79,7 +79,7 @@ final class WriterTest extends TestCase
     public function test_it_throws_error_on_invalid_write(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Could not write the provided XML to the stream.');
+        $this->expectExceptionMessage('Could not write the provided XML to the stream.');
 
         $this->runInMemory(static function (XMLWriter $xmlWriter): void {
             $writer = Writer::fromUnsafeWriter($xmlWriter);

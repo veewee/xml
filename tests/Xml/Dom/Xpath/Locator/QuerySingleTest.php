@@ -15,8 +15,8 @@ final class QuerySingleTest extends TestCase
         $xpath = $this->provideXml()->xpath();
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Failed querying XPath query');
-        $this->expectErrorMessage('[ERROR] : Invalid expression');
+        $this->expectExceptionMessage('Failed querying XPath query');
+        $this->expectExceptionMessage('[ERROR] : Invalid expression');
 
         $xpath->querySingle('$p$m``m$^^$^^jibberish');
     }
@@ -26,7 +26,7 @@ final class QuerySingleTest extends TestCase
     {
         $xpath = $this->provideXml()->xpath();
 
-        $this->expectErrorMessage('Expected to find only one node that matches //items. Got 2');
+        $this->expectExceptionMessage('Expected to find only one node that matches //items. Got 2');
         $xpath->querySingle('//items');
     }
 

@@ -31,7 +31,7 @@ final class XmlStringTest extends TestCase
     public function test_it_throws_exception_on_invalid_node(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Expected to find an ownerDocument on provided DOMNode');
+        $this->expectExceptionMessage('Expected to find an ownerDocument on provided DOMNode');
         xml_string()(new DOMElement('hello'));
     }
 }
