@@ -11,6 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 use function VeeWee\Xml\Internal\configure;
 use function VeeWee\Xml\Writer\Configurator\open;
+use function VeeWee\Xml\Writer\Opener\memory_opener;
 use function VeeWee\Xml\Writer\Opener\xml_file_opener;
 
 final class Writer
@@ -40,7 +41,6 @@ final class Writer
 
     /**
      * @param list<(callable(XMLWriter): XMLWriter)> $configurators
-     *
      */
     public static function forFile(string $file, callable ... $configurators): self
     {
@@ -51,10 +51,21 @@ final class Writer
     }
 
     /**
+     * @param list<(callable(XMLWriter): XMLWriter)> $configurators
+     */
+    public static function inMemory(callable ... $configurators): self
+    {
+        return self::configure(
+            open(memory_opener()),
+            ...$configurators
+        );
+    }
+
+    /**
      * @param callable(XMLWriter): Generator<bool> $writer
      * @throws RuntimeException
      */
-    public function write(callable $writer): void
+    public function write(callable $writer): self
     {
         $xmlWriter = $this->writer;
         $cursor = $writer($xmlWriter);
@@ -73,5 +84,28 @@ final class Writer
         // Flush the content to the file.
         // Make sure to keep the buffer in case you are using an in-memory writer.
         $this->writer->flush(false);
+
+        return $this;
+    }
+
+    /**
+     * @param callable(XMLWriter): mixed $applicative
+     */
+    public function apply(callable $applicative): self
+    {
+        $applicative($this->writer);
+
+        return $this;
+    }
+
+    /**
+     * @template T
+     * @param callable(XMLWriter): T $mapper
+     *
+     * @return T
+     */
+    public function map(callable $mapper)
+    {
+        return $mapper($this->writer);
     }
 }

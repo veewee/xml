@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Writer\Helper;
 
+use VeeWee\Xml\Writer\Writer;
 use XMLWriter;
+use function VeeWee\Xml\Writer\Mapper\memory_output;
 
 trait UseInMemoryWriterTrait
 {
@@ -13,11 +15,8 @@ trait UseInMemoryWriterTrait
      */
     private function runInMemory(callable $run): string
     {
-        $xmlWriter = new XMLWriter();
-        $xmlWriter->openMemory();
-
-        $run($xmlWriter);
-
-        return $xmlWriter->outputMemory();
+        return Writer::inMemory()
+            ->apply($run)
+            ->map(memory_output());
     }
 }
