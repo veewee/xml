@@ -42,6 +42,7 @@ The Writer consists out of following composable blocks:
 
 - [Builders](#builders): Lets you build XML by using a declarative API.
 - [Configurators](#configurators): Configure how the Writer behaves.
+- [Mappers](#mappers): Map the XMLWriter to something else.
 - [Openers](#openers): Specify where you want to write to.
 
 ## Builders
@@ -123,6 +124,24 @@ element('foo',
 <foo hello="world" bar="baz" />
 ```
 
+#### cdata
+
+Writes a CDATA section:
+
+```php
+use function VeeWee\Xml\Dom\Builder\value;
+use function VeeWee\Xml\Writer\Builder\cdata;
+use function VeeWee\Xml\Writer\Builder\element;
+
+element('foo',
+    cdata(value('some cdata'))
+);
+```
+
+```xml
+<foo><![CDATA[some cdata]]></foo>
+```
+
 #### children
 
 Inserts multiple nodes at current position in the writer.
@@ -162,6 +181,24 @@ function myOwnDataBuilder(): Generator
 }
 
 children(myOwnDataBuilder());
+```
+
+#### comment
+
+Writes a comment section:
+
+```php
+use function VeeWee\Xml\Dom\Builder\value;
+use function VeeWee\Xml\Writer\Builder\comment;
+use function VeeWee\Xml\Writer\Builder\element;
+
+element('foo',
+    comment(value('some comment'))
+);
+```
+
+```xml
+<foo><!--some comment--></foo>
 ```
 
 #### document
@@ -216,6 +253,65 @@ element('foo',
 
 ```xml
 <foo xmlns="https://acme.com" xmlns:hello="https://helloworld.com" />
+```
+
+
+#### namespaced_attribute
+
+Can be used to add a namespaced attribute with or without prefix.
+This function will also add the xmlns attribute.
+
+```php
+use function VeeWee\Xml\Writer\Builder\element;
+use function VeeWee\Xml\Writer\Builder\namespaced_attribute;
+
+element('foo',
+    namespaced_attribute('https://acme.com', 'acme', 'hello', world)
+);
+```
+
+```xml
+<foo xmlns:acme="https://acme.com" acme:hello="world" />
+```
+
+#### namespaced_attributes
+
+Can be used to add multiple namespaced attributes with or without prefix at once.
+This function will add the xmlns attribute.
+
+```php
+use function VeeWee\Xml\Writer\Builder\element;
+use function VeeWee\Xml\Writer\Builder\namespaced_attributes;
+
+element('foo',
+    namespaced_attributes('https://acme.com', [
+        'acme:hello' => 'world',
+        'acme:foo' => 'bar',
+    ])
+);
+```
+
+```xml
+<foo xmlns:acme="https://acme.com" acme:hello="world" acme:foo="bar" />
+```
+
+#### namespaced_element
+
+Build a namespaced element.
+It can contain a set of configurators that can be used to specify the attributes, children, value, ... of the element with or without prefix.
+This function will add the xmlns attribute.
+
+```php
+use function VeeWee\Xml\Writer\Builder\namespace_attribute;
+use function VeeWee\Xml\Writer\Builder\prefixed_element;
+
+namespaced_element('http://acme.com', 'acme', 'hello',
+    ...$configurators
+);
+```
+
+```xml
+<acme:hello xmlns:acme="http://acme.com" />
 ```
 
 #### prefixed_attribute
@@ -279,6 +375,21 @@ prefixed_element('acme', 'hello',
 
 ```xml
 <acme:hello xmlns:acme="http://acme.com" />
+```
+
+#### raw
+
+Can be used to insert raw strings into the XML.
+Be careful: these strings won't be validated or escaped and are just appended to the XML without any sort of validation. 
+
+```php
+use function VeeWee\Xml\Writer\Builder\raw;
+
+raw('<hello>world</hello>');
+```
+
+```xml
+<hello>world</hello>
 ```
 
 #### value
@@ -389,7 +500,36 @@ use VeeWee\Xml\Writer\Writer;
 $document = Writer::configure(...$configurators);
 ```
 
+## Mapper
+
+#### memory_output
+
+If you are using an in-memory writer, you can use the `memory_output()` mapper to get the written content as a string.
+
+```php
+use VeeWee\Xml\Writer\Writer;
+use function VeeWee\Xml\Writer\Mapper\memory_output;
+
+$doc = Writer::inMemory()
+    ->write($yourXml)
+    ->map(memory_output());
+```
+
 ## Openers
+
+#### memory_opener
+
+Starts a writer that stores the written XML in-memory.
+You can use the [memory_output](#memoryoutput) mapper to retrieve the written XML.
+
+```php
+use VeeWee\Xml\Writer\Writer;
+use function VeeWee\Xml\Writer\Mapper\memory_output;
+
+$doc = Writer::inMemory(...$configurators)
+    ->write($yourXml)
+    ->map(memory_output());
+```
 
 #### xml_file_opener
 
