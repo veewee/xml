@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Reader\Configurator;
 
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Reader\MatchingNode;
 use VeeWee\Xml\Reader\Reader;
+use function Psl\Vec\map;
 use function VeeWee\Xml\Reader\Configurator\substitute_entities;
 use function VeeWee\Xml\Reader\Matcher\node_name;
 
@@ -21,11 +23,11 @@ final class SubstituteEntitiesTest extends TestCase
             [
                 '<user>my entity value</user>',
             ],
-            [...$iterator]
+            map($iterator, static fn (MatchingNode $match): string => $match->xml())
         );
     }
 
-    
+
     public function test_it_can_skip_substituting_entities(): void
     {
         $xml = $this->buildXml();
@@ -36,7 +38,7 @@ final class SubstituteEntitiesTest extends TestCase
             [
                 '<user>&entity;</user>',
             ],
-            [...$iterator]
+            map($iterator, static fn (MatchingNode $match): string => $match->xml())
         );
     }
 

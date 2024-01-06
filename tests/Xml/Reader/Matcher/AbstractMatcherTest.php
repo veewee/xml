@@ -6,8 +6,10 @@ namespace VeeWee\Tests\Xml\Reader\Matcher;
 use Closure;
 use Generator;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Reader\MatchingNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use VeeWee\Xml\Reader\Reader;
+use function Psl\Vec\map;
 
 abstract class AbstractMatcherTest extends TestCase
 {
@@ -23,7 +25,7 @@ abstract class AbstractMatcherTest extends TestCase
     public function test_real_xml_cases(Closure $matcher, string $xml, array $expected)
     {
         $reader = Reader::fromXmlString($xml);
-        $actual = [...$reader->provide($matcher)];
+        $actual = map($reader->provide($matcher), static fn (MatchingNode $match): string => $match->xml());
 
         static::assertSame($actual, $expected);
     }

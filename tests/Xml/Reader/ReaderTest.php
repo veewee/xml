@@ -7,11 +7,15 @@ namespace VeeWee\Tests\Xml\Reader;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
+use VeeWee\Xml\Reader\MatchingNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use VeeWee\Xml\Reader\Reader;
+use VeeWee\Xml\Reader\Signal;
 use function Psl\Fun\identity;
+use function Psl\Vec\map;
 use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 use function VeeWee\Xml\Reader\Matcher\all;
+use function VeeWee\Xml\Reader\Matcher\element_name;
 use function VeeWee\Xml\Reader\Matcher\node_attribute;
 use function VeeWee\Xml\Reader\Matcher\node_name;
 
@@ -27,7 +31,7 @@ final class ReaderTest extends TestCase
         $reader = Reader::fromXmlString($xml, identity());
         $iterator = $reader->provide($matcher);
 
-        static::assertSame($expected, [...$iterator]);
+        static::assertSame($expected, map($iterator, static fn (MatchingNode $match): string => $match->xml()));
     }
 
     /**
@@ -40,7 +44,7 @@ final class ReaderTest extends TestCase
         $reader = Reader::fromXmlFile($file, identity());
         $iterator = $reader->provide($matcher);
 
-        static::assertSame($expected, [...$iterator]);
+        static::assertSame($expected, map($iterator, static fn (MatchingNode $match): string => $match->xml()));
 
         fclose($handle);
     }
@@ -62,6 +66,29 @@ final class ReaderTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Detected issues during the parsing of the XML Stream');
         [...$iterator];
+    }
+
+
+    public function test_it_can_send_stop_signal(): void
+    {
+        $xml = <<<'EOXML'
+                <root>
+                    <user>Jos</user>
+                    <user>Bos</user>
+                    <user>Mos</user>    
+                </root>
+        EOXML;
+
+        $reader = Reader::fromXmlString($xml);
+        $signal = new Signal();
+
+        $actual = [];
+        foreach ($reader->provide(element_name('user'), $signal) as $match) {
+            $actual[] = $match->xml();
+            $signal->stop();
+        }
+
+        static::assertSame(['<user>Jos</user>'], $actual);
     }
 
     public function provideXmlExpectations()

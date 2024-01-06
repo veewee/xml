@@ -60,18 +60,25 @@ final class Reader
     /**
      * @param callable(NodeSequence): bool $matcher
      *
-     * @return Generator<string>
+     * @return Generator<MatchingNode>
      *
      * @throws RuntimeException
      */
-    public function provide(callable $matcher): Generator
+    public function provide(callable $matcher, ?Signal $signal = null): Generator
     {
+        $signal ??= new Signal();
         $reader = ($this->factory)();
         $pointer = Pointer::create();
 
         yield from stop_on_first_issue(
-            static fn (): bool => $reader->read(),
-            static function () use ($reader, $pointer, $matcher) : ?string {
+            static function () use ($reader, $signal): bool {
+                if($signal->stopRequested()) {
+                    return !$reader->close();
+                }
+
+                return $reader->read();
+            },
+            static function () use ($reader, $pointer, $matcher) : ?MatchingNode {
                 if ($reader->nodeType === XMLReader::END_ELEMENT) {
                     $pointer->leaveElement();
 
@@ -93,13 +100,14 @@ final class Reader
                     );
 
                     $pointer->enterElement($element);
-                    $result = $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
+                    $outerXml = $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
+                    $match = $outerXml ? new MatchingNode($outerXml, $pointer->getNodeSequence()) : null;
 
                     if ($isEmptyElement) {
                         $pointer->leaveElement();
                     }
 
-                    return $result;
+                    return $match;
                 }
 
                 return null;
