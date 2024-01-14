@@ -144,4 +144,34 @@ final class DocumentTest extends TestCase
         static::assertSame($doc1->toUnsafeDocument(), $doc2->toUnsafeDocument());
         static::assertXmlStringEqualsXmlString($xml1, $xml2);
     }
+
+    public function test_it_can_locate(): void
+    {
+        $doc = Document::fromXmlString('<hello />');
+        $actual1 = $doc->locate(document_element());
+        $actual2 = $doc->locateDocumentElement();
+
+        static::assertSame($doc->toUnsafeDocument()->documentElement, $actual1);
+        static::assertSame($actual1, $actual2);
+    }
+
+    public function test_it_can_stringify_parts(): void
+    {
+        $doc = Document::fromXmlString('<hello value="world"/>');
+        $full = $doc->toXmlString();
+        $documentElement = $doc->stringifyDocumentElement();
+        $node = $doc->stringifyNode($doc->locateDocumentElement());
+        $attr = $doc->stringifyNode($doc->locateDocumentElement()->getAttributeNode('value'));
+
+
+        $expected = '<hello value="world"/>';
+
+        static::assertSame(
+            '<?xml version="1.0"?>'.PHP_EOL.$expected.PHP_EOL,
+            $full
+        );
+        static::assertSame($expected, $documentElement);
+        static::assertSame($expected, $node);
+        static::assertSame(' value="world"', $attr);
+    }
 }

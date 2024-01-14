@@ -6,6 +6,7 @@ namespace VeeWee\Xml\Dom;
 
 use Closure;
 use DOMDocument;
+use DOMElement;
 use DOMNode;
 use DOMXPath;
 use VeeWee\Xml\Dom\Traverser\Traverser;
@@ -113,6 +114,11 @@ final class Document
         return $locator($this->document);
     }
 
+    public function locateDocumentElement(): DOMElement
+    {
+        return $this->locate(Locator\document_element());
+    }
+
     /**
      * @param callable(DOMDocument): mixed $manipulator
      *
@@ -190,5 +196,21 @@ final class Document
     public function toXmlString(): string
     {
         return $this->map(xml_string());
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    public function stringifyDocumentElement(): string
+    {
+        return xml_string()($this->locateDocumentElement());
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    public function stringifyNode(DOMNode $node): string
+    {
+        return xml_string()($node);
     }
 }

@@ -763,6 +763,9 @@ use function VeeWee\Xml\Dom\Locator\document_element;
 
 $doc = Document::fromXmlFile('some.xml');
 $rootElement = $doc->locate(document_element());
+
+// Since this is a common action, there is also a shortcut:
+$doc->locateDocumentElement();
 ```
 
 #### elements_with_namespaced_tagname
@@ -1116,7 +1119,12 @@ Converts the DOM document to something else.
 use VeeWee\Xml\Dom\Document;
 
 $doc = Document::fromXmlFile('some.xml');
+
+// Get full XML including the XML declaration tag:
 $xml = $doc->toXmlString();
+
+// OR, get only the XML part without declaration:
+$xml = $doc->stringifyDocumentElement();
 ```
 
 Instead of mapping a full document, you can also map a specific node only to XML.
@@ -1126,6 +1134,9 @@ use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 $mapper = xml_string();
 $xml = $mapper($someNode);
+
+// Or use the shortcut on Document level:
+$xml = $doc->stringifyNode($someNode);
 ```
 
 #### xslt_template
