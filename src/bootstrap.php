@@ -140,8 +140,6 @@
     $functions['Xml\Reader\Matcher\namespaced_attribute_value'] =  __DIR__.'/Xml/Reader/Matcher/namespaced_attribute_value.php';
     $functions['Xml\Reader\Matcher\namespaced_element'] =  __DIR__.'/Xml/Reader/Matcher/namespaced_element.php';
     $functions['Xml\Reader\Matcher\nested'] =  __DIR__.'/Xml/Reader/Matcher/nested.php';
-    $functions['Xml\Reader\Matcher\node_attribute'] =  __DIR__.'/Xml/Reader/Matcher/node_attribute.php';
-    $functions['Xml\Reader\Matcher\node_name'] =  __DIR__.'/Xml/Reader/Matcher/node_name.php';
     $functions['Xml\Reader\Matcher\not'] =  __DIR__.'/Xml/Reader/Matcher/not.php';
     $functions['Xml\Reader\Matcher\sequence'] =  __DIR__.'/Xml/Reader/Matcher/sequence.php';
     $functions['Xml\Writer\Builder\attribute'] =  __DIR__.'/Xml/Writer/Builder/attribute.php';

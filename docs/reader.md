@@ -15,8 +15,8 @@ use VeeWee\Xml\Reader\Matcher;
 $reader   = Reader::fromXmlFile('large-data.xml');
 $provider = $reader->provide(
     $matcher = Matcher\all(
-        Matcher\node_name('item'),
-        Matcher\node_attribute('locale', 'nl-BE')
+        Matcher\element_name('item'),
+        Matcher\attribute_value('locale', 'nl-BE')
     ),
     // Optionally, you can provide a signal to stop reading at a given point:
     $signal = new Signal()
@@ -220,8 +220,8 @@ All provided matchers need to match in order for this matcher to succeed:
 use \VeeWee\Xml\Reader\Matcher;
 
 Matcher\all(
-    Matcher\node_name('item'),
-    Matcher\node_attribute('locale', 'nl-BE')
+    Matcher\element_name('item'),
+    Matcher\attribute_value('locale', 'nl-BE')
 );
 ```
 
@@ -235,8 +235,8 @@ One of the provided matchers need to match in order for this matcher to succeed:
 use \VeeWee\Xml\Reader\Matcher;
 
 Matcher\any(
-    Matcher\node_name('item'),
-    Matcher\node_name('product'),
+    Matcher\element_name('item'),
+    Matcher\element_name('product'),
 );
 ```
 

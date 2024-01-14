@@ -15,9 +15,8 @@ use function Psl\Fun\identity;
 use function Psl\Vec\map;
 use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 use function VeeWee\Xml\Reader\Matcher\all;
+use function VeeWee\Xml\Reader\Matcher\attribute_value;
 use function VeeWee\Xml\Reader\Matcher\element_name;
-use function VeeWee\Xml\Reader\Matcher\node_attribute;
-use function VeeWee\Xml\Reader\Matcher\node_name;
 
 final class ReaderTest extends TestCase
 {
@@ -101,7 +100,7 @@ final class ReaderTest extends TestCase
                     <user>Mos</user>    
                 </root>
             EOXML,
-            node_name('user'),
+            element_name('user'),
             [
                 '<user>Jos</user>',
                 '<user>Bos</user>',
@@ -118,8 +117,8 @@ final class ReaderTest extends TestCase
                 </root>
             EOXML,
             all(
-                node_name('user'),
-                node_attribute('locale', 'nl')
+                element_name('user'),
+                attribute_value('locale', 'nl')
             ),
             [
                 '<user locale="nl">Jos</user>',
@@ -137,9 +136,9 @@ final class ReaderTest extends TestCase
                 </root>
             EOXML,
             all(
-                node_name('user'),
-                node_attribute('locale', 'nl'),
-                node_attribute('dialect', 'kempisch'),
+                element_name('user'),
+                attribute_value('locale', 'nl'),
+                attribute_value('dialect', 'kempisch'),
             ),
             [
                 '<user locale="nl" dialect="kempisch">Jos</user>',
@@ -156,7 +155,7 @@ final class ReaderTest extends TestCase
                 </root>
             EOXML,
             all(
-                node_name('user'),
+                element_name('user'),
                 static fn (NodeSequence $sequence): bool => ($sequence->current()->position() % 2 === 0),
             ),
             [
@@ -177,7 +176,7 @@ final class ReaderTest extends TestCase
                 </root>
             EOXML,
             all(
-                node_name('user'),
+                element_name('user'),
                 static fn (NodeSequence $sequence): bool => ($sequence->current()->position() % 2 === 0),
             ),
             [
@@ -200,7 +199,7 @@ final class ReaderTest extends TestCase
                 </root>
             EOXML,
             all(
-                node_name('item'),
+                element_name('item'),
             ),
             [
                 '<item>

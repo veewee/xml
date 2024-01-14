@@ -9,7 +9,7 @@ use VeeWee\Xml\Reader\MatchingNode;
 use VeeWee\Xml\Reader\Reader;
 use function Psl\Vec\map;
 use function VeeWee\Xml\Reader\Configurator\substitute_entities;
-use function VeeWee\Xml\Reader\Matcher\node_name;
+use function VeeWee\Xml\Reader\Matcher\element_name;
 
 final class SubstituteEntitiesTest extends TestCase
 {
@@ -17,7 +17,7 @@ final class SubstituteEntitiesTest extends TestCase
     {
         $xml = $this->buildXml();
         $reader = Reader::fromXmlString($xml, substitute_entities(true));
-        $iterator = $reader->provide(node_name('user'));
+        $iterator = $reader->provide(element_name('user'));
 
         static::assertSame(
             [
@@ -32,7 +32,7 @@ final class SubstituteEntitiesTest extends TestCase
     {
         $xml = $this->buildXml();
         $reader = Reader::fromXmlString($xml, substitute_entities(false));
-        $iterator = $reader->provide(node_name('user'));
+        $iterator = $reader->provide(element_name('user'));
 
         static::assertSame(
             [

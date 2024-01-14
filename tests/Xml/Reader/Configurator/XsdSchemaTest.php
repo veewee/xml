@@ -12,7 +12,7 @@ use VeeWee\Xml\Reader\Reader;
 use XMLReader;
 use function Psl\Vec\map;
 use function VeeWee\Xml\Reader\Configurator\xsd_schema;
-use function VeeWee\Xml\Reader\Matcher\node_name;
+use function VeeWee\Xml\Reader\Matcher\element_name;
 
 final class XsdSchemaTest extends TestCase
 {
@@ -31,7 +31,7 @@ final class XsdSchemaTest extends TestCase
         EOXML;
 
         $reader = Reader::fromXmlString($xml, xsd_schema($xsdFile));
-        $iterator = $reader->provide(node_name('user'));
+        $iterator = $reader->provide(element_name('user'));
 
         static::assertSame(
             [
@@ -58,7 +58,7 @@ final class XsdSchemaTest extends TestCase
         EOXML;
 
         $reader = Reader::fromXmlString($xml, xsd_schema($xsdFile));
-        $iterator = $reader->provide(node_name('user'));
+        $iterator = $reader->provide(element_name('user'));
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Detected issues during the parsing of the XML Stream');
@@ -73,7 +73,7 @@ final class XsdSchemaTest extends TestCase
         $xml = '<root />';
 
         $reader = Reader::fromXmlString($xml, xsd_schema('unkown-file'));
-        $iterator = $reader->provide(node_name('user'));
+        $iterator = $reader->provide(element_name('user'));
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('The file "unkown-file" does not exist.');
@@ -102,7 +102,7 @@ final class XsdSchemaTest extends TestCase
         $xml = '<root />';
 
         $reader = Reader::fromXmlString($xml, xsd_schema($xsdFile));
-        $iterator = $reader->provide(node_name('user'));
+        $iterator = $reader->provide(element_name('user'));
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Schema contains errors');

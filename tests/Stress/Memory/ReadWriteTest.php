@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\TmpFileTrait;
 use VeeWee\Xml\Reader\Reader;
 use VeeWee\Xml\Writer\Writer;
-use function VeeWee\Xml\Reader\Matcher\node_name;
+use function VeeWee\Xml\Reader\Matcher\element_name;
 use function VeeWee\Xml\Writer\Builder\children;
 use function VeeWee\Xml\Writer\Builder\document;
 use function VeeWee\Xml\Writer\Builder\element;
@@ -81,7 +81,7 @@ final class ReadWriteTest extends TestCase
         return $this->time(
             function () {
                 $reader = Reader::fromXmlFile($this->file);
-                $cursor = $reader->provide(node_name('FizzBuzz'));
+                $cursor = $reader->provide(element_name('FizzBuzz'));
                 $counter = 0;
                 foreach ($cursor as $item) {
                     $counter++;
@@ -99,6 +99,7 @@ final class ReadWriteTest extends TestCase
         $stop = hrtime(true);
 
         $this->logLine('Action took: '.(($stop-$start)/1e+6).'ms');
+        $this->logLine('Peak Memory usage: '.(memory_get_peak_usage(true)/1024/1024).'Mb');
 
         return $result;
     }
