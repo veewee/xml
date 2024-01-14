@@ -7,21 +7,31 @@ As a result, the reader provides a generator of XML strings that match your matc
 ## Example
 
 ```php
-use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Configurator;
 use VeeWee\Xml\Reader\Reader;
+use VeeWee\Xml\Reader\Signal;
 use VeeWee\Xml\Reader\Matcher;
 
 $reader   = Reader::fromXmlFile('large-data.xml');
 $provider = $reader->provide(
-    Matcher\all(
+    $matcher = Matcher\all(
         Matcher\node_name('item'),
         Matcher\node_attribute('locale', 'nl-BE')
-    )
+    ),
+    // Optionally, you can provide a signal to stop reading at a given point:
+    $signal = new Signal()
 );
 
 foreach ($provider as $nlItem) {
-    $dom = Document::fromXmlString($nlItem);
     // Do something with it
+    $xml = $nlItem->xml();
+    $dom = $nlItem->intoDocument(Configurator\canonicalize());
+    $decoded = $nlItem->decode(Configurator\canonicalize());
+    $matched = $nlItem->matches($matcher);
+    $sequence = $nlItem->nodeSequence();
+    
+    // If you have loaded sufficient items, you can stop reading the XML file:
+    $signal->stop();
 }
 ```
 
@@ -54,7 +64,8 @@ The reader will keep only small parts of the XML in memory by reading the XML st
 When the reader detects the first `breakfast_menu` element, it will ask the provided matchers if you are interested in this tag.
 A matcher is a function that returns `true` when interested or `false` when it is not interested in this element.
 When the matcher returns `true`, the reader will read the complete outer XML of current tag and `yield` this matching XML to your logic.
-This means that the memory-safety of YOUR reader is based on the part inside the XML you are interested in:
+This XML is wrapped in a `MatchingNode` which also contains the `NodeSequence` and some handy shortcut functions to e.g. convert the XML into a DOM Document.
+Do note that, the memory-safety of YOUR reader is based on the part inside the XML you are interested in:
 If you only match on the root node, it will yield the complete XML and therefore won't be memory-safe.
 
 After deciding if you are interested in the previous tag, it jumps over to the next tag: `breakfast_menu > food[position() = 1 AND @soldOUt=false AND @bestSeller = true]` and asks the matcher if you are interested in this.

@@ -7,8 +7,10 @@ namespace VeeWee\Tests\Xml\Reader\Configurator;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
+use VeeWee\Xml\Reader\MatchingNode;
 use VeeWee\Xml\Reader\Reader;
 use XMLReader;
+use function Psl\Vec\map;
 use function VeeWee\Xml\Reader\Configurator\xsd_schema;
 use function VeeWee\Xml\Reader\Matcher\node_name;
 
@@ -16,7 +18,7 @@ final class XsdSchemaTest extends TestCase
 {
     use FillFileTrait;
 
-    
+
     public function test_it_can_iterate_if_the_schema_matches(): void
     {
         [$xsdFile, $xsdHandle] = $this->createXsdFile();
@@ -37,13 +39,13 @@ final class XsdSchemaTest extends TestCase
                 '<user>Bos</user>',
                 '<user>Mos</user>'
             ],
-            [...$iterator]
+            map($iterator, static fn (MatchingNode $match): string => $match->xml())
         );
 
         fclose($xsdHandle);
     }
 
-    
+
     public function test_it_triggers_an_error_on_invalid_schema(): void
     {
         [$xsdFile, $xsdHandle] = $this->createXsdFile();
@@ -65,7 +67,7 @@ final class XsdSchemaTest extends TestCase
         fclose($xsdHandle);
     }
 
-    
+
     public function test_it_triggers_an_error_if_schema_file_does_not_exist(): void
     {
         $xml = '<root />';
@@ -80,7 +82,7 @@ final class XsdSchemaTest extends TestCase
         fclose($xsdHandle);
     }
 
-    
+
     public function test_it_can_not_set_a_schema_if_the_reader_started_reading(): void
     {
         [$xsdFile, $xsdHandle] = $this->createXsdFile();
@@ -93,7 +95,7 @@ final class XsdSchemaTest extends TestCase
         fclose($xsdHandle);
     }
 
-    
+
     public function test_it_can_not_set_a_schema_if_the_schema_is_invalid(): void
     {
         [$xsdFile, $xsdHandle] = $this->fillFile('invalid schema');
