@@ -47,16 +47,22 @@ use function Psl\Vec\map;
                 $function = $file->getFilenameWithoutExtension();
                 $namespace = str_replace('/', '\\', $file->getRelativePath());
 
-                return sprintf($tab.'$functions[\'%s\'] =  __DIR__.\'/%s\';', $namespace.'\\'.$function, $path);
+                return sprintf($tab.$tab.'\'%s\' => __DIR__.\'/%s\',', $namespace.'\\'.$function, $path);
             }
         ),
-        static fn (iterable $codeLines): iterable => concat([
-            '<?php declare(strict_types=1);',
-            '',
-            '(static function (): void {',
-            $tab . '/** @var array<string, string> $functions */',
-            $tab . '$functions = [];',
-        ], $codeLines),
+        static fn (iterable $codeLines): iterable => concat(
+            [
+                '<?php declare(strict_types=1);',
+                '',
+                '(static function (): void {',
+                $tab . '/** @var array<string, string> $functions */',
+                $tab . '$functions = [',
+            ],
+            $codeLines,
+            [
+                $tab.'];'
+            ]
+        ),
         static fn (iterable $codeLines): iterable => concat($codeLines, ['', $autoload, '})();', '']),
         static fn (iterable $codeLines): string => join($codeLines, PHP_EOL)
     );
