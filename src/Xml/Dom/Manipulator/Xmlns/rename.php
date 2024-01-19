@@ -28,7 +28,8 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
 function rename(DOMDocument $document, string $namespaceURI, string $newPrefix): void
 {
     // Check for prefix collisions
-    if (($existingUri = $document->lookupNamespaceURI($newPrefix)) && $existingUri !== $namespaceURI) {
+    $existingUri = $document->lookupNamespaceURI($newPrefix);
+    if ($existingUri !== null && $existingUri !== $namespaceURI) {
         throw RuntimeException::withMessage(
             sprintf(
                 'Cannot rename the namespace uri %s because the prefix %s is already linked to uri %s',

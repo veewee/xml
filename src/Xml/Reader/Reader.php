@@ -101,6 +101,8 @@ final class Reader
 
                     $pointer->enterElement($element);
                     $outerXml = $matcher($pointer->getNodeSequence()) ? $reader->readOuterXml() : null;
+
+                    /** @psalm-suppress RiskyTruthyFalsyComparison */
                     $match = $outerXml ? new MatchingNode($outerXml, $pointer->getNodeSequence()) : null;
 
                     if ($isEmptyElement) {

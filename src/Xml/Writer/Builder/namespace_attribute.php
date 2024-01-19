@@ -9,6 +9,7 @@ use Generator;
 use XMLWriter;
 
 /**
+ * @param non-empty-string|null $prefix
  * @return Closure(XMLWriter): Generator<bool>
  */
 function namespace_attribute(string $namespace, ?string $prefix = null): Closure
@@ -18,7 +19,7 @@ function namespace_attribute(string $namespace, ?string $prefix = null): Closure
          * @return Generator<bool>
          */
         static function (XMLWriter $writer) use ($namespace, $prefix): Generator {
-            if ($prefix) {
+            if ($prefix !== null) {
                 yield from prefixed_attribute('xmlns', $prefix, $namespace)($writer);
                 return;
             }

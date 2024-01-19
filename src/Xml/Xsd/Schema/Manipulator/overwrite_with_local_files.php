@@ -19,6 +19,7 @@ function overwrite_with_local_files(array $map): Closure
         new SchemaCollection(
             ...$schemas->map(
                 static function (Schema $schema) use ($map): Schema {
+                    /** @psalm-suppress RiskyTruthyFalsyComparison */
                     if (!$namespace = $schema->namespace()) {
                         return $schema;
                     }

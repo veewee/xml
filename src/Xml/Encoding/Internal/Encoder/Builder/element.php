@@ -51,7 +51,7 @@ function element(string $name, array $data): Closure
 
     /** @var list<Closure(DOMElement): DOMElement> $children */
     $children = filter_nulls([
-        $attributes ? attributes($attributes) : null,
+        $attributes !== null ? attributes($attributes) : null,
         $namedNamespaces ? xmlns_attributes($namedNamespaces) : null,
         $cdata !== null ? childrenBuilder(cdata($cdata)) : null,
         $value !== null ? escaped_value($value) : null,
@@ -66,7 +66,7 @@ function element(string $name, array $data): Closure
         )),
     ]);
 
-    return $currentNamespace
+    return $currentNamespace !== null
         ? namespacedElementBuilder($currentNamespace, $name, ...$children)
         : elementBuilder($name, ...$children);
 }

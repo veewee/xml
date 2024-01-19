@@ -31,7 +31,7 @@ function nested(callable ... $matchers): Closure
     return static function (NodeSequence $sequence) use ($matchers) : bool {
         $lastMatchedAtIndex = -1;
         $currentMatcher = array_shift($matchers);
-        if (!$currentMatcher) {
+        if ($currentMatcher === null) {
             return false;
         }
 
@@ -51,7 +51,7 @@ function nested(callable ... $matchers): Closure
             // If the list of matchers is empty
             // The function will return true if the element is the last step in the complete sequence.
             // Otherwise, the nested match has an even deeper element on which we don't wish to match.
-            if (!$currentMatcher) {
+            if ($currentMatcher === null) {
                 $isLastStep = $index === $stepCount - 1;
 
                 return $isLastStep;
