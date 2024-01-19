@@ -21,7 +21,7 @@ function rename(DOMAttr $target, string $newQName, ?string $newNamespaceURI = nu
     $namespace = $newNamespaceURI ?? $target->namespaceURI;
     $value = $target->nodeValue ?? '';
 
-    $builder = $namespace
+    $builder = $namespace !== null
         ? namespaced_attribute($namespace, $newQName, $value)
         : attribute($newQName, $value);
 

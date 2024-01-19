@@ -76,7 +76,7 @@ final class RemoveNamespaces extends AbstractVisitor
         }
 
         $namespaces = xmlns_attributes_list($node);
-        if ($this->filter) {
+        if ($this->filter !== null) {
             $namespaces = $namespaces->filter($this->filter);
         }
 

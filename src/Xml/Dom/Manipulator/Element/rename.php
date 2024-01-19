@@ -26,7 +26,7 @@ function rename(DOMElement $target, string $newQName, ?string $newNamespaceURI =
     $isRootElement = $target->ownerDocument && $target === $target->ownerDocument->documentElement;
     $parent = $isRootElement ? $target->ownerDocument : parent_element($target);
     $namespace = $newNamespaceURI ?? $target->namespaceURI;
-    $builder = $namespace
+    $builder = $namespace !== null
         ? namespaced_element($namespace, $newQName)
         : element($newQName);
 
