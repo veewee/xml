@@ -40,6 +40,7 @@ final class Writer
     }
 
     /**
+     * @param non-empty-string $file
      * @param list<(callable(XMLWriter): XMLWriter)> $configurators
      */
     public static function forFile(string $file, callable ... $configurators): self

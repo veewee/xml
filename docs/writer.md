@@ -534,6 +534,8 @@ $doc = Writer::inMemory(...$configurators)
 #### xml_file_opener
 
 Loads an XML document from a file.
+When the file or folder does not exists, the code will attempt to create it.
+If it is not possible to create a target to write to, a `RuntimException` will be thrown.
 
 ```php
 use VeeWee\Xml\Writer\Writer;
