@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use DOMDocument;
+use \DOM\XMLDocument as DOMDocument;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Traverser\Visitor;
 

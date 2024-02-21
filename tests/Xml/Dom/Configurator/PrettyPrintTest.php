@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
@@ -15,9 +16,8 @@ final class PrettyPrintTest extends TestCase
     {
         $configurator = pretty_print();
 
-        $doc = new DOMDocument();
+        $doc = Document::fromXmlString($xml = '<hello>    <world />     </hello>')->toUnsafeDocument();
         $result = $configurator($doc);
-        $doc->loadXML($xml = '<hello>    <world />     </hello>');
 
         $expected = <<<EOXML
         <hello>

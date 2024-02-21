@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Xmlns;
 
-use DOMDocument;
-use DOMElement;
-use DOMNameSpaceNode;
-use DOMNode;
+use \DOM\XMLDocument;
+use \DOM\Element;
+use \DOM\NameSpaceNode;
+use \DOM\Node;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Dom\Xpath;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -25,7 +25,7 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
 /**
  * @throws RuntimeException
  */
-function rename(DOMDocument $document, string $namespaceURI, string $newPrefix): void
+function rename(\DOM\XMLDocument $document, string $namespaceURI, string $newPrefix): void
 {
     // Check for prefix collisions
     $existingUri = $document->lookupNamespaceURI($newPrefix);
@@ -41,7 +41,7 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
     }
 
     $xpath = Xpath::fromUnsafeNode($document);
-    $predicate = static fn (DOMNode $node): bool
+    $predicate = static fn (\DOM\Node $node): bool
         => $node->namespaceURI === $namespaceURI && $node->prefix !== $newPrefix;
 
     // Fetch all nodes (attributes and elements) linked to the given namespace and the nodes that declare namespaces.
@@ -51,8 +51,8 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
     // otherwise XMLNS namespace will be removed again after dealing with the elements that declare the xmlns.
     $linkedNodes = $xpath->query(
         sprintf('//*[namespace-uri()=\'%1$s\' or @*[namespace-uri()=\'%1$s\'] or namespace::*]', $namespaceURI)
-    )->expectAllOfType(DOMElement::class)->reduce(
-        static fn (NodeList $list, DOMElement $element): NodeList
+    )->expectAllOfType(\DOM\Element::class)->reduce(
+        static fn (NodeList $list, \DOM\Element $element): NodeList
             => new NodeList(
                 ...[$element],
                 ...$list,
@@ -68,9 +68,9 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
     // Go through the linked nodes and remove all matching xmlns attributes
     // Finally rename the node in order to use the new prefix.
     $linkedNodes->forEach(
-        static function (DOMNode $node) use ($namespaceURI, $newPrefix, $predicate, $root): void {
+        static function (\DOM\Node $node) use ($namespaceURI, $newPrefix, $predicate, $root): void {
             // Wrapped in a closure so that psalm knows it all...
-            $newQname = static fn (DOMNode $node): string => $newPrefix.':'.non_empty_string()->assert($node->localName);
+            $newQname = static fn (\DOM\Node $node): string => $newPrefix.':'.non_empty_string()->assert($node->localName);
 
             if (is_attribute($node)) {
                 rename_node($node, $newQname($node), $namespaceURI);
@@ -86,7 +86,7 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
             // Remove old xmlns declarations:
             $namespaceNodes = xmlns_attributes_list($node)
                 ->filter(
-                    static fn (DOMNameSpaceNode $xmlns): bool
+                    static fn (\DOM\NameSpaceNode $xmlns): bool
                         => $xmlns->namespaceURI === $namespaceURI && $xmlns->prefix !== $newPrefix
                 );
 
@@ -95,7 +95,7 @@ function rename(DOMDocument $document, string $namespaceURI, string $newPrefix):
                 // We need to make sure to rename it to the new namespace
                 // Otherwise the namespace will be lost!
                 if ($node === $root && $predicate($node)) {
-                    // The root node renaming can result in a new DOMNode.
+                    // The root node renaming can result in a new \DOM\Node.
                     // Make sure to use this new node to avoid issues with e.g. duplicate namespace declarations.
                     $node = rename_node($node, $newQname($node), $namespaceURI);
                     invariant(is_element($node), 'Expected the root node to be a DOM element');

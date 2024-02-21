@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Xsd;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use Psl\Regex\Exception\RuntimeException;
 use VeeWee\Xml\Xmlns\Xmlns;
 use VeeWee\Xml\Xsd\Schema\Schema;
@@ -15,7 +15,7 @@ use function Psl\Regex\split;
 /**
  * @throws RuntimeException
  */
-function locate_no_namespaced_xsd_schemas(DOMDocument $document): SchemaCollection
+function locate_no_namespaced_xsd_schemas(\DOM\XMLDocument $document): SchemaCollection
 {
     $schemaNs = Xmlns::xsi()->value();
     $attributes = $document->documentElement->attributes;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Mapper;
 
 use Closure;
-use DOMDocument;
-use VeeWee\Xml\Dom\Document;
+use DOMDocument as DOMDocument;
+use VeeWee\XmlDOMDocument;
 use VeeWee\Xml\Xslt\Processor;
 use XSLTProcessor;
 

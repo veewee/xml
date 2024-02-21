@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Builder;
 
-use DOMDocument;
-use DOMElement;
+use \DOM\XMLDocument;
+use \DOM\Element;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use function Psl\Fun\identity;
 use function VeeWee\Xml\Dom\Builder\namespaced_element;
 use function VeeWee\Xml\Dom\Builder\value;
@@ -15,9 +16,9 @@ final class NamespacedElementTest extends TestCase
 {
     public function test_it_can_build_an_element_with_alias(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::empty()->toUnsafeDocument();
         $ns = 'https://namespace.com';
-        /** @var DOMElement $node */
+        /** @var \DOM\Element $node */
         $node = namespaced_element($ns, 'ns:hello')($doc);
 
         static::assertSame($ns, $node->namespaceURI);
@@ -27,12 +28,12 @@ final class NamespacedElementTest extends TestCase
         static::assertSame($doc, $node->ownerDocument);
     }
 
-    
+
     public function test_it_can_build_an_element_without_alias(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::empty()->toUnsafeDocument();
         $ns = 'https://namespace.com';
-        /** @var DOMElement $node */
+        /** @var \DOM\Element $node */
         $node = namespaced_element($ns, 'hello')($doc);
 
         static::assertSame($ns, $node->namespaceURI);
@@ -41,10 +42,10 @@ final class NamespacedElementTest extends TestCase
         static::assertSame($doc, $node->ownerDocument);
     }
 
-    
+
     public function test_it_can_build_an_element_with_configurators(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::empty()->toUnsafeDocument();
         $ns = 'https://namespace.com';
         $node = namespaced_element($ns, 'ns:hello', identity())($doc);
 
@@ -54,10 +55,10 @@ final class NamespacedElementTest extends TestCase
         static::assertSame($doc, $node->ownerDocument);
     }
 
-    
+
     public function test_it_can_build_an_element_with_value(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::empty()->toUnsafeDocument();
         $ns = 'https://namespace.com';
         $node = namespaced_element($ns, 'ns:hello', value('world'))($doc);
 

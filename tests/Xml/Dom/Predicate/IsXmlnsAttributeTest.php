@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Predicate;
 
-use DOMNameSpaceNode;
-use DOMNode;
+use \DOM\NameSpaceNode;
+use \DOM\Node;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
@@ -16,7 +16,7 @@ final class IsXmlnsAttributeTest extends TestCase
      *
      * @dataProvider provideTestCases
      */
-    public function test_it_knows_xmlns_attributes(DOMNode|DOMNameSpaceNode $node, bool $expected): void
+    public function test_it_knows_xmlns_attributes(\DOM\Node|\DOM\NameSpaceNode $node, bool $expected): void
     {
         static::assertSame($expected, is_xmlns_attribute($node));
     }

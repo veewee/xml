@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Node;
 
-use DOMNode;
+use \DOM\Node;
 use VeeWee\Xml\Exception\RuntimeException;
 use Webmozart\Assert\Assert;
 use function get_class;
@@ -13,21 +13,21 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
 /**
  * @throws RuntimeException
- * @param iterable<array-key, DOMNode> $sources
- * @return array<array-key, DOMNode>
+ * @param iterable<array-key, \DOM\Node> $sources
+ * @return array<array-key, \DOM\Node>
  */
-function replace_by_external_nodes(DOMNode $target, iterable $sources): array
+function replace_by_external_nodes(\DOM\Node $target, iterable $sources): array
 {
     return disallow_issues(
         /**
-         * @return array<array-key, DOMNode>
+         * @return array<array-key, \DOM\Node>
          */
         static function () use ($target, $sources) : array {
             $parentNode = $target->parentNode;
             Assert::notNull($parentNode, 'Could not replace a node without parent node. ('.get_class($target).')');
             $copies = map(
                 $sources,
-                static fn (DOMNode $source): DOMNode => import_node_deeply($target, $source)
+                static fn (\DOM\Node $source): \DOM\Node => import_node_deeply($target, $source)
             );
 
             foreach ($copies as $copy) {

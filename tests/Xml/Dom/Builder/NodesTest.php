@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Builder;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\nodes;
 
@@ -13,11 +14,11 @@ final class NodesTest extends TestCase
 {
     public function test_it_can_build_nodes(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::empty()->toUnsafeDocument();
         $nodes = nodes(
             element('hello'),
             element('world'),
-            static fn (DOMDocument $doc): array => [
+            static fn (\DOM\XMLDocument $doc): array => [
                 element('many1')($doc),
                 element('many2')($doc),
             ],

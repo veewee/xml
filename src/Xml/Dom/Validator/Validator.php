@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Validator;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
 interface Validator
 {
-    public function __invoke(DOMDocument $document): IssueCollection;
+    public function __invoke(\DOM\XMLDocument $document): IssueCollection;
 }

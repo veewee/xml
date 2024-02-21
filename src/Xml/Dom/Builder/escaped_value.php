@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Builder;
 
 use Closure;
-use DOMElement;
+use \DOM\Element;
 
 /**
- * @return Closure(DOMElement): DOMElement
+ * @return Closure(\DOM\Element): \DOM\Element
  */
 function escaped_value(string $value): Closure
 {
-    return static function (DOMElement $node) use ($value): DOMElement {
+    return static function (\DOM\Element $node) use ($value): \DOM\Element {
         $node->nodeValue = htmlspecialchars($value, ENT_XML1|ENT_QUOTES);
 
         return $node;

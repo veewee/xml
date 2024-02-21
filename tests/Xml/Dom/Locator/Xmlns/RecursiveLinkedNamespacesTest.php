@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Xmlns;
 
-use DOMNameSpaceNode;
+use \DOM\NameSpaceNode;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Dom\Document;
@@ -26,7 +26,7 @@ final class RecursiveLinkedNamespacesTest extends TestCase
 
         $parse = static fn (NodeList $list): array => reduce(
             [...$list],
-            static fn (array $map, DOMNameSpaceNode $node) =>  merge($map, [$node->localName => $node->namespaceURI]),
+            static fn (array $map, \DOM\NameSpaceNode $node) =>  merge($map, [$node->localName => $node->namespaceURI]),
             []
         );
 

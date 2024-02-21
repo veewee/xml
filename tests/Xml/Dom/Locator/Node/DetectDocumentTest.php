@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Node;
 
-use DOMElement;
+use \DOM\Element;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
@@ -24,10 +24,10 @@ final class DetectDocumentTest extends TestCase
     
     public function test_it_throws_exception_on_unlinked_node(): void
     {
-        $element = new DOMElement('name');
+        $element = new \DOM\Element('name');
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected to find an ownerDocument on provided DOMNode.');
+        $this->expectExceptionMessage('Expected to find an ownerDocument on provided \DOM\Node.');
 
         detect_document($element);
     }

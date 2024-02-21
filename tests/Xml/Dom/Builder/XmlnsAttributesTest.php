@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Builder;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
 use function VeeWee\Xml\Dom\Builder\xmlns_attributes;
@@ -14,7 +15,7 @@ final class XmlnsAttributesTest extends TestCase
 {
     public function test_it_can_build_an_element_with_attributes(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::empty()->toUnsafeDocument();
 
         $node = element(
             'hello',
