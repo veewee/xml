@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use DOMNode;
+use \DOM\Node;
 
-function is_non_empty_text(DOMNode $node): bool
+function is_non_empty_text(\DOM\Node $node): bool
 {
     return is_text($node) && trim($node->nodeValue ?? '') !== '';
 }

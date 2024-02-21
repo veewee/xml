@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser;
 
-use DOMNode;
+use \DOM\Node;
 use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
 use function VeeWee\Xml\Dom\Locator\Node\children;
 
@@ -23,7 +23,7 @@ final class Traverser
         $this->visitors = $visitors;
     }
 
-    public function traverse(DOMNode $node): DOMNode
+    public function traverse(\DOM\Node $node): \DOM\Node
     {
         $this->enterNode($node);
 
@@ -40,14 +40,14 @@ final class Traverser
         return $node;
     }
 
-    private function enterNode(DOMNode $node): void
+    private function enterNode(\DOM\Node $node): void
     {
         foreach ($this->visitors as $visitor) {
             $visitor->onNodeEnter($node)($node);
         }
     }
 
-    private function leaveNode(DOMNode $node): void
+    private function leaveNode(\DOM\Node $node): void
     {
         foreach ($this->visitors as $visitor) {
             $visitor->onNodeLeave($node)($node);

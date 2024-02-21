@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Node;
 
-use DOMNode;
+use \DOM\Node;
 use VeeWee\Xml\Dom\Collection\NodeList;
 
 /**
- * @return NodeList<DOMNode>
+ * @return NodeList<\DOM\Node>
  */
-function children(DOMNode $node): NodeList
+function children(\DOM\Node $node): NodeList
 {
     return NodeList::fromDOMNodeList($node->childNodes);
 }

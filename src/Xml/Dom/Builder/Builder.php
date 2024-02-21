@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Builder;
 
-use DOMNode;
+use \DOM\Node;
 
 interface Builder
 {
-    public function __invoke(DOMNode $node): DOMNode;
+    public function __invoke(\DOM\Node $node): \DOM\Node;
 }

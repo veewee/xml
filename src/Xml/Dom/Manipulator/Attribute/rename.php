@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Attribute;
 
-use DOMAttr;
+use \DOM\Attr;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Builder\attribute;
 use function VeeWee\Xml\Dom\Builder\namespaced_attribute;
@@ -15,7 +15,7 @@ use function VeeWee\Xml\Dom\Predicate\is_attribute;
 /**
  * @throws RuntimeException
  */
-function rename(DOMAttr $target, string $newQName, ?string $newNamespaceURI = null): DOMAttr
+function rename(\DOM\Attr $target, string $newQName, ?string $newNamespaceURI = null): \DOM\Attr
 {
     $element = parent_element($target);
     $namespace = $newNamespaceURI ?? $target->namespaceURI;

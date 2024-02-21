@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use Closure;
-use DOMElement;
+use \DOM\Element;
 use Psl\Exception\InvariantViolationException;
 use Psl\Type\Exception\AssertException;
 use function Psl\Dict\filter_keys;
@@ -28,7 +28,7 @@ use function VeeWee\Xml\Dom\Builder\xmlns_attributes;
  * @psalm-internal VeeWee\Xml\Encoding
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @return Closure(DOMElement): DOMElement
+ * @return Closure(\DOM\Element): \DOM\Element
  *
  * @throws AssertException
  * @throws InvariantViolationException
@@ -49,7 +49,7 @@ function element(string $name, array $data): Closure
     $currentNamespace = $namespaces[''] ?? null;
     $namedNamespaces = filter_keys($namespaces ?? []);
 
-    /** @var list<Closure(DOMElement): DOMElement> $children */
+    /** @var list<Closure(\DOM\Element): \DOM\Element> $children */
     $children = filter_nulls([
         $attributes !== null ? attributes($attributes) : null,
         $namedNamespaces ? xmlns_attributes($namedNamespaces) : null,
@@ -59,7 +59,7 @@ function element(string $name, array $data): Closure
             $element,
             /**
              * @param string|array<int|string, array|string> $value
-             * @return Closure(DOMElement): DOMElement
+             * @return Closure(\DOM\Element): \DOM\Element
              */
             static fn (string $name, string|array $value): Closure
                 => parent_node($name, $value)

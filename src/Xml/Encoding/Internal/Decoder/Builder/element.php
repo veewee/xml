@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
-use DOMElement;
+use \DOM\Element;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Dict\filter;
 use function Psl\Dict\merge;
@@ -14,7 +14,7 @@ use function Psl\Dict\merge;
  * @return array<string, string|array>
  * @throws RuntimeException
  */
-function element(DOMElement $element): array
+function element(\DOM\Element $element): array
 {
     $name = name($element);
     $children = grouped_children($element);

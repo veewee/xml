@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
@@ -13,10 +14,9 @@ final class TrimSpacesTest extends TestCase
 {
     public function test_it_can_trim_contents(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::fromXmlString('<hello>    <world />     </hello>')->toUnsafeDocument();
         $configurator = trim_spaces();
         $result = $configurator($doc);
-        $doc->loadXML($xml = '<hello>    <world />     </hello>');
 
         static::assertSame($doc, $result);
         static::assertFalse($doc->preserveWhiteSpace);

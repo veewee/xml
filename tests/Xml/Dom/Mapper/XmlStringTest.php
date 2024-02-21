@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Mapper;
 
-use DOMElement;
+use \DOM\Element;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -31,7 +31,7 @@ final class XmlStringTest extends TestCase
     public function test_it_throws_exception_on_invalid_node(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Expected to find an ownerDocument on provided DOMNode');
-        xml_string()(new DOMElement('hello'));
+        $this->expectExceptionMessage('Expected to find an ownerDocument on provided \DOM\Node');
+        xml_string()(new \DOM\Element('hello'));
     }
 }

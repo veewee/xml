@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding;
 
-use DOMDocument;
+use \DOM\XMLDocument as DOMDocument;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;

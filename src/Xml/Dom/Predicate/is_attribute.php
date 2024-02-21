@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use DOMAttr;
-use DOMNode;
+use \DOM\Attr;
+use \DOM\Node;
 
 /**
- * @psalm-assert-if-true DOMAttr $node
+ * @psalm-assert-if-true \DOM\Attr $node
  */
-function is_attribute(DOMNode $node): bool
+function is_attribute(\DOM\Node $node): bool
 {
-    return $node instanceof DOMAttr;
+    return $node instanceof \DOM\Attr;
 }

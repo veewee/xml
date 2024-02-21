@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use DOMNameSpaceNode;
-use DOMNode;
+use \DOM\NameSpaceNode;
+use \DOM\Node;
 
 /**
- * @psalm-assert-if-true DOMNameSpaceNode $node
+ * @psalm-assert-if-true \DOM\NameSpaceNode $node
  */
-function is_xmlns_attribute(DOMNode|DOMNameSpaceNode $node): bool
+function is_xmlns_attribute(\DOM\Node|\DOM\NameSpaceNode $node): bool
 {
-    return $node instanceof DOMNameSpaceNode;
+    return $node instanceof \DOM\NameSpaceNode;
 }

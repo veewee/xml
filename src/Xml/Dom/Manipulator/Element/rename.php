@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Element;
 
-use DOMAttr;
-use DOMElement;
-use DOMNameSpaceNode;
+use \DOM\Attr;
+use \DOM\Element;
+use \DOM\NameSpaceNode;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\namespaced_element;
@@ -21,7 +21,7 @@ use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
 /**
  * @throws RuntimeException
  */
-function rename(DOMElement $target, string $newQName, ?string $newNamespaceURI = null): DOMElement
+function rename(\DOM\Element $target, string $newQName, ?string $newNamespaceURI = null): \DOM\Element
 {
     $isRootElement = $target === $target->ownerDocument->documentElement;
     $parent = $isRootElement ? $target->ownerDocument : parent_element($target);
@@ -35,7 +35,7 @@ function rename(DOMElement $target, string $newQName, ?string $newNamespaceURI =
     append(...children($target))($newElement);
 
     xmlns_attributes_list($target)->forEach(
-        static function (DOMNameSpaceNode $attribute) use ($target, $newElement): void {
+        static function (\DOM\NameSpaceNode $attribute) use ($target, $newElement): void {
             if (is_default_xmlns_attribute($attribute) || $target->prefix === $attribute->prefix) {
                 return;
             }
@@ -44,7 +44,7 @@ function rename(DOMElement $target, string $newQName, ?string $newNamespaceURI =
     );
 
     attributes_list($target)->forEach(
-        static function (DOMAttr $attribute) use ($newElement): void {
+        static function (\DOM\Attr $attribute) use ($newElement): void {
             $newElement->setAttributeNode($attribute);
         }
     );

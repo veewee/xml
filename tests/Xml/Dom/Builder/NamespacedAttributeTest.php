@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Builder;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\namespaced_attribute;
 
@@ -14,7 +15,7 @@ final class NamespacedAttributeTest extends TestCase
 {
     public function test_it_throws_exception_if_the_attribute_name_is_not_qualified(): void
     {
-        $doc = new DOMDocument();
+        $doc = Document::empty()->toUnsafeDocument();
         $ns = 'https://namespace.com';
 
         $this->expectException(InvalidArgumentException::class);

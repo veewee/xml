@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Validator;
 
-use DOMDocument;
+use \DOM\XMLDocument as DOMDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\Dom\Document;

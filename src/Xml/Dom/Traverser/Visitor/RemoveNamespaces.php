@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser\Visitor;
 
-use DOMNameSpaceNode;
-use DOMNode;
+use \DOM\NameSpaceNode;
+use \DOM\Node;
 use VeeWee\Xml\Dom\Traverser\Action;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Iter\contains;
@@ -14,12 +14,12 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
 final class RemoveNamespaces extends AbstractVisitor
 {
     /**
-     * @var null | callable(DOMNameSpaceNode): bool
+     * @var null | callable(\DOM\NameSpaceNode): bool
      */
     private $filter;
 
     /**
-     * @param null | callable(DOMNameSpaceNode): bool $filter
+     * @param null | callable(\DOM\NameSpaceNode): bool $filter
      */
     public function __construct(
         ?callable $filter = null
@@ -35,14 +35,14 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function prefixed(): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => $node->prefix !== ''
+            static fn (\DOM\NameSpaceNode $node): bool => $node->prefix !== ''
         );
     }
 
     public static function unprefixed(): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => $node->prefix === ''
+            static fn (\DOM\NameSpaceNode $node): bool => $node->prefix === ''
         );
     }
 
@@ -52,7 +52,7 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function byPrefixNames(array $prefixes): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => contains($prefixes, $node->prefix)
+            static fn (\DOM\NameSpaceNode $node): bool => contains($prefixes, $node->prefix)
         );
     }
 
@@ -62,14 +62,14 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function byNamespaceURIs(array $URIs): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => contains($URIs, $node->namespaceURI)
+            static fn (\DOM\NameSpaceNode $node): bool => contains($URIs, $node->namespaceURI)
         );
     }
 
     /**
      * @throws RuntimeException
      */
-    public function onNodeLeave(DOMNode $node): Action
+    public function onNodeLeave(\DOM\Node $node): Action
     {
         if (!is_element($node)) {
             return new Action\Noop();

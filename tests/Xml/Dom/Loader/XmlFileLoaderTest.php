@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Loader;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -16,7 +16,7 @@ final class XmlFileLoaderTest extends TestCase
 
     public function test_it_can_load_xml_file(): void
     {
-        $doc = new DOMDocument();
+        $doc = new \DOM\XMLDocument();
         $xml = '<hello />';
         [$file, $handle] = $this->fillFile($xml);
         $loader = xml_file_loader($file);
@@ -29,7 +29,7 @@ final class XmlFileLoaderTest extends TestCase
 
     public function test_it_can_load_with_options(): void
     {
-        $doc = new DOMDocument();
+        $doc = new \DOM\XMLDocument();
         $xml = '<hello><![CDATA[HELLO]]></hello>';
         [$file, $handle] = $this->fillFile($xml);
         $loader = xml_file_loader($file, LIBXML_NOCDATA);
@@ -42,7 +42,7 @@ final class XmlFileLoaderTest extends TestCase
     
     public function test_it_cannot_load_invalid_xml_file(): void
     {
-        $doc = new DOMDocument();
+        $doc = new \DOM\XMLDocument();
         $xml = '<hello';
         [$file, $handle] = $this->fillFile($xml);
         $loader = xml_file_loader($file);
@@ -56,7 +56,7 @@ final class XmlFileLoaderTest extends TestCase
 
     public function test_it_throws_exception_on_invalid_file(): void
     {
-        $doc = new DOMDocument();
+        $doc = new \DOM\XMLDocument();
         $loader = xml_file_loader('invalid-file');
 
         $this->expectException(RuntimeException::class);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Node;
 
-use DOMNode;
+use \DOM\Node;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Manipulator\Attribute\rename as rename_attribute;
 use function VeeWee\Xml\Dom\Manipulator\Element\rename as rename_element;
@@ -16,7 +16,7 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
  *
  * @throws RuntimeException
  */
-function rename(DOMNode $target, string $newQName, ?string $newNamespaceURI = null): DOMNode
+function rename(\DOM\Node $target, string $newQName, ?string $newNamespaceURI = null): \DOM\Node
 {
     if (is_attribute($target)) {
         return rename_attribute($target, $newQName, $newNamespaceURI);
