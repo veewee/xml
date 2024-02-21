@@ -12,6 +12,7 @@ use function VeeWee\Xml\Dom\Predicate\is_document;
 
 /**
  * @throws InvalidArgumentException
+ * @psalm-suppress RedundantCondition - node->ownerDocument can also be null...
  */
 function detect_document(DOMNode $node): DOMDocument
 {
