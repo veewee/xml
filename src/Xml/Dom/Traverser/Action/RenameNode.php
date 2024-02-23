@@ -12,7 +12,8 @@ use function VeeWee\Xml\Dom\Manipulator\Node\rename;
 final class RenameNode implements Action
 {
     public function __construct(
-        private string $newQName
+        private string $newQName,
+        private ?string $newNamespaceURI = null,
     ) {
     }
 
@@ -21,6 +22,6 @@ final class RenameNode implements Action
      */
     public function __invoke(\DOM\Node $currentNode): void
     {
-        rename($currentNode, $this->newQName);
+        rename($currentNode, $this->newQName, $this->newNamespaceURI);
     }
 }

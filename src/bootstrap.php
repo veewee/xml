@@ -66,6 +66,7 @@
         'Xml\Dom\Manipulator\Node\replace_by_external_node' => __DIR__.'/Xml/Dom/Manipulator/Node/replace_by_external_node.php',
         'Xml\Dom\Manipulator\Node\replace_by_external_nodes' => __DIR__.'/Xml/Dom/Manipulator/Node/replace_by_external_nodes.php',
         'Xml\Dom\Manipulator\Xmlns\rename' => __DIR__.'/Xml/Dom/Manipulator/Xmlns/rename.php',
+        'Xml\Dom\Manipulator\Xmlns\rename_element_namespace' => __DIR__.'/Xml/Dom/Manipulator/Xmlns/rename_element_namespace.php',
         'Xml\Dom\Manipulator\append' => __DIR__.'/Xml/Dom/Manipulator/append.php',
         'Xml\Dom\Mapper\xml_string' => __DIR__.'/Xml/Dom/Mapper/xml_string.php',
         'Xml\Dom\Mapper\xslt_template' => __DIR__.'/Xml/Dom/Mapper/xslt_template.php',

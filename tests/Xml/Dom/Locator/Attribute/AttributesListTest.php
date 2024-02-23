@@ -35,6 +35,8 @@ final class AttributesListTest extends TestCase
         yield [$doc->documentElement, [
             $doc->documentElement->getAttributeNode('attr1'),
             $doc->documentElement->getAttributeNode('attr2'),
+            $doc->documentElement->getAttributeNode('xmlns'),
+            $doc->documentElement->getAttributeNode('xmlns:yo'),
         ]];
         yield [$doc->documentElement->firstElementChild, [
             $doc->documentElement->firstElementChild->getAttributeNode('attr'),

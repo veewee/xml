@@ -896,7 +896,7 @@ This function returns a list of all namespaces that are linked to a specific DOM
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
 
-/** @var NodeList<DOMNameSpaceNode> $namespaces */
+/** @var array<string, string> $namespaces - A lookup of prefix -> namespace */
 $namespaces = linked_namespaces($element);
 ```
 
@@ -908,7 +908,7 @@ This function returns a list of all namespaces that are linked to a specific DOM
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
 
-/** @var NodeList<DOMNameSpaceNode> $namespaces */
+/** @var array<string, string> $namespaces - A lookup of prefix -> namespace */
 $namespaces = recursive_linked_namespaces($element);
 ```
 

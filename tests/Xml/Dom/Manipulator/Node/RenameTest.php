@@ -64,11 +64,14 @@ final class RenameTest extends TestCase
     public function test_it_can_rename_an_element_with_namespace(): void
     {
         $doc = Document::fromXmlString('<hello><item foo="bar" xmlns="http://ok"/></hello>');
-        $node = $doc->xpath(namespaces(['ok' => 'http://ok']))->querySingle('//ok:item');
+        $node = $doc->locateDocumentElement()->firstElementChild;
 
-        $result = rename($node, 'thing');
+        $result = rename($node, 'thing', $node->namespaceURI);
 
-        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello><thing foo="bar" xmlns="http://ok" /></hello>');
+        static::assertXmlStringEqualsXmlString(
+            '<hello><thing foo="bar" xmlns="http://ok" /></hello>',
+            $doc->toXmlString()
+        );
         static::assertSame($doc->xpath(namespaces(['ok' => 'http://ok']))->querySingle('//ok:thing'), $result);
     }
 
@@ -88,7 +91,7 @@ final class RenameTest extends TestCase
         $doc = Document::fromXmlString('<hello><a:item a:foo="bar" xmlns:a="http://ok" xmlns:whatever="http://whatever"/></hello>');
         $node = $doc->xpath(namespaces(['a' => 'http://ok']))->querySingle('//a:item');
 
-        $result = rename($node, 'a:thing');
+        $result = rename($node, 'a:thing', $node->namespaceURI);
 
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello><a:thing a:foo="bar" xmlns:a="http://ok" xmlns:whatever="http://whatever" /></hello>');
         static::assertSame($doc->xpath(namespaces(['a' => 'http://ok']))->querySingle('//a:thing'), $result);
@@ -108,28 +111,28 @@ final class RenameTest extends TestCase
     public function test_it_can_rename_an_element_and_drop_prefix(): void
     {
         $doc = Document::fromXmlString('<hello><a:item a:foo="bar" xmlns:a="http://ok" xmlns:whatever="http://whatever"/></hello>');
-        $node = $doc->xpath(namespaces(['a' => 'http://ok']))->querySingle('//a:item');
+        $node = $doc->locateDocumentElement()->firstElementChild;
 
         $result = rename($node, 'thing');
 
         static::assertSame(
-            $doc->reconfigure(comparable())->toXmlString(),
-            Document::fromXmlString(
-                '<hello><thing xmlns="http://ok" xmlns:a="http://ok" xmlns:whatever="http://whatever" a:foo="bar"/></hello>',
-                comparable()
-            )->toXmlString(),
+            '<hello><thing xmlns:whatever="http://whatever" xmlns:a="http://ok" a:foo="bar"/></hello>',
+            $doc->stringifyDocumentElement(),
         );
-        static::assertSame($doc->xpath(namespaces(['a' => 'http://ok']))->querySingle('//a:thing'), $result);
+        static::assertSame($doc->xpath()->querySingle('thing'), $result);
     }
 
     public function test_it_can_rename_an_element_prefix(): void
     {
         $doc = Document::fromXmlString('<hello><a:item a:foo="bar" xmlns:a="http://ok" xmlns:whatever="http://whatever"/></hello>');
-        $node = $doc->xpath(namespaces(['a' => 'http://ok']))->querySingle('//a:item');
+        $node = $doc->locateDocumentElement()->firstElementChild;
 
-        $result = rename($node, 'b:thing');
+        $result = rename($node, 'b:thing', $node->namespaceURI);
 
-        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello><b:thing xmlns:b="http://ok" xmlns:whatever="http://whatever" b:foo="bar" /></hello>');
+        static::assertSame(
+            '<hello><b:thing xmlns:b="http://ok" xmlns:whatever="http://whatever" b:foo="bar"/></hello>',
+            $doc->stringifyDocumentElement(),
+        );
         static::assertSame($doc->xpath(namespaces(['b' => 'http://ok']))->querySingle('//b:thing'), $result);
     }
 
@@ -151,7 +154,7 @@ final class RenameTest extends TestCase
         $root = $doc->map(document_element());
         $node = $root->getAttributeNode('a:who');
 
-        $result = rename($node, 'a:you');
+        $result = rename($node, 'a:you', $node->namespaceURI);
 
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello a:you="world" xmlns:a="http://a"/>');
         static::assertSame($root->getAttributeNode('a:you'), $result);
@@ -168,7 +171,7 @@ final class RenameTest extends TestCase
         $node = $root->getAttributeNode('a:who');
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unable to rename attribute a:who into b:you');
+        $this->expectExceptionMessage('Namespace Error');
 
         rename($node, 'b:you');
     }
@@ -178,13 +181,10 @@ final class RenameTest extends TestCase
         $doc = Document::fromXmlString('<hello a:who="world" xmlns:a="http://a"/>');
         $root = $doc->map(document_element());
         $node = $root->getAttributeNode('a:who');
-
-        // You'll need to manually rename the namespace
         $ns = $root->getAttributeNode('xmlns:a');
-        remove_namespace($ns, $root);
-        xmlns_attribute('b', $ns->namespaceURI)($root);
 
-        $result = rename($node, 'b:you');
+        rename($ns, 'xmlns:b', $ns->value);
+        $result = rename($node, 'b:you', $node->namespaceURI);
 
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello b:you="world" xmlns:b="http://a"/>');
         static::assertSame($root->getAttributeNode('b:you'), $result);
@@ -223,7 +223,7 @@ final class RenameTest extends TestCase
 
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<goodbye><world /></goodbye>');
         static::assertSame($doc->map(document_element()), $result);
-        static::assertNotSame($root, $result);
+        static::assertSame($root, $result);
     }
 
     public function test_it_can_rename_root_element_with_namespace(): void
@@ -235,7 +235,7 @@ final class RenameTest extends TestCase
 
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<foo:goodbye xmlns:foo="https://foo"><world /></foo:goodbye>');
         static::assertSame($doc->map(document_element()), $result);
-        static::assertNotSame($root, $result);
+        static::assertSame($root, $result);
     }
 
     public function test_it_can_rename_root_element_with_default_namespace(): void
@@ -245,8 +245,8 @@ final class RenameTest extends TestCase
 
         $result = rename($root, 'goodbye', 'https://foo');
 
-        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<goodbye xmlns="https://foo"><world /></goodbye>');
+        static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<goodbye xmlns="https://foo"><world xmlns="" /></goodbye>');
         static::assertSame($doc->map(document_element()), $result);
-        static::assertNotSame($root, $result);
+        static::assertSame($root, $result);
     }
 }

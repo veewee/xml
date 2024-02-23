@@ -11,6 +11,7 @@ use VeeWee\Xml\Dom\Document;
 use function Psl\Dict\merge;
 use function Psl\Iter\reduce;
 use function VeeWee\Xml\Dom\Locator\document_element;
+use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
 use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
 
 final class RecursiveLinkedNamespacesTest extends TestCase
@@ -22,29 +23,36 @@ final class RecursiveLinkedNamespacesTest extends TestCase
                 <item xmlns:world="http://world.com">1</item>
             </root>
         XML;
-        $element = Document::fromXmlString($xml)->locate(document_element());
+        $element = Document::fromXmlString($xml)->locateDocumentElement();
 
-        $parse = static fn (NodeList $list): array => reduce(
-            [...$list],
-            static fn (array $map, \DOM\NameSpaceNode $node) =>  merge($map, [$node->localName => $node->namespaceURI]),
+        static::assertSame(
+            [
+                '' => 'http://hello.com',
+                'world' => 'http://world.com',
+            ],
+            $this->parseRecursiveLinkedNamespaces($element)
+        );
+        static::assertSame(
+            [
+                '' => 'http://hello.com',
+                'world' => 'http://world.com',
+            ],
+            $this->parseRecursiveLinkedNamespaces($element->firstElementChild)
+        );
+    }
+
+    /**
+     * @return array<string, string> - Key : prefix, Value : namespace
+     */
+    private function parseRecursiveLinkedNamespaces(\DOM\Element $element): array
+    {
+        return reduce(
+            recursive_linked_namespaces($element),
+            static fn (array $result, \DOM\NamespaceInfo $info) => merge(
+                $result,
+                [(string) $info->prefix => $info->namespaceURI]
+            ),
             []
-        );
-
-        static::assertSame(
-            [
-                'xml' => 'http://www.w3.org/XML/1998/namespace',
-                'xmlns' => 'http://hello.com',
-                'world' => 'http://world.com',
-            ],
-            $parse(recursive_linked_namespaces($element))
-        );
-        static::assertSame(
-            [
-                'xml' => 'http://www.w3.org/XML/1998/namespace',
-                'xmlns' => 'http://hello.com',
-                'world' => 'http://world.com',
-            ],
-            $parse(recursive_linked_namespaces($element->firstElementChild))
         );
     }
 }
