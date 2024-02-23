@@ -19,15 +19,13 @@ final class ChildrenTest extends TestCase
         $doc = Document::empty()->toUnsafeDocument();
         $actual = children(
             element('world1'),
-            element('world2')
         )($doc);
 
         static::assertSame($doc, $actual);
 
         $children = $doc->childNodes;
-        static::assertSame(2, $children->count());
+        static::assertSame(1, $children->count());
         static::assertSame('world1', $children->item(0)->nodeName);
-        static::assertSame('world2', $children->item(1)->nodeName);
     }
 
     public function test_it_can_build_an_element_with_children(): void

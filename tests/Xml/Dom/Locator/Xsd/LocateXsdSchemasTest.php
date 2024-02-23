@@ -12,7 +12,7 @@ use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_namespaced_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;
 
-final class LocateAllXsdSchemasTest extends TestCase
+final class LocateXsdSchemasTest extends TestCase
 {
     public function test_it_can_locate_namespaced_xsd_schemas(): void
     {

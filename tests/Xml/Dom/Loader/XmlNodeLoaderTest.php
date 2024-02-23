@@ -15,11 +15,10 @@ final class XmlNodeLoaderTest extends TestCase
     public function test_it_can_load_xml_node(): void
     {
         $source = Document::fromXmlString($xml = '<hello />')->toUnsafeDocument();
-        $doc = Document::empty()->toUnsafeDocument();
 
         $loader = xml_node_loader($source->documentElement);
 
-        $loader($doc);
+        $doc = $loader();
         static::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
@@ -27,13 +26,12 @@ final class XmlNodeLoaderTest extends TestCase
     public function test_it_can_not_load_invalid_xml_node(): void
     {
         $source = Document::fromXmlString($xml = '<hello />')->toUnsafeDocument();
-        $doc = Document::empty()->toUnsafeDocument();
 
         $loader = xml_node_loader($source);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
+        $this->expectExceptionMessage('Not Supported Error');
 
-        $loader($doc);
+        $loader();
     }
 }

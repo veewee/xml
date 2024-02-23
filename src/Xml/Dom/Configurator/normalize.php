@@ -13,8 +13,7 @@ use \DOM\XMLDocument;
 function normalize(): Closure
 {
     return static function (\DOM\XMLDocument $document): \DOM\XMLDocument {
-        // TODO : does not exist anmyore
-        // $document->normalizeDocument();
+        $document->normalize();
 
         return $document;
     };

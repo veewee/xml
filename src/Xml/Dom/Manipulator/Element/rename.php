@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Element;
 
-use \DOM\Attr;
-use \DOM\Element;
 use \DOM\NameSpaceNode;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Builder\element;
@@ -44,7 +42,8 @@ function rename(\DOM\Element $target, string $newQName, ?string $newNamespaceURI
     );
 
     attributes_list($target)->forEach(
-        static function (\DOM\Attr $attribute) use ($newElement): void {
+        static function (\DOM\Attr $attribute) use ($target, $newElement): void {
+            $target->removeAttributeNode($attribute);
             $newElement->setAttributeNode($attribute);
         }
     );

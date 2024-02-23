@@ -14,10 +14,7 @@ use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Vec\map;
-use function VeeWee\Xml\Dom\Configurator\loader;
-use function VeeWee\Xml\Dom\Loader\xml_file_loader;
-use function VeeWee\Xml\Dom\Loader\xml_node_loader;
-use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+use function VeeWee\Xml\Dom\Loader;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 use function VeeWee\Xml\Internal\configure;
@@ -47,16 +44,26 @@ final class Document
     }
 
     /**
+     * @param callable(): XMLDocument $loader
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
+     *
+     * @throws RuntimeException
+     */
+    public static function fromLoader(callable $loader, callable ...$configurators): self
+    {
+        return new self(
+            configure(...$configurators)($loader())
+        );
+    }
+
+    /**
      * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
     public static function fromXmlFile(string $file, callable ...$configurators): self
     {
-        return new self(
-            configure(...$configurators)(XMLDocument::createFromFile($file))
-            // TODO : What with loader(xml_file_loader($file))
-        );
+        return self::fromLoader(Loader\xml_file_loader($file), ...$configurators);
     }
 
     /**
@@ -67,10 +74,7 @@ final class Document
      */
     public static function fromXmlString(string $xml, callable ...$configurators): self
     {
-        return new self(
-            configure(...$configurators)(XMLDocument::createFromString($xml))
-           // TODO : What with loader(xml_string_loader($file))
-        );
+        return self::fromLoader(Loader\xml_string_loader($xml), ...$configurators);
     }
 
     /**
@@ -80,10 +84,7 @@ final class Document
      */
     public static function fromXmlNode(\DOM\Node $node, callable ...$configurators): self
     {
-        return self::configure(
-            loader(xml_node_loader($node)),
-            ...$configurators
-        );
+        return self::fromLoader(Loader\xml_node_loader($node), ...$configurators);
     }
 
     /**
@@ -93,9 +94,7 @@ final class Document
      */
     public static function fromUnsafeDocument(XMLDocument $document, callable ...$configurators): self
     {
-        return new self(
-            configure(...$configurators)($document)
-        );
+        return self::fromLoader(static fn () => $document, ...$configurators);
     }
 
     public function toUnsafeDocument(): XMLDocument

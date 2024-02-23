@@ -13,7 +13,7 @@ use \DOM\XMLDocument;
 function utf8(): Closure
 {
     return static function (\DOM\XMLDocument $document): \DOM\XMLDocument {
-        $document->encoding = 'UTF-8';
+        $document->charset = 'UTF-8';
 
         return $document;
     };

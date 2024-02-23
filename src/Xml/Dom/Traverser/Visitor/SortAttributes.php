@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser\Visitor;
 
-use \DOM\Attr;
-use \DOM\Node;
 use VeeWee\Xml\Dom\Traverser\Action;
 use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
-use function VeeWee\Xml\Dom\Manipulator\append;
 use function VeeWee\Xml\Dom\Predicate\is_element;
+use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
 final class SortAttributes extends AbstractVisitor
 {
@@ -23,7 +21,10 @@ final class SortAttributes extends AbstractVisitor
             ->sort(static fn (\DOM\Attr $a, \DOM\Attr $b): int => $a->nodeName <=> $b->nodeName)
             ->forEach(
                 static function (\DOM\Attr $attr) use ($node): void {
-                    append($attr)($node);
+                    disallow_issues(static function () use ($node, $attr) {
+                        $node->removeAttributeNode($attr);
+                        $node->setAttributeNode($attr);
+                    });
                 }
             );
 

@@ -29,8 +29,8 @@ final class SiblingsTest extends TestCase
 
         $siblings = siblings($domdoc->documentElement->firstElementChild);
         static::assertCount(3, $siblings);
-        static::assertSame('1', $siblings->item(0)->nodeValue);
-        static::assertSame('2', $siblings->item(1)->nodeValue);
-        static::assertSame('3', $siblings->item(2)->nodeValue);
+        static::assertSame('1', $siblings->item(0)->textContent);
+        static::assertSame('2', $siblings->item(1)->textContent);
+        static::assertSame('3', $siblings->item(2)->textContent);
     }
 }

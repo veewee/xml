@@ -13,7 +13,8 @@ use \DOM\XMLDocument;
 function pretty_print(): Closure
 {
     return static function (\DOM\XMLDocument $document): \DOM\XMLDocument {
-        $document->preserveWhiteSpace = false;
+        // TODO :  not fully implemented yet in the new API
+        //$document->preserveWhiteSpace = false;
         $document->formatOutput = true;
 
         return $document;
