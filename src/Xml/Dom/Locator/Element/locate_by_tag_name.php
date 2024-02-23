@@ -12,5 +12,5 @@ use VeeWee\Xml\Dom\Collection\NodeList;
  */
 function locate_by_tag_name(\DOM\Element $node, string $tag): NodeList
 {
-    return NodeList::fromDOMNodeList($node->getElementsByTagName($tag));
+    return NodeList::fromDOMHTMLCollection($node->getElementsByTagName($tag));
 }

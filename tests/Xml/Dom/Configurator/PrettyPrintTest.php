@@ -26,7 +26,7 @@ final class PrettyPrintTest extends TestCase
         EOXML;
 
         static::assertSame($doc, $result);
-        static::assertFalse($doc->preserveWhiteSpace);
+        // TODO : static::assertFalse($doc->preserveWhiteSpace);
         static::assertTrue($doc->formatOutput);
         static::assertSame($expected, xml_string()($doc->documentElement));
     }

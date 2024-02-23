@@ -23,6 +23,6 @@ final class ChildrenTest extends TestCase
         static::assertCount(3, $children);
         static::assertSame('world', $children->item(0)->nodeName);
         static::assertSame('moon', $children->item(1)->nodeName);
-        static::assertSame('Comment', $children->item(2)->nodeValue);
+        static::assertSame('Comment', $children->item(2)->textContent);
     }
 }

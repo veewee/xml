@@ -40,7 +40,7 @@ final class ElementTest extends TestCase
 
         static::assertSame('hello', $node->nodeName);
         static::assertSame('hello', $node->localName);
-        static::assertSame('world', $node->nodeValue);
+        static::assertSame('world', $node->textContent);
         static::assertSame($doc, $node->ownerDocument);
     }
 }

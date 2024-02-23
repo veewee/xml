@@ -8,5 +8,5 @@ use \DOM\XMLDocument;
 
 interface Loader
 {
-    public function __invoke(\DOM\XMLDocument $document): void;
+    public function __invoke(): XMLDocument;
 }

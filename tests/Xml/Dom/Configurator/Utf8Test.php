@@ -19,6 +19,6 @@ final class Utf8Test extends TestCase
 
         $result = $configurator($doc);
         static::assertSame($doc, $result);
-        static::assertSame('UTF-8', $doc->encoding);
+        static::assertSame('UTF-8', $doc->charset);
     }
 }

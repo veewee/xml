@@ -18,7 +18,7 @@ final class EscapedValueTest extends TestCase
         $doc = Document::empty()->toUnsafeDocument();
         $node = element('hello', escaped_value('<wor " ld>'))($doc);
 
-        static::assertSame('<wor " ld>', $node->nodeValue);
+        static::assertSame('<wor " ld>', $node->textContent); // TODO : nodeValue did entity substitution
         static::assertSame(xml_string()($node), '<hello>&lt;wor " ld&gt;</hello>');
     }
 }

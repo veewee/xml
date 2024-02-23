@@ -19,7 +19,7 @@ final class TrimSpacesTest extends TestCase
         $result = $configurator($doc);
 
         static::assertSame($doc, $result);
-        static::assertFalse($doc->preserveWhiteSpace);
+        // TODO : static::assertFalse($doc->preserveWhiteSpace);
         static::assertFalse($doc->formatOutput);
         static::assertSame('<hello><world/></hello>', xml_string()($doc->documentElement));
     }

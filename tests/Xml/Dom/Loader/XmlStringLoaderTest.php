@@ -13,33 +13,30 @@ final class XmlStringLoaderTest extends TestCase
 {
     public function test_it_can_load_xml_string(): void
     {
-        $doc = new \DOM\XMLDocument();
         $xml = '<hello />';
         $loader = xml_string_loader($xml);
+        $doc = $loader();
 
-        $loader($doc);
         static::assertXmlStringEqualsXmlString($xml, $doc->saveXML());
     }
 
     public function test_it_can_not_load_invalid_xml_string(): void
     {
-        $doc = new \DOM\XMLDocument();
         $xml = '<hello';
         $loader = xml_string_loader($xml);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Could not load the DOM Document');
+        $this->expectExceptionMessage('XML document is malformed');
 
-        $loader($doc);
+        $loader();
     }
 
     public function test_it_can_load_with_options(): void
     {
-        $doc = new \DOM\XMLDocument();
         $xml = '<hello><![CDATA[HELLO]]></hello>';
         $loader = xml_string_loader($xml, LIBXML_NOCDATA);
+        $doc = $loader();
 
-        $loader($doc);
         static::assertSame('<hello>HELLO</hello>', $doc->saveXML($doc->documentElement));
     }
 }

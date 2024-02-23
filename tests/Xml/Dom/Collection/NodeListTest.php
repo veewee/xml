@@ -120,7 +120,7 @@ final class NodeListTest extends TestCase
     public function test_it_can_map(): void
     {
         $items = $this->loadProducts()->map(
-            static fn (\DOM\Element $element): string => $element->nodeValue
+            static fn (\DOM\Element $element): string => $element->textContent
         );
 
         static::assertSame(
@@ -139,7 +139,7 @@ final class NodeListTest extends TestCase
         $x = new MutableVector([]);
         $this->loadProducts()->forEach(
             static function (\DOM\Element $element) use ($x) : void {
-                $x->add($element->nodeValue);
+                $x->add($element->textContent);
             }
         );
 
@@ -166,11 +166,11 @@ final class NodeListTest extends TestCase
         static::assertSame($all->item(3), $filtered->item(1));
     }
 
-    
+
     public function test_it_can_reduce(): void
     {
         $total = $this->loadPrices()->reduce(
-            static fn (int $total, \DOM\Element $element): int => $total + (int) $element->nodeValue,
+            static fn (int $total, \DOM\Element $element): int => $total + (int) $element->textContent,
             0
         );
 
@@ -189,7 +189,7 @@ final class NodeListTest extends TestCase
         static::assertCount(2, $list);
     }
 
-    
+
     public function test_it_can_query_xpath(): void
     {
         $items = $this->root()->query('./prices/price', identity());
@@ -199,7 +199,7 @@ final class NodeListTest extends TestCase
         }
     }
 
-    
+
     public function test_it_can_evaluate_xpath(): void
     {
         $evaluated = $this->loadPrices()->evaluate('number(.)', Type\int(), identity());
@@ -217,7 +217,7 @@ final class NodeListTest extends TestCase
         static::assertSame([$prices->item(3)], [...$prices->eq(3)]);
         static::assertSame([], [...$prices->eq(4)]);
     }
-    
+
     public function test_it_can_get_first(): void
     {
         $prices = $this->loadPrices();
@@ -282,7 +282,7 @@ final class NodeListTest extends TestCase
         $this->expectExceptionMessage('No last item was found');
         NodeList::empty()->expectFirst('No last item was found');
     }
-    
+
     public function test_it_can_search_ancestors(): void
     {
         $prices = $this->loadPrices();
@@ -331,7 +331,7 @@ final class NodeListTest extends TestCase
     public function test_it_can_sort(): void
     {
         $prices = $this->loadPrices();
-        $sorted = $prices->sort(static fn (\DOM\Node $a, \DOM\Node $b) => $b->nodeValue <=> $a->nodeValue);
+        $sorted = $prices->sort(static fn (\DOM\Node $a, \DOM\Node $b) => $b->textContent <=> $a->textContent);
 
         static::assertSame(
             [

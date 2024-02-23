@@ -19,5 +19,8 @@ use Psl\Type\TypeInterface;
  */
 function value(\DOM\Node $node, TypeInterface $type)
 {
-    return $type->coerce($node->nodeValue);
+    // TODO : nodeValue did entity substitution
+    // TODO : nodeValue returns null for elements
+    // TODO : How to best deal with this?
+    return $type->coerce($node->textContent ?? '');
 }

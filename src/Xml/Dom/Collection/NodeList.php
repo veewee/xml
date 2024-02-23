@@ -60,6 +60,15 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
+     * @param \DOM\HTMLCollection $list
+     * @return NodeList<\DOM\Element>
+     */
+    public static function fromDOMHTMLCollection(\DOM\HTMLCollection $list): self
+    {
+        return new self(...values($list->getIterator()));
+    }
+
+    /**
      * @template X of \DOM\Node
      * @param DOMNodeList<X> $list
      * @return NodeList<X>

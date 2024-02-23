@@ -43,7 +43,7 @@ final class ImportNodeDeeplyTest extends TestCase
         $target = Document::empty()->toUnsafeDocument();
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
+        $this->expectExceptionMessage('Not Supported Error');
         import_node_deeply($target, $source);
     }
 
@@ -57,8 +57,8 @@ final class ImportNodeDeeplyTest extends TestCase
 
         static::assertInstanceOf(\DOM\Element::class, $result);
         static::assertSame('world', $result->nodeName);
-        static::assertSame('myvalue', $result->attributes->getNamedItem('myattrib')->nodeValue);
+        static::assertSame('myvalue', $result->attributes->getNamedItem('myattrib')->textContent);
         static::assertSame('name', $result->firstChild->nodeName);
-        static::assertSame('VeeWee', $result->firstChild->nodeValue);
+        static::assertSame('VeeWee', $result->firstChild->textContent);
     }
 }

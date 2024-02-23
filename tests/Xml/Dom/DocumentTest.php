@@ -58,9 +58,9 @@ final class DocumentTest extends TestCase
         );
 
         $document = $doc->toUnsafeDocument();
-        static::assertFalse($document->preserveWhiteSpace);
+        // TODO : Not implemented yet static::assertFalse($document->preserveWhiteSpace);
         static::assertFalse($document->formatOutput);
-        static::assertSame('UTF-8', $document->encoding);
+        static::assertSame('UTF-8', $document->charset);
         static::assertXmlStringEqualsXmlString($xml, $doc->toXmlString());
     }
 

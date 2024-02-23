@@ -32,7 +32,7 @@ final class ReplaceByExternalNodeTest extends TestCase
         $target = Document::empty()->toUnsafeDocument();
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Could not replace a node without parent node. (\DOM\XMLDocument)');
+        $this->expectExceptionMessage('Could not replace a node without parent node. (DOM\XMLDocument)');
         replace_by_external_node($target, $source);
     }
 

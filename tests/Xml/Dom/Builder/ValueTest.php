@@ -18,7 +18,7 @@ final class ValueTest extends TestCase
         $doc = Document::empty()->toUnsafeDocument();
         $node = element('hello', value('<world>'))($doc);
 
-        static::assertSame('<world>', $node->nodeValue);
+        static::assertSame('<world>', $node->textContent);
         static::assertSame(xml_string()($node), '<hello>&lt;world&gt;</hello>');
     }
 }

@@ -16,8 +16,5 @@ use function VeeWee\Xml\Dom\Predicate\is_document;
  */
 function detect_document(\DOM\Node $node): \DOM\XMLDocument
 {
-    $document = is_document($node) ? $node : $node->ownerDocument;
-    Assert::notNull($document, 'Expected to find an ownerDocument on provided \DOM\Node.');
-
-    return $document;
+    return is_document($node) ? $node : $node->ownerDocument;
 }
