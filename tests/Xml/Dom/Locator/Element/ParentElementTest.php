@@ -34,7 +34,7 @@ final class ParentElementTest extends TestCase
         static::assertSame($hello, $domdoc->documentElement);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Can not find parent element for \DOM\Element hello');
+        $this->expectExceptionMessage('Can not find parent element for DOM\Element hello');
         parent_element($hello);
     }
 }

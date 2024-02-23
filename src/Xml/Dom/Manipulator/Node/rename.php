@@ -18,13 +18,9 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
  */
 function rename(\DOM\Node $target, string $newQName, ?string $newNamespaceURI = null): \DOM\Node
 {
-    if (is_attribute($target)) {
-        return rename_attribute($target, $newQName, $newNamespaceURI);
-    }
-
-    if (is_element($target)) {
-        return rename_element($target, $newQName, $newNamespaceURI);
-    }
-
-    throw RuntimeException::withMessage('Can not rename dom node with type ' . get_class($target));
+    return match(true) {
+        is_attribute($target) => rename_attribute($target, $newQName, $newNamespaceURI),
+        is_element($target) => rename_element($target, $newQName, $newNamespaceURI),
+        default => throw RuntimeException::withMessage('Can not rename dom node with type ' . get_class($target))
+    };
 }

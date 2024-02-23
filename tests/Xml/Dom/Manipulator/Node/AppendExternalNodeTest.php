@@ -33,7 +33,7 @@ final class AppendExternalNodeTest extends TestCase
         $target = Document::empty()->toUnsafeDocument();
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot import node: Node Type Not Supported');
+        $this->expectExceptionMessage('Not Supported Error');
         append_external_node($target, $source);
     }
 

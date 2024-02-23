@@ -6,6 +6,8 @@ namespace VeeWee\Xml\Dom\Traverser\Visitor;
 
 use VeeWee\Xml\Dom\Traverser\Action;
 use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
+use function VeeWee\Xml\Dom\Manipulator\append;
+use function VeeWee\Xml\Dom\Manipulator\Node\remove;
 use function VeeWee\Xml\Dom\Predicate\is_element;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
@@ -22,8 +24,8 @@ final class SortAttributes extends AbstractVisitor
             ->forEach(
                 static function (\DOM\Attr $attr) use ($node): void {
                     disallow_issues(static function () use ($node, $attr) {
-                        $node->removeAttributeNode($attr);
-                        $node->setAttributeNode($attr);
+                        remove($attr);
+                        append($attr)($node);
                     });
                 }
             );

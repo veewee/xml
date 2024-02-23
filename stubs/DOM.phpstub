@@ -509,7 +509,7 @@ namespace
         public function replaceChildren(...$nodes): void {}
     }
 
-    class DOMNodeList implements \IteratorAggregate, \Countable
+    class DOMNodeList implements IteratorAggregate, Countable
     {
         /** @readonly */
         public int $length;
@@ -919,7 +919,7 @@ namespace
         public function splitText(int $offset) {}
     }
 
-    class DOMNamedNodeMap implements \IteratorAggregate, \Countable
+    class DOMNamedNodeMap implements IteratorAggregate, Countable
     {
         /** @readonly */
         public int $length;
@@ -1017,6 +1017,8 @@ namespace
         public function registerPhpFunctions(string|array|null $restrict = null): void {}
 
         public function registerPhpFunctionNS(string $namespaceURI, string $name, callable $callable): void {}
+
+        public static function quote(string $str): string {}
     }
 #endif
 
@@ -1122,6 +1124,19 @@ namespace DOM
         public function replaceWith(Node|string ...$nodes): void;
     }
 
+    /**
+     * @strict-properties
+     * @not-serializable
+     */
+    class Implementation
+    {
+        public function createDocumentType(string $qualifiedName, string $publicId, string $systemId): DocumentType {}
+
+        public function createDocument(?string $namespace, string $qualifiedName, ?DocumentType $doctype = null): XMLDocument {}
+
+        public function createHTMLDocument(?string $title = null): HTMLDocument {}
+    }
+
     /** @strict-properties */
     class Node
     {
@@ -1203,15 +1218,12 @@ namespace DOM
         public function __wakeup(): void {}
     }
 
-    class NodeList implements \IteratorAggregate, \Countable
+    class NodeList implements IteratorAggregate, Countable
     {
         /** @readonly */
         public int $length;
 
-        /**
-         * @tentative-return-type
-         * @implementation-alias DOMNodeList::count
-         */
+        /** @implementation-alias DOMNodeList::count */
         public function count(): int {}
 
         /** @implementation-alias DOMNodeList::getIterator */
@@ -1221,7 +1233,7 @@ namespace DOM
         public function item(int $index): ?Node {}
     }
 
-    class NamedNodeMap implements \IteratorAggregate, \Countable
+    class NamedNodeMap implements IteratorAggregate, Countable
     {
         /** @readonly */
         public int $length;
@@ -1233,17 +1245,14 @@ namespace DOM
         /** @implementation-alias DOMNamedNodeMap::getNamedItemNS */
         public function getNamedItemNS(?string $namespace, string $localName): ?Attr {}
 
-        /**
-         * @tentative-return-type
-         * @implementation-alias DOMNamedNodeMap::count
-         */
+        /** @implementation-alias DOMNamedNodeMap::count */
         public function count(): int {}
 
         /** @implementation-alias DOMNamedNodeMap::getIterator */
         public function getIterator(): \Iterator {}
     }
 
-    class DTDNamedNodeMap implements \IteratorAggregate, \Countable
+    class DTDNamedNodeMap implements IteratorAggregate, Countable
     {
         /** @readonly */
         public int $length;
@@ -1255,17 +1264,14 @@ namespace DOM
         /** @implementation-alias DOMNamedNodeMap::getNamedItemNS */
         public function getNamedItemNS(?string $namespace, string $localName): Entity|Notation|null {}
 
-        /**
-         * @tentative-return-type
-         * @implementation-alias DOMNamedNodeMap::count
-         */
+        /** @implementation-alias DOMNamedNodeMap::count */
         public function count(): int {}
 
         /** @implementation-alias DOMNamedNodeMap::getIterator */
         public function getIterator(): \Iterator {}
     }
 
-    class HTMLCollection implements \IteratorAggregate, \Countable
+    class HTMLCollection implements IteratorAggregate, Countable
     {
         /** @readonly */
         public int $length;
@@ -1275,10 +1281,7 @@ namespace DOM
 
         /* TODO: implement namedItem */
 
-        /**
-         * @tentative-return-type
-         * @implementation-alias DOMNodeList::count
-         */
+        /** @implementation-alias DOMNodeList::count */
         public function count(): int {}
 
         /** @implementation-alias DOMNodeList::getIterator */
@@ -1370,6 +1373,16 @@ namespace DOM
         public function prepend(Node|string ...$nodes): void {}
         /** @implementation-alias DOMElement::replaceChildren */
         public function replaceChildren(Node|string ...$nodes): void {}
+
+        public string $substitutedNodeValue;
+
+        /** @return list<NamespaceInfo> */
+        public function getInScopeNamespaces(): array {}
+
+        /** @return list<NamespaceInfo> */
+        public function getDescendantNamespaces(): array {}
+
+        public function rename(?string $namespaceURI, string $qualifiedName): void {}
     }
 
     class Attr extends Node
@@ -1392,6 +1405,9 @@ namespace DOM
 
         /** @implementation-alias DOMAttr::isId */
         public function isId(): bool {}
+
+        /** @implementation-alias DOM\Element::rename */
+        public function rename(?string $namespaceURI, string $qualifiedName): void {}
     }
 
     class CharacterData extends Node implements ChildNode
@@ -1511,6 +1527,8 @@ namespace DOM
     abstract class Document extends Node implements ParentNode
     {
         /** @readonly */
+        public Implementation $implementation;
+        /** @readonly */
         public string $URL;
         /** @readonly */
         public string $documentURI;
@@ -1594,7 +1612,7 @@ namespace DOM
         /** @implementation-alias DOMDocument::save */
         public function saveXMLFile(string $filename, int $options = 0): int|false {}
 
-        public function saveHTML(?Node $node = null): string|false {}
+        public function saveHTML(?Node $node = null): string {}
 
         public function saveHTMLFile(string $filename): int|false {}
     }
@@ -1631,6 +1649,20 @@ namespace DOM
         public function saveXMLFile(string $filename, int $options = 0): int|false {}
     }
 
+    /**
+     * @not-serializable
+     * @strict-properties
+     */
+    final class NamespaceInfo
+    {
+        public readonly ?string $prefix;
+        public readonly ?string $namespaceURI;
+        public readonly Element $element;
+
+        /** @implementation-alias DOM\Node::__construct */
+        private function __construct() {}
+    }
+
 #ifdef LIBXML_XPATH_ENABLED
     /** @not-serializable */
     final class XPath
@@ -1654,6 +1686,9 @@ namespace DOM
 
         /** @implementation-alias DOMXPath::registerPhpFunctionNS */
         public function registerPhpFunctionNS(string $namespaceURI, string $name, callable $callable): void {}
+
+        /** @implementation-alias DOMXPath::quote */
+        public static function quote(string $str): string {}
     }
 #endif
 

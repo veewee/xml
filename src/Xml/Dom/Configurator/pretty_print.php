@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use \DOM\XMLDocument;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 /**
  * @return Closure(\DOM\XMLDocument): \DOM\XMLDocument
@@ -13,10 +14,15 @@ use \DOM\XMLDocument;
 function pretty_print(): Closure
 {
     return static function (\DOM\XMLDocument $document): \DOM\XMLDocument {
-        // TODO :  not fully implemented yet in the new API
-        //$document->preserveWhiteSpace = false;
-        $document->formatOutput = true;
+        $trimmed = Document::fromLoader(
+            xml_string_loader(
+                Document::fromUnsafeDocument($document)->toXmlString(),
+                LIBXML_NOBLANKS
+            )
+        )->toUnsafeDocument();
 
-        return $document;
+        $trimmed->formatOutput = true;
+
+        return $trimmed;
     };
 }
