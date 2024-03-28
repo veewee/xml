@@ -15,7 +15,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @return Closure(\DOM\XPath): NodeList<\DOM\Node>
  */
-function query(string $query, \DOM\Node $node = null): Closure
+function query(string $query, ?\DOM\Node $node = null): Closure
 {
     return static function (\DOM\XPath $xpath) use ($query, $node): NodeList {
         $node = $node ?? $xpath->document->documentElement;

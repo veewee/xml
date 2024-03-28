@@ -55,5 +55,6 @@ return (new \PhpCsFixer\Config())
         'static_lambda' => true,
         'strict_comparison' => true,
         'strict_param' => true,
+        'nullable_type_declaration_for_default_null_value' => true,
     ])
 ;

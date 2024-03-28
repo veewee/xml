@@ -18,7 +18,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @return Closure(\DOM\XPath): \DOM\Node
  */
-function query_single(string $query, \DOM\Node $node = null): Closure
+function query_single(string $query, ?\DOM\Node $node = null): Closure
 {
     return
         /**
