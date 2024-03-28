@@ -40,7 +40,7 @@ final class OptimizeNamespacesTest extends TestCase
             <<<EOXML
             <foo xmlns:ns1="http://whatever">
                 <bar>
-                    <ns1:baz xmlns:ns1="http://whatever"/>
+                    <ns1:baz/>
                 </bar>
             </foo>
             EOXML,

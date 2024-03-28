@@ -96,7 +96,7 @@ final class ComparableTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:ns1="http://a" xmlns:ns2="http://z" target="universe" version="1.9">
+            <foo target="universe" version="1.9" xmlns:ns1="http://a" xmlns:ns2="http://z">
               <item id="1" sku="jos">Jos</item>
               <item id="2" sku="jaak">Jaak</item>
               <item ns1:sku="jaak" ns2:id="3">Jul</item>
