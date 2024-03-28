@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
-use DOMXPath;
+use \DOM\XPath;
 
 /**
  * @template T
@@ -14,5 +14,5 @@ interface Locator
     /**
      * @return T
      */
-    public function __invoke(DOMXPath $xpath): mixed;
+    public function __invoke(\DOM\XPath $xpath): mixed;
 }

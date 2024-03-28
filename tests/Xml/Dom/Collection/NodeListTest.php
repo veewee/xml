@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Collection;
 
-use DOMAttr;
-use DOMElement;
-use DOMNode;
+use \DOM\Attr;
+use \DOM\Element;
+use \DOM\Node;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psl\Collection\MutableVector;
@@ -66,20 +66,20 @@ final class NodeListTest extends TestCase
         static::assertCount(4, $items);
         static::assertIsIterable($items);
         foreach ($items as $item) {
-            static::assertInstanceOf(DOMElement::class, $item);
+            static::assertInstanceOf(\DOM\Element::class, $item);
         }
     }
 
     public function test_it_can_be_created_typed(): void
     {
         $items = NodeList::typed(
-            DOMElement::class,
+            \DOM\Element::class,
             $items = $this->loadProducts()
         );
 
         static::assertCount(4, $items);
         foreach ($items as $item) {
-            static::assertInstanceOf(DOMElement::class, $item);
+            static::assertInstanceOf(\DOM\Element::class, $item);
         }
     }
 
@@ -87,7 +87,7 @@ final class NodeListTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         NodeList::typed(
-            DOMElement::class,
+            \DOM\Element::class,
             $this->loadProducts()->eq(0)->first()->attributes
         );
     }
@@ -120,7 +120,7 @@ final class NodeListTest extends TestCase
     public function test_it_can_map(): void
     {
         $items = $this->loadProducts()->map(
-            static fn (DOMElement $element): string => $element->nodeValue
+            static fn (\DOM\Element $element): string => $element->textContent
         );
 
         static::assertSame(
@@ -138,8 +138,8 @@ final class NodeListTest extends TestCase
     {
         $x = new MutableVector([]);
         $this->loadProducts()->forEach(
-            static function (DOMElement $element) use ($x) : void {
-                $x->add($element->nodeValue);
+            static function (\DOM\Element $element) use ($x) : void {
+                $x->add($element->textContent);
             }
         );
 
@@ -158,7 +158,7 @@ final class NodeListTest extends TestCase
     {
         $all = $this->loadProducts();
         $filtered = $all->filter(
-            static fn (DOMElement $element): bool => (bool) ((int)($element->getAttribute('id'))%2)
+            static fn (\DOM\Element $element): bool => (bool) ((int)($element->getAttribute('id'))%2)
         );
 
         static::assertCount(2, $filtered);
@@ -166,11 +166,11 @@ final class NodeListTest extends TestCase
         static::assertSame($all->item(3), $filtered->item(1));
     }
 
-    
+
     public function test_it_can_reduce(): void
     {
         $total = $this->loadPrices()->reduce(
-            static fn (int $total, DOMElement $element): int => $total + (int) $element->nodeValue,
+            static fn (int $total, \DOM\Element $element): int => $total + (int) $element->textContent,
             0
         );
 
@@ -180,16 +180,16 @@ final class NodeListTest extends TestCase
     public function test_it_can_detect(): void
     {
         $list = $this->root()->detect(
-            static fn (DOMElement $element) => filter(
+            static fn (\DOM\Element $element) => filter(
                 $element->childNodes,
-                static fn (DOMNode $current) => is_element($current)
+                static fn (\DOM\Node $current) => is_element($current)
             )
         );
 
         static::assertCount(2, $list);
     }
 
-    
+
     public function test_it_can_query_xpath(): void
     {
         $items = $this->root()->query('./prices/price', identity());
@@ -199,7 +199,7 @@ final class NodeListTest extends TestCase
         }
     }
 
-    
+
     public function test_it_can_evaluate_xpath(): void
     {
         $evaluated = $this->loadPrices()->evaluate('number(.)', Type\int(), identity());
@@ -217,7 +217,7 @@ final class NodeListTest extends TestCase
         static::assertSame([$prices->item(3)], [...$prices->eq(3)]);
         static::assertSame([], [...$prices->eq(4)]);
     }
-    
+
     public function test_it_can_get_first(): void
     {
         $prices = $this->loadPrices();
@@ -261,7 +261,7 @@ final class NodeListTest extends TestCase
         $prices = $this->loadPrices();
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected single element, got 2 elements.');
-        $prices->filter(static fn (DOMElement $price): bool => (int)$price->textContent >= 2)->expectSingle('Expected single element, got %s elements.');
+        $prices->filter(static fn (\DOM\Element $price): bool => (int)$price->textContent >= 2)->expectSingle('Expected single element, got %s elements.');
     }
 
     public function test_it_can_get_last(): void
@@ -282,7 +282,7 @@ final class NodeListTest extends TestCase
         $this->expectExceptionMessage('No last item was found');
         NodeList::empty()->expectFirst('No last item was found');
     }
-    
+
     public function test_it_can_search_ancestors(): void
     {
         $prices = $this->loadPrices();
@@ -316,7 +316,7 @@ final class NodeListTest extends TestCase
     public function test_it_can_validate_types(): void
     {
         $prices = $this->loadPrices();
-        $result = $prices->expectAllOfType(DOMElement::class);
+        $result = $prices->expectAllOfType(\DOM\Element::class);
 
         static::assertSame([...$prices], [...$result]);
     }
@@ -325,13 +325,13 @@ final class NodeListTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $prices = $this->loadPrices();
-        $prices->expectAllOfType(DOMAttr::class);
+        $prices->expectAllOfType(\DOM\Attr::class);
     }
 
     public function test_it_can_sort(): void
     {
         $prices = $this->loadPrices();
-        $sorted = $prices->sort(static fn (DOMNode $a, DOMNode $b) => $b->nodeValue <=> $a->nodeValue);
+        $sorted = $prices->sort(static fn (\DOM\Node $a, \DOM\Node $b) => $b->textContent <=> $a->textContent);
 
         static::assertSame(
             [

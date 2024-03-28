@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
 use Closure;
-use DOMNode;
-use DOMNodeList;
-use DOMXPath;
+use \DOM\Node;
+use \DOM\NodeList;
+use \DOM\XPath;
 use InvalidArgumentException;
 use VeeWee\Xml\Exception\RuntimeException;
 use Webmozart\Assert\Assert;
@@ -16,19 +16,19 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return Closure(DOMXPath): DOMNode
+ * @return Closure(\DOM\XPath): \DOM\Node
  */
-function query_single(string $query, DOMNode $node = null): Closure
+function query_single(string $query, ?\DOM\Node $node = null): Closure
 {
     return
         /**
          * @throws InvalidArgumentException
          * @throws RuntimeException
          */
-        static function (DOMXPath $xpath) use ($query, $node): DOMNode {
+        static function (\DOM\XPath $xpath) use ($query, $node): \DOM\Node {
             $node = $node ?? $xpath->document->documentElement;
             $list = disallow_issues(
-                static fn (): DOMNodeList => assert_dom_node_list(
+                static fn (): \DOM\NodeList => assert_dom_node_list(
                     disallow_libxml_false_returns(
                         $xpath->query($query, $node),
                         'Failed querying XPath query: '.$query

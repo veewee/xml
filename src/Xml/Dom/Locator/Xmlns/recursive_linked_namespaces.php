@@ -4,22 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Xmlns;
 
-use DOMNameSpaceNode;
-use DOMNode;
-use InvalidArgumentException;
-use VeeWee\Xml\Dom\Collection\NodeList;
-use VeeWee\Xml\Dom\Xpath;
-use VeeWee\Xml\Exception\RuntimeException;
-
 /**
- * @return NodeList<DOMNameSpaceNode>
- *
- * @throws RuntimeException
- * @throws InvalidArgumentException
+ * @return list<\DOM\NamespaceInfo>
  */
-function recursive_linked_namespaces(DOMNode $node): NodeList
+function recursive_linked_namespaces(\DOM\Element $node): array
 {
-    $xpath = Xpath::fromUnsafeNode($node);
-
-    return $xpath->query('.//namespace::*', $node)->expectAllOfType(DOMNameSpaceNode::class);
+    return $node->getDescendantNamespaces();
 }

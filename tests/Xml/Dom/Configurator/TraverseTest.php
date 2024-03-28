@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
-use DOMNode;
+use \DOM\Node;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Traverser\Action;
@@ -18,7 +18,7 @@ final class TraverseTest extends TestCase
     {
         $doc = Document::fromXmlString('<hello>world</hello>', traverse(
             new class() extends AbstractVisitor {
-                public function onNodeLeave(DOMNode $node): Action
+                public function onNodeLeave(\DOM\Node $node): Action
                 {
                     return is_text($node)
                         ? new Action\RemoveNode()

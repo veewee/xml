@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Loader;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 
 interface Loader
 {
-    public function __invoke(DOMDocument $document): void;
+    public function __invoke(): XMLDocument;
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding;
 
-use DOMDocument;
-use DOMElement;
+use \DOM\XMLDocument as DOMDocument;
+use \DOM\Element;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use function VeeWee\Xml\Dom\Locator\document_element;
@@ -17,7 +17,7 @@ use function VeeWee\Xml\Encoding\Internal\wrap_exception;
  *
  * @throws EncodingException
  */
-function element_decode(DOMElement $element, callable ... $configurators): array
+function element_decode(\DOM\Element $element, callable ... $configurators): array
 {
     return wrap_exception(
         static function () use ($element, $configurators): array {

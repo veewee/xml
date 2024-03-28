@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom;
 
-use DOMNode;
-use DOMXPath;
+use \DOM\Node;
+use \DOM\XPath as DOMXPath;
 use InvalidArgumentException;
 use Psl\Type\TypeInterface;
 use VeeWee\Xml\Dom\Collection\NodeList;
@@ -38,7 +38,7 @@ final class Xpath
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public static function fromUnsafeNode(DOMNode $node, callable ... $configurators): self
+    public static function fromUnsafeNode(\DOM\Node $node, callable ... $configurators): self
     {
         return self::fromDocument(
             Document::fromUnsafeDocument(
@@ -50,7 +50,7 @@ final class Xpath
 
     /**
      * @template T
-     * @param callable(DOMXpath): T $locator
+     * @param callable(DOMXPath): T $locator
      *
      * @return T
      * @throws RuntimeException
@@ -62,9 +62,9 @@ final class Xpath
 
     /**
      * @throws RuntimeException
-     * @return NodeList<DOMNode>
+     * @return NodeList<\DOM\Node>
      */
-    public function query(string $expression, DOMNode $contextNode = null): NodeList
+    public function query(string $expression, ?\DOM\Node $contextNode = null): NodeList
     {
         return $this->locate(query($expression, $contextNode));
     }
@@ -73,7 +73,7 @@ final class Xpath
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function querySingle(string $expression, DOMNode $contextNode = null): DOMNode
+    public function querySingle(string $expression, ?\DOM\Node $contextNode = null): \DOM\Node
     {
         return $this->locate(query_single($expression, $contextNode));
     }
@@ -86,7 +86,7 @@ final class Xpath
      * @return T
      * @throws RuntimeException
      */
-    public function evaluate(string $expression, TypeInterface $type, DOMNode $contextNode = null)
+    public function evaluate(string $expression, TypeInterface $type, ?\DOM\Node $contextNode = null)
     {
         return $this->locate(evaluate($expression, $type, $contextNode));
     }

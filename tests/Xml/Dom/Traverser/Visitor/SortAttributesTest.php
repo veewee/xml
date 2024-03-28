@@ -22,7 +22,7 @@ final class SortAttributesTest extends TestCase
         EOXML;
 
         $expected = <<<EOXML
-        <hello xmlns:a="http/a" xmlns:z="http/z" target="universe" version="1.9">
+        <hello target="universe" version="1.9" xmlns:a="http/a" xmlns:z="http/z">
             <item id="1" sku="jos">Jos</item>
             <item id="2" sku="jaak">Jaak</item>
             <item a:sku="jaak" z:id="3">Jul</item>

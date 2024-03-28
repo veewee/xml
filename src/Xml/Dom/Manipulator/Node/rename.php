@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Node;
 
-use DOMNode;
+use \DOM\Node;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Manipulator\Attribute\rename as rename_attribute;
 use function VeeWee\Xml\Dom\Manipulator\Element\rename as rename_element;
@@ -16,15 +16,11 @@ use function VeeWee\Xml\Dom\Predicate\is_element;
  *
  * @throws RuntimeException
  */
-function rename(DOMNode $target, string $newQName, ?string $newNamespaceURI = null): DOMNode
+function rename(\DOM\Node $target, string $newQName, ?string $newNamespaceURI = null): \DOM\Node
 {
-    if (is_attribute($target)) {
-        return rename_attribute($target, $newQName, $newNamespaceURI);
-    }
-
-    if (is_element($target)) {
-        return rename_element($target, $newQName, $newNamespaceURI);
-    }
-
-    throw RuntimeException::withMessage('Can not rename dom node with type ' . get_class($target));
+    return match(true) {
+        is_attribute($target) => rename_attribute($target, $newQName, $newNamespaceURI),
+        is_element($target) => rename_element($target, $newQName, $newNamespaceURI),
+        default => throw RuntimeException::withMessage('Can not rename dom node with type ' . get_class($target))
+    };
 }

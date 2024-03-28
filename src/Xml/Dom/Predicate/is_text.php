@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use DOMNode;
-use DOMText;
+use \DOM\Node;
+use \DOM\Text;
 
 /**
- * @psalm-assert-if-true DOMText $node
+ * @psalm-assert-if-true \DOM\Text $node
  */
-function is_text(DOMNode $node): bool
+function is_text(\DOM\Node $node): bool
 {
-    return $node instanceof DOMText;
+    return $node instanceof \DOM\Text;
 }

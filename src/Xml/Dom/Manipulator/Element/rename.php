@@ -4,52 +4,31 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Element;
 
-use DOMAttr;
-use DOMElement;
-use DOMNameSpaceNode;
 use VeeWee\Xml\Exception\RuntimeException;
-use function VeeWee\Xml\Dom\Builder\element;
-use function VeeWee\Xml\Dom\Builder\namespaced_element;
-use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
-use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
-use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
-use function VeeWee\Xml\Dom\Locator\Element\parent_element;
-use function VeeWee\Xml\Dom\Locator\Node\children;
-use function VeeWee\Xml\Dom\Manipulator\append;
-use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
+use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
 /**
  * @throws RuntimeException
  */
-function rename(DOMElement $target, string $newQName, ?string $newNamespaceURI = null): DOMElement
+function rename(\DOM\Element $target, string $newQName, ?string $newNamespaceURI = null): \DOM\Element
 {
-    $isRootElement = $target === $target->ownerDocument->documentElement;
-    $parent = $isRootElement ? $target->ownerDocument : parent_element($target);
-    $namespace = $newNamespaceURI ?? $target->namespaceURI;
-    $builder = $namespace !== null
-        ? namespaced_element($namespace, $newQName)
-        : element($newQName);
+    $parts = explode(':', $newQName, 2);
+    $newPrefix = $parts[0] ?? '';
 
-    $newElement = $builder($parent);
+    /*
+     * To make sure the new namespace prefix is being used, we need to apply an additional xmlns declaration chech:
+     * This is due to a particular rule in the XML serialization spec,
+     * that enforces that a namespaceURI on an element is only associated with exactly one prefix.
+     * See the note of bullet point 2 of https://www.w3.org/TR/DOM-Parsing/#dfn-concept-serialize-xml.
+     *
+     * If you rename a:xx to b:xx an xmlns:b="xx" attribute gets added at the end, but prefix a: will still be serialized.
+     * So in this case, we need to remove the xmlns declaration first.
+     */
+    if ($newPrefix && $newPrefix !== $target->prefix && $target->hasAttribute('xmlns:'.$target->prefix)) {
+        $target->removeAttribute('xmlns:'.$target->prefix);
+    }
 
-    append(...children($target))($newElement);
+    disallow_issues(static fn () => $target->rename($newNamespaceURI, $newQName));
 
-    xmlns_attributes_list($target)->forEach(
-        static function (DOMNameSpaceNode $attribute) use ($target, $newElement): void {
-            if (is_default_xmlns_attribute($attribute) || $target->prefix === $attribute->prefix) {
-                return;
-            }
-            xmlns_attribute($attribute->prefix, $attribute->namespaceURI)($newElement);
-        }
-    );
-
-    attributes_list($target)->forEach(
-        static function (DOMAttr $attribute) use ($newElement): void {
-            $newElement->setAttributeNode($attribute);
-        }
-    );
-
-    $parent->replaceChild($newElement, $target);
-
-    return $newElement;
+    return $target;
 }

@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Xsd;
 
-use DOMDocument;
+use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
+use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_namespaced_xsd_schemas;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_no_namespaced_xsd_schemas;
 
-final class LocateAllXsdSchemasTest extends TestCase
+final class LocateXsdSchemasTest extends TestCase
 {
     public function test_it_can_locate_namespaced_xsd_schemas(): void
     {
@@ -27,7 +28,7 @@ final class LocateAllXsdSchemasTest extends TestCase
         );
     }
 
-    
+
     public function test_it_can_locate_no_namespaced_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
@@ -42,7 +43,7 @@ final class LocateAllXsdSchemasTest extends TestCase
         );
     }
 
-    
+
     public function test_it_can_locate_all_xsd_schemas(): void
     {
         $document = $this->loadXsdContainer();
@@ -59,14 +60,11 @@ final class LocateAllXsdSchemasTest extends TestCase
         );
     }
 
-    private function loadXsdContainer(): DOMDocument
+    private function loadXsdContainer(): \DOM\XMLDocument
     {
         $file = FIXTURE_DIR.'/dom/locator/xsd/xsdcontainer.xml';
         static::assertFileExists($file);
 
-        $document = new DOMDocument();
-        $document->load($file);
-
-        return $document;
+        return Document::fromXmlFile($file)->toUnsafeDocument();
     }
 }

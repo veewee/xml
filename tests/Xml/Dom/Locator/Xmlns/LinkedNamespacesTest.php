@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Xmlns;
 
-use DOMNameSpaceNode;
+use \DOM\NameSpaceNode;
 use PHPUnit\Framework\TestCase;
-use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Dom\Document;
 use function Psl\Dict\merge;
 use function Psl\Iter\reduce;
-use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
 
 final class LinkedNamespacesTest extends TestCase
@@ -22,22 +20,36 @@ final class LinkedNamespacesTest extends TestCase
                 <item>1</item>        
             </root>
         XML;
-        $element = Document::fromXmlString($xml)->locate(document_element());
-
-        $parse = static fn (NodeList $list): array => reduce(
-            [...$list],
-            static fn (array $map, DOMNameSpaceNode $node) =>  merge($map, [$node->localName => $node->namespaceURI]),
-            []
-        );
+        $element = Document::fromXmlString($xml)->locateDocumentElement();
 
         static::assertSame(
             [
-                'xml' => 'http://www.w3.org/XML/1998/namespace',
+                '' => 'http://hello.com',
                 'world' => 'http://world.com',
-                'xmlns' => 'http://hello.com',
             ],
-            $parse(linked_namespaces($element))
+            $this->parseLinkedNamespaces($element)
         );
-        static::assertSame([], $parse(linked_namespaces($element->childNodes->item(0))));
+        static::assertSame(
+            [
+                '' => 'http://hello.com',
+                'world' => 'http://world.com',
+            ],
+            $this->parseLinkedNamespaces($element->firstElementChild)
+        );
+    }
+
+    /**
+     * @return array<string, string> - Key : prefix, Value : namespace
+     */
+    private function parseLinkedNamespaces(\DOM\Element $element): array
+    {
+        return reduce(
+            linked_namespaces($element),
+            static fn (array $result, \DOM\NamespaceInfo $info) => merge(
+                $result,
+                [(string) $info->prefix => $info->namespaceURI]
+            ),
+            []
+        );
     }
 }

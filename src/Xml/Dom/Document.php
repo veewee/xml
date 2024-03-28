@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom;
 
 use Closure;
-use DOMDocument;
-use DOMElement;
-use DOMNode;
-use DOMXPath;
+use \DOM\XMLDocument;
+use \DOM\Element;
+use \DOM\Node;
+use \DOM\XPath as DOMXPath;
 use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Vec\map;
-use function VeeWee\Xml\Dom\Configurator\loader;
-use function VeeWee\Xml\Dom\Loader\xml_file_loader;
-use function VeeWee\Xml\Dom\Loader\xml_node_loader;
-use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+use function VeeWee\Xml\Dom\Loader;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 use function VeeWee\Xml\Internal\configure;
@@ -25,87 +22,89 @@ use function VeeWee\Xml\Internal\configure;
 final class Document
 {
     private function __construct(
-        private DOMDocument $document
+        private XMLDocument $document
     ) {
     }
 
     public static function empty(): self
     {
-        return new self(new DOMDocument());
+        return new self(XMLDocument::createEmpty());
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
     public static function configure(callable ... $configurators): self
     {
-        $document = configure(...$configurators)(new DOMDocument());
+        $document = configure(...$configurators)(XMLDocument::createEmpty());
 
         return new self($document);
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param callable(): XMLDocument $loader
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
+     *
+     * @throws RuntimeException
+     */
+    public static function fromLoader(callable $loader, callable ...$configurators): self
+    {
+        return new self(
+            configure(...$configurators)($loader())
+        );
+    }
+
+    /**
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
     public static function fromXmlFile(string $file, callable ...$configurators): self
     {
-        return self::configure(
-            loader(xml_file_loader($file)),
-            ...$configurators
-        );
+        return self::fromLoader(Loader\xml_file_loader($file), ...$configurators);
     }
 
     /**
      * @param non-empty-string $xml
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
     public static function fromXmlString(string $xml, callable ...$configurators): self
     {
-        return self::configure(
-            loader(xml_string_loader($xml)),
-            ...$configurators
-        );
+        return self::fromLoader(Loader\xml_string_loader($xml), ...$configurators);
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromXmlNode(DOMNode $node, callable ...$configurators): self
+    public static function fromXmlNode(\DOM\Node $node, callable ...$configurators): self
     {
-        return self::configure(
-            loader(xml_node_loader($node)),
-            ...$configurators
-        );
+        return self::fromLoader(Loader\xml_node_loader($node), ...$configurators);
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
-    public static function fromUnsafeDocument(DOMDocument $document, callable ...$configurators): self
+    public static function fromUnsafeDocument(XMLDocument $document, callable ...$configurators): self
     {
-        return new self(
-            configure(...$configurators)($document)
-        );
+        return self::fromLoader(static fn () => $document, ...$configurators);
     }
 
-    public function toUnsafeDocument(): DOMDocument
+    public function toUnsafeDocument(): XMLDocument
     {
         return $this->document;
     }
 
     /**
      * @template T
-     * @param callable(DOMDocument): T $locator
+     * @param callable(XMLDocument): T $locator
      *
      * @return T
      */
@@ -114,13 +113,13 @@ final class Document
         return $locator($this->document);
     }
 
-    public function locateDocumentElement(): DOMElement
+    public function locateDocumentElement(): \DOM\Element
     {
         return $this->locate(Locator\document_element());
     }
 
     /**
-     * @param callable(DOMDocument): mixed $manipulator
+     * @param callable(XMLDocument): mixed $manipulator
      *
      * @return $this
      */
@@ -132,9 +131,9 @@ final class Document
     }
 
     /**
-     * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
+     * @param list<callable(XMLDocument): (list<\DOM\Node>|\DOM\Node)> $builders
      *
-     * @return list<DOMNode>
+     * @return list<\DOM\Node>
      */
     public function build(callable ... $builders): array
     {
@@ -145,7 +144,7 @@ final class Document
     }
 
     /**
-     * @param callable(DOMDocument): IssueCollection $validator
+     * @param callable(XMLDocument): IssueCollection $validator
      */
     public function validate(callable $validator): IssueCollection
     {
@@ -162,7 +161,7 @@ final class Document
 
     /**
      * @template T
-     * @param callable(DOMDocument): T $mapper
+     * @param callable(XMLDocument): T $mapper
      *
      * @return T
      */
@@ -172,7 +171,7 @@ final class Document
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
@@ -184,7 +183,7 @@ final class Document
     /**
      * @no-named-arguments
      */
-    public function traverse(Visitor ... $visitors): DOMNode
+    public function traverse(Visitor ... $visitors): \DOM\Node
     {
         $traverser = new Traverser(...$visitors);
         return $traverser->traverse($this->map(document_element()));
@@ -209,7 +208,7 @@ final class Document
     /**
      * @return non-empty-string
      */
-    public function stringifyNode(DOMNode $node): string
+    public function stringifyNode(\DOM\Node $node): string
     {
         return xml_string()($node);
     }

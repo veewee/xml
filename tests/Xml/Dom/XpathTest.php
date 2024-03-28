@@ -47,6 +47,6 @@ final class XpathTest extends TestCase
 
         $result = $xpath->locate(identity());
 
-        static::assertInstanceOf(DOMXPath::class, $result);
+        static::assertInstanceOf(\DOM\XPath::class, $result);
     }
 }

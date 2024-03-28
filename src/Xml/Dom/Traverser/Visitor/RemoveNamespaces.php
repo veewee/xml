@@ -3,23 +3,22 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser\Visitor;
 
-use DOMNameSpaceNode;
-use DOMNode;
 use VeeWee\Xml\Dom\Traverser\Action;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Iter\contains;
-use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
+use function VeeWee\Xml\Dom\Predicate\is_attribute;
 use function VeeWee\Xml\Dom\Predicate\is_element;
+use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
 
 final class RemoveNamespaces extends AbstractVisitor
 {
     /**
-     * @var null | callable(DOMNameSpaceNode): bool
+     * @var null | callable(\DOM\Attr | \DOM\Element): bool
      */
     private $filter;
 
     /**
-     * @param null | callable(DOMNameSpaceNode): bool $filter
+     * @param null | callable(\DOM\Attr): bool $filter
      */
     public function __construct(
         ?callable $filter = null
@@ -35,14 +34,14 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function prefixed(): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => $node->prefix !== ''
+            static fn (\DOM\Attr | \DOM\Element $node): bool => $node->prefix !== null
         );
     }
 
     public static function unprefixed(): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => $node->prefix === ''
+            static fn (\DOM\Attr | \DOM\Element $node): bool => $node->prefix === null
         );
     }
 
@@ -52,7 +51,10 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function byPrefixNames(array $prefixes): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => contains($prefixes, $node->prefix)
+            static fn (\DOM\Attr | \DOM\Element $node): bool => match(true) {
+                is_xmlns_attribute($node) => contains($prefixes, $node->prefix !== null ? $node->localName : ''),
+                default => contains($prefixes, $node->prefix ?? '')
+            }
         );
     }
 
@@ -62,31 +64,56 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function byNamespaceURIs(array $URIs): self
     {
         return new self(
-            static fn (DOMNameSpaceNode $node): bool => contains($URIs, $node->namespaceURI)
+            static fn (\DOM\Attr | \DOM\Element $node): bool => match(true) {
+                is_xmlns_attribute($node) => contains($URIs, $node->value),
+                default => contains($URIs, $node->namespaceURI),
+            }
         );
+    }
+
+    public function onNodeEnter(\DOM\Node $node): Action
+    {
+        if (is_xmlns_attribute($node)) {
+            return new Action\Noop();
+        }
+
+        if (!$this->shouldDealWithNode($node)) {
+            return new Action\Noop();
+        }
+
+        return new Action\RenameNode($node->localName, null);
     }
 
     /**
      * @throws RuntimeException
      */
-    public function onNodeLeave(DOMNode $node): Action
+    public function onNodeLeave(\DOM\Node $node): Action
     {
-        if (!is_element($node)) {
+        if (!is_xmlns_attribute($node)) {
             return new Action\Noop();
         }
 
-        $namespaces = xmlns_attributes_list($node);
-        if ($this->filter !== null) {
-            $namespaces = $namespaces->filter($this->filter);
+        if (!$this->shouldDealWithNode($node)) {
+            return new Action\Noop();
         }
 
-        foreach ($namespaces as $namespace) {
-            $node->removeAttributeNS(
-                $namespace->namespaceURI,
-                $namespace->prefix
-            );
+        return new Action\RemoveNode();
+    }
+
+    private function shouldDealWithNode(\DOM\Node $node): bool
+    {
+        if (!is_element($node) && !is_attribute($node)) {
+            return false;
         }
 
-        return new Action\Noop();
+        if ($node->namespaceURI === null) {
+            return false;
+        }
+
+        if ($this->filter === null) {
+            return true;
+        }
+
+        return ($this->filter)($node);
     }
 }

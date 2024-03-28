@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Builder;
 
 use Closure;
-use DOMElement;
+use \DOM\Element;
 
 /**
- * @return Closure(DOMElement): DOMElement
+ * @return Closure(\DOM\Element): \DOM\Element
  */
 function value(string $value): Closure
 {
-    return static function (DOMElement $node) use ($value): DOMElement {
-        $node->nodeValue = $value;
+    return static function (\DOM\Element $node) use ($value): \DOM\Element {
+        $node->substitutedNodeValue = $value;
 
         return $node;
     };

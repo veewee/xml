@@ -19,7 +19,7 @@ use function VeeWee\Xml\Encoding\xml_encode;
 
 final class EncodingTest extends TestCase
 {
-    private const XML_HEADER = '<?xml version="1.0"?>';
+    private const XML_HEADER = '<?xml version="1.0" encoding="UTF-8"?>';
 
     /**
      * @dataProvider provideBidirectionalCases
@@ -256,15 +256,15 @@ final class EncodingTest extends TestCase
         yield 'namespaced' => [
             'xml' => <<<EOXML
                 <root xmlns="http://rooty.root" xmlns:test="http://testy.test">
-                    <test:item>
+                    <test:item xmlns="">
                         <id:int xmlns:id="http://identity.id">1</id:int>
                     </test:item>
                 </root>
             EOXML,
             'data' => ['root' => [
                 '@namespaces' => [
-                    'test' => 'http://testy.test',
                     '' => 'http://rooty.root',
+                    'test' => 'http://testy.test',
                 ],
                 'test:item' => [
                     'id:int' => [

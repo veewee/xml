@@ -5,17 +5,24 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use DOMDocument;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 /**
- * @return Closure(DOMDocument): DOMDocument
+ * @return Closure(\DOM\XMLDocument): \DOM\XMLDocument
  */
 function pretty_print(): Closure
 {
-    return static function (DOMDocument $document): DOMDocument {
-        $document->preserveWhiteSpace = false;
-        $document->formatOutput = true;
+    return static function (\DOM\XMLDocument $document): \DOM\XMLDocument {
+        $trimmed = Document::fromLoader(
+            xml_string_loader(
+                Document::fromUnsafeDocument($document)->toXmlString(),
+                LIBXML_NOBLANKS
+            )
+        )->toUnsafeDocument();
 
-        return $document;
+        $trimmed->formatOutput = true;
+
+        return $trimmed;
     };
 }

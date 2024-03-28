@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use DOMCdataSection;
-use DOMNode;
+use \DOM\CDATASection;
+use \DOM\Node;
 
 /**
- * @psalm-assert-if-true DOMCdataSection $node
+ * @psalm-assert-if-true \DOM\CDATASection $node
  */
-function is_cdata(DOMNode $node): bool
+function is_cdata(\DOM\Node $node): bool
 {
-    return $node instanceof DOMCdataSection;
+    return $node instanceof \DOM\CDATASection;
 }

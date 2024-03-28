@@ -6,41 +6,30 @@ namespace VeeWee\Tests\Xml\Dom\Manipulator\Xmlns;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
-use VeeWee\Xml\Exception\RuntimeException;
-use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename;
-use function VeeWee\Xml\Dom\Mapper\xml_string;
+use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename_element_namespace;
 
 final class RenameTest extends TestCase
 {
     /**
      * @dataProvider provideXmls
+     * @param callable(): \Dom\Attr $targetLocator
      */
     public function test_it_can_rename_namespaces(string $input, string $expected): void
     {
-        $document = Document::fromXmlString($input)->toUnsafeDocument();
-        rename($document, 'http://replace', 'foo');
+        $document = Document::fromXmlString($input);
+        $target = $document->locateDocumentElement();
+        rename_element_namespace($target, 'http://replace', 'foo');
 
-        $actual = xml_string()($document->documentElement);
+        $actual = $document->stringifyDocumentElement();
         static::assertSame($expected, $actual);
-    }
-
-    
-    public function test_it_can_not_rename_existing_prefix_to_other_uri(): void
-    {
-        $document = Document::fromXmlString('<hello xmlns:ns1="http://ok" />')->toUnsafeDocument();
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot rename the namespace uri http://replace because the prefix ns1 is already linked to uri http://ok');
-        rename($document, 'http://replace', 'ns1');
     }
 
     public function provideXmls()
     {
-        yield 'no-action' => [
-            '<hello/>',
+        yield 'simple' => [
+            '<hello xmlns:replace="http://replace"/>',
             '<hello xmlns:foo="http://replace"/>',
         ];
-
         yield 'namespaced-root-and-child' => [
             <<<EOXML
             <foo xmlns:replace="http://replace">
@@ -52,7 +41,7 @@ final class RenameTest extends TestCase
             <<<EOXML
             <foo xmlns:foo="http://replace">
                 <bar>
-                    <foo:baz xmlns:foo="http://replace"/>
+                    <foo:baz/>
                 </bar>
             </foo>
             EOXML,
@@ -69,7 +58,7 @@ final class RenameTest extends TestCase
             <<<EOXML
             <foo xmlns:foo="http://replace">
                 <bar xmlns:otherns="http://other">
-                    <foo:baz xmlns:foo="http://replace"/>
+                    <foo:baz/>
                 </bar>
             </foo>
             EOXML,
@@ -84,8 +73,8 @@ final class RenameTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:foo="http://replace">
-                <bar>
+            <foo>
+                <bar xmlns:foo="http://replace">
                     <foo:baz/>
                 </bar>
             </foo>
@@ -99,8 +88,8 @@ final class RenameTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:foo="http://replace">
-                <bar foo:abc="jello"/>
+            <foo>
+                <bar xmlns:foo="http://replace" foo:abc="jello"/>
             </foo>
             EOXML,
         ];
@@ -128,7 +117,7 @@ final class RenameTest extends TestCase
             EOXML,
             <<<EOXML
             <foo xmlns:foo="http://replace">
-                <foo:bar xmlns:foo="http://replace">
+                <foo:bar>
                     <foo:child/>
                 </foo:bar>
             </foo>

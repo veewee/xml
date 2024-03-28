@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Node;
 
-use DOMNode;
+use \DOM\Node;
 use Psl\Type\Exception\CoercionException;
 use Psl\Type\TypeInterface;
 
@@ -17,7 +17,7 @@ use Psl\Type\TypeInterface;
  *
  * @throws CoercionException
  */
-function value(DOMNode $node, TypeInterface $type)
+function value(\DOM\Node $node, TypeInterface $type)
 {
-    return $type->coerce($node->nodeValue);
+    return $type->coerce($node->substitutedNodeValue ?? '');
 }

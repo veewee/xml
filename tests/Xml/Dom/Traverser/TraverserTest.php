@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Traverser;
 
-use DOMNode;
+use \DOM\Node;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Traverser\Action;
@@ -29,7 +29,7 @@ final class TraverserTest extends TestCase
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), $actual);
     }
 
-    
+
     public function test_it_can_traverse_single_node(): void
     {
         $doc = Document::fromXmlString($actual = '<hello/>');
@@ -37,7 +37,7 @@ final class TraverserTest extends TestCase
 
         $traverser = new Traverser(
             new class() extends AbstractVisitor {
-                public function onNodeLeave(DOMNode $node): Action
+                public function onNodeLeave(\DOM\Node $node): Action
                 {
                     attribute('who', 'Jos')($node);
                     return new Action\Noop();
@@ -49,19 +49,19 @@ final class TraverserTest extends TestCase
         static::assertXmlStringEqualsXmlString(xml_string()($newRoot), '<hello who="Jos"/>');
     }
 
-    
+
     public function test_it_can_traverse_attributes(): void
     {
         $doc = Document::fromXmlString($actual = '<hello who="world"/>');
         $doc->traverse(
             new class() extends AbstractVisitor {
-                public function onNodeLeave(DOMNode $node): Action
+                public function onNodeLeave(\DOM\Node $node): Action
                 {
                     if (!is_attribute($node)) {
                         return new Action\Noop();
                     }
 
-                    $node->nodeValue = 'Jos';
+                    $node->textContent = 'Jos';
 
                     return new Action\Noop();
                 }
@@ -71,20 +71,20 @@ final class TraverserTest extends TestCase
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello who="Jos"/>');
     }
 
-    
+
     public function test_it_can_traverse_child_nodes(): void
     {
         $doc = Document::fromXmlString($actual = '<hello><item>    <![CDATA[Juw]]>    </item></hello>');
         $doc->traverse(
             new class() extends AbstractVisitor {
-                public function onNodeLeave(DOMNode $node): Action
+                public function onNodeLeave(\DOM\Node $node): Action
                 {
                     if (is_non_empty_text($node)) {
-                        $node->nodeValue = 'Yo';
+                        $node->textContent = 'Yo';
                         return new Action\Noop();
                     }
                     if (is_whitespace($node)) {
-                        $node->nodeValue = '';
+                        $node->textContent = '';
                         return new Action\Noop();
                     }
 
@@ -101,13 +101,13 @@ final class TraverserTest extends TestCase
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello><item type="greeting">Yo</item></hello>');
     }
 
-    
+
     public function test_it_can_handle_node_enter_and_leave(): void
     {
         $doc = Document::fromXmlString($actual = '<hello />');
         $doc->traverse(
             new class() extends AbstractVisitor {
-                public function onNodeEnter(DOMNode $node): Action
+                public function onNodeEnter(\DOM\Node $node): Action
                 {
                     if (!is_element($node)) {
                         return new Action\Noop();
@@ -117,7 +117,7 @@ final class TraverserTest extends TestCase
                     return new Action\Noop();
                 }
 
-                public function onNodeLeave(DOMNode $node): Action
+                public function onNodeLeave(\DOM\Node $node): Action
                 {
                     if (!is_element($node)) {
                         return new Action\Noop();
@@ -132,7 +132,7 @@ final class TraverserTest extends TestCase
         static::assertXmlStringEqualsXmlString($doc->toXmlString(), '<hello enter="yes" leave="yes" />');
     }
 
-    
+
     public function test_it_can_recursively_remove_empty_nodes(): void
     {
         $doc = Document::fromXmlString(
@@ -153,7 +153,7 @@ final class TraverserTest extends TestCase
         );
 
         $transformedNode = $doc->traverse(new class extends AbstractVisitor {
-            public function onNodeLeave(DOMNode $node): Action
+            public function onNodeLeave(\DOM\Node $node): Action
             {
                 if (!is_element($node)) {
                     return new Action\Noop();
