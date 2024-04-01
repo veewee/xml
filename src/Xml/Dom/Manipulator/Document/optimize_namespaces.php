@@ -9,6 +9,7 @@ use function Psl\Dict\unique;
 use function Psl\Vec\map;
 use function Psl\Vec\sort;
 use function Psl\Vec\values;
+use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
 use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
 use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename_element_namespace;
 
@@ -24,6 +25,8 @@ function optimize_namespaces(\DOM\XMLDocument $document, string $prefix = 'ns'):
     )));
 
     foreach (sort($namespaceURIs) as $index => $namespaceURI) {
+        $currentPrefix = $prefix . ((string) ($index+1));
+        xmlns_attribute($currentPrefix, $namespaceURI)($documentElement);
         rename_element_namespace($documentElement, $namespaceURI, $prefix . ((string) ($index+1)));
     }
 }

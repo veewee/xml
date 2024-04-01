@@ -52,7 +52,7 @@ final class OptimizeNamespacesTest extends TestCase
             </schema>
             EOXML,
             <<<EOXML
-            <ns1:schema xmlns:ns1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soapinterop.org/store1">
+            <ns1:schema targetNamespace="http://soapinterop.org/store1" xmlns:ns1="http://www.w3.org/2001/XMLSchema">
                 <ns1:include schemaLocation="./store1.xsd"/>
             </ns1:schema>
             EOXML,
@@ -64,7 +64,7 @@ final class OptimizeNamespacesTest extends TestCase
             </schema>
             EOXML,
             <<<EOXML
-            <ns1:schema xmlns:ns1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soapinterop.org/store1">
+            <ns1:schema targetNamespace="http://soapinterop.org/store1" xmlns:ns1="http://www.w3.org/2001/XMLSchema">
                 <ns1:include schemaLocation="./store1.xsd"/>
             </ns1:schema>
             EOXML,

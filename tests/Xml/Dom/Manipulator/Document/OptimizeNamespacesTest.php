@@ -106,7 +106,7 @@ final class OptimizeNamespacesTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:ns1="http://a" xmlns:ns2="http://z" version="1.9" target="universe">
+            <foo version="1.9" target="universe" xmlns:ns1="http://a" xmlns:ns2="http://z">
                 <item id="1" sku="jos">Jos</item>
                 <item sku="jaak" id="2">Jaak</item>
                 <item ns1:sku="jaak" ns2:id="3">Jul</item>
