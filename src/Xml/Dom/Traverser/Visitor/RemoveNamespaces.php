@@ -18,7 +18,7 @@ final class RemoveNamespaces extends AbstractVisitor
     private $filter;
 
     /**
-     * @param null | callable(\DOM\Attr): bool $filter
+     * @param null | callable(\DOM\Attr | \DOM\Element): bool $filter
      */
     public function __construct(
         ?callable $filter = null
@@ -81,6 +81,7 @@ final class RemoveNamespaces extends AbstractVisitor
             return new Action\Noop();
         }
 
+        /** @var \DOM\Element | \DOM\Attr $node */
         return new Action\RenameNode($node->localName, null);
     }
 

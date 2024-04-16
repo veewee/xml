@@ -18,6 +18,9 @@ function rename(\DOM\Attr $target, string $newQName, ?string $newNamespaceURI = 
 {
     return disallow_issues(static fn (): \DOM\Attr => match(true) {
         is_xmlns_attribute($target) => rename_xmlns_attribute($target, $newQName),
-        default => tap(fn () => $target->rename($newNamespaceURI, $newQName))($target)
+        default => (function() use ($target, $newNamespaceURI, $newQName): \DOM\Attr {
+            $target->rename($newNamespaceURI, $newQName);
+            return $target;
+        })()
     });
 }

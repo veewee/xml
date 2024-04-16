@@ -22,7 +22,7 @@ function namespaces(\DOM\Element $element): array
             static fn (array $namespaces, \DOM\Attr $node)
                 => $node->value
                     ? merge($namespaces, [
-                        ($node->prefix ? $node->localName : '') => $node->value
+                        ($node->prefix !== null ? $node->localName : '') => $node->value
                     ])
                     : $namespaces,
             []

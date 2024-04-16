@@ -10,6 +10,7 @@ use function Psl\Vec\map;
 use function Psl\Vec\sort;
 use function Psl\Vec\values;
 use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
+use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
 use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename_element_namespace;
 
@@ -18,10 +19,10 @@ use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename_element_namespace;
  */
 function optimize_namespaces(\DOM\XMLDocument $document, string $prefix = 'ns'): void
 {
-    $documentElement = $document->documentElement;
+    $documentElement = document_element()($document);
     $namespaceURIs = values(unique(map(
         recursive_linked_namespaces($documentElement),
-        static fn (\DOM\NamespaceInfo $info): string => $info->namespaceURI
+        static fn (\DOM\NamespaceInfo $info): string => $info->namespaceURI ?? ''
     )));
 
     foreach (sort($namespaceURIs) as $index => $namespaceURI) {

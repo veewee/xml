@@ -20,5 +20,9 @@ function elements_with_namespaced_tagname(string $namespace, string $localTagNam
          * @return NodeList<\DOM\Element>
          */
         static fn (\DOM\XMLDocument $document): NodeList
-            => locate_by_namespaced_tag_name($document->documentElement, $namespace, $localTagName);
+            => locate_by_namespaced_tag_name(
+                document_element()($document),
+                $namespace,
+                $localTagName
+            );
 }

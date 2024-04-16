@@ -129,5 +129,29 @@ final class OptimizeNamespacesTest extends TestCase
             </ns1:foo>
             EOXML,
         ];
+        yield 'only-inline-namespace' => [
+            <<<EOXML
+            <foo xmlns="http://whatever">
+                <bar />
+            </foo>
+            EOXML,
+            <<<EOXML
+            <ns1:foo xmlns:ns1="http://whatever">
+                <ns1:bar/>
+            </ns1:foo>
+            EOXML,
+        ];
+        yield 'empty-namespace' => [
+            <<<EOXML
+            <foo xmlns="">
+                <bar />
+            </foo>
+            EOXML,
+            <<<EOXML
+            <foo xmlns="">
+                <bar/>
+            </foo>
+            EOXML,
+        ];
     }
 }

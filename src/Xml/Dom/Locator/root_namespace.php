@@ -12,5 +12,5 @@ use \DOM\XMLDocument;
  */
 function root_namespace_uri(): Closure
 {
-    return static fn (\DOM\XMLDocument $document): ?string => $document->documentElement->namespaceURI;
+    return static fn (\DOM\XMLDocument $document): ?string => document_element()($document)->namespaceURI;
 }

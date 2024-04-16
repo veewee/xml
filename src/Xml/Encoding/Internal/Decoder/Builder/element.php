@@ -22,7 +22,7 @@ function element(\DOM\Element $element): array
     $namespaces = namespaces($element);
 
     if (!count($children) && !count($attributes) && !count($namespaces)) {
-        return [$name => $element->textContent];
+        return [$name => $element->textContent ?? ''];
     }
 
     return [
@@ -30,7 +30,7 @@ function element(\DOM\Element $element): array
             merge(
                 $namespaces,
                 $attributes,
-                $children ?: ['@value' => $element->textContent]
+                $children ?: ['@value' => $element->textContent ?? '']
             ),
             static fn (mixed $data): bool => $data !== []
         )

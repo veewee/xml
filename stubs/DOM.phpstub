@@ -1027,6 +1027,9 @@ namespace
 
 namespace DOM
 {
+
+    use Psl\Iter\Iterator;
+
     /**
      * @var int
      * @cvalue INDEX_SIZE_ERR
@@ -1163,7 +1166,10 @@ namespace DOM
         public ?Element $parentElement;
         /** @implementation-alias DOMNode::hasChildNodes */
         public function hasChildNodes(): bool {}
-        /** @readonly */
+        /**
+         * @readonly
+         * @var NodeList<Node>
+         */
         public NodeList $childNodes;
         /** @readonly */
         public ?Node $firstChild;
@@ -1218,7 +1224,11 @@ namespace DOM
         public function __wakeup(): void {}
     }
 
-    class NodeList implements IteratorAggregate, Countable
+    /**
+     * @template-covariant TNode as \DOM\Node
+     * @template-implements \IteratorAggregate<int, TNode>
+     */
+    class NodeList implements \IteratorAggregate, \Countable
     {
         /** @readonly */
         public int $length;
@@ -1226,14 +1236,23 @@ namespace DOM
         /** @implementation-alias DOMNodeList::count */
         public function count(): int {}
 
-        /** @implementation-alias DOMNodeList::getIterator */
+        /**
+         * @implementation-alias DOMNodeList::getIterator
+         * @psalm-return iterable<int, TNode>
+         */
         public function getIterator(): \Iterator {}
 
-        /** @implementation-alias DOMNodeList::item */
+        /**
+         * @implementation-alias DOMNodeList::item
+         * @psalm-return TNode
+         */
         public function item(int $index): ?Node {}
     }
 
-    class NamedNodeMap implements IteratorAggregate, Countable
+    /**
+     * @implements \IteratorAggregate<array-key, \DOM\Attr>
+     */
+    class NamedNodeMap implements \IteratorAggregate, \Countable
     {
         /** @readonly */
         public int $length;
@@ -1248,11 +1267,14 @@ namespace DOM
         /** @implementation-alias DOMNamedNodeMap::count */
         public function count(): int {}
 
-        /** @implementation-alias DOMNamedNodeMap::getIterator */
+        /**
+         * @implementation-alias DOMNamedNodeMap::getIterator
+         * @psalm-return iterable<array-key, \DOM\Attr>
+         */
         public function getIterator(): \Iterator {}
     }
 
-    class DTDNamedNodeMap implements IteratorAggregate, Countable
+    class DTDNamedNodeMap implements \IteratorAggregate, \Countable
     {
         /** @readonly */
         public int $length;
@@ -1271,7 +1293,10 @@ namespace DOM
         public function getIterator(): \Iterator {}
     }
 
-    class HTMLCollection implements IteratorAggregate, Countable
+    /**
+     * @implements \IteratorAggregate<array-key, \DOM\Element>
+     */
+    class HTMLCollection implements \IteratorAggregate, \Countable
     {
         /** @readonly */
         public int $length;
@@ -1284,7 +1309,10 @@ namespace DOM
         /** @implementation-alias DOMNodeList::count */
         public function count(): int {}
 
-        /** @implementation-alias DOMNodeList::getIterator */
+        /**
+         * @implementation-alias DOMNodeList::getIterator
+         * @psalm-return iterable<array-key, \DOM\Element>
+         */
         public function getIterator(): \Iterator {}
     }
 
@@ -1528,9 +1556,7 @@ namespace DOM
     {
         /** @readonly */
         public Implementation $implementation;
-        /** @readonly */
         public string $URL;
-        /** @readonly */
         public string $documentURI;
         public string $characterSet;
         public string $charset;

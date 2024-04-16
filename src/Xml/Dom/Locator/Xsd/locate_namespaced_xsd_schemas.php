@@ -10,6 +10,7 @@ use VeeWee\Xml\Xmlns\Xmlns;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function Psl\Regex\split;
+use function VeeWee\Xml\Dom\Locator\document_element;
 
 /**
  * @throws RuntimeException
@@ -17,15 +18,15 @@ use function Psl\Regex\split;
 function locate_namespaced_xsd_schemas(\DOM\XMLDocument $document): SchemaCollection
 {
     $schemaNs = Xmlns::xsi()->value();
-    $attributes = $document->documentElement->attributes;
+    $documentElement = document_element()($document);
+    $attributes = $documentElement->attributes;
     $collection = new SchemaCollection();
 
     if (!$schemaLocation = $attributes->getNamedItemNS($schemaNs, 'schemaLocation')) {
         return $collection;
     }
 
-    /** @psalm-suppress MissingThrowsDocblock - Covered the runtime exception! */
-    $parts = split(trim($schemaLocation->textContent), '/\s+/');
+    $parts = split(trim($schemaLocation->textContent ?? ''), '/\s+/');
     $partsCount = count($parts);
     for ($k = 0; $k < $partsCount; $k += 2) {
         $collection = $collection->add(Schema::withNamespace($parts[$k], $parts[$k + 1]));

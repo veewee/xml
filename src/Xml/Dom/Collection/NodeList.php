@@ -8,7 +8,7 @@ use Countable;
 use \DOM\Element;
 use \DOM\Node;
 use \DOM\NodeList as DOMNodeList;
-use DOMXpath as DOMXpath;
+use \DOM\XPath as DOMXPath;
 use Generator;
 use InvalidArgumentException;
 use IteratorAggregate;
@@ -193,7 +193,7 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @param list<callable(DOMXpath): DOMXpath> $configurators
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      * @throws RuntimeException
      * @return NodeList<\DOM\Node>
      */
@@ -211,7 +211,7 @@ final class NodeList implements Countable, IteratorAggregate
 
     /**
      * @template X
-     * @param list<callable(DOMXpath): DOMXpath> $configurators
+     * @param list<callable(DOMXPath): DOMXPath> $configurators
      * @param TypeInterface<X> $type
      * @return list<X>
      */

@@ -13,6 +13,7 @@ jobs:
             matrix:
                 operating-system: [ubuntu-latest]
                 php-versions: ['8.4']
+                composer-options: ['--ignore-platform-req=php+']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
         steps:

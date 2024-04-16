@@ -20,5 +20,8 @@ function elements_with_tagname(string $tagName): Closure
          * @return NodeList<\DOM\Element>
          */
         static fn (\DOM\XMLDocument $document): NodeList
-            => locate_by_tag_name($document->documentElement, $tagName);
+            => locate_by_tag_name(
+                document_element()($document),
+                $tagName
+            );
 }
