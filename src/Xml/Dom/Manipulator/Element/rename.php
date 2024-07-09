@@ -10,7 +10,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 /**
  * @throws RuntimeException
  */
-function rename(\DOM\Element $target, string $newQName, ?string $newNamespaceURI = null): \DOM\Element
+function rename(\Dom\Element $target, string $newQName, ?string $newNamespaceURI = null): \Dom\Element
 {
     $parts = explode(':', $newQName, 2);
     $newPrefix = $parts[0] ?? '';

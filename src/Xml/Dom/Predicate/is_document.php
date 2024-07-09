@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use \DOM\XMLDocument;
-use \DOM\Node;
+use \Dom\XMLDocument;
+use \Dom\Node;
 
 /**
- * @psalm-assert-if-true \DOM\XMLDocument $node
+ * @psalm-assert-if-true \Dom\XMLDocument $node
  */
-function is_document(\DOM\Node $node): bool
+function is_document(\Dom\Node $node): bool
 {
-    return $node instanceof \DOM\XMLDocument;
+    return $node instanceof \Dom\XMLDocument;
 }

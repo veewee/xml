@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Loader;
 
-use \DOM\XMLDocument;
+use \Dom\XMLDocument;
 
 interface Loader
 {

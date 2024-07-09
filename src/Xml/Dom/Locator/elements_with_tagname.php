@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Locator;
 
 use Closure;
-use \DOM\XMLDocument;
-use \DOM\Element;
+use \Dom\XMLDocument;
+use \Dom\Element;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Element\locate_by_tag_name;
 
 /**
- * @return Closure(\DOM\XMLDocument): NodeList<\DOM\Element>
+ * @return Closure(\Dom\XMLDocument): NodeList<\Dom\Element>
  */
 function elements_with_tagname(string $tagName): Closure
 {
     return
         /**
-         * @return NodeList<\DOM\Element>
+         * @return NodeList<\Dom\Element>
          */
-        static fn (\DOM\XMLDocument $document): NodeList
+        static fn (\Dom\XMLDocument $document): NodeList
             => locate_by_tag_name(
                 document_element()($document),
                 $tagName

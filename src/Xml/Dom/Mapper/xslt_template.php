@@ -6,7 +6,7 @@ namespace VeeWee\Xml\Dom\Mapper;
 
 use Closure;
 use VeeWee\Xml\Dom\Document;
-use DOM\XMLDocument;
+use Dom\XMLDocument;
 use VeeWee\Xml\Xslt\Processor;
 use XSLTProcessor;
 

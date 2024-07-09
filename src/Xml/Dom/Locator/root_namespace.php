@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Locator;
 
 use Closure;
-use \DOM\XMLDocument;
+use \Dom\XMLDocument;
 
 /**
- * @return Closure(\DOM\XMLDocument): ?string
+ * @return Closure(\Dom\XMLDocument): ?string
  */
 function root_namespace_uri(): Closure
 {
-    return static fn (\DOM\XMLDocument $document): ?string => document_element()($document)->namespaceURI;
+    return static fn (\Dom\XMLDocument $document): ?string => document_element()($document)->namespaceURI;
 }

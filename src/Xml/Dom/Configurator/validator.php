@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use \DOM\XMLDocument;
+use \Dom\XMLDocument;
 use VeeWee\Xml\ErrorHandling\Issue\Issue;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
 use VeeWee\Xml\Exception\RuntimeException;
 
 /**
- * @param callable(\DOM\XMLDocument): IssueCollection $validator
+ * @param callable(\Dom\XMLDocument): IssueCollection $validator
  *
- * @return Closure(\DOM\XMLDocument): \DOM\XMLDocument
+ * @return Closure(\Dom\XMLDocument): \Dom\XMLDocument
  */
 function validator(callable $validator, ?Level $minimumLevel = null): Closure
 {
@@ -24,7 +24,7 @@ function validator(callable $validator, ?Level $minimumLevel = null): Closure
         /**
          * @throws RuntimeException
          */
-        static function (\DOM\XMLDocument $document) use ($validator, $minimumLevel): \DOM\XMLDocument {
+        static function (\Dom\XMLDocument $document) use ($validator, $minimumLevel): \Dom\XMLDocument {
             $issues = $validator($document)
                 ->filter(static fn (Issue  $issue): bool => $issue->level()->value() >= $minimumLevel->value());
 

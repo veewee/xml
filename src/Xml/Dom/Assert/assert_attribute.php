@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Assert;
 
-use \DOM\Attr;
+use \Dom\Attr;
 use Psl\Type\Exception\AssertException;
 use function Psl\Type\instance_of;
 
 /**
- * @psalm-assert \DOM\Element $node
+ * @psalm-assert \Dom\Element $node
  * @throws AssertException
  */
-function assert_attribute(mixed $node): \DOM\Attr
+function assert_attribute(mixed $node): \Dom\Attr
 {
-    return instance_of(\DOM\Attr::class)->assert($node);
+    return instance_of(\Dom\Attr::class)->assert($node);
 }

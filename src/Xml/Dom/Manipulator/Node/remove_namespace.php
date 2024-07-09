@@ -11,13 +11,13 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @throws RuntimeException
  */
-function remove_namespace(\DOM\Attr $target, \DOM\Element $parent): \DOM\Attr
+function remove_namespace(\Dom\Attr $target, \Dom\Element $parent): \Dom\Attr
 {
     return disallow_issues(
         /**
          * @throws RuntimeException
          */
-        static function () use ($target, $parent): \DOM\Attr {
+        static function () use ($target, $parent): \Dom\Attr {
             disallow_libxml_false_returns(
                 $parent->removeAttributeNode($target),
                 'Could not remove xmlns attribute from dom element'

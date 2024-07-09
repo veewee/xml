@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Configurator;
 
-use \DOM\XMLDocument;
+use \Dom\XMLDocument;
 
 interface Configurator
 {
-    public function __invoke(\DOM\XMLDocument $document): \DOM\XMLDocument;
+    public function __invoke(\Dom\XMLDocument $document): \Dom\XMLDocument;
 }

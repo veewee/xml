@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use Closure;
-use \DOM\Element;
+use \Dom\Element;
 use function Psl\Dict\map;
 use function VeeWee\Xml\Dom\Builder\children as buildChildren;
 use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
@@ -16,7 +16,7 @@ use function VeeWee\Xml\Dom\Builder\value;
  *
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @return Closure(\DOM\Element): \DOM\Element
+ * @return Closure(\Dom\Element): \Dom\Element
  */
 function children(string $name, array $children): Closure
 {
@@ -24,7 +24,7 @@ function children(string $name, array $children): Closure
         ...map(
             $children,
             /**
-             * @return Closure(\DOM\Element): \DOM\Element
+             * @return Closure(\Dom\Element): \Dom\Element
              */
             static fn (array|string $data): Closure => is_array($data)
                 ? element($name, $data)

@@ -11,9 +11,9 @@ use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
 /**
  * @throws RuntimeException
  */
-function copy_named_xmlns_attributes(\DOM\Element $target, \DOM\Element $source): void
+function copy_named_xmlns_attributes(\Dom\Element $target, \Dom\Element $source): void
 {
-    xmlns_attributes_list($source)->forEach(static function (\DOM\Attr $xmlns) use ($target) {
+    xmlns_attributes_list($source)->forEach(static function (\Dom\Attr $xmlns) use ($target) {
         if ($xmlns->prefix !== null && !$target->hasAttribute($xmlns->nodeName)) {
             xmlns_attribute($xmlns->localName, $xmlns->value)($target);
         }

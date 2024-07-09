@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser\Action;
 
-use \DOM\Node;
+use \Dom\Node;
 use VeeWee\Xml\Dom\Traverser\Action;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Manipulator\Node\rename;
@@ -20,7 +20,7 @@ final class RenameNode implements Action
     /**
      * @throws RuntimeException
      */
-    public function __invoke(\DOM\Node $currentNode): void
+    public function __invoke(\Dom\Node $currentNode): void
     {
         rename($currentNode, $this->newQName, $this->newNamespaceURI);
     }

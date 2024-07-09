@@ -17,12 +17,12 @@ use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename_element_namespace;
 /**
  * @throws RuntimeException
  */
-function optimize_namespaces(\DOM\XMLDocument $document, string $prefix = 'ns'): void
+function optimize_namespaces(\Dom\XMLDocument $document, string $prefix = 'ns'): void
 {
     $documentElement = document_element()($document);
     $namespaceURIs = values(unique(map(
         recursive_linked_namespaces($documentElement),
-        static fn (\DOM\NamespaceInfo $info): string => $info->namespaceURI ?? ''
+        static fn (\Dom\NamespaceInfo $info): string => $info->namespaceURI ?? ''
     )));
 
     foreach (sort($namespaceURIs) as $index => $namespaceURI) {

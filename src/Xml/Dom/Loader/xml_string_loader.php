@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Loader;
 
 use Closure;
-use \DOM\XMLDocument;
+use \Dom\XMLDocument;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
 /**

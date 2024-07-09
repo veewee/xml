@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Element;
 
-use \DOM\Element;
-use \DOM\Node;
+use \Dom\Element;
+use \Dom\Node;
 use Generator;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Predicate\is_element;
 
 /**
- * @return NodeList<\DOM\Element>
+ * @return NodeList<\Dom\Element>
  */
-function ancestors(\DOM\Node $node): NodeList
+function ancestors(\Dom\Node $node): NodeList
 {
     return new NodeList(
         ...(
             /**
-             * @return Generator<int, \DOM\Element>
+             * @return Generator<int, \Dom\Element>
              */
-            static function (\DOM\Node $next) {
+            static function (\Dom\Node $next) {
                 while (($parent = $next->parentNode) !== null) {
                     if (is_element($parent)) {
                         yield $parent;

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Assert;
 
-use \DOM\CDATASection;
+use \Dom\CDATASection;
 use Psl\Type\Exception\AssertException;
 use function Psl\Type\instance_of;
 
 /**
- * @psalm-assert \DOM\CDATASection $node
+ * @psalm-assert \Dom\CDATASection $node
  * @throws AssertException
  */
-function assert_cdata(mixed $node): \DOM\CDATASection
+function assert_cdata(mixed $node): \Dom\CDATASection
 {
-    return instance_of(\DOM\CDATASection::class)->assert($node);
+    return instance_of(\Dom\CDATASection::class)->assert($node);
 }

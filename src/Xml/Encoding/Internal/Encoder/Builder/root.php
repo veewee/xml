@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use Closure;
-use \DOM\XMLDocument;
-use \DOM\Node;
+use \Dom\XMLDocument;
+use \Dom\Node;
 use Psl\Exception\InvariantViolationException;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use function Psl\Dict\map_with_key;
@@ -14,7 +14,7 @@ use function VeeWee\Xml\Dom\Builder\nodes;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding
- * @return Closure(\DOM\XMLDocument): list<\DOM\Node>
+ * @return Closure(\Dom\XMLDocument): list<\Dom\Node>
  *
  * @throws EncodingException
  * @throws InvariantViolationException

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Locator\Xmlns;
 
 /**
- * @return list<\DOM\NamespaceInfo>
+ * @return list<\Dom\NamespaceInfo>
  */
-function linked_namespaces(\DOM\Element $node): array
+function linked_namespaces(\Dom\Element $node): array
 {
     return $node->getInScopeNamespaces();
 }

@@ -11,7 +11,7 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 /**
  * @throws RuntimeException
  */
-function rename(\DOM\Attr $target, string $newQName): \DOM\Attr
+function rename(\Dom\Attr $target, string $newQName): \Dom\Attr
 {
     disallow_issues(static fn () => $target->rename(Xmlns::xmlns()->value(), $newQName));
 

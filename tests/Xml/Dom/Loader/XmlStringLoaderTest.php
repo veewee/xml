@@ -26,7 +26,7 @@ final class XmlStringLoaderTest extends TestCase
         $loader = xml_string_loader($xml);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('XML document is malformed');
+        $this->expectExceptionMessage('XML fragment is not well-formed');
 
         $loader();
     }

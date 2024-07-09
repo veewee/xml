@@ -13,21 +13,21 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
 /**
  * @throws RuntimeException
- * @param iterable<array-key, \DOM\Node> $sources
- * @return array<array-key, \DOM\Node>
+ * @param iterable<array-key, \Dom\Node> $sources
+ * @return array<array-key, \Dom\Node>
  */
-function replace_by_external_nodes(\DOM\Node $target, iterable $sources): array
+function replace_by_external_nodes(\Dom\Node $target, iterable $sources): array
 {
     return disallow_issues(
         /**
-         * @return array<array-key, \DOM\Node>
+         * @return array<array-key, \Dom\Node>
          */
         static function () use ($target, $sources) : array {
             $parentNode = $target->parentNode;
             Assert::notNull($parentNode, 'Could not replace a node without parent node. ('.get_class($target).')');
             $copies = map(
                 $sources,
-                static fn (\DOM\Node $source): \DOM\Node => import_node_deeply($target, $source)
+                static fn (\Dom\Node $source): \Dom\Node => import_node_deeply($target, $source)
             );
 
             // Documents can only contain one element, so in case of documentElement, we remove it first to avoid errors.

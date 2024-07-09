@@ -9,11 +9,11 @@ use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 /**
- * @return Closure(\DOM\XMLDocument): \DOM\XMLDocument
+ * @return Closure(\Dom\XMLDocument): \Dom\XMLDocument
  */
 function pretty_print(): Closure
 {
-    return static function (\DOM\XMLDocument $document): \DOM\XMLDocument {
+    return static function (\Dom\XMLDocument $document): \Dom\XMLDocument {
         $trimmed = Document::fromLoader(
             xml_string_loader(
                 Document::fromUnsafeDocument($document)->toXmlString(),

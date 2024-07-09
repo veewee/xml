@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Encoding\Internal\Encoder\Builder;
 
 use Closure;
-use \DOM\Element;
-use \DOM\Node;
+use \Dom\Element;
+use \Dom\Node;
 use Psl\Exception\InvariantViolationException;
 use Psl\Type\Exception\AssertException;
 use function VeeWee\Xml\Dom\Builder\children as buildChildren;
@@ -17,7 +17,7 @@ use function VeeWee\Xml\Dom\Builder\escaped_value;
  * @psalm-internal VeeWee\Xml\Encoding
  * @psalm-suppress LessSpecificReturnStatement, MoreSpecificReturnType
  *
- * @return Closure(\DOM\Node): \DOM\Element
+ * @return Closure(\Dom\Node): \Dom\Element
  *
  * @throws AssertException
  * @throws InvariantViolationException

@@ -13,13 +13,13 @@ use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
  * @throws RuntimeException
  * @param non-empty-string $newPrefix
  */
-function rename_element_namespace(\DOM\Element $element, string $namespaceURI, string $newPrefix): void
+function rename_element_namespace(\Dom\Element $element, string $namespaceURI, string $newPrefix): void
 {
     children($element)->forEach(
-        static fn (\DOM\Element $child) => rename_element_namespace($child, $namespaceURI, $newPrefix)
+        static fn (\Dom\Element $child) => rename_element_namespace($child, $namespaceURI, $newPrefix)
     );
 
-    attributes_list($element)->forEach(static function (\DOM\Attr $attr) use ($namespaceURI, $newPrefix, $element) {
+    attributes_list($element)->forEach(static function (\Dom\Attr $attr) use ($namespaceURI, $newPrefix, $element) {
         if ($attr->namespaceURI === $namespaceURI) {
             $attr->rename($namespaceURI, $newPrefix . ':' . $attr->localName);
         }
@@ -29,7 +29,7 @@ function rename_element_namespace(\DOM\Element $element, string $namespaceURI, s
                 $attr->rename($attr->namespaceURI, 'xmlns:' . $newPrefix);
 
             } catch (\DOMException $e) {
-                if ($e->getCode() === \DOM\INVALID_MODIFICATION_ERR) {
+                if ($e->getCode() === \Dom\INVALID_MODIFICATION_ERR) {
                     // Remove the attribute that would become a duplicate
                     $element->removeAttributeNode($attr);
                 } else {

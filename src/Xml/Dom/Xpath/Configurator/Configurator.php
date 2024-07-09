@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Xpath\Configurator;
 
-use \DOM\XPath;
+use \Dom\XPath;
 
 interface Configurator
 {
-    public function __invoke(\DOM\XPath $xpath): \DOM\XPath;
+    public function __invoke(\Dom\XPath $xpath): \Dom\XPath;
 }

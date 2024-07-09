@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Collection;
 
 use Countable;
-use \DOM\Element;
-use \DOM\Node;
-use \DOM\NodeList as DOMNodeList;
-use \DOM\XPath as DOMXPath;
+use \Dom\Element;
+use \Dom\Node;
+use \Dom\NodeList as DOMNodeList;
+use \Dom\XPath as DOMXPath;
 use Generator;
 use InvalidArgumentException;
 use IteratorAggregate;
@@ -29,7 +29,7 @@ use function VeeWee\Xml\Dom\Locator\Element\children;
 use function VeeWee\Xml\Dom\Locator\Element\siblings;
 
 /**
- * @template T of \DOM\Node
+ * @template T of \Dom\Node
  * @implements IteratorAggregate<int, T>
  */
 final class NodeList implements Countable, IteratorAggregate
@@ -49,7 +49,7 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @template X of \DOM\Node
+     * @template X of \Dom\Node
      * @return self<X>
      *
      * @psalm-suppress InvalidReturnType, InvalidReturnStatement - It is empty alright!
@@ -60,16 +60,16 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @param \DOM\HTMLCollection $list
-     * @return NodeList<\DOM\Element>
+     * @param \Dom\HTMLCollection $list
+     * @return NodeList<\Dom\Element>
      */
-    public static function fromDOMHTMLCollection(\DOM\HTMLCollection $list): self
+    public static function fromDOMHTMLCollection(\Dom\HTMLCollection $list): self
     {
         return new self(...values($list->getIterator()));
     }
 
     /**
-     * @template X of \DOM\Node
+     * @template X of \Dom\Node
      * @param DOMNodeList<X> $list
      * @return NodeList<X>
      */
@@ -79,7 +79,7 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @template X of \DOM\Node
+     * @template X of \Dom\Node
      * @param class-string<X> $type
      * @return NodeList<X>
      * @throws InvalidArgumentException
@@ -145,7 +145,7 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @template X of \DOM\Node
+     * @template X of \Dom\Node
      * @param callable(T): iterable<X> $mapper
      *
      * @return NodeList<X>
@@ -195,16 +195,16 @@ final class NodeList implements Countable, IteratorAggregate
     /**
      * @param list<callable(DOMXPath): DOMXPath> $configurators
      * @throws RuntimeException
-     * @return NodeList<\DOM\Node>
+     * @return NodeList<\Dom\Node>
      */
     public function query(string $xpath, callable ... $configurators): self
     {
         return $this->detect(
             /**
              * @param T $node
-             * @return NodeList<\DOM\Node>
+             * @return NodeList<\Dom\Node>
              */
-            static fn (\DOM\Node $node): NodeList
+            static fn (\Dom\Node $node): NodeList
                 => Xpath::fromUnsafeNode($node, ...$configurators)->query($xpath, $node)
         );
     }
@@ -218,7 +218,7 @@ final class NodeList implements Countable, IteratorAggregate
     public function evaluate(string $expression, TypeInterface $type, callable ... $configurators): array
     {
         return $this->map(
-            static fn (\DOM\Node $node): mixed
+            static fn (\Dom\Node $node): mixed
                 => Xpath::fromUnsafeNode($node, ...$configurators)->evaluate($expression, $type, $node)
         );
     }
@@ -272,46 +272,46 @@ final class NodeList implements Countable, IteratorAggregate
     }
 
     /**
-     * @return NodeList<\DOM\Element>
+     * @return NodeList<\Dom\Element>
      */
     public function siblings(): self
     {
         return $this->detect(
             /**
-             * @return iterable<\DOM\Element>
+             * @return iterable<\Dom\Element>
              */
-            static fn (\DOM\Node $node): NodeList => siblings($node)
+            static fn (\Dom\Node $node): NodeList => siblings($node)
         );
     }
 
     /**
-     * @return NodeList<\DOM\Element>
+     * @return NodeList<\Dom\Element>
      */
     public function ancestors(): self
     {
         return $this->detect(
             /**
-             * @return iterable<\DOM\Element>
+             * @return iterable<\Dom\Element>
              */
-            static fn (\DOM\Node $node): NodeList => ancestors($node)
+            static fn (\Dom\Node $node): NodeList => ancestors($node)
         );
     }
 
     /**
-     * @return NodeList<\DOM\Element>
+     * @return NodeList<\Dom\Element>
      */
     public function children(): self
     {
         return $this->detect(
             /**
-             * @return iterable<\DOM\Element>
+             * @return iterable<\Dom\Element>
              */
-            static fn (\DOM\Node $node): NodeList => children($node)
+            static fn (\Dom\Node $node): NodeList => children($node)
         );
     }
 
     /**
-     * @template X of \DOM\Node
+     * @template X of \Dom\Node
      * @param class-string<X> $type
      * @return NodeList<X>
      * @throws InvalidArgumentException

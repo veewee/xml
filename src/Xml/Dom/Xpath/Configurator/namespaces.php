@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Xpath\Configurator;
 
 use Closure;
-use \DOM\XPath;
+use \Dom\XPath;
 
 /**
  * @param array<string, string> $namespaces
  *
- * @return Closure(\DOM\XPath): \DOM\XPath
+ * @return Closure(\Dom\XPath): \Dom\XPath
  */
 function namespaces(array $namespaces): Closure
 {
-    return static function (\DOM\XPath $xpath) use ($namespaces) : \DOM\XPath {
+    return static function (\Dom\XPath $xpath) use ($namespaces) : \Dom\XPath {
         foreach ($namespaces as $prefix => $namespaceURI) {
             $xpath->registerNamespace($prefix, $namespaceURI);
         }

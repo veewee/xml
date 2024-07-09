@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser;
 
-use \DOM\Node;
+use \Dom\Node;
 
 interface Action
 {
-    public function __invoke(\DOM\Node $currentNode): void;
+    public function __invoke(\Dom\Node $currentNode): void;
 }
