@@ -29,7 +29,7 @@ final class ValidatorChainTest extends TestCase
         static::assertCount($errors, $issues);
     }
 
-    public function provideErrorCases()
+    public static function provideErrorCases()
     {
         yield 'empty' => [
             'validator' => validator_chain(),
@@ -47,7 +47,7 @@ final class ValidatorChainTest extends TestCase
             'validator' => validator_chain(
                 static fn (DOMDocument $document) => new IssueCollection(),
                 fn (DOMDocument $document) => new IssueCollection(
-                    $this->createIssue(Level::fatal())
+                    self::createIssue(Level::fatal())
                 ),
                 static fn (DOMDocument $document) => new IssueCollection(),
                 static fn (DOMDocument $document) => new IssueCollection()
@@ -57,11 +57,11 @@ final class ValidatorChainTest extends TestCase
         yield 'allFails' => [
             'validator' => validator_chain(
                 fn (DOMDocument $document) => new IssueCollection(
-                    $this->createIssue(Level::fatal())
+                    self::createIssue(Level::fatal())
                 ),
                 fn (DOMDocument $document) => new IssueCollection(
-                    $this->createIssue(Level::fatal()),
-                    $this->createIssue(Level::fatal())
+                    self::createIssue(Level::fatal()),
+                    self::createIssue(Level::fatal())
                 ),
             ),
             'errors' => 3,

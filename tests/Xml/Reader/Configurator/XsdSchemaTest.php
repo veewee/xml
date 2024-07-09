@@ -105,7 +105,7 @@ final class XsdSchemaTest extends TestCase
         $iterator = $reader->provide(element_name('user'));
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Schema contains errors');
+        $this->expectExceptionMessage('Unable to apply XSD schema to the XML Reader.');
         [...$iterator];
 
         fclose($xsdHandle);

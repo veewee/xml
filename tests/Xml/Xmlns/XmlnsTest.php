@@ -21,7 +21,7 @@ final class XmlnsTest extends TestCase
         static::assertTrue($xmlns->matches(Xmlns::load($uri)));
     }
 
-    public function provideKnownXmlnses()
+    public static function provideKnownXmlnses()
     {
         yield 'xml' => [
             static fn () => Xmlns::xml(),

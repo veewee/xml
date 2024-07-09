@@ -21,7 +21,7 @@ final class XmlnsAttributesListTest extends TestCase
         static::assertEquals($expected, [...$actual]);
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

@@ -32,14 +32,14 @@ final class AssertStrictPrefixedNameTest extends TestCase
         assert_strict_prefixed_name($input);
     }
 
-    public function provideValidQNames()
+    public static function provideValidQNames()
     {
         yield ['hello:world'];
         yield ['a:b'];
         yield ['---a----:----b---'];
     }
 
-    public function provideInvalidQNames()
+    public static function provideInvalidQNames()
     {
         yield [''];
         yield ['aa'];

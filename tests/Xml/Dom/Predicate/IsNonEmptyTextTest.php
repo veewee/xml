@@ -20,7 +20,7 @@ final class IsNonEmptyTextTest extends TestCase
         static::assertSame($expected, is_non_empty_text($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

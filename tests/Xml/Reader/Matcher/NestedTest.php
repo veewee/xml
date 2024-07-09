@@ -14,7 +14,7 @@ use function VeeWee\Xml\Reader\Matcher\element_name;
 use function VeeWee\Xml\Reader\Matcher\nested;
 use function VeeWee\Xml\Reader\Matcher\sequence;
 
-final class NestedTest extends AbstractMatcherTest
+final class NestedTest extends AbstractMatcherTester
 {
     public static function provideRealXmlCases(): Generator
     {

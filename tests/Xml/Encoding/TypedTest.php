@@ -26,7 +26,7 @@ final class TypedTest extends TestCase
         static::assertEquals($data, $actual);
     }
 
-    public function provideTypedTestCases()
+    public static function provideTypedTestCases()
     {
         yield 'nested-single-child' => [
             'xml' => <<<EOXML

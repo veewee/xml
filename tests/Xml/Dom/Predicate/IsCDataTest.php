@@ -21,7 +21,7 @@ final class IsCDataTest extends TestCase
         static::assertSame($expected, $actual);
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

@@ -24,7 +24,7 @@ final class RenameTest extends TestCase
         static::assertSame($expected, $actual);
     }
 
-    public function provideXmls()
+    public static function provideXmls()
     {
         yield 'simple' => [
             '<hello xmlns:replace="http://replace"/>',

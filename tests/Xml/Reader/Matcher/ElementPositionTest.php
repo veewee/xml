@@ -9,7 +9,7 @@ use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use function VeeWee\Xml\Reader\Matcher\element_position;
 
-final class ElementPositionTest extends AbstractMatcherTest
+final class ElementPositionTest extends AbstractMatcherTester
 {
     public static function provideRealXmlCases(): Generator
     {

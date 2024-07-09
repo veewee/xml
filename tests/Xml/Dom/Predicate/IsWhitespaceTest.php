@@ -20,7 +20,7 @@ final class IsWhitespaceTest extends TestCase
         static::assertSame($expected, is_whitespace($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

@@ -29,7 +29,7 @@ final class IssueLevelFromXmlErrorTest extends TestCase
         static::assertTrue($expected->matches($actual));
     }
 
-    public function provideErrors()
+    public static function provideErrors()
     {
         yield 'error' => [
             LIBXML_ERR_ERROR,

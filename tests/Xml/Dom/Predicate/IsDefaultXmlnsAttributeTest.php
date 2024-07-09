@@ -21,7 +21,7 @@ final class IsDefaultXmlnsAttributeTest extends TestCase
         static::assertSame($expected, is_default_xmlns_attribute($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

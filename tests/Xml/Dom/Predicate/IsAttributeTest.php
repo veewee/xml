@@ -20,7 +20,7 @@ final class IsAttributeTest extends TestCase
         static::assertSame($expected, is_attribute($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

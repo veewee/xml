@@ -20,7 +20,7 @@ final class IsTextTest extends TestCase
         static::assertSame($expected, is_text($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

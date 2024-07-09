@@ -26,7 +26,7 @@ final class AssertElementTest extends TestCase
         static::assertSame($node, $actual);
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

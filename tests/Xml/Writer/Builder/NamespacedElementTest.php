@@ -21,11 +21,11 @@ final class NamespacedElementTest extends TestCase
         $result = $this->runInMemory(static function (XMLWriter $xmlWriter): void {
             $writer = Writer::fromUnsafeWriter($xmlWriter);
             $writer->write(
-                namespaced_element('http://ns', 'xml', 'root')
+                namespaced_element('http://ns', 'ns', 'root')
             );
         });
 
-        static::assertXmlStringEqualsXmlString('<xml:root xmlns:xml="http://ns" />', $result);
+        static::assertXmlStringEqualsXmlString('<ns:root xmlns:ns="http://ns" />', $result);
     }
 
 
@@ -34,11 +34,11 @@ final class NamespacedElementTest extends TestCase
         $result = $this->runInMemory(static function (XMLWriter $xmlWriter): void {
             $writer = Writer::fromUnsafeWriter($xmlWriter);
             $writer->write(
-                namespaced_element('http://ns', 'xml', 'hello', value('world'))
+                namespaced_element('http://ns', 'ns', 'hello', value('world'))
             );
         });
 
-        static::assertXmlStringEqualsXmlString('<xml:hello xmlns:xml="http://ns">world</xml:hello>', $result);
+        static::assertXmlStringEqualsXmlString('<ns:hello xmlns:ns="http://ns">world</ns:hello>', $result);
     }
 
     public function test_it_can_create_element_without_prefix(): void

@@ -160,12 +160,8 @@ final class RenameTest extends TestCase
         static::assertSame($root->getAttributeNode('a:you'), $result);
     }
 
-    /**
-     * https://github.com/php/php-src/blob/1c8bb6d6818c10a691d6836b336bcee003478b44/ext/dom/element.c#L663
-     */
     public function test_it_can_not_rename_namespaced_attribute_prefix_when_the_xmlns_is_still_available(): void
     {
-        $this->markAsRisky('Broken DOM functionality');
         $doc = Document::fromXmlString('<hello a:who="world" xmlns:a="http://a"/>');
         $root = $doc->map(document_element());
         $node = $root->getAttributeNode('a:who');

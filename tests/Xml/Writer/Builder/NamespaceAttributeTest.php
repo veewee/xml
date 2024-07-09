@@ -15,7 +15,7 @@ final class NamespaceAttributeTest extends TestCase
 {
     use UseInMemoryWriterTrait;
 
-    
+
     public function test_it_can_create_namespace_attribute_without_prefix(): void
     {
         $result = $this->runInMemory(static function (XMLWriter $xmlWriter): void {
@@ -28,16 +28,16 @@ final class NamespaceAttributeTest extends TestCase
         static::assertXmlStringEqualsXmlString('<root xmlns="https://awesome.xom" />', $result);
     }
 
-    
+
     public function test_it_can_create_namespace_attribute_with_prefix(): void
     {
         $result = $this->runInMemory(static function (XMLWriter $xmlWriter): void {
             $writer = Writer::fromUnsafeWriter($xmlWriter);
             $writer->write(
-                element('root', namespace_attribute('https://awesome.xom', 'xml'))
+                element('root', namespace_attribute('https://awesome.xom', 'awesome'))
             );
         });
 
-        static::assertXmlStringEqualsXmlString('<root xmlns:xml="https://awesome.xom" />', $result);
+        static::assertXmlStringEqualsXmlString('<root xmlns:awesome="https://awesome.xom" />', $result);
     }
 }

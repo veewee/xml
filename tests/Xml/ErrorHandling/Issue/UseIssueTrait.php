@@ -9,7 +9,7 @@ use VeeWee\Xml\ErrorHandling\Issue\Level;
 
 trait UseIssueTrait
 {
-    private function createIssue(Level $level): Issue
+    private static function createIssue(Level $level): Issue
     {
         return new Issue(
             $level,
