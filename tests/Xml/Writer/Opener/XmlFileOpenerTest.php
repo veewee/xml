@@ -20,7 +20,7 @@ final class XmlFileOpenerTest extends TestCase
     public function test_it_can_open_a_file(): void
     {
         $this->createTmpFile(static function (string $path): void {
-            File\write($path, 'will  be truncated', File\WriteMode::TRUNCATE);
+            File\write($path, 'will  be truncated', File\WriteMode::Truncate);
 
             $writer = Writer::forFile($path);
             $writer->write(element('root'));

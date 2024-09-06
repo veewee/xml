@@ -7,14 +7,14 @@
     ],
     "type": "library",
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "php": "~8.2.0 || ~8.3.0",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-xml": "*",
         "ext-xsl": "*",
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",
-        "azjezz/psl": "^2.0.3",
+        "azjezz/psl": "^3.0",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
