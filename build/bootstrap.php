@@ -18,7 +18,7 @@ use function Psl\Vec\map;
     $tab = '    ';
 
     // Clear file first!
-    write($target, '', WriteMode::TRUNCATE);
+    write($target, '', WriteMode::Truncate);
 
     $files = Finder::create()
         ->in(dirname(__DIR__).'/src')
@@ -67,7 +67,7 @@ use function Psl\Vec\map;
         static fn (iterable $codeLines): string => join($codeLines, PHP_EOL)
     );
 
-    write($target, $build($files), WriteMode::TRUNCATE);
+    write($target, $build($files), WriteMode::Truncate);
 
     echo 'Created bootstrap file!'.PHP_EOL;
 })();

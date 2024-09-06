@@ -20,7 +20,7 @@ function xml_file_opener(string $file): Closure
         // Try to create the file first.
         // If the file exists, it will truncated. (Default behaviour of XMLWriter as well)
         // If it cannot be created, it will throw exceptions.
-        write($file, '', WriteMode::TRUNCATE);
+        write($file, '', WriteMode::Truncate);
 
         return $writer->openUri($file);
     };
