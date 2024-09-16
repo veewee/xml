@@ -93,18 +93,38 @@ final class RemoveNamespacesTest extends TestCase
         </hello>
         EOXML;
 
-        $expected = <<<EOXML
-        <hello version="1.9" target="universe">
-            <item id="1" sku="jos">Jos</item>
-            <x:item xmlns:x="http://x" sku="jaak" id="2">Jaak</x:item>
-            <item sku="jaak" id="3">Jul</item>
-        </hello>
-        EOXML;
-
         $doc = Document::fromXmlString($in);
-        $result = $doc->traverse(RemoveNamespaces::byPrefixNames(['', 'a', 'z']));
 
-        static::assertSame($expected, xml_string()($result));
+        static::assertSame(
+            <<<EOXML
+            <hello xmlns:a="http/a" xmlns:z="http/z" version="1.9" target="universe">
+                <item id="1" sku="jos">Jos</item>
+                <x:item xmlns:x="http://x" sku="jaak" id="2">Jaak</x:item>
+                <item a:sku="jaak" z:id="3">Jul</item>
+            </hello>
+            EOXML,
+            xml_string()($doc->traverse(RemoveNamespaces::byPrefixNames([''])))
+        );
+        static::assertSame(
+            <<<EOXML
+            <hello xmlns:z="http/z" version="1.9" target="universe">
+                <item id="1" sku="jos">Jos</item>
+                <x:item xmlns:x="http://x" sku="jaak" id="2">Jaak</x:item>
+                <item sku="jaak" z:id="3">Jul</item>
+            </hello>
+            EOXML,
+            xml_string()($doc->traverse(RemoveNamespaces::byPrefixNames(['a'])))
+        );
+        static::assertSame(
+            <<<EOXML
+            <hello version="1.9" target="universe">
+                <item id="1" sku="jos">Jos</item>
+                <x:item xmlns:x="http://x" sku="jaak" id="2">Jaak</x:item>
+                <item sku="jaak" id="3">Jul</item>
+            </hello>
+            EOXML,
+            xml_string()($doc->traverse(RemoveNamespaces::byPrefixNames(['', 'a', 'z'])))
+        );
     }
 
     public function test_it_can_remove_namespaces_by_prefix__uri(): void

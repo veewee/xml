@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
+use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 final class XmlFileLoaderTest extends TestCase
 {
@@ -59,5 +60,18 @@ final class XmlFileLoaderTest extends TestCase
         $this->expectExceptionMessage('The file "invalid-file" does not exist');
 
         $loader();
+    }
+
+    public function test_it_can_override_charset(): void
+    {
+        $xml = '<?xml version="1.0" encoding="UTF-8"?><hello>héllo</hello>';
+        [$file, $handle] = $this->fillFile($xml);
+        $loader = xml_file_loader($file, override_encoding: 'Windows-1252');
+
+        $doc = $loader();
+        fclose($handle);
+
+        static::assertSame('hÃ©llo', $doc->documentElement->textContent);
+        static::assertSame('Windows-1252', $doc->xmlEncoding);
     }
 }

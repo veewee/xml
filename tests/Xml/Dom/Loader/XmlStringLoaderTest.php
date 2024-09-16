@@ -39,4 +39,14 @@ final class XmlStringLoaderTest extends TestCase
 
         static::assertSame('<hello>HELLO</hello>', $doc->saveXML($doc->documentElement));
     }
+
+    public function test_it_can_override_charset(): void
+    {
+        $xml = '<?xml version="1.0" encoding="UTF-8"?><hello>héllo</hello>';
+        $loader = xml_string_loader($xml, override_encoding: 'Windows-1252');
+        $doc = $loader();
+
+        static::assertSame('hÃ©llo', $doc->documentElement->textContent);
+        static::assertSame('Windows-1252', $doc->xmlEncoding);
+    }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
   <phar name="phpunit" version="^10.5.26" installed="10.5.26" location="./tools/phpunit.phar" copy="true"/>
-  <phar name="infection" version="^0.29" installed="0.29.6" location="./tools/infection.phar" copy="true"/>
+  <phar name="infection" version="^0.27" installed="0.27.11" location="./tools/infection.phar" copy="true"/>
   <phar name="php-cs-fixer" version="^3.3.2" installed="3.59.3" location="./tools/php-cs-fixer.phar" copy="true"/>
 </phive>

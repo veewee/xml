@@ -33,7 +33,9 @@ function rename_element_namespace(\Dom\Element $element, string $namespaceURI, s
                     // Remove the attribute that would become a duplicate
                     $element->removeAttributeNode($attr);
                 } else {
+                    // @codeCoverageIgnoreStart
                     throw $e;
+                    // @codeCoverageIgnoreEnd
                 }
             }
             $attr->rename($attr->namespaceURI, 'xmlns:' . $newPrefix);

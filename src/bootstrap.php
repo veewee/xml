@@ -24,6 +24,7 @@
         'Xml\Dom\Configurator\canonicalize' => __DIR__.'/Xml/Dom/Configurator/canonicalize.php',
         'Xml\Dom\Configurator\comparable' => __DIR__.'/Xml/Dom/Configurator/comparable.php',
         'Xml\Dom\Configurator\document_uri' => __DIR__.'/Xml/Dom/Configurator/document_uri.php',
+        'Xml\Dom\Configurator\format_output' => __DIR__.'/Xml/Dom/Configurator/format_output.php',
         'Xml\Dom\Configurator\normalize' => __DIR__.'/Xml/Dom/Configurator/normalize.php',
         'Xml\Dom\Configurator\optimize_namespaces' => __DIR__.'/Xml/Dom/Configurator/optimize_namespaces.php',
         'Xml\Dom\Configurator\pretty_print' => __DIR__.'/Xml/Dom/Configurator/pretty_print.php',

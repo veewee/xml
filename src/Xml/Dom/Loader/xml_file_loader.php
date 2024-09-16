@@ -13,11 +13,11 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
  * @param int $options - bitmask of LIBXML_* constants https://www.php.net/manual/en/libxml.constants.php
  * @return Closure(): XMLDocument
  */
-function xml_file_loader(string $file, int $options = 0): Closure
+function xml_file_loader(string $file, int $options = 0, ?string $override_encoding = null): Closure
 {
-    return static fn () => disallow_issues(static function () use ($file, $options): XMLDocument {
+    return static fn () => disallow_issues(static function () use ($file, $options, $override_encoding): XMLDocument {
         Assert::fileExists($file);
 
-        return XMLDocument::createFromFile($file, $options);
+        return XMLDocument::createFromFile($file, $options, $override_encoding);
     });
 }

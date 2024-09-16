@@ -14,7 +14,6 @@ use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Vec\map;
-use function VeeWee\Xml\Dom\Loader;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 use function VeeWee\Xml\Internal\configure;

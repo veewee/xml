@@ -107,7 +107,9 @@ final class RemoveNamespaces extends AbstractVisitor
             return false;
         }
 
+        // This shortcut avoids renaming nodes that already have no namespace. Speeding up the process.
         if ($node->namespaceURI === null) {
+            // @infection-ignore-all
             return false;
         }
 
