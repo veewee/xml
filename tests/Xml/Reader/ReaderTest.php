@@ -90,7 +90,7 @@ final class ReaderTest extends TestCase
         static::assertSame(['<user>Jos</user>'], $actual);
     }
 
-    public function provideXmlExpectations()
+    public static function provideXmlExpectations()
     {
         yield 'simple' => [
             <<<'EOXML'

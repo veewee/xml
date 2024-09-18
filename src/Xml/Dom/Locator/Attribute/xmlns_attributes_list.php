@@ -4,23 +4,18 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Attribute;
 
-use DOMNameSpaceNode;
-use DOMNode;
+use Dom\Attr;
+use Dom\Node;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Exception\RuntimeException;
-use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
-use function VeeWee\Xml\Dom\Predicate\is_element;
+use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
 
 /**
- * @return NodeList<DOMNameSpaceNode>
+ * @return NodeList<Attr>
  * @throws RuntimeException
  */
-function xmlns_attributes_list(DOMNode $node): NodeList
+function xmlns_attributes_list(Node $node): NodeList
 {
-    if (! is_element($node)) {
-        return NodeList::empty();
-    }
-
-    return linked_namespaces($node)
-        ->filter(static fn (DOMNameSpaceNode $namespace): bool => $node->hasAttribute($namespace->nodeName));
+    return attributes_list($node)
+        ->filter(static fn (Attr $attribute): bool => is_xmlns_attribute($attribute));
 }

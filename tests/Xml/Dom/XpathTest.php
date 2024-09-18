@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom;
 
-use DOMXPath;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Xpath;
@@ -47,6 +46,6 @@ final class XpathTest extends TestCase
 
         $result = $xpath->locate(identity());
 
-        static::assertInstanceOf(DOMXPath::class, $result);
+        static::assertInstanceOf(\DOM\XPath::class, $result);
     }
 }

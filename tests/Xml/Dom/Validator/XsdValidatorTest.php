@@ -32,7 +32,7 @@ final class XsdValidatorTest extends TestCase
     /**
      * @return array
      */
-    public function provideSchemeValidation()
+    public static function provideSchemeValidation()
     {
         yield 'valid' => [
             'xml' => 'xml-valid.xml',

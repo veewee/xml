@@ -7,7 +7,6 @@ namespace VeeWee\Tests\Xml\ErrorHandling;
 use LibXMLError;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
-
 use function VeeWee\Xml\ErrorHandling\issue_level_from_xml_error;
 
 final class IssueLevelFromXmlErrorTest extends TestCase
@@ -29,7 +28,7 @@ final class IssueLevelFromXmlErrorTest extends TestCase
         static::assertTrue($expected->matches($actual));
     }
 
-    public function provideErrors()
+    public static function provideErrors()
     {
         yield 'error' => [
             LIBXML_ERR_ERROR,

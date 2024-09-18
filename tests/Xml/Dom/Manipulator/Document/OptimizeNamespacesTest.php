@@ -25,7 +25,7 @@ final class OptimizeNamespacesTest extends TestCase
         static::assertSame($expected, $actual);
     }
 
-    public function provideXmls()
+    public static function provideXmls()
     {
         yield 'no-action' => [
             '<hello/>',
@@ -43,7 +43,7 @@ final class OptimizeNamespacesTest extends TestCase
             <<<EOXML
             <foo xmlns:ns1="http://whatever">
                 <bar>
-                    <ns1:baz xmlns:ns1="http://whatever"/>
+                    <ns1:baz/>
                 </bar>
             </foo>
             EOXML,
@@ -106,7 +106,7 @@ final class OptimizeNamespacesTest extends TestCase
             </foo>
             EOXML,
             <<<EOXML
-            <foo xmlns:ns1="http://a" xmlns:ns2="http://z" version="1.9" target="universe">
+            <foo version="1.9" target="universe" xmlns:ns1="http://a" xmlns:ns2="http://z">
                 <item id="1" sku="jos">Jos</item>
                 <item sku="jaak" id="2">Jaak</item>
                 <item ns1:sku="jaak" ns2:id="3">Jul</item>
@@ -127,6 +127,30 @@ final class OptimizeNamespacesTest extends TestCase
                     <ns1:baz/>
                 </ns1:bar>
             </ns1:foo>
+            EOXML,
+        ];
+        yield 'only-inline-namespace' => [
+            <<<EOXML
+            <foo xmlns="http://whatever">
+                <bar />
+            </foo>
+            EOXML,
+            <<<EOXML
+            <ns1:foo xmlns:ns1="http://whatever">
+                <ns1:bar/>
+            </ns1:foo>
+            EOXML,
+        ];
+        yield 'empty-namespace' => [
+            <<<EOXML
+            <foo xmlns="">
+                <bar />
+            </foo>
+            EOXML,
+            <<<EOXML
+            <foo xmlns="">
+                <bar/>
+            </foo>
             EOXML,
         ];
     }

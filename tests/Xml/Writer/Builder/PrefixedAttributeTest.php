@@ -9,30 +9,35 @@ use VeeWee\Tests\Xml\Writer\Helper\UseInMemoryWriterTrait;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Writer\Writer;
 use XMLWriter;
+use function VeeWee\Xml\Writer\Builder\children;
 use function VeeWee\Xml\Writer\Builder\element;
+use function VeeWee\Xml\Writer\Builder\namespace_attribute;
 use function VeeWee\Xml\Writer\Builder\prefixed_attribute;
 
 final class PrefixedAttributeTest extends TestCase
 {
     use UseInMemoryWriterTrait;
 
-    
+
     public function test_it_can_add_atribute_to_element(): void
     {
         $result = $this->runInMemory(static function (XMLWriter $xmlWriter): void {
             $writer = Writer::fromUnsafeWriter($xmlWriter);
             $writer->write(
-                element('hello', prefixed_attribute('pfx', 'value', 'world'))
+                element('hello', children([
+                    namespace_attribute('http://pfx', 'pfx'),
+                    prefixed_attribute('pfx', 'value', 'world'),
+                ]))
             );
         });
 
         static::assertXmlStringEqualsXmlString(
-            '<hello pfx:value="world" />',
+            '<hello xmlns:pfx="http://pfx" pfx:value="world" />',
             $result
         );
     }
 
-    
+
     public function test_it_can_not_write_attribute_to_invalid_context(): void
     {
         $this->expectException(RuntimeException::class);

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace VeeWee\Xml\ErrorHandling;
 
 use Generator;
-
 use Psl\Vec;
 use VeeWee\Xml\Exception\RuntimeException;
 use function libxml_clear_errors;

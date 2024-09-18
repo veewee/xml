@@ -4,27 +4,28 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Xsd;
 
-use DOMDocument;
+use Dom\XMLDocument;
 use Psl\Regex\Exception\RuntimeException;
 use VeeWee\Xml\Xmlns\Xmlns;
 use VeeWee\Xml\Xsd\Schema\Schema;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 use function Psl\Dict\map;
 use function Psl\Regex\split;
+use function VeeWee\Xml\Dom\Locator\document_element;
 
 /**
  * @throws RuntimeException
  */
-function locate_no_namespaced_xsd_schemas(DOMDocument $document): SchemaCollection
+function locate_no_namespaced_xsd_schemas(XMLDocument $document): SchemaCollection
 {
     $schemaNs = Xmlns::xsi()->value();
-    $attributes = $document->documentElement->attributes;
+    $documentElement = document_element()($document);
+    $attributes = $documentElement->attributes;
     if (!$schemaLocNoNamespace = $attributes->getNamedItemNS($schemaNs, 'noNamespaceSchemaLocation')) {
         return new SchemaCollection();
     }
 
-    /** @psalm-suppress MissingThrowsDocblock - Covered the runtime exception! */
-    $parts = split(trim($schemaLocNoNamespace->textContent), '/\s+/');
+    $parts = split(trim($schemaLocNoNamespace->textContent ?? ''), '/\s+/');
 
     return new SchemaCollection(
         ...map(

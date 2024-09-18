@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Node;
 
-use DOMElement;
-use DOMNameSpaceNode;
+use Dom\Attr;
+use Dom\Element;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
@@ -13,15 +13,15 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 /**
  * @throws RuntimeException
  */
-function remove_namespace(DOMNameSpaceNode $target, DOMElement $parent): DOMNameSpaceNode
+function remove_namespace(Attr $target, Element $parent): Attr
 {
     return disallow_issues(
         /**
          * @throws RuntimeException
          */
-        static function () use ($target, $parent): DOMNameSpaceNode {
+        static function () use ($target, $parent): Attr {
             disallow_libxml_false_returns(
-                $parent->removeAttributeNS($target->namespaceURI, $target->prefix),
+                $parent->removeAttributeNode($target),
                 'Could not remove xmlns attribute from dom element'
             );
 

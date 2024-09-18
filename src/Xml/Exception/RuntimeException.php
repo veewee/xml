@@ -9,7 +9,7 @@ use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
 final class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
-    private function __construct(string $message, Throwable $previous = null)
+    private function __construct(string $message, ?Throwable $previous = null)
     {
         parent::__construct(
             $message,

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser;
 
-use DOMNode;
+use Dom\Node;
 
 interface Visitor
 {
-    public function onNodeEnter(DOMNode $node): Action;
-    public function onNodeLeave(DOMNode $node): Action;
+    public function onNodeEnter(Node $node): Action;
+    public function onNodeLeave(Node $node): Action;
 }

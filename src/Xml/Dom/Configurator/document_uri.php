@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use DOMDocument;
+use Dom\XMLDocument;
 
 /**
  * @param non-empty-string $documentUri
- * @return Closure(DOMDocument): DOMDocument
+ * @return Closure(XMLDocument): XMLDocument
  */
 function document_uri(string $documentUri): Closure
 {
-    return static function (DOMDocument $document) use ($documentUri) : DOMDocument {
+    return static function (XMLDocument $document) use ($documentUri) : XMLDocument {
         $document->documentURI = $documentUri;
 
         return $document;

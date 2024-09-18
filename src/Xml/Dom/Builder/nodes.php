@@ -5,30 +5,30 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Builder;
 
 use Closure;
-use DOMDocument;
-use DOMNode;
+use Dom\Node;
+use Dom\XMLDocument;
 use function is_array;
 use function Psl\Iter\reduce;
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 
 /**
- * @param list<callable(DOMDocument): (list<DOMNode>|DOMNode)> $builders
+ * @param list<callable(XMLDocument): (list<Node>|Node)> $builders
  *
- * @return Closure(DOMDocument): list<DOMNode>
+ * @return Closure(XMLDocument): list<Node>
  */
 function nodes(callable ... $builders): Closure
 {
     return
         /**
-         * @return list<DOMNode>
+         * @return list<Node>
          */
-        static fn (DOMNode $node): array
+        static fn (Node $node): array
             => reduce(
                 $builders,
                 /**
-                 * @param list<DOMNode> $builds
-                 * @param callable(DOMDocument): (DOMNode|list<DOMNode>) $builder
-                 * @return list<DOMNode>
+                 * @param list<Node> $builds
+                 * @param callable(XMLDocument): (Node|list<Node>) $builder
+                 * @return list<Node>
                  */
                 static function (array $builds, callable $builder) use ($node): array {
                     $result = $builder(detect_document($node));

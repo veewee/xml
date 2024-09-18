@@ -3,7 +3,7 @@
     errorLevel="1"
     resolveFromConfigFile="true"
     strictBinaryOperands="true"
-    phpVersion="8.1"
+    phpVersion="8.3"
     allowStringToStandInForClass="true"
     rememberPropertyAssignmentsAfterCall="false"
     skipChecksOnUnresolvableIncludes="false"
@@ -45,6 +45,7 @@
     </issueHandlers>
     <stubs>
         <file name="stubs/DOM.phpstub" />
+        <file name="stubs/php_xsl.stub.phpstub" />
         <file name="stubs/XMLReader.phpstub" />
         <file name="stubs/XMLWriter.phpstub" />
     </stubs>

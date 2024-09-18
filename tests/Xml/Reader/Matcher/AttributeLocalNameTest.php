@@ -10,7 +10,7 @@ use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use function VeeWee\Xml\Reader\Matcher\attribute_local_name;
 
-final class AttributeLocalNameTest extends AbstractMatcherTest
+final class AttributeLocalNameTest extends AbstractMatcherTester
 {
     public static function provideRealXmlCases(): Generator
     {

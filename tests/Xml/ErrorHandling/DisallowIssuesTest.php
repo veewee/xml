@@ -8,7 +8,6 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use VeeWee\Xml\ErrorHandling;
-
 use function libxml_use_internal_errors;
 use function simplexml_load_string;
 

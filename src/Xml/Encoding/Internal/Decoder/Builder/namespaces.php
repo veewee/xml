@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
-use DOMElement;
-use DOMNameSpaceNode;
+use Dom\Attr;
+use Dom\Element;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Dict\filter;
 use function Psl\Dict\merge;
@@ -16,13 +16,15 @@ use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
  * @psalm-suppress RedundantCast
  * @throws RuntimeException
  */
-function namespaces(DOMElement $element): array
+function namespaces(Element $element): array
 {
     return filter([
         '@namespaces' => xmlns_attributes_list($element)->reduce(
-            static fn (array $namespaces, DOMNameSpaceNode $node)
-                => $node->namespaceURI
-                    ? merge($namespaces, [(string) $node->prefix => $node->namespaceURI])
+            static fn (array $namespaces, Attr $node)
+                => $node->value
+                    ? merge($namespaces, [
+                        ($node->prefix !== null ? $node->localName : '') => $node->value
+                    ])
                     : $namespaces,
             []
         ),

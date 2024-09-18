@@ -7,7 +7,6 @@ namespace VeeWee\Tests\Xml\ErrorHandling;
 use LibXMLError;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
-
 use function VeeWee\Xml\ErrorHandling\issue_collection_from_xml_errors;
 
 final class IssueCollectionFromXmlErrorsTest extends TestCase

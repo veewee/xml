@@ -23,7 +23,7 @@ final class CanonicalizeTest extends TestCase
         static::assertSame($expected, $actual);
     }
 
-    public function provideXmls()
+    public static function provideXmls()
     {
         yield 'no-action' => [
             '<hello/>',

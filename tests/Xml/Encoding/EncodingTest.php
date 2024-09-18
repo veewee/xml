@@ -19,7 +19,7 @@ use function VeeWee\Xml\Encoding\xml_encode;
 
 final class EncodingTest extends TestCase
 {
-    private const XML_HEADER = '<?xml version="1.0"?>';
+    private const XML_HEADER = '<?xml version="1.0" encoding="UTF-8"?>';
 
     /**
      * @dataProvider provideBidirectionalCases
@@ -103,13 +103,13 @@ final class EncodingTest extends TestCase
     /**
      * @dataProvider provideInvalidXml
      */
-    public function test_it_errors_while_decoding_invalid_xml(string $xml)
+    public function test_it_errors_while_decoding_invalid_xml(string $xml, array $data)
     {
         $this->expectException(EncodingException::class);
         xml_decode($xml);
     }
 
-    public function provideBidirectionalCases()
+    public static function provideBidirectionalCases()
     {
         yield 'empty' => [
             'xml' => '<hello />',
@@ -239,32 +239,26 @@ final class EncodingTest extends TestCase
                 ]
             ]
         ];
-        yield 'cdata' => [
-            'xml' => '<hello><![CDATA[<html>world</html>]]></hello>',
-            'data' => ['hello' => [
-                '@cdata' => '<html>world</html>'
-            ]]
-        ];
         yield 'mixed cdata' => [
             'xml' => '<hello>hello <![CDATA[<html>world</html>]]></hello>',
             'data' => ['hello' => 'hello <html>world</html>']
         ];
     }
 
-    public function provideRiskyBidirectionalCases()
+    public static function provideRiskyBidirectionalCases()
     {
         yield 'namespaced' => [
             'xml' => <<<EOXML
                 <root xmlns="http://rooty.root" xmlns:test="http://testy.test">
-                    <test:item>
+                    <test:item xmlns="">
                         <id:int xmlns:id="http://identity.id">1</id:int>
                     </test:item>
                 </root>
             EOXML,
             'data' => ['root' => [
                 '@namespaces' => [
-                    'test' => 'http://testy.test',
                     '' => 'http://rooty.root',
+                    'test' => 'http://testy.test',
                 ],
                 'test:item' => [
                     'id:int' => [
@@ -278,7 +272,7 @@ final class EncodingTest extends TestCase
         ];
     }
 
-    public function provideEncodingOnly()
+    public static function provideEncodingOnly()
     {
         yield 'normalizable-types' => [
             'xml' => <<<EOXML
@@ -335,9 +329,15 @@ final class EncodingTest extends TestCase
                 ]
             ]
         ];
+        yield 'cdata' => [
+            'xml' => '<hello><![CDATA[<html>world</html>]]></hello>',
+            'data' => ['hello' => [
+                '@cdata' => '<html>world</html>'
+            ]]
+        ];
     }
 
-    public function provideDecodingOnly()
+    public static function provideDecodingOnly()
     {
         yield 'cdata' => [
             'xml' => '<hello><![CDATA[Jos & Bos]]></hello>',
@@ -345,7 +345,7 @@ final class EncodingTest extends TestCase
         ];
     }
 
-    public function provideRiskyDecodingOnly()
+    public static function provideRiskyDecodingOnly()
     {
         yield 'falsy namespaced' => [
             'xml' => <<<EOXML
@@ -421,7 +421,7 @@ final class EncodingTest extends TestCase
         ];
     }
 
-    public function provideInvalidXml()
+    public static function provideInvalidXml()
     {
         yield 'items-in-root' => [
             'xml' => <<<EOXML

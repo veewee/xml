@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
-use DOMDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\document_uri;
@@ -14,8 +13,7 @@ final class DocumentUriTest extends TestCase
 {
     public function test_it_can_use_document_uri(): void
     {
-        $doc = new DOMDocument();
-        $doc->loadXML($xml = '<hello />');
+        $doc = Document::fromXmlString('<hello />')->toUnsafeDocument();
 
         static::assertStringStartsWith(getcwd(), $doc->documentURI);
         $configurator = document_uri($documentUri = 'myfile.wsdl');

@@ -9,7 +9,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 use function VeeWee\Xml\Reader\Matcher\all;
 use function VeeWee\Xml\Reader\Matcher\element_name;
 
-final class AllTest extends AbstractMatcherTest
+final class AllTest extends AbstractMatcherTester
 {
     public static function provideRealXmlCases(): Generator
     {

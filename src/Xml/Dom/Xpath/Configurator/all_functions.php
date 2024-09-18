@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Xpath\Configurator;
 
 use Closure;
-use DOMXPath;
+use Dom\XPath;
 
 /**
- * @return Closure(DOMXPath): DOMXPath
+ * @return Closure(XPath): XPath
  */
 function all_functions(): Closure
 {
-    return static function (DOMXPath $xpath): DOMXPath {
+    return static function (XPath $xpath): XPath {
         php_namespace()($xpath);
         $xpath->registerPhpFunctions();
 

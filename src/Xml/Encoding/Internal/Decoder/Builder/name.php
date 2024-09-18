@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
-use DOMNode;
+use Dom\Node;
 
 /**
  * @psalm-internal VeeWee\Xml\Encoding
  */
-function name(DOMNode $node): string
+function name(Node $node): string
 {
     return $node->nodeName;
 }

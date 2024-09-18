@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Builder;
 
 use Closure;
-use DOMElement;
+use Dom\Element;
 
 /**
- * @return Closure(DOMElement): DOMElement
+ * @return Closure(Element): Element
  */
 function attribute(string $name, string $value): Closure
 {
-    return static function (DOMElement $node) use ($name, $value): DOMElement {
+    return static function (Element $node) use ($name, $value): Element {
         $node->setAttribute($name, $value);
 
         return $node;

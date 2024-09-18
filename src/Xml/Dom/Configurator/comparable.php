@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use DOMDocument;
+use Dom\XMLDocument;
 use VeeWee\Xml\Dom\Traverser\Visitor\SortAttributes;
 use function VeeWee\Xml\Internal\configure;
 
 /**
- * @return Closure(DOMDocument): DOMDocument
+ * @return Closure(XMLDocument): XMLDocument
  */
 function comparable(): Closure
 {

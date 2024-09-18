@@ -10,7 +10,7 @@ use VeeWee\Xml\Xsd\Schema\Manipulator;
 use function VeeWee\Xml\Dom\Locator\Xsd\locate_all_xsd_schemas;
 
 $doc = Document::fromXmlFile('some.xml');
-$schemas = locate_all_xsd_schemas($doc->toUnsafeDocument())
+$schemas = $doc->map(locate_all_xsd_schemas(...))
     ->manipulate(Manipulator\base_path('/var/www'))
     ->manipulate(Manipulator\overwrite_with_local_files([
         'http://www.w3.org/2001/XMLSchema' => '/local/XMLSchema.xsd'

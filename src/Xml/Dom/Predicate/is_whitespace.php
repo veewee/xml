@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use DOMNode;
+use Dom\Node;
 
-function is_whitespace(DOMNode $node): bool
+function is_whitespace(Node $node): bool
 {
     return is_text($node) && trim($node->nodeValue ?? '') === '';
 }

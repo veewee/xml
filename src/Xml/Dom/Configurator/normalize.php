@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use DOMDocument;
+use Dom\XMLDocument;
 
 /**
- * @return Closure(DOMDocument): DOMDocument
+ * @return Closure(XMLDocument): XMLDocument
  */
 function normalize(): Closure
 {
-    return static function (DOMDocument $document): DOMDocument {
-        $document->normalizeDocument();
+    return static function (XMLDocument $document): XMLDocument {
+        $document->normalize();
 
         return $document;
     };

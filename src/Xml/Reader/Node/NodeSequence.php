@@ -8,6 +8,7 @@ use Countable;
 use Generator;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;
+use function count;
 use function Psl\Vec\slice;
 
 final class NodeSequence implements Countable
@@ -69,7 +70,7 @@ final class NodeSequence implements Countable
 
     public function count(): int
     {
-        return \count($this->elementNodes);
+        return count($this->elementNodes);
     }
 
     /**

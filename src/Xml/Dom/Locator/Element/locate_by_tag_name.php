@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Element;
 
-use DOMElement;
+use Dom\Element;
 use VeeWee\Xml\Dom\Collection\NodeList;
 
 /**
- * @return NodeList<DOMElement>
+ * @return NodeList<Element>
  */
-function locate_by_tag_name(DOMElement $node, string $tag): NodeList
+function locate_by_tag_name(Element $node, string $tag): NodeList
 {
-    return NodeList::fromDOMNodeList($node->getElementsByTagName($tag));
+    return NodeList::fromDOMHTMLCollection($node->getElementsByTagName($tag));
 }

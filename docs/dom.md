@@ -1,7 +1,7 @@
 # DOM Component
 
 The DOM Components operate on XML documents through the DOM API.
-Instead of solely wrapping a DOMDocument with our own class,
+Instead of solely wrapping a XMLDocument with our own class,
 we embrace the fact that the DOM implementation is leaky.
 This package provides a set of composable tools that allow you to safely work with the DOM extension.
 
@@ -10,18 +10,17 @@ Since not all code is in one big master class, you will find that it is not too 
 ## Examples
 
 ```php
-use DOMDocument;
+use \Dom\XMLDocument;
 use Psl\Type;
-use VeeWee\XML\DOM\Configurator;
-use VeeWee\XML\DOM\Document;
-use VeeWee\XML\DOM\Validator;
-use VeeWee\XML\DOM\Xpath;
-use function VeeWee\XML\DOM\Loader\xml_file_loader;
+use VeeWee\Xml\Dom\Configurator;
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Loader;
+use VeeWee\Xml\Dom\Validator;
+use VeeWee\Xml\Dom\Xpath;
 
-$doc = Document::configure(
-    Configurator\utf8(),
-    $debug ? Configurator\pretty_print() : Configurator\trim_spaces(),
-    Configurator\Loader(xml_file_loader('data.xml')),
+$doc = Document::fromLoader(
+    Loader\xml_file_loader('data.xml', LIBXML_NOBLANKS, 'UTF-8'),
+    Configurator\format_output($debug),
     Configurator\validator(
         Validator\internal_xsd_validator()
     ),
@@ -42,7 +41,7 @@ $count = $xpath->evaluate('count(.//item)', Type\int(), $currentNode);
 Of course, the example above only gives you a small idea of all the implemented features.
 Let's find out more by segregating the DOM component into its composable blocks:
 
-* [Assertions](#assertions): Assert if a DOMNode is of a specific type.
+* [Assertions](#assertions): Assert if a Node is of a specific type.
 * [Builders](#builders): Let you build XML by using a declarative API.
 * [Collection](#collection): A wrapper for dealing with lists of nodes.
 * [Configurators](#configurators): Specify how you want to configure your DOM document.
@@ -50,7 +49,7 @@ Let's find out more by segregating the DOM component into its composable blocks:
 * [Locators](#locators): Enables you to locate specific XML elements.
 * [Manipulators](#manipulators): Allows you to manipulate any DOM document.
 * [Mappers](#mappers): Converts the DOM document to something else.
-* [Predicates](#predicates): Check if a DOMNode is of a specific type.
+* [Predicates](#predicates): Check if a Node is of a specific type.
 * [Traverser](#traverser): Traverse over a complete DOM tree and perform visitor-based manipulations.
 * [Validators](#validators): Validate the content of your XML document.
 * [XPath](#xpath): Query for specific elements based on XPath queries.
@@ -58,11 +57,11 @@ Let's find out more by segregating the DOM component into its composable blocks:
 
 ## Assertions
 
-Assert if a DOMNode is of a specific type.
+Assert if a Node is of a specific type.
 
 #### assert_attribute
 
-Assert if a node is of type `DOMAttr`.
+Assert if a node is of type `Dom\Attr`.
 
 ```php
 use Psl\Type\Exception\AssertException;
@@ -77,7 +76,7 @@ try {
 
 #### assert_cdata
 
-Assert if a node is of type `DOMCdataSection`.
+Assert if a node is of type `Dom\CDATASection`.
 
 ```php
 use Psl\Type\Exception\AssertException;
@@ -92,7 +91,7 @@ try {
 
 #### assert_document
 
-Assert if a node is of type `DOMDocument`.
+Assert if a node is of type `Dom\XMLDocument`.
 
 ```php
 use Psl\Type\Exception\AssertException;
@@ -107,7 +106,7 @@ try {
 
 #### assert_dome_node_list
 
-Assert if a variable is of type `DOMNodeList`.
+Assert if a variable is of type `Dom\NodeList`.
 
 ```php
 use Psl\Type\Exception\AssertException;
@@ -122,11 +121,11 @@ try {
 
 #### assert_element
 
-Assert if a node is of type `DOMElement`.
+Assert if a node is of type `Dom\Element`.
 
 ```php
 use Psl\Type\Exception\AssertException;
-use VeeWee\XML\DOM\Document;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Assert\assert_element;
 
 $doc = Document::fromXmlFile('some.xml');
@@ -185,7 +184,7 @@ $doc->manipulate(
 
 #### attribute
 
-Operates on a `DOMElement` and adds the attribute with specified key and value
+Operates on a `Dom\Element` and adds the attribute with specified key and value
 
 ```php
 use function VeeWee\Xml\Dom\Builder\attribute;
@@ -202,7 +201,7 @@ element('foo',
 
 #### attributes
 
-Operates on a `DOMElement` and adds multiple attributes with specified key and value
+Operates on a `Dom\Element` and adds multiple attributes with specified key and value
 
 ```php
 use function VeeWee\Xml\Dom\Builder\attribute;
@@ -222,7 +221,7 @@ element('foo',
 
 #### cdata
 
-Operates on a `DOMNode` and creates a `DOMCdataSection`.
+Operates on a `Dom\Node` and creates a `Dom\CDATASection`.
 It can contain a set of configurators that can be used to dynamically change the cdata's contents.
 
 ```php
@@ -242,7 +241,7 @@ element('hello', children(
 
 #### children
 
-Operates on a `DOMNode` and attaches multiple child nodes.
+Operates on a `Dom\Node` and attaches multiple child nodes.
 
 ```php
 use function VeeWee\Xml\Dom\Builder\element;
@@ -265,7 +264,7 @@ element('hello',
 
 #### element
 
-Operates on a `DOMNode` and creates a new element.
+Operates on a `Dom\Node` and creates a new element.
 It can contain a set of configurators that can be used to specify the attributes, children, value, ... of the element.
 
 ```php
@@ -280,7 +279,7 @@ element('hello', ...$configurators);
 
 #### escaped_value
 
-Operates on a `DOMElement` and sets the node value.
+Operates on a `Dom\Element` and sets the node value.
 All XML entities `<>"'` will be escaped.
 
 ```php
@@ -297,7 +296,7 @@ element('hello', escaped_value('<"\'>'));
 
 #### namespaced_attribute
 
-Operates on a `DOMElement` and adds a namespaced attribute with specified key and value
+Operates on a `Dom\Element` and adds a namespaced attribute with specified key and value
 
 ```php
 use function VeeWee\Xml\Dom\Builder\element;
@@ -315,7 +314,7 @@ element('foo',
 #### namespaced_attributes
 
 
-Operates on a `DOMElement` and adds a namespaced attribute with specified key and value
+Operates on a `Dom\Element` and adds a namespaced attribute with specified key and value
 
 ```php
 use function VeeWee\Xml\Dom\Builder\element;
@@ -336,7 +335,7 @@ element('foo',
 
 #### namespaced_element
 
-Operates on a `DOMNode` and creates a new namespaced element.
+Operates on a `Dom\Node` and creates a new namespaced element.
 It can contain a set of configurators that can be used to specify the attributes, children, value, ... of the element.
 
 ```php
@@ -351,8 +350,8 @@ namespaced_element('http://acme.com', 'hello', ...$configurators);
 
 #### nodes
 
-Operates on a `DOMDocument` and is the builder that is being called by the `Document::manipulate` method.
-It can return one or more `DOMNode` objects
+Operates on a `Dom\XMLDocument` and is the builder that is being called by the `Document::manipulate` method.
+It can return one or more `Dom\Node` objects
 
 ```php
 use function VeeWee\Xml\Dom\Builder\element;
@@ -360,7 +359,7 @@ use function VeeWee\Xml\Dom\Builder\nodes;
 
 nodes(
     element('item'),
-    static fn (DOMDocument $document): array => [
+    static fn (XMLDocument $document): array => [
         element('item')($document),
         element('item')($document),
     ],
@@ -371,7 +370,7 @@ nodes(
 
 #### value
 
-Operates on a `DOMElement` and sets the node value.
+Operates on a `Dom\Element` and sets the node value.
 
 ```php
 use function VeeWee\Xml\Dom\Builder\element;
@@ -382,7 +381,7 @@ element('hello', value('world'));
 
 #### xmlns_attribute
 
-Operates on a `DOMElement` and adds a xmlns namespace attribute.
+Operates on a `Dom\Element` and adds a xmlns namespace attribute.
 
 ```php
 use function VeeWee\Xml\Dom\Builder\element;
@@ -393,7 +392,7 @@ element('hello', xmlns_attribute('ns', 'http://ns.com'));
 
 #### xmlns_attributes
 
-Operates on a `DOMElement` and adds multiple xmlns namespace attributes.
+Operates on a `Dom\Element` and adds multiple xmlns namespace attributes.
 
 ```php
 use function VeeWee\Xml\Dom\Builder\element;
@@ -407,24 +406,24 @@ element('hello', xmlns_attributes(['ns' => 'http://ns.com']));
 ```
 ## Collection
 
-This package provides a type-safe replacement for `DOMNodeList` with few more options.
+This package provides a type-safe replacement for `Dom\NodeList` with few more options.
 Some examples:
 
 ```php
-use DOMElement;
+use Dom\Element;
 use Psl\Type;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Node\value;
 
-$totalPrice = NodeList::fromDOMNodeList($list)
-    ->expectAllOfType(DOMElement::class)
-    ->filter(fn(DOMElement $element) => $element->nodeName === 'item')
+$totalPrice = NodeList::fromNodeList($list)
+    ->expectAllOfType(Element::class)
+    ->filter(fn(Element $element) => $element->nodeName === 'item')
     ->eq(0)
     ->siblings()
     ->children()
     ->query('./price')
     ->reduce(
-        static fn (int $total, DOMElement $price): int
+        static fn (int $total, Element $price): int
             => $total + value($price, Type\int()),
         0
     );
@@ -443,12 +442,10 @@ The loader runs canonicalization (C14N) on the document and applies some other o
 
 ```php
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Configurator\canonicalize;
-use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
-Document::configure(
-    loader(xml_string_loader($xml)),
+Document::fromXmlString(
+    $xml,
     canonicalize()
 );
 ```
@@ -457,7 +454,7 @@ Document::configure(
 
 The loader runs following optimization on the provided XML, in order to make it comparable:
 
-* [Namespace optimizations](#TODO)
+* [Namespace optimizations](#optimize_namespaces)
 * [Canonicalization](#canonicalize)
 * [Attribute sorting](#sortattributes)
 
@@ -471,11 +468,10 @@ Document::fromXmlFile(
 );
 ```
 
-
 #### document_uri
 
 Allows you to keep track of the document uri, even if you are using an in-memory string.
-Internally, it sets `DOMDocument::$documentURI`, which gets used as `file` in the [error-handling issues component](./error-handling.md#issues).
+Internally, it sets `Dom\XMLDocument::$documentURI`, which gets used as `file` in the [error-handling issues component](./error-handling.md#issues).
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -488,23 +484,27 @@ Document::fromXmlString(
 );
 ```
 
-#### loader
+#### format_output
 
-The loader configurator takes a [loader](#loaders) to specify the source of the DOM Document.
+Specify if the saved XML output should be formatted or not.
+This can make the output of the DOM document human-readable or with trimmed spaces.
 
 ```php
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Configurator\loader;
-use function VeeWee\Xml\Dom\Loader\xml_string_loader;
+use function VeeWee\Xml\Dom\Configurator\format_output;
+use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-Document::configure(
-    loader(xml_string_loader('<xml />'))
+$debug = true;
+$doc = Document::fromLoader(
+    // If the input has blank nodes, You'll need to use LIBXML_NOBLANKS in order to change the output format. 
+    xml_file_loader('data.xml', LIBXML_NOBLANKS)
+    format_output($debug),
 );
 ```
 
 #### normalize
 
-This configurator normalizes an XML file to return the DOMDocument back in a "normal" form.
+This configurator normalizes an XML file to return the XMLDocument back in a "normal" form.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -536,18 +536,16 @@ Document::fromUnsafeDocument(
 #### pretty_print
 
 Makes the output of the DOM document human-readable.
-
-⚠️ This configurator needs to be called before loading the XML!
+This reloads the DOM document and reformats the nodes.
+Consider using [format_output](#format_output) instead if you don't want to re-load the XML document.
 
 ```php
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\pretty_print;
-use function VeeWee\Xml\Dom\Configurator\loader;
-use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-$doc = Document::configure(
+$doc = Document::fromXmlFile(
+    'data.xml',
     pretty_print(),
-    loader(xml_file_loader('data.xml'))
 );
 ```
 
@@ -572,36 +570,32 @@ $doc = Document::fromXmlFile(
 #### trim_spaces
 
 Trims all whitespaces from the DOM document in order to make it as small as possible in bytesize.
-
-⚠️ This configurator needs to be called before loading the XML!
+This reloads the DOM document and reformats the nodes.
+Consider using [format_output](#format_output) instead if you don't want to re-load the XML document.
 
 ```php
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;
-use function VeeWee\Xml\Dom\Configurator\loader;
-use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-$doc = Document::configure(
+$doc = Document::fromXmlFile(
+    'data.xml',
     trim_spaces(),
-    loader(xml_file_loader('data.xml'))
 );
 ```
 
 #### utf8
 
 Marks the DOM document as UTF-8.
-
-⚠️ This configurator needs to be called before loading the XML!
+There are 2 ways to do this: either whilst loading or afterward through a configurator.
 
 ```php
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\utf8;
-use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
-$doc = Document::configure(
+$doc = Document::fromLoader(
+    xml_file_loader('data.xml', override_encoding: 'UTF-8'),
     utf8(),
-    loader(xml_file_loader('data.xml'))
 );
 ```
 
@@ -625,16 +619,16 @@ $doc = Document::fromXmlFile(
 
 #### Writing your own configurator
 
-A configurator can be any `callable` that takes a `DOMDocument` and configures it:
+A configurator can be any `callable` that takes a `Dom\XMLDocument` and configures it:
 
 ```php
-namespace VeeWee\Xml\DOM\Configurator;
+namespace VeeWee\Xml\Dom\Configurator;
 
-use DOMDocument;
+use \Dom\XMLDocument;
 
 interface Configurator
 {
-    public function __invoke(DOMDocument $document): DOMDocument;
+    public function __invoke(XMLDocument $document): XMLDocument;
 }
 ```
 
@@ -642,8 +636,13 @@ You can apply the configurator as followed:
 
 ```php
 use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Configurator;
 
-$document = Document::configure($loader, ...$configurators);
+// On an empty XML document
+$document = Document::configure(...$configurators);
+
+// On an existing XML document.
+$document = Document::fromLoader($loader, ...$configurators);
 ```
 
 ## Loaders
@@ -654,19 +653,18 @@ Loads an XML document from a file.
 
 ```php
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_file_loader;
 
 $doc = Document::fromXmlFile('some-xml.xml', ...$configurators);
 
 // or
 
-$doc = Document::configure(loader(xml_file_loader($file, LIBXML_NOCDATA)));
+$doc = Document::fromLoader(xml_file_loader($file, options: LIBXML_NOCDATA, override_encoding: 'UTF-8'));
 ```
 
 #### xml_node_loader
 
-Loads an XML document from an external `DOMNode`.
+Loads an XML document from an external `Dom\Node`.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -680,14 +678,13 @@ Loads an XML document from a string.
 
 ```php
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Configurator\loader;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 $doc = Document::fromXmlString('<xml />', ...$configurators);
 
 // or
 
-$doc = Document::configure(loader(xml_string_loader($xml, LIBXML_NOCDATA)));
+$doc = Document::fromLoader(xml_string_loader($xml, options: LIBXML_NOCDATA, override_encoding: 'UTF-8'));
 ```
 
 #### Writing your own loader
@@ -695,11 +692,11 @@ $doc = Document::configure(loader(xml_string_loader($xml, LIBXML_NOCDATA)));
 ```php
 namespace VeeWee\Xml\Dom\Loader;
 
-use DOMDocument;
+use \Dom\XMLDocument;
 
 interface Loader
 {
-    public function __invoke(DOMDocument $document): void;
+    public function __invoke(): XMLDocument;
 }
 ```
 
@@ -708,7 +705,7 @@ You can apply the loader as followed:
 ```php
 use VeeWee\Xml\Dom\Document;
 
-$document = Document::configure($loader, ...$configurators);
+$document = Document::fromLoader($loader, ...$configurators);
 ```
 
 ## Locators
@@ -718,35 +715,35 @@ The locators are split up based on what they are locating.
 
 ### Attribute
 
-The attributes locators will return attributes and can be called on a `DOMNode`.
+The attributes locators will return attributes and can be called on a `Dom\Node`.
 
 #### attributes_list
 
-This function will look for all attributes on a `DOMNode`.
+This function will look for all attributes on a `Dom\Node`.
 For nodes that don't support attributes, you will receive an empty `NodeList`.
-The result of this function will be of type `NodeList<DOMAttr>`.
+The result of this function will be of type `NodeList<\Dom\Attr>`.
 
 ```php
-use DOMAttr;
+use Dom\Attr;
 use function VeeWee\Xml\Dom\Locator\Attribute\attributes_list;
 
 $attributes = attributes_list($element)->sort(
-    static fn (DOMAttr $a, DOMAttr $b): int => $a->nodeName <=> $b->nodeName
+    static fn (Attr $a, Attr $b): int => $a->nodeName <=> $b->nodeName
 );
 ```
 
 #### xmlns_attributes_list
 
-This function will look for all xmlns attributes on a `DOMNode`.
+This function will look for all xmlns attributes on a `Dom\Node`.
 For nodes that don't support attributes, you will receive an empty `NodeList`.
-The result of this function will be of type `NodeList<DOMNameSpaceNode>`.
+The result of this function will be of type `NodeList<Dom\Attr>`.
 
 ```php
-use DOMNameSpaceNode;
+use Dom\Attr;
 use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
 
 $attributes = xmlns_attributes_list($element)->sort(
-    static fn (DOMNameSpaceNode $a, DOMNameSpaceNode $b): int => $a->prefix <=> $b->prefix
+    static fn (Attr $a, Attr $b): int => $a->prefix <=> $b->prefix
 );
 ```
 
@@ -790,11 +787,11 @@ $products = $doc->locate(elements_with_tagname('product'));
 
 ### Element
 
-These locators can be run on `DOMElement` instances.
+These locators can be run on `Dom\Element` instances.
 
 #### Element\ancestors
 
-Fetch all ancestor elements from a specific `DOMNode`.
+Fetch all ancestor elements from a specific `Dom\Node`.
 
 ```php
 use function VeeWee\Xml\Dom\Locator\Element\ancestors;
@@ -804,8 +801,8 @@ $ancestorNodes = ancestors($element);
 
 #### Element\children
 
-Fetch all child `DOMElement`'s from a specific `DOMNode`.
-If you only want all types of children (`DOMText`, ...), you can use the `Node\children()` locator.
+Fetch all child `Dom\Element`'s from a specific `Dom\Node`.
+If you only want all types of children (`Dom\Text`, ...), you can use the `Node\children()` locator.
 
 ```php
 use function VeeWee\Xml\Dom\Locator\Element\children;
@@ -839,7 +836,7 @@ $products = parent_element($element);
 
 #### Element\siblings
 
-Fetch all sibling elements from a specific `DOMNode`.
+Fetch all sibling elements from a specific `Dom\Node`.
 
 ```php
 use function VeeWee\Xml\Dom\Locator\Element\siblings;
@@ -849,11 +846,11 @@ $ancestorNodes = siblings($element);
 
 ### Node
 
-These locators can be run on any `DOMNode` instance.
+These locators can be run on any `Dom\Node` instance.
 
 #### Node\children
 
-Fetch all child nodes from a specific `DOMNode`. This can be any kind of node: `DOMText`, `DOMElement`, ...
+Fetch all child nodes from a specific `Dom\Node`. This can be any kind of node: `Dom\Text`, `Dom\Element`, ...
 If you only want the element children, you can use the `Element\children()` locator.
 
 ```php
@@ -864,7 +861,7 @@ $childNodes = children($element);
 
 #### Node\detect_document
 
-Fetch the `DOMDocument` to which a node is linked.
+Fetch the `Dom\XMLDocument` to which a node is linked.
 If the node is not linked to a document yet, it throws a `InvalidArgumentException`.
 
 ```php
@@ -875,7 +872,7 @@ $document = detect_document($element);
 
 #### Node\value
 
-Fetch the value from the provided `DOMNode` and coerce it to a specific type.
+Fetch the value from the provided `Dom\Node` and coerce it to a specific type.
 
 ```php
 use Psl\Type;
@@ -886,7 +883,7 @@ $productPrice = value($product, Type\float());
 
 ### Xmlns
 
-These locators can be run on `DOMNode` instances.
+These locators can be run on `Dom\Node` instances.
 
 #### Xmlns\linked_namespaces
 
@@ -896,7 +893,7 @@ This function returns a list of all namespaces that are linked to a specific DOM
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
 
-/** @var NodeList<DOMNameSpaceNode> $namespaces */
+/** @var list<\Dom\NamespaceInfo> $namespaces
 $namespaces = linked_namespaces($element);
 ```
 
@@ -908,13 +905,13 @@ This function returns a list of all namespaces that are linked to a specific DOM
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
 
-/** @var NodeList<DOMNameSpaceNode> $namespaces */
+/** @var list<\Dom\NamespaceInfo> $namespaces
 $namespaces = recursive_linked_namespaces($element);
 ```
 
 ### Xsd
 
-Locates internally applied XSD schema's from a specific `DOMDocument`.
+Locates internally applied XSD schema's from a specific `Dom\XMLDocument`.
 
 #### Xsd\locate_all_xsd_schemas
 
@@ -975,13 +972,13 @@ $doc->manipulate(
 #### optimize_namespaces
 
 ```php
-use DOMDocument;
+use \Dom\XMLDocument;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Manipulator\Document\optimize_namespaces;
 
 $doc = Document::empty();
 $doc->manipulate(
-    static function (DOMDocument $document): void {
+    static function (XMLDocument $document): void {
         optimize_namespaces($document, 'prefix');
     }
 );
@@ -989,7 +986,7 @@ $doc->manipulate(
 
 ### Element
 
-Element specific manipulators operate on `DOMElement` instances.
+Element specific manipulators operate on `Dom\Element` instances.
 
 #### copy_named_xmlns_attributes
 
@@ -1018,11 +1015,11 @@ copy_named_xmlns_attributes($b, $a);
 
 ### Node
 
-Node specific manipulators operate on `DOMNode` instances.
+Node specific manipulators operate on `Dom\Node` instances.
 
 #### append_external_node
 
-Makes it possible to append a `DOMNode` from an external document into a `DOMNode` from the current document.
+Makes it possible to append a `Dom\Node` from an external document into a `Dom\Node` from the current document.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\append_external_node;
@@ -1032,7 +1029,7 @@ $copiedNode = append_external_node($documentNode, $externalNode);
 
 #### import_node_deeply
 
-Makes it possible to import a full `DOMNode` from an external document so that it can be used in the current document.
+Makes it possible to import a full `Dom\Node` from an external document so that it can be used in the current document.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\import_node_deeply;
@@ -1042,7 +1039,7 @@ $copiedNode = import_node_deeply($documentNode, $externalNode);
 
 #### remove
 
-Makes it possible to remove any type of `DOMNode` directly. This include attributes.
+Makes it possible to remove any type of `Dom\Node` directly. This include attributes.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\remove;
@@ -1051,7 +1048,7 @@ $removedNode = remove($node);
 ```
 #### rename
 
-Makes it possible to rename `DOMElement` and `DOMAttr`nodes.
+Makes it possible to rename `Dom\Element` and `Dom\Attr`nodes.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\rename;
@@ -1071,7 +1068,7 @@ rename_element($element, 'foo', $newUri);
 ```
 
 Besides renaming attributes and elements, you can also rename an xmlns namespace.
-This however, operates on the `DOMDocument`:
+This however, operates on the `Dom\XMLDocument`:
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename;
@@ -1081,7 +1078,7 @@ rename($doc, 'http://namespace', 'prefix');
 
 #### remove_namespace
 
-Makes it possible to remove a `DOMNamespaceNode` from an element.
+Makes it possible to remove a xmlns `Dom\Attr` from an element.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\remove_namespace;
@@ -1091,7 +1088,7 @@ $removedNamespace = remove_namespace($namespace, $element);
 
 #### replace_by_external_node
 
-Makes it possible to replace a `DOMNode` from the current document with a `DOMNode` from an external document.
+Makes it possible to replace a `Dom\Node` from the current document with a `Dom\Node` from an external document.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_node;
@@ -1101,7 +1098,7 @@ $copiedNode = replace_by_external_node($documentNode, $externalNode);
 
 #### replace_by_external_nodes
 
-Makes it possible to replace a `DOMNode` from the current document with a list of `DOMNode` from an external document.
+Makes it possible to replace a `Dom\Node` from the current document with a list of `Dom\Node` from an external document.
 
 ```php
 use function VeeWee\Xml\Dom\Manipulator\Node\replace_by_external_nodes;
@@ -1158,12 +1155,12 @@ For more information on the processor configurators, [see the XSLT documentation
 #### Writing your own mapper
 
 
-A configurator can be any `callable` that takes a `DOMDocument` and configures it:
+A configurator can be any `callable` that takes a `Dom\XMLDocument` and configures it:
 
 ```php
 namespace VeeWee\Xml\Dom\Mapper;
 
-use DOMDocument;
+use \Dom\XMLDocument;
 
 /**
  * @template R
@@ -1173,7 +1170,7 @@ interface Mapper
     /**
      * @return R
      */
-    public function __invoke(DOMDocument $document): mixed;
+    public function __invoke(XMLDocument $document): mixed;
 }
 
 ```
@@ -1189,11 +1186,11 @@ $result = $document->map($mapper);
 
 ## Predicates
 
-Check if a DOMNode is of a specific type.
+Check if a Node is of a specific type.
 
 #### is_attribute
 
-Checks if a node is of type `DOMAttr`.
+Checks if a node is of type `Dom\Attr`.
 
 ```php
 use function VeeWee\Xml\Dom\Predicate\is_attribute;
@@ -1205,7 +1202,7 @@ if (is_attribute($someNode)) {
 
 #### is_cdata
 
-Checks if a node is of type `DOMCdataSection`.
+Checks if a node is of type `Dom\CDATASection`.
 
 ```php
 use function VeeWee\Xml\Dom\Predicate\is_cdata;
@@ -1217,7 +1214,7 @@ if (is_cdata($someNode)) {
 
 #### is_default_xmlns_attribute
 
-Checks if a node is of type `DOMNameSpaceNode` and is the default xmlns.
+Checks if a node is of type `Dom\Attr` and is the default xmlns.
 
 ```php
 use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
@@ -1229,7 +1226,7 @@ if (is_default_xmlns_attribute($namespace)) {
 
 #### is_document
 
-Checks if a node is of type `DOMDocument`.
+Checks if a node is of type `Dom\XMLDocument`.
 
 ```php
 use function VeeWee\Xml\Dom\Predicate\is_document;
@@ -1241,7 +1238,7 @@ if (is_document($someNode)) {
 
 #### is_document_element
 
-Checks if a node is the root `DOMElement` of  the `DOMDocument`.
+Checks if a node is the root `Dom\Element` of  the `Dom\XMLDocument`.
 
 ```php
 use function VeeWee\Xml\Dom\Predicate\is_document_element;
@@ -1253,10 +1250,10 @@ if (is_document_element($rootNode)) {
 
 #### is_element
 
-Checks if a node is of type `DOMElement`.
+Checks if a node is of type `Dom\Element`.
 
 ```php
-use VeeWee\XML\DOM\Document;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_element;
 
 $doc = Document::fromXmlFile('some.xml');
@@ -1269,7 +1266,7 @@ if (is_element($item)) {
 
 #### is_non_empty_text
 
-Checks if a node is of type `DOMText` and that its value is not just a whitespace.
+Checks if a node is of type `Dom\Text` and that its value is not just a whitespace.
 This behaves in the opposite  way of the `is_whitespace()` function and uses the `is_text()` function internally.
 
 ```php
@@ -1282,7 +1279,7 @@ if (is_non_empty_text($someNode)) {
 
 #### is_text
 
-Checks if a node is of type `DOMText`.
+Checks if a node is of type `Dom\Text`.
 You can also check for `is_whitespace()` or `is_non_empty_text()` if you want to do a deeper check.
 
 ```php
@@ -1295,7 +1292,7 @@ if (is_text($someNode)) {
 
 #### is_xmlns_attribute
 
-Checks if a node is of type `DOMNameSpaceNode`.
+Checks if a node is of type `Dom\Attr`.
 
 ```php
 use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
@@ -1307,7 +1304,7 @@ if (is_xmlns_attribute($namespace)) {
 
 #### is_whitespace
 
-Checks if a node is of type `DOMText` and that its value consists of just whitespaces.
+Checks if a node is of type `Dom\Text` and that its value consists of just whitespaces.
 This behaves in the opposite  way of the `is_non_empty_text()` function and uses the `is_text()` function internally.
 
 ```php
@@ -1341,7 +1338,7 @@ Imagine you want to replace all attribute values in all XML tags with 'wazzup'.
 Here is an example visitor that implements this feature:
 
 ```php
-use DOMNode;
+use Dom\Node;
 use VeeWee\Xml\Dom\Traverser\Action;
 use VeeWee\Xml\Dom\Traverser\Visitor\AbstractVisitor;
 use function VeeWee\Xml\Dom\Builder\attribute;
@@ -1349,7 +1346,7 @@ use function VeeWee\Xml\Dom\Predicate\is_attribute;
 
 class WazzupVisitor extends AbstractVisitor
 {
-    public function onNodeLeave(DOMNode $node) : Action
+    public function onNodeLeave(Node $node) : Action
     {
         if (!is_attribute($node)) {
             return new Action\Noop();
@@ -1362,7 +1359,7 @@ class WazzupVisitor extends AbstractVisitor
 }
 ```
 
-So how does it work? Every time the traverser sees a DOMNode, it will trigger all provided visitors.
+So how does it work? Every time the traverser sees a Node, it will trigger all provided visitors.
 The visitor above will look for attribute nodes. All other nodes will be ignored.
 Next it will replace the attribute with value WAZZUP and add it to the node.
 Finally, we tell the traverser that the visitor is finished and no additional actions need to be performed.
@@ -1415,12 +1412,12 @@ The result of these functions is an action that can be performed by the traverse
 ```php
 namespace VeeWee\Xml\Dom\Traverser;
 
-use DOMNode;
+use Dom\Node;
 
 interface Visitor
 {
-    public function onNodeEnter(DOMNode $node): Action;
-    public function onNodeLeave(DOMNode $node): Action;
+    public function onNodeEnter(Node $node): Action;
+    public function onNodeLeave(Node $node): Action;
 }
 ```
 
@@ -1429,11 +1426,11 @@ An action looks like this:
 ```php
 namespace VeeWee\Xml\Dom\Traverser;
 
-use DOMNode;
+use Dom\Node;
 
 interface Action
 {
-    public function __invoke(DOMNode $currentNode): void;
+    public function __invoke(Node $currentNode): void;
 }
 ```
 
@@ -1454,7 +1451,7 @@ Validate the content of your XML document.
 Validates the document based on all internally specified XML schema's.
 
 ```php
-use VeeWee\XML\DOM\Document;
+use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Xsd\Schema\Manipulator;
 use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
 
@@ -1471,7 +1468,7 @@ It takes one or more XSD schema manipulators. For more information [see XSD sche
 Can be used to validate with multiple validators. The result is a combined list of issues!
 
 ```php
-use VeeWee\XML\DOM\Document;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Validator\validator_chain;
 use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
 use function VeeWee\Xml\Dom\Validator\xsd_validator;
@@ -1488,7 +1485,7 @@ $issues = $doc->validate(validator_chain(
 Makes it possible to validate an XML against a specific XSD file. 
 
 ```php
-use VeeWee\XML\DOM\Document;
+use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Validator\xsd_validator;
 
 $doc = Document::fromXmlFile('some.xml');
@@ -1497,17 +1494,17 @@ $issues = $doc->validate(xsd_validator('myown.xsd'));
 
 #### Writing your own validator
 
-A validator can be any `callable` that takes a `DOMDocument` and returns an `IssueCollection`.
+A validator can be any `callable` that takes a `Dom\XMLDocument` and returns an `IssueCollection`.
 
 ```php
 namespace VeeWee\Xml\Dom\Validator;
 
-use DOMDocument;
+use \Dom\XMLDocument;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 
 interface Validator
 {
-    public function __invoke(DOMDocument $document): IssueCollection;
+    public function __invoke(XMLDocument $document): IssueCollection;
 }
 ```
 
@@ -1530,8 +1527,8 @@ Can be used to configure an XPath object.
 Registers all known PHP functions to the XPath object, allowing you to use `php:somefunction()` inside your XPath query.
 
 ```php
-use VeeWee\XML\DOM\Document;
-use function VeeWee\XML\DOM\Xpath\Configurator\all_functions;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Xpath\Configurator\all_functions;
 
 $doc = Document::fromXmlFile('data.xml');
 $xpath = $doc->xpath(all_functions());
@@ -1542,8 +1539,8 @@ $xpath = $doc->xpath(all_functions());
 Registers a list of known PHP functions to the XPath object, allowing you to use `php:somefunction()` inside your XPath query.
 
 ```php
-use VeeWee\XML\DOM\Document;
-use function VeeWee\XML\DOM\Xpath\Configurator\functions;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Xpath\Configurator\functions;
 
 $doc = Document::fromXmlFile('data.xml');
 $xpath = $doc->xpath(functions(['has_multiple']));
@@ -1555,8 +1552,8 @@ Registers a map of namespaces with their prefix to the XPath object.
 This allows you to use a prefix name for a specific namespace. E.g. `//soap:envelope`.
 
 ```php
-use VeeWee\XML\DOM\Document;
-use function VeeWee\XML\DOM\Xpath\Configurator\namespaces;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
 
 $doc = Document::fromXmlFile('data.xml');
 $xpath = $doc->xpath(
@@ -1572,8 +1569,8 @@ $xpath = $doc->xpath(
 Registers the `php` namespace in order to allow registration of php functions.
 
 ```php
-use VeeWee\XML\DOM\Document;
-use function VeeWee\XML\DOM\Xpath\Configurator\php_namespace;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Xpath\Configurator\php_namespace;
 
 $doc = Document::fromXmlFile('data.xml');
 $xpath = $doc->xpath(php_namespace());
@@ -1581,16 +1578,16 @@ $xpath = $doc->xpath(php_namespace());
 
 #### Writing your own XPath configurator
 
-A configurator can be any `callable` that takes a `DOMXPath` and configures it:
+A configurator can be any `callable` that takes a `Dom\XPath` and configures it:
 
 ```php
 namespace VeeWee\Xml\Dom\Xpath\Configurator;
 
-use DOMXPath;
+use Dom\XPath;
 
 interface Configurator
 {
-    public function __invoke(DOMXPath $xpath): DOMXPath;
+    public function __invoke(XPath $xpath): XPath;
 }
 ```
 
@@ -1599,7 +1596,7 @@ You can apply the XPath configurator as followed:
 ```php
 use VeeWee\Xml\Dom\Document;
 
-$document = Document::configure('some.xml');
+$document = Document::fromXmlFile('some.xml');
 $document->xpath(...$configurators);
 ```
 
@@ -1628,7 +1625,7 @@ $count = $xpath->evaluate('count(.//item)', Type\int(), $productsElement);
 
 #### query
 
-Run a specific XPath query and expect to get back a list of matching `DOMElement`.
+Run a specific XPath query and expect to get back a list of matching `Dom\Element`.
 
 ```php
 use VeeWee\Xml\Dom\Document;
@@ -1666,13 +1663,13 @@ $productName = $xpath->querySingle('/name', $product);
 
 #### Writing your own XPath locator
 
-An XPath locator can be any `callable` that takes a `DOMXPath` and locates something on it:
+An XPath locator can be any `callable` that takes a `Dom\XPath` and locates something on it:
 
 
 ```php
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
-use DOMXPath;
+use Dom\XPath;
 
 /**
  * @template T
@@ -1682,7 +1679,7 @@ interface Locator
     /**
      * @return T
      */
-    public function __invoke(DOMXPath $xpath): mixed;
+    public function __invoke(XPath $xpath): mixed;
 }
 ```
 
@@ -1691,7 +1688,7 @@ You can apply the locator as followed:
 ```php
 use VeeWee\Xml\Dom\Document;
 
-$document = Document::configure('some.xml');
+$document = Document::fromXmlFile('some.xml');
 $xpath = $document->xpath();
 
 $result = $xpath->locate($locator);

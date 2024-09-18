@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use DOMNameSpaceNode;
-use DOMNode;
+use Dom\Node;
 
-function is_default_xmlns_attribute(DOMNode|DOMNameSpaceNode $node): bool
+function is_default_xmlns_attribute(Node $node): bool
 {
-    return is_xmlns_attribute($node) && $node->prefix === '';
+    return is_xmlns_attribute($node) && $node->prefix === null;
 }
