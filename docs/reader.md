@@ -175,16 +175,39 @@ $reader = Reader::configure($yourLoader, ...$configurators);
 
 ```php
 use VeeWee\Xml\Reader\Reader;
+use VeeWee\Xml\Reader\Loader\xml_file_loader;
 
 $reader = Reader::fromXmlFile('some-file.xml', ...$configurators);
+
+// OR
+
+$reader = Reader::configure(xml_file_loader('some-file.xml', encoding: 'UTF-8', flags: LIBXML_NOBLANKS), ...$configurators);
+```
+
+#### xml_stream_loader
+
+```php
+use VeeWee\Xml\Reader\Reader;
+use function VeeWee\Xml\Reader\Loader\xml_stream_loader;
+
+$reader = Reader::fromXmlStream($stream, ...$configurators);
+
+// OR
+
+$reader = Reader::configure(xml_stream_loader($stream, encoding: 'UTF-8', flags: LIBXML_NOBLANKS), ...$configurators);
 ```
 
 #### xml_string_loader
 
 ```php
 use VeeWee\Xml\Reader\Reader;
+use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 
 $reader = Reader::fromXmlString('<xml />', ...$configurators);
+
+// OR
+
+$reader = Reader::configure(xml_string_loader('<xml />', encoding: 'UTF-8', flags: LIBXML_NOBLANKS), ...$configurators);
 ```
 
 #### Writing your own loader

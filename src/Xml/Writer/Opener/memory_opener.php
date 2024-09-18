@@ -8,11 +8,9 @@ use Closure;
 use XMLWriter;
 
 /**
- * @return Closure(XMLWriter): bool XMLWriter
+ * @return Closure(): XMLWriter
  */
 function memory_opener(): Closure
 {
-    return static function (XMLWriter $writer): bool {
-        return $writer->openMemory();
-    };
+    return static fn () => XMLWriter::toMemory();
 }
