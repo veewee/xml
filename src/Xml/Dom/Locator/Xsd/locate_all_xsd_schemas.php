@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Xsd;
 
-use \Dom\XMLDocument;
+use Dom\XMLDocument;
 use Psl\Regex\Exception\RuntimeException;
 use VeeWee\Xml\Xsd\Schema\SchemaCollection;
 
 /**
  * @throws RuntimeException
  */
-function locate_all_xsd_schemas(\Dom\XMLDocument $document): SchemaCollection
+function locate_all_xsd_schemas(XMLDocument $document): SchemaCollection
 {
     return new SchemaCollection(
         ...iterator_to_array(locate_namespaced_xsd_schemas($document)),

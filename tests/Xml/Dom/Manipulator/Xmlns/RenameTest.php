@@ -12,7 +12,6 @@ final class RenameTest extends TestCase
 {
     /**
      * @dataProvider provideXmls
-     * @param callable(): \Dom\Attr $targetLocator
      */
     public function test_it_can_rename_namespaces(string $input, string $expected): void
     {

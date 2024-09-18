@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
+use Dom\XMLDocument;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 /**
- * @return Closure(\Dom\XMLDocument): \Dom\XMLDocument
+ * @return Closure(XMLDocument): XMLDocument
  */
 function pretty_print(): Closure
 {
-    return static function (\Dom\XMLDocument $document): \Dom\XMLDocument {
+    return static function (XMLDocument $document): XMLDocument {
         $trimmed = Document::fromLoader(
             xml_string_loader(
                 Document::fromUnsafeDocument($document)->toXmlString(),

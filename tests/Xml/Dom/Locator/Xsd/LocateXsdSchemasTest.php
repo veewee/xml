@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Xsd;
 
-use \DOM\XMLDocument;
+use DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Xsd\Schema\Schema;
@@ -60,7 +60,7 @@ final class LocateXsdSchemasTest extends TestCase
         );
     }
 
-    private function loadXsdContainer(): \DOM\XMLDocument
+    private function loadXsdContainer(): XMLDocument
     {
         $file = FIXTURE_DIR.'/dom/locator/xsd/xsdcontainer.xml';
         static::assertFileExists($file);

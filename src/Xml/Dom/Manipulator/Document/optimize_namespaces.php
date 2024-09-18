@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Document;
 
+use Dom\NamespaceInfo;
+use Dom\XMLDocument;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Dict\unique;
 use function Psl\Vec\map;
@@ -17,12 +19,12 @@ use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename_element_namespace;
 /**
  * @throws RuntimeException
  */
-function optimize_namespaces(\Dom\XMLDocument $document, string $prefix = 'ns'): void
+function optimize_namespaces(XMLDocument $document, string $prefix = 'ns'): void
 {
     $documentElement = document_element()($document);
     $namespaceURIs = values(unique(map(
         recursive_linked_namespaces($documentElement),
-        static fn (\Dom\NamespaceInfo $info): string => $info->namespaceURI ?? ''
+        static fn (NamespaceInfo $info): string => $info->namespaceURI ?? ''
     )));
 
     foreach (sort($namespaceURIs) as $index => $namespaceURI) {

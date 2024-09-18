@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Loader;
 
-use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;

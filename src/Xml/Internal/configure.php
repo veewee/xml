@@ -3,7 +3,6 @@
 namespace VeeWee\Xml\Internal;
 
 use Closure;
-
 use Psl\Iter;
 
 /**

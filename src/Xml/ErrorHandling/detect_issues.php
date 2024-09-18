@@ -6,7 +6,6 @@ namespace VeeWee\Xml\ErrorHandling;
 
 use Psl\Result;
 use Psl\Result\ResultInterface;
-
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use function libxml_clear_errors;
 use function libxml_get_errors;

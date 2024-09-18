@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Validator;
 
-use \DOM\XMLDocument as DOMDocument;
+use DOM\XMLDocument as DOMDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\ErrorHandling\Issue\Level;
-
 use function VeeWee\Xml\Dom\Validator\validator_chain;
 
 final class ValidatorChainTest extends TestCase
@@ -46,7 +45,7 @@ final class ValidatorChainTest extends TestCase
         yield 'oneFails' => [
             'validator' => validator_chain(
                 static fn (DOMDocument $document) => new IssueCollection(),
-                fn (DOMDocument $document) => new IssueCollection(
+                static fn (DOMDocument $document) => new IssueCollection(
                     self::createIssue(Level::fatal())
                 ),
                 static fn (DOMDocument $document) => new IssueCollection(),
@@ -56,10 +55,10 @@ final class ValidatorChainTest extends TestCase
         ];
         yield 'allFails' => [
             'validator' => validator_chain(
-                fn (DOMDocument $document) => new IssueCollection(
+                static fn (DOMDocument $document) => new IssueCollection(
                     self::createIssue(Level::fatal())
                 ),
-                fn (DOMDocument $document) => new IssueCollection(
+                static fn (DOMDocument $document) => new IssueCollection(
                     self::createIssue(Level::fatal()),
                     self::createIssue(Level::fatal())
                 ),

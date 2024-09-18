@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding\Internal\Decoder\Builder;
 
-use \Dom\Element;
+use Dom\Element;
 use function VeeWee\Xml\Dom\Locator\Element\children;
 
 /**
- * @psalm-type GroupedElements=array<string, \Dom\Element|list<\Dom\Element>>
+ * @psalm-type GroupedElements=array<string, Element|list<Element>>
  * @psalm-internal VeeWee\Xml\Encoding
  * @return GroupedElements
  */
-function group_child_elements(\Dom\Element $element): array
+function group_child_elements(Element $element): array
 {
     /** @var GroupedElements $grouped */
     $grouped = [];

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Builder;
 
-use \DOM\XMLDocument;
-use \DOM\Element;
+use DOM\Element;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function Psl\Fun\identity;
@@ -18,7 +17,7 @@ final class NamespacedElementTest extends TestCase
     {
         $doc = Document::empty()->toUnsafeDocument();
         $ns = 'https://namespace.com';
-        /** @var \DOM\Element $node */
+        /** @var Element $node */
         $node = namespaced_element($ns, 'ns:hello')($doc);
 
         static::assertSame($ns, $node->namespaceURI);
@@ -33,7 +32,7 @@ final class NamespacedElementTest extends TestCase
     {
         $doc = Document::empty()->toUnsafeDocument();
         $ns = 'https://namespace.com';
-        /** @var \DOM\Element $node */
+        /** @var Element $node */
         $node = namespaced_element($ns, 'hello')($doc);
 
         static::assertSame($ns, $node->namespaceURI);

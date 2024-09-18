@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Predicate;
 
-use \DOM\Node;
+use DOM\Node;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_element;
@@ -15,7 +15,7 @@ final class IsElementTest extends TestCase
      *
      * @dataProvider provideTestCases
      */
-    public function test_it_knows_elements(\DOM\Node $node, bool $expected): void
+    public function test_it_knows_elements(Node $node, bool $expected): void
     {
         static::assertSame($expected, is_element($node));
     }

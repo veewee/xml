@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
-use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\format_output;
@@ -21,8 +20,7 @@ final class FormatOutputTest extends TestCase
         string $input,
         string $expected,
         ?int $flags
-    ): void
-    {
+    ): void {
         $configurator = $formatOutput === null ? format_output() : format_output($formatOutput);
 
         $doc = Document::fromLoader(

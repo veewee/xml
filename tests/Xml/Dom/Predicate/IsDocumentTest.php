@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Predicate;
 
-use \DOM\Node;
+use DOM\Node;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_document;
@@ -15,7 +15,7 @@ final class IsDocumentTest extends TestCase
      *
      * @dataProvider provideTestCases
      */
-    public function test_it_knows_documents(\DOM\Node $node, bool $expected): void
+    public function test_it_knows_documents(Node $node, bool $expected): void
     {
         static::assertSame($expected, is_document($node));
     }

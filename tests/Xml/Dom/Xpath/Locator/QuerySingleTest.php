@@ -2,7 +2,7 @@
 
 namespace VeeWee\Tests\Xml\Dom\Xpath\Locator;
 
-use \DOM\Element;
+use DOM\Element;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -36,7 +36,7 @@ final class QuerySingleTest extends TestCase
         $xpath = $this->provideXml()->xpath();
         $actual = $xpath->querySingle('//item');
 
-        static::assertInstanceOf(\DOM\Element::class, $actual);
+        static::assertInstanceOf(Element::class, $actual);
     }
 
     
@@ -48,7 +48,7 @@ final class QuerySingleTest extends TestCase
         $xpath = $doc->xpath();
         $actual = $xpath->querySingle('./world', $hello);
 
-        static::assertInstanceOf(\DOM\Element::class, $actual);
+        static::assertInstanceOf(Element::class, $actual);
     }
 
     private function provideXml(): Document

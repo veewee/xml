@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
-use \DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\trim_spaces;

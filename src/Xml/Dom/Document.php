@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom;
 
 use Closure;
-use \Dom\XMLDocument;
-use \Dom\Element;
-use \Dom\Node;
-use \Dom\XPath as DOMXPath;
+use Dom\Element;
+use Dom\Node;
+use Dom\XMLDocument;
+use Dom\XPath as DOMXPath;
 use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
@@ -81,7 +81,7 @@ final class Document
      *
      * @throws RuntimeException
      */
-    public static function fromXmlNode(\Dom\Node $node, callable ...$configurators): self
+    public static function fromXmlNode(Node $node, callable ...$configurators): self
     {
         return self::fromLoader(Loader\xml_node_loader($node), ...$configurators);
     }
@@ -112,7 +112,7 @@ final class Document
         return $locator($this->document);
     }
 
-    public function locateDocumentElement(): \Dom\Element
+    public function locateDocumentElement(): Element
     {
         return $this->locate(Locator\document_element());
     }
@@ -130,9 +130,9 @@ final class Document
     }
 
     /**
-     * @param list<callable(XMLDocument): (list<\Dom\Node>|\Dom\Node)> $builders
+     * @param list<callable(XMLDocument): (list<Node>|Node)> $builders
      *
-     * @return list<\Dom\Node>
+     * @return list<Node>
      */
     public function build(callable ... $builders): array
     {
@@ -182,7 +182,7 @@ final class Document
     /**
      * @no-named-arguments
      */
-    public function traverse(Visitor ... $visitors): \Dom\Node
+    public function traverse(Visitor ... $visitors): Node
     {
         $traverser = new Traverser(...$visitors);
         return $traverser->traverse($this->map(document_element()));
@@ -207,7 +207,7 @@ final class Document
     /**
      * @return non-empty-string
      */
-    public function stringifyNode(\Dom\Node $node): string
+    public function stringifyNode(Node $node): string
     {
         return xml_string()($node);
     }

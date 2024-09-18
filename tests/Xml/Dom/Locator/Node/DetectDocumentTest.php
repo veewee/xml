@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Node;
 
-use \DOM\Element;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
 use Closure;
-use \Dom\Node;
-use \Dom\XPath;
+use Dom\Node;
+use Dom\XPath;
 use Psl\Type\TypeInterface;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
@@ -15,15 +15,15 @@ use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
  *
  * @param TypeInterface<T> $type
  *
- * @return Closure(\Dom\XPath): T
+ * @return Closure(XPath): T
  */
-function evaluate(string $query, TypeInterface $type, ?\Dom\Node $node = null): Closure
+function evaluate(string $query, TypeInterface $type, ?Node $node = null): Closure
 {
     return
         /**
          * @return T
          */
-        static function (\Dom\XPath $xpath) use ($query, $node, $type) {
+        static function (XPath $xpath) use ($query, $node, $type) {
             $node = $node ?? $xpath->document->documentElement;
 
             return disallow_issues(

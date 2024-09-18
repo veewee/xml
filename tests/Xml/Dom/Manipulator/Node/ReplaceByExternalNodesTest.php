@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Manipulator\Node;
 
-use \DOM\XMLDocument;
-use \DOM\Element;
+use DOM\Element;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -22,7 +21,7 @@ final class ReplaceByExternalNodesTest extends TestCase
         $results = replace_by_external_nodes($target->locateDocumentElement(), [$source->locateDocumentElement()]);
         $result = $results[0];
 
-        static::assertInstanceOf(\DOM\Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
         static::assertSame('hello', $result->nodeName);
         static::assertXmlStringEqualsXmlString($target->toXmlString(), $source->toXmlString());
     }
@@ -35,9 +34,9 @@ final class ReplaceByExternalNodesTest extends TestCase
 
         $results = replace_by_external_nodes($target->locateDocumentElement()->childNodes->item(0), $items);
 
-        static::assertInstanceOf(\DOM\Element::class, $results[0]);
+        static::assertInstanceOf(Element::class, $results[0]);
         static::assertSame('world', $results[0]->nodeName);
-        static::assertInstanceOf(\DOM\Element::class, $results[1]);
+        static::assertInstanceOf(Element::class, $results[1]);
         static::assertSame('toon', $results[1]->nodeName);
 
         static::assertXmlStringEqualsXmlString($target->toXmlString(), $source->toXmlString());
@@ -63,7 +62,7 @@ final class ReplaceByExternalNodesTest extends TestCase
         $results = replace_by_external_nodes($target->locateDocumentElement(), [$source->locateDocumentElement()->firstChild]);
         $result = $results[0];
 
-        static::assertInstanceOf(\DOM\Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
         static::assertSame('world', $result->nodeName);
         static::assertXmlStringEqualsXmlString($expected->toXmlString(), $target->toXmlString());
     }

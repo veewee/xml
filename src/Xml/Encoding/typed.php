@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding;
 
-use \Dom\XMLDocument;
+use Dom\XMLDocument;
 use Psl\Type\Exception\CoercionException;
 use Psl\Type\TypeInterface;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
@@ -14,7 +14,7 @@ use VeeWee\Xml\Encoding\Exception\EncodingException;
  *
  * @psalm-param non-empty-string $xml
  * @psalm-param TypeInterface<T> $type
- * @param list<callable(\Dom\XMLDocument): \Dom\XMLDocument> $configurators
+ * @param list<callable(XMLDocument): XMLDocument> $configurators
  *
  * @return T
  *

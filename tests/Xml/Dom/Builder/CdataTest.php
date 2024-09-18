@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Builder;
 
-use \DOM\CDATASection;
-use \DOM\XMLDocument;
+use DOM\CDATASection;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function Psl\Fun\identity;
@@ -19,7 +18,7 @@ final class CdataTest extends TestCase
         $doc = Document::empty()->toUnsafeDocument();
         $node = cdata($data = '<html>hello</html>')($doc);
 
-        static::assertInstanceOf(\DOM\CDATASection::class, $node);
+        static::assertInstanceOf(CDATASection::class, $node);
         static::assertSame($data, $node->textContent);
         static::assertSame(xml_string()($node), '<![CDATA['.$data.']]>');
     }
@@ -29,7 +28,7 @@ final class CdataTest extends TestCase
         $doc = Document::empty()->toUnsafeDocument();
         $node = cdata($data = '<html>hello</html>', identity())($doc);
 
-        static::assertInstanceOf(\DOM\CDATASection::class, $node);
+        static::assertInstanceOf(CDATASection::class, $node);
         static::assertSame($data, $node->textContent);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Attribute;
 
-use \DOM\Node;
+use DOM\Node;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Locator\Attribute\xmlns_attributes_list;
@@ -14,7 +14,7 @@ final class XmlnsAttributesListTest extends TestCase
     /**
      * @dataProvider provideTestCases
      */
-    public function test_it_can_fetch_xmlns_attribute_list_from_node(\DOM\Node $node, array $expected): void
+    public function test_it_can_fetch_xmlns_attribute_list_from_node(Node $node, array $expected): void
     {
         $actual = xmlns_attributes_list($node);
 

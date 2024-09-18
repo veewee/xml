@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Manipulator\Element;
 
+use Dom\Element;
 use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 
 /**
  * @throws RuntimeException
  */
-function rename(\Dom\Element $target, string $newQName, ?string $newNamespaceURI = null): \Dom\Element
+function rename(Element $target, string $newQName, ?string $newNamespaceURI = null): Element
 {
     $parts = explode(':', $newQName, 2);
     $newPrefix = $parts[0] ?? '';

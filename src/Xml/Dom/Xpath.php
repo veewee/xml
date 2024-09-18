@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom;
 
-use \Dom\Node;
-use \Dom\XPath as DOMXPath;
+use Dom\Node;
+use Dom\XPath as DOMXPath;
 use InvalidArgumentException;
 use Psl\Type\TypeInterface;
 use VeeWee\Xml\Dom\Collection\NodeList;
@@ -38,7 +38,7 @@ final class Xpath
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public static function fromUnsafeNode(\Dom\Node $node, callable ... $configurators): self
+    public static function fromUnsafeNode(Node $node, callable ... $configurators): self
     {
         return self::fromDocument(
             Document::fromUnsafeDocument(
@@ -61,10 +61,10 @@ final class Xpath
     }
 
     /**
-     * @throws RuntimeException
-     * @return NodeList<\Dom\Node>
+     * @return NodeList<Node>
+     *@throws RuntimeException
      */
-    public function query(string $expression, ?\Dom\Node $contextNode = null): NodeList
+    public function query(string $expression, ?Node $contextNode = null): NodeList
     {
         return $this->locate(query($expression, $contextNode));
     }
@@ -73,7 +73,7 @@ final class Xpath
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function querySingle(string $expression, ?\Dom\Node $contextNode = null): \Dom\Node
+    public function querySingle(string $expression, ?Node $contextNode = null): Node
     {
         return $this->locate(query_single($expression, $contextNode));
     }
@@ -86,7 +86,7 @@ final class Xpath
      * @return T
      * @throws RuntimeException
      */
-    public function evaluate(string $expression, TypeInterface $type, ?\Dom\Node $contextNode = null)
+    public function evaluate(string $expression, TypeInterface $type, ?Node $contextNode = null)
     {
         return $this->locate(evaluate($expression, $type, $contextNode));
     }

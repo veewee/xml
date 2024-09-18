@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Manipulator\Node;
 
-use \DOM\XMLDocument;
-use \DOM\Element;
-use Infected\PhpParser\Comment\Doc;
+use DOM\Element;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use VeeWee\Xml\Dom\Document;
@@ -21,7 +19,7 @@ final class AppendExternalNodeTest extends TestCase
 
         $result = append_external_node($target, $source->documentElement);
 
-        static::assertInstanceOf(\DOM\Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
         static::assertSame('hello', $result->nodeName);
         static::assertXmlStringEqualsXmlString($source->saveXML(), $target->saveXML());
     }
@@ -45,7 +43,7 @@ final class AppendExternalNodeTest extends TestCase
 
         $result = append_external_node($target->documentElement, $source->documentElement->firstChild);
 
-        static::assertInstanceOf(\DOM\Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
         static::assertSame('world', $result->nodeName);
         static::assertXmlStringEqualsXmlString($source->saveXML(), $target->saveXML());
     }

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Mapper;
 
-use \DOM\Element;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
-use VeeWee\Xml\Exception\RuntimeException;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class XmlStringTest extends TestCase

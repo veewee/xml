@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom;
 
-use \DOM\XMLDocument;
-use \DOM\Node;
+use DOM\Node;
+use DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Dom\Document;
@@ -118,7 +118,7 @@ final class DocumentTest extends TestCase
         $doc = Document::fromXmlString('<hello>world</hello>');
         $result = $doc->traverse(
             new class() extends AbstractVisitor {
-                public function onNodeLeave(\DOM\Node $node): Action
+                public function onNodeLeave(Node $node): Action
                 {
                     return is_text($node)
                         ? new Action\RemoveNode()

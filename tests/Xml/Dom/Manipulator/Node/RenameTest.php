@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Manipulator\Node;
 
-use \DOM\XMLDocument as DOMDocument;
+use DOM\XMLDocument as DOMDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
-use function VeeWee\Xml\Dom\Builder\xmlns_attribute;
-use function VeeWee\Xml\Dom\Configurator\comparable;
 use function VeeWee\Xml\Dom\Locator\document_element;
-use function VeeWee\Xml\Dom\Manipulator\Node\remove_namespace;
 use function VeeWee\Xml\Dom\Manipulator\Node\rename;
 use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
 

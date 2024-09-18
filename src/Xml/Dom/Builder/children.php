@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Builder;
 
 use Closure;
-use \Dom\Node;
+use Dom\Node;
 
 /**
- * @template T of \Dom\Node
+ * @template T of Node
  *
- * @param list<callable(T): \Dom\Node> $builders
+ * @param list<callable(T): Node> $builders
  *
  * @return Closure(T): T
  */
 function children(callable ...$builders): Closure
 {
-    return static function (\Dom\Node $node) use ($builders): \Dom\Node {
+    return static function (Node $node) use ($builders): Node {
         foreach ($builders as $builder) {
             $node->appendChild($builder($node));
         }

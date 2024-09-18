@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Predicate;
 
-use \Dom\Element;
-use \Dom\Node;
+use Dom\Element;
+use Dom\Node;
 
 /**
- * @psalm-assert-if-true \Dom\Element $node
+ * @psalm-assert-if-true Element $node
  */
-function is_element(\Dom\Node $node): bool
+function is_element(Node $node): bool
 {
-    return $node instanceof \Dom\Element;
+    return $node instanceof Element;
 }

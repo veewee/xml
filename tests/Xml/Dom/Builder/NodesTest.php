@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Builder;
 
-use \DOM\XMLDocument;
+use DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Builder\element;
@@ -18,7 +18,7 @@ final class NodesTest extends TestCase
         $nodes = nodes(
             element('hello'),
             element('world'),
-            static fn (\DOM\XMLDocument $doc): array => [
+            static fn (XMLDocument $doc): array => [
                 element('many1')($doc),
                 element('many2')($doc),
             ],

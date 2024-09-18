@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use \Dom\XMLDocument as DOMDocument;
+use Dom\XMLDocument as DOMDocument;
 use VeeWee\Xml\Dom\Document;
 use function Psl\Type\non_empty_string;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Xmlns;
 
-use \DOM\NameSpaceNode;
+use DOM\Element;
+use DOM\NamespaceInfo;
 use PHPUnit\Framework\TestCase;
-use VeeWee\Xml\Dom\Collection\NodeList;
 use VeeWee\Xml\Dom\Document;
 use function Psl\Dict\merge;
 use function Psl\Iter\reduce;
-use function VeeWee\Xml\Dom\Locator\document_element;
-use function VeeWee\Xml\Dom\Locator\Xmlns\linked_namespaces;
 use function VeeWee\Xml\Dom\Locator\Xmlns\recursive_linked_namespaces;
 
 final class RecursiveLinkedNamespacesTest extends TestCase
@@ -44,11 +42,11 @@ final class RecursiveLinkedNamespacesTest extends TestCase
     /**
      * @return array<string, string> - Key : prefix, Value : namespace
      */
-    private function parseRecursiveLinkedNamespaces(\DOM\Element $element): array
+    private function parseRecursiveLinkedNamespaces(Element $element): array
     {
         return reduce(
             recursive_linked_namespaces($element),
-            static fn (array $result, \DOM\NamespaceInfo $info) => merge(
+            static fn (array $result, NamespaceInfo $info) => merge(
                 $result,
                 [(string) $info->prefix => $info->namespaceURI]
             ),

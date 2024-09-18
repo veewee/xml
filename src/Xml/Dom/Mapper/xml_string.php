@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Mapper;
 
 use Closure;
-use \Dom\Node;
+use Dom\Node;
 use function Psl\Type\non_empty_string;
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 use function VeeWee\Xml\Dom\Predicate\is_document;
@@ -13,11 +13,11 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return Closure(\Dom\Node): non-empty-string
+ * @return Closure(Node): non-empty-string
  */
 function xml_string(): Closure
 {
-    return static fn (\Dom\Node $node): string => disallow_issues(
+    return static fn (Node $node): string => disallow_issues(
         static function () use ($node): string {
             $document = detect_document($node);
             $node = is_document($node) ? null : $node;

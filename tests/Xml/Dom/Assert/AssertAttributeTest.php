@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Assert;
 
-use \DOM\Node;
+use DOM\Node;
 use PHPUnit\Framework\TestCase;
 use Psl\Type\Exception\AssertException;
 use VeeWee\Xml\Dom\Document;
@@ -16,7 +16,7 @@ final class AssertAttributeTest extends TestCase
      *
      * @dataProvider provideTestCases
      */
-    public function test_it_knows_attributes(?\DOM\Node $node, bool $expected): void
+    public function test_it_knows_attributes(?Node $node, bool $expected): void
     {
         if (!$expected) {
             $this->expectException(AssertException::class);

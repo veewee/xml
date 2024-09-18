@@ -4,20 +4,20 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Xpath\Locator;
 
 use Closure;
-use \Dom\Node;
-use \Dom\NodeList as DOMNodeList;
-use \Dom\XPath;
+use Dom\Node;
+use Dom\NodeList as DOMNodeList;
+use Dom\XPath;
 use VeeWee\Xml\Dom\Collection\NodeList;
 use function VeeWee\Xml\Dom\Assert\assert_dom_node_list;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
- * @return Closure(\Dom\XPath): NodeList<\Dom\Node>
+ * @return Closure(XPath): NodeList<Node>
  */
-function query(string $query, ?\Dom\Node $node = null): Closure
+function query(string $query, ?Node $node = null): Closure
 {
-    return static function (\Dom\XPath $xpath) use ($query, $node): NodeList {
+    return static function (XPath $xpath) use ($query, $node): NodeList {
         $node = $node ?? $xpath->document->documentElement;
 
         $list = disallow_issues(

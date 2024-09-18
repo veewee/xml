@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Locator\Xmlns;
 
-use \DOM\NameSpaceNode;
+use DOM\Element;
+use DOM\NamespaceInfo;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function Psl\Dict\merge;
@@ -41,11 +42,11 @@ final class LinkedNamespacesTest extends TestCase
     /**
      * @return array<string, string> - Key : prefix, Value : namespace
      */
-    private function parseLinkedNamespaces(\DOM\Element $element): array
+    private function parseLinkedNamespaces(Element $element): array
     {
         return reduce(
             linked_namespaces($element),
-            static fn (array $result, \DOM\NamespaceInfo $info) => merge(
+            static fn (array $result, NamespaceInfo $info) => merge(
                 $result,
                 [(string) $info->prefix => $info->namespaceURI]
             ),

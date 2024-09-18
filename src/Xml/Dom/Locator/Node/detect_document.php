@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Locator\Node;
 
-use \Dom\XMLDocument;
+use Dom\Node;
+use Dom\XMLDocument;
 use InvalidArgumentException;
 use function VeeWee\Xml\Dom\Assert\assert_document;
 use function VeeWee\Xml\Dom\Predicate\is_document;
@@ -12,7 +13,7 @@ use function VeeWee\Xml\Dom\Predicate\is_document;
 /**
  * @throws InvalidArgumentException
  */
-function detect_document(\Dom\Node $node): \Dom\XMLDocument
+function detect_document(Node $node): XMLDocument
 {
     return is_document($node) ? $node : assert_document($node->ownerDocument);
 }

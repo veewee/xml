@@ -9,8 +9,8 @@ use VeeWee\Tests\Xml\Writer\Helper\UseInMemoryWriterTrait;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Writer\Writer;
 use XMLWriter;
-use function VeeWee\Xml\Writer\Builder\element;
 use function VeeWee\Xml\Writer\Builder\children;
+use function VeeWee\Xml\Writer\Builder\element;
 use function VeeWee\Xml\Writer\Builder\namespace_attribute;
 use function VeeWee\Xml\Writer\Builder\prefixed_attribute;
 

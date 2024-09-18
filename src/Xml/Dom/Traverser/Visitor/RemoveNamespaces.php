@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Dom\Traverser\Visitor;
 
+use Dom\Attr;
+use Dom\Element;
+use Dom\Node;
 use VeeWee\Xml\Dom\Traverser\Action;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Iter\contains;
@@ -13,12 +16,12 @@ use function VeeWee\Xml\Dom\Predicate\is_xmlns_attribute;
 final class RemoveNamespaces extends AbstractVisitor
 {
     /**
-     * @var null | callable(\Dom\Attr | \Dom\Element): bool
+     * @var null | callable(Attr | Element): bool
      */
     private $filter;
 
     /**
-     * @param null | callable(\Dom\Attr | \Dom\Element): bool $filter
+     * @param null | callable(Attr | Element): bool $filter
      */
     public function __construct(
         ?callable $filter = null
@@ -34,14 +37,14 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function prefixed(): self
     {
         return new self(
-            static fn (\Dom\Attr | \Dom\Element $node): bool => $node->prefix !== null
+            static fn (Attr | Element $node): bool => $node->prefix !== null
         );
     }
 
     public static function unprefixed(): self
     {
         return new self(
-            static fn (\Dom\Attr | \Dom\Element $node): bool => $node->prefix === null
+            static fn (Attr | Element $node): bool => $node->prefix === null
         );
     }
 
@@ -51,7 +54,7 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function byPrefixNames(array $prefixes): self
     {
         return new self(
-            static fn (\Dom\Attr | \Dom\Element $node): bool => match(true) {
+            static fn (Attr | Element $node): bool => match(true) {
                 is_xmlns_attribute($node) => contains($prefixes, $node->prefix !== null ? $node->localName : ''),
                 default => contains($prefixes, $node->prefix ?? '')
             }
@@ -64,14 +67,14 @@ final class RemoveNamespaces extends AbstractVisitor
     public static function byNamespaceURIs(array $URIs): self
     {
         return new self(
-            static fn (\Dom\Attr | \Dom\Element $node): bool => match(true) {
+            static fn (Attr | Element $node): bool => match(true) {
                 is_xmlns_attribute($node) => contains($URIs, $node->value),
                 default => contains($URIs, $node->namespaceURI),
             }
         );
     }
 
-    public function onNodeEnter(\Dom\Node $node): Action
+    public function onNodeEnter(Node $node): Action
     {
         if (is_xmlns_attribute($node)) {
             return new Action\Noop();
@@ -81,14 +84,14 @@ final class RemoveNamespaces extends AbstractVisitor
             return new Action\Noop();
         }
 
-        /** @var \Dom\Element | \Dom\Attr $node */
+        /** @var Element | Attr $node */
         return new Action\RenameNode($node->localName, null);
     }
 
     /**
      * @throws RuntimeException
      */
-    public function onNodeLeave(\Dom\Node $node): Action
+    public function onNodeLeave(Node $node): Action
     {
         if (!is_xmlns_attribute($node)) {
             return new Action\Noop();
@@ -101,7 +104,7 @@ final class RemoveNamespaces extends AbstractVisitor
         return new Action\RemoveNode();
     }
 
-    private function shouldDealWithNode(\Dom\Node $node): bool
+    private function shouldDealWithNode(Node $node): bool
     {
         if (!is_element($node) && !is_attribute($node)) {
             return false;

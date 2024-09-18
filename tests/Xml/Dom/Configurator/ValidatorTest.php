@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
-use \DOM\XMLDocument;
+use DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\Dom\Document;
@@ -21,7 +21,7 @@ final class ValidatorTest extends TestCase
     public function test_it_can_configure_xml_with_valid_validation_result(): void
     {
         $doc = Document::empty()->toUnsafeDocument();
-        $validator = validator(static fn (\DOM\XMLDocument $doc): IssueCollection => new IssueCollection());
+        $validator = validator(static fn (XMLDocument $doc): IssueCollection => new IssueCollection());
 
         $result = $validator($doc);
         static::assertSame($doc, $result);
@@ -31,7 +31,7 @@ final class ValidatorTest extends TestCase
     public function test_it_can_configure_xml_with_invalid_validation_result(): void
     {
         $doc = Document::empty()->toUnsafeDocument();
-        $validator = validator(fn (\DOM\XMLDocument $doc): IssueCollection => new IssueCollection(
+        $validator = validator(fn (XMLDocument $doc): IssueCollection => new IssueCollection(
             $this->createIssue(Level::fatal())
         ));
 

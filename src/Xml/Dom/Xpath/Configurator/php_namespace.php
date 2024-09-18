@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Xpath\Configurator;
 
 use Closure;
-use \Dom\XPath;
+use Dom\XPath;
 use VeeWee\Xml\Xmlns\Xmlns;
 
 /**
- * @return Closure(\Dom\XPath): \Dom\XPath
+ * @return Closure(XPath): XPath
  */
 function php_namespace(): Closure
 {
-    return static function (\Dom\XPath $xpath): \Dom\XPath {
+    return static function (XPath $xpath): XPath {
         namespaces(['php' => Xmlns::phpXpath()->value()])($xpath);
 
         return $xpath;

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Manipulator\Node;
 
-use \DOM\XMLDocument;
-use \DOM\Element;
+use DOM\Element;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -20,7 +19,7 @@ final class ImportNodeDeeplyTest extends TestCase
 
         $result = import_node_deeply($target, $source->documentElement);
 
-        static::assertInstanceOf(\DOM\Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
         static::assertSame('hello', $result->nodeName);
     }
 
@@ -32,7 +31,7 @@ final class ImportNodeDeeplyTest extends TestCase
 
         $result = import_node_deeply($target->documentElement, $source->documentElement);
 
-        static::assertInstanceOf(\DOM\Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
         static::assertSame('hello', $result->nodeName);
     }
 
@@ -55,7 +54,7 @@ final class ImportNodeDeeplyTest extends TestCase
 
         $result = import_node_deeply($target, $source->documentElement->firstChild);
 
-        static::assertInstanceOf(\DOM\Element::class, $result);
+        static::assertInstanceOf(Element::class, $result);
         static::assertSame('world', $result->nodeName);
         static::assertSame('myvalue', $result->attributes->getNamedItem('myattrib')->textContent);
         static::assertSame('name', $result->firstChild->nodeName);
