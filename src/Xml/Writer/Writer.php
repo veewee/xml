@@ -13,6 +13,7 @@ use function VeeWee\Xml\Internal\configure;
 use function VeeWee\Xml\Writer\Configurator\open;
 use function VeeWee\Xml\Writer\Opener\memory_opener;
 use function VeeWee\Xml\Writer\Opener\xml_file_opener;
+use function VeeWee\Xml\Writer\Opener\xml_stream_opener;
 
 final class Writer
 {
@@ -24,11 +25,12 @@ final class Writer
     }
 
     /**
+     * @param callable(): XMLWriter $opener
      * @param list<(callable(XMLWriter): XMLWriter)> $configurators
      */
-    public static function configure(callable ... $configurators): self
+    public static function configure(callable $opener, callable ... $configurators): self
     {
-        return self::fromUnsafeWriter(new XMLWriter(), ...$configurators);
+        return self::fromUnsafeWriter($opener(), ...$configurators);
     }
 
     /**
@@ -45,8 +47,20 @@ final class Writer
      */
     public static function forFile(string $file, callable ... $configurators): self
     {
-        return self::configure(
-            open(xml_file_opener($file)),
+        return self::open(
+            xml_file_opener($file),
+            ...$configurators
+        );
+    }
+
+    /**
+     * @param resource $stream
+     * @param list<(callable(XMLWriter): XMLWriter)> $configurators
+     */
+    public static function forStream(mixed $stream, callable ... $configurators): self
+    {
+        return self::open(
+            xml_stream_opener($stream),
             ...$configurators
         );
     }
@@ -56,8 +70,8 @@ final class Writer
      */
     public static function inMemory(callable ... $configurators): self
     {
-        return self::configure(
-            open(memory_opener()),
+        return self::open(
+            memory_opener(),
             ...$configurators
         );
     }

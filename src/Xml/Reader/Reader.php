@@ -14,6 +14,7 @@ use XMLReader;
 use function VeeWee\Xml\ErrorHandling\stop_on_first_issue;
 use function VeeWee\Xml\Internal\configure;
 use function VeeWee\Xml\Reader\Loader\xml_file_loader;
+use function VeeWee\Xml\Reader\Loader\xml_stream_loader;
 use function VeeWee\Xml\Reader\Loader\xml_string_loader;
 
 final class Reader
@@ -55,6 +56,15 @@ final class Reader
     public static function fromXmlString(string $xml, callable ... $configurators): self
     {
         return self::configure(xml_string_loader($xml), ...$configurators);
+    }
+
+    /**
+     * @param resource $stream
+     * @param list<callable(XMLReader): XMLReader> $configurators
+     */
+    public static function fromXmlStream(mixed $stream, callable ... $configurators): self
+    {
+        return self::configure(xml_stream_loader($stream), ...$configurators);
     }
 
     /**

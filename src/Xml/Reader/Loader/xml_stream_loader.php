@@ -11,16 +11,16 @@ use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
 /**
+ * @param resource $stream
  * @return Closure(): XMLReader
  */
-function xml_file_loader(string $file, ?string $encoding = null, int $flags = 0): Closure
+function xml_stream_loader(mixed $stream, ?string $encoding = null, int $flags = 0, ?string $documentUri = null): Closure
 {
     return static fn (): XMLReader => disallow_issues(
-        static function () use ($file, $encoding, $flags): XMLReader {
-            Assert::fileExists($file);
+        static function () use ($stream, $encoding, $flags, $documentUri): XMLReader {
             return disallow_libxml_false_returns(
-                XMLReader::fromUri($file, $encoding, $flags),
-                'Could not open the provided XML file!'
+                XMLReader::fromStream($stream, $encoding, $flags, $documentUri),
+                'Could not read the provided XML stream!'
             );
         }
     );
