@@ -22,6 +22,22 @@ composer require veewee/xml
 * [XSD](docs/xsd.md): Tools for working with XSD schemas.
 * [XSLT](docs/xslt.md): Transform XML documents into something else.
 
+## Spec compliance
+
+Starting from v4, this package opt's-in to the [spec compliance mode](https://wiki.php.net/rfc/opt_in_dom_spec_compliance) that has been released in PHP 8.4.
+Since these changes cannot be ported to older PHP versions, v3 of this package will be maintained actively for a longer period.
+This will give you a grace period to upgrade your PHP versions, packages, ...
+This little bump in the road is necessary to provide you with a better, more stable and spec-compliant package in the future.
+
+Support table:
+
+| veewee/xml | PHP           | LTS |
+|------------|---------------|-----|  
+| 3.0 - 3.1  | 8.1, 8.2, 8.3 | NO  |
+| 3.2+       | 8.2, 8.3, 8.4 | YES |
+| 4.0+       | 8.4+          | YES |
+
+
 ## Roadmap
 
 These components are not implemented yet, but have been thought about.
