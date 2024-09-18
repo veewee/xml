@@ -18,7 +18,7 @@
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "symfony/finder": "^6.1",
+        "symfony/finder": "^7.1",
         "veewee/composer-run-parallel": "^1.0.0",
         "vimeo/psalm": "^5.4",
         "php-standard-library/psalm-plugin": "^2.2"
