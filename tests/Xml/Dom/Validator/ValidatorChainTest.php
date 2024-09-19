@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Validator;
 
-use DOM\XMLDocument as DOMDocument;
+use DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\Dom\Document;
@@ -36,29 +36,29 @@ final class ValidatorChainTest extends TestCase
         ];
         yield 'noFails' => [
             'validator' => validator_chain(
-                static fn (DOMDocument $document) => new IssueCollection(),
-                static fn (DOMDocument $document) => new IssueCollection(),
-                static fn (DOMDocument $document) => new IssueCollection()
+                static fn (XMLDocument $document) => new IssueCollection(),
+                static fn (XMLDocument $document) => new IssueCollection(),
+                static fn (XMLDocument $document) => new IssueCollection()
             ),
             'errors' => 0,
         ];
         yield 'oneFails' => [
             'validator' => validator_chain(
-                static fn (DOMDocument $document) => new IssueCollection(),
-                static fn (DOMDocument $document) => new IssueCollection(
+                static fn (XMLDocument $document) => new IssueCollection(),
+                static fn (XMLDocument $document) => new IssueCollection(
                     self::createIssue(Level::fatal())
                 ),
-                static fn (DOMDocument $document) => new IssueCollection(),
-                static fn (DOMDocument $document) => new IssueCollection()
+                static fn (XMLDocument $document) => new IssueCollection(),
+                static fn (XMLDocument $document) => new IssueCollection()
             ),
             'errors' => 1,
         ];
         yield 'allFails' => [
             'validator' => validator_chain(
-                static fn (DOMDocument $document) => new IssueCollection(
+                static fn (XMLDocument $document) => new IssueCollection(
                     self::createIssue(Level::fatal())
                 ),
-                static fn (DOMDocument $document) => new IssueCollection(
+                static fn (XMLDocument $document) => new IssueCollection(
                     self::createIssue(Level::fatal()),
                     self::createIssue(Level::fatal())
                 ),

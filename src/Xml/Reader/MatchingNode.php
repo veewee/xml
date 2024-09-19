@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Reader;
 
-use Dom\XMLDocument as DOMDocument;
+use Dom\XMLDocument;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -35,7 +35,7 @@ final class MatchingNode
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      */
@@ -45,7 +45,7 @@ final class MatchingNode
     }
 
     /**
-     * @param list<callable(DOMDocument): DOMDocument> $configurators
+     * @param list<callable(XMLDocument): XMLDocument> $configurators
      *
      * @throws RuntimeException
      * @throws EncodingException

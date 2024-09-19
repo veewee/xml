@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Manipulator\Node;
 
-use DOM\XMLDocument as DOMDocument;
+use DOM\XMLDocument;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -29,7 +29,7 @@ final class RemoveTest extends TestCase
     {
         $doc = Document::fromXmlString('<hello><!-- hello --></hello>');
         $node = $doc->map(
-            static fn (DOMDocument $document) => $document->documentElement->firstChild
+            static fn (XMLDocument $document) => $document->documentElement->firstChild
         );
 
         $result = remove($node);
@@ -42,7 +42,7 @@ final class RemoveTest extends TestCase
     {
         $doc = Document::fromXmlString('<hello>World</hello>');
         $node = $doc->map(
-            static fn (DOMDocument $document) => $document->documentElement->firstChild
+            static fn (XMLDocument $document) => $document->documentElement->firstChild
         );
 
         $result = remove($node);

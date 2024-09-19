@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Configurator;
 
 use Closure;
-use Dom\XMLDocument as DOMDocument;
+use Dom\XMLDocument;
 use VeeWee\Xml\Dom\Document;
 use function Psl\Type\non_empty_string;
 use function VeeWee\Xml\Dom\Loader\xml_string_loader;
 
 /**
- * @return Closure(DOMDocument): DOMDocument
+ * @return Closure(XMLDocument): XMLDocument
  */
 function canonicalize(): Closure
 {
-    return static fn (DOMDocument $document): DOMDocument
+    return static fn (XMLDocument $document): XMLDocument
         => Document::fromLoader(
             xml_string_loader(
                 non_empty_string()->assert($document->C14N()),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Xml\Encoding;
 
-use Dom\XMLDocument as DOMDocument;
+use Dom\XMLDocument;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
 use function VeeWee\Xml\Dom\Locator\document_element;
@@ -13,7 +13,7 @@ use function VeeWee\Xml\Encoding\Internal\wrap_exception;
 
 /**
  * @param non-empty-string $xml
- * @param list<callable(DOMDocument): DOMDocument> $configurators
+ * @param list<callable(XMLDocument): XMLDocument> $configurators
  *
  * @throws EncodingException
  */
