@@ -8,9 +8,7 @@ use Closure;
 use XSLTProcessor;
 
 /**
- * TODO : Add support for callables : https://wiki.php.net/rfc/improve_callbacks_dom_and_xsl (either here or through a separate configurator)
- *
- * @param non-empty-list<string> $functions
+ * @param array<string, (callable(mixed...): mixed)> $functions
  *
  * @return Closure(XSLTProcessor): XSLTProcessor
  */
