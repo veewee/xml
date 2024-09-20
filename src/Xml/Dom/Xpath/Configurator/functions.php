@@ -8,7 +8,7 @@ use Closure;
 use Dom\XPath;
 
 /**
- * @param non-empty-list<string> $functions
+ * @param array<string, (callable(mixed...): mixed)> $functions
  *
  * @return Closure(XPath): XPath
  */

@@ -58,7 +58,22 @@ use function VeeWee\Xml\Xslt\Configurator\functions;
 
 $processor = Processor::fromTemplateDocument(
     Document::fromXmlFile('xml-to-yaml-converter.xslt'),
-    functions(['ucfirst'])
+    functions(['ucfirst' => ucfirst(...)])
+);
+```
+
+#### namespaced_functions
+
+Registers specific namespaced functions to the XSLTProcessor object, allowing you to use `prefix:function('ucfirst',string(uid))` inside your XSLT Template.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Xslt\Processor;
+use function VeeWee\Xml\Xslt\Configurator\namespaced_functions;
+
+$processor = Processor::fromTemplateDocument(
+    Document::fromXmlFile('xml-to-yaml-converter.xslt'),
+    namespaced_functions('http://ns', ['ucfirst' => ucfirst(...)])
 );
 ```
 

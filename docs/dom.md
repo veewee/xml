@@ -1543,7 +1543,19 @@ use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Xpath\Configurator\functions;
 
 $doc = Document::fromXmlFile('data.xml');
-$xpath = $doc->xpath(functions(['has_multiple']));
+$xpath = $doc->xpath(functions(['has_multiple' => has_multiple(...)]));
+```
+
+#### namespaced_functions
+
+Registers a list of namespaced functions to the XPath object, allowing you to use `prefix:somefunction()` inside your XPath query.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Xpath\Configurator\namespaced_functions;
+
+$doc = Document::fromXmlFile('data.xml');
+$xpath = $doc->xpath(namespaced_functions('http://ns', 'prefix', ['has_multiple' => has_multiple(...)]));
 ```
 
 #### namespaces
