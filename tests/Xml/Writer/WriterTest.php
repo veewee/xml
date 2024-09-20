@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Writer;
 
 use PHPUnit\Framework\TestCase;
+use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Tests\Xml\Helper\TmpFileTrait;
 use VeeWee\Tests\Xml\Writer\Helper\UseInMemoryWriterTrait;
 use VeeWee\Xml\Exception\RuntimeException;
 use VeeWee\Xml\Writer\Writer;
 use XMLWriter;
 use function Psl\Fun\identity;
+use function VeeWee\Xml\Writer\Applicative\flush;
 use function VeeWee\Xml\Writer\Builder\element;
 use function VeeWee\Xml\Writer\Builder\raw;
-use function VeeWee\Xml\Writer\Configurator\open;
 use function VeeWee\Xml\Writer\Mapper\memory_output;
 use function VeeWee\Xml\Writer\Opener\xml_file_opener;
 
@@ -21,6 +22,7 @@ final class WriterTest extends TestCase
 {
     use UseInMemoryWriterTrait;
     use TmpFileTrait;
+    use FillFileTrait;
 
 
     public function test_it_can_open_a_file(): void
@@ -40,10 +42,19 @@ final class WriterTest extends TestCase
         static::assertSame('hello', $actual);
     }
 
+    public function test_it_can_open_a_stream(): void
+    {
+        [$_, $handle] = $this->fillFile('');
+        Writer::forStream($handle)->write(raw('hello'))->apply(flush());
+        rewind($handle);
+
+        static::assertSame('hello', stream_get_contents($handle));
+    }
+
     public function test_it_can_configure_a_writer(): void
     {
         $this->createTmpFile(static function (string $path): void {
-            $writer = Writer::configure(open(xml_file_opener($path)), identity());
+            $writer = Writer::configure(xml_file_opener($path), identity());
             $writer->write(element('root'));
 
             self::assertXmlStringEqualsXmlFile($path, '<root />');
@@ -81,7 +92,7 @@ final class WriterTest extends TestCase
     {
         $this->expectExceptionMessage('Invalid or uninitialized XMLWriter object');
 
-        $emptyWriter = Writer::configure();
+        $emptyWriter = Writer::fromUnsafeWriter(new XMLWriter());
         $emptyWriter->write(element('root'));
     }
 

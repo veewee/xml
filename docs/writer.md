@@ -43,6 +43,7 @@ The Writer consists out of following composable blocks:
 - [Builders](#builders): Lets you build XML by using a declarative API.
 - [Configurators](#configurators): Configure how the Writer behaves.
 - [Mappers](#mappers): Map the XMLWriter to something else.
+- [Applicatives](#applicatives): Apply an action on the open writer.
 - [Openers](#openers): Specify where you want to write to.
 
 ## Builders
@@ -446,20 +447,6 @@ class MyAttribute implements Builder
 
 Specify how you want to configure the XML writer.
 
-#### open
-
-The opener configurator takes an [opener](#openers) to specify the target of the writer.
-
-```php
-use VeeWee\Xml\Writer\Writer;
-use function VeeWee\Xml\Writer\Configurator\open;
-use function VeeWee\Xml\Writer\Opener\xml_file_opener;
-
-Writer::configure(
-    open(xml_file_opener('somefile.xml'))
-);
-```
-
 #### indentation
 
 By default, the writer does not indent.
@@ -515,6 +502,47 @@ $doc = Writer::inMemory()
     ->map(memory_output());
 ```
 
+## Applicatives
+
+Apply an action on the open writer.
+
+
+#### flush
+
+Flushes the writer to the output.
+
+```php
+use VeeWee\Xml\Writer\Writer;
+use function VeeWee\Xml\Writer\Applicative\flush;
+
+$doc = Writer::forStream($stream)
+    ->write($yourXml)
+    ->apply(flush());
+```
+
+#### Writing your own applicatives
+
+```php
+namespace VeeWee\Xml\Writer\Applicative;
+
+interface Applicative
+{
+    /**
+     * @return mixed
+     */
+    public function __invoke(\XMLWriter $writer): mixed;
+}
+
+```
+
+You can apply the applicative as followed:
+
+```php
+namespace VeeWee\Xml\Writer\Writer;
+
+$writer = Writer::configure($opener)->apply($applicative);
+```
+
 ## Openers
 
 #### memory_opener
@@ -533,7 +561,7 @@ $doc = Writer::inMemory(...$configurators)
 
 #### xml_file_opener
 
-Loads an XML document from a file.
+Writes an XML document to a file.
 When the file or folder does not exists, the code will attempt to create it.
 If it is not possible to create a target to write to, a `RuntimException` will be thrown.
 
@@ -541,6 +569,19 @@ If it is not possible to create a target to write to, a `RuntimException` will b
 use VeeWee\Xml\Writer\Writer;
 
 $doc = Writer::forFile('some-xml.xml', ...$configurators);
+```
+
+#### xml_stream_opener
+
+Loads an XML document into an open resource stream.
+
+```php
+use VeeWee\Xml\Writer\Writer;
+use function VeeWee\Xml\Writer\Applicative\flush;
+
+$doc = Writer::forStream($stream, ...$configurators)
+    ->write($yourXml)
+    ->apply(flush())
 ```
 
 #### Writing your own opener
@@ -552,7 +593,7 @@ use XMLWriter;
 
 interface Opener
 {
-    public function __invoke(XMLWriter $writer): bool;
+    public function __invoke(): XMLWriter;
 }
 ```
 
@@ -561,5 +602,5 @@ You can apply the loader as followed:
 ```php
 namespace VeeWee\Xml\Writer\Writer;
 
-$writer = Writer::configure($loader, ...$configurators);
+$writer = Writer::configure($opener, ...$configurators);
 ```

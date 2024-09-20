@@ -17,4 +17,22 @@ final class XmlStringLoaderTest extends TestCase
 
         xml_string_loader('')();
     }
+
+    public function test_it_can_read_with_encoding(): void
+    {
+        $reader = xml_string_loader('<?xml version="1.0" encoding="UTF-8"?><hello>héllo</hello>', encoding: 'Windows-1252')();
+        $reader->read();
+        $actual = $reader->readOuterXml();
+
+        static::assertSame('<hello>hÃ©llo</hello>', $actual);
+    }
+
+    public function test_it_can_read_with_libxml_flags(): void
+    {
+        $reader = xml_string_loader('<?xml version="1.0" encoding="UTF-8"?><hello><![CDATA[hello]]></hello>', flags: LIBXML_NOCDATA)();
+        $reader->read();
+        $actual = $reader->readOuterXml();
+
+        static::assertSame('<hello>hello</hello>', $actual);
+    }
 }

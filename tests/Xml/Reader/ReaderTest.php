@@ -48,6 +48,22 @@ final class ReaderTest extends TestCase
         fclose($handle);
     }
 
+    /**
+     * @dataProvider provideXmlExpectations
+     */
+    public function test_it_can_provide_xml_stream(string $xml, callable $matcher, array $expected): void
+    {
+        [$_, $handle] = $this->fillFile($xml);
+        rewind($handle);
+
+        $reader = Reader::fromXmlStream($handle, identity());
+        $iterator = $reader->provide($matcher);
+
+        static::assertSame($expected, map($iterator, static fn (MatchingNode $match): string => $match->xml()));
+
+        fclose($handle);
+    }
+
     public function test_it_throws_exception_on_invalid_xml_during_iteration(): void
     {
         $xml = <<<'EOXML'

@@ -6,7 +6,6 @@ namespace VeeWee\Tests\Xml\Writer\Output;
 
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Writer\Writer;
-use XMLWriter;
 use function VeeWee\Xml\Writer\Builder\raw;
 use function VeeWee\Xml\Writer\Mapper\memory_output;
 use function VeeWee\Xml\Writer\Opener\memory_opener;
@@ -15,8 +14,7 @@ final class MemoryOutputTest extends TestCase
 {
     public function test_it_can_open_in_memory(): void
     {
-        $writer = new XMLWriter();
-        memory_opener()($writer);
+        $writer = memory_opener()();
 
         Writer::fromUnsafeWriter($writer)
             ->write(raw('hello'));

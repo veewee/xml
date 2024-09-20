@@ -8,5 +8,5 @@ use XMLWriter;
 
 interface Opener
 {
-    public function __invoke(XMLWriter $writer): bool;
+    public function __invoke(): XMLWriter;
 }
