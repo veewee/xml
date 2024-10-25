@@ -64,7 +64,7 @@ final class Xpath
      * @throws RuntimeException
      * @return NodeList<DOMNode>
      */
-    public function query(string $expression, DOMNode $contextNode = null): NodeList
+    public function query(string $expression, ?DOMNode $contextNode = null): NodeList
     {
         return $this->locate(query($expression, $contextNode));
     }
@@ -73,7 +73,7 @@ final class Xpath
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function querySingle(string $expression, DOMNode $contextNode = null): DOMNode
+    public function querySingle(string $expression, ?DOMNode $contextNode = null): DOMNode
     {
         return $this->locate(query_single($expression, $contextNode));
     }
@@ -86,7 +86,7 @@ final class Xpath
      * @return T
      * @throws RuntimeException
      */
-    public function evaluate(string $expression, TypeInterface $type, DOMNode $contextNode = null)
+    public function evaluate(string $expression, TypeInterface $type, ?DOMNode $contextNode = null)
     {
         return $this->locate(evaluate($expression, $type, $contextNode));
     }

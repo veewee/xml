@@ -9,7 +9,7 @@ use VeeWee\Xml\Exception\ExceptionInterface;
 
 final class EncodingException extends Exception implements ExceptionInterface
 {
-    private function __construct(string $message, Exception $previous = null)
+    private function __construct(string $message, ?Exception $previous = null)
     {
         parent::__construct(
             $message,
