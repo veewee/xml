@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?php
+<?php declare(strict_types=1);
 
 use Psl\File\WriteMode;
 use Symfony\Component\Finder\Finder;

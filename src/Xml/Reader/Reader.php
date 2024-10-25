@@ -72,7 +72,7 @@ final class Reader
 
         yield from stop_on_first_issue(
             static function () use ($reader, $signal): bool {
-                if($signal->stopRequested()) {
+                if ($signal->stopRequested()) {
                     return !$reader->close();
                 }
 

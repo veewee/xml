@@ -18,9 +18,7 @@ function grouped_children(DOMElement $element): array
     return reduce_with_keys(
         group_child_elements($element),
         /**
-         * @param array $children
          * @param DOMElement|list<DOMElement> $child
-         * @return array
          */
         static fn (array $children, string $name, DOMElement|array $child): array
             => merge(
