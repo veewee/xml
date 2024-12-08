@@ -647,6 +647,18 @@ $document = Document::fromLoader($loader, ...$configurators);
 
 ## Loaders
 
+#### xml_document_loader
+
+Loads an XML document from an external `Dom\XMLDocument`.
+It copies the content of the external document into a new `Dom\XMLDocument` and re-applies e.g. LIBXML flags.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Loader\xml_document_loader;
+
+$doc = Document::fromLoader(xml_document_loader($originalDocument, options: LIBXML_NOCDATA, override_encoding: 'UTF-8'));
+```
+
 #### xml_file_loader
 
 Loads an XML document from a file.

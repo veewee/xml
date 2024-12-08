@@ -23,6 +23,16 @@ final class CanonicalizeTest extends TestCase
         static::assertSame($expected, $actual);
     }
 
+    public function test_it_can_canonicalize_empty_xml(): void
+    {
+        $configurator = canonicalize();
+
+        $doc = Document::empty()->toUnsafeDocument();
+        $result = $configurator($doc);
+
+        static::assertSame($doc, $result);
+    }
+
     public static function provideXmls()
     {
         yield 'no-action' => [
