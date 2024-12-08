@@ -32,6 +32,7 @@
         'Xml\Dom\Configurator\trim_spaces' => __DIR__.'/Xml/Dom/Configurator/trim_spaces.php',
         'Xml\Dom\Configurator\utf8' => __DIR__.'/Xml/Dom/Configurator/utf8.php',
         'Xml\Dom\Configurator\validator' => __DIR__.'/Xml/Dom/Configurator/validator.php',
+        'Xml\Dom\Loader\xml_document_loader' => __DIR__.'/Xml/Dom/Loader/xml_document_loader.php',
         'Xml\Dom\Loader\xml_file_loader' => __DIR__.'/Xml/Dom/Loader/xml_file_loader.php',
         'Xml\Dom\Loader\xml_node_loader' => __DIR__.'/Xml/Dom/Loader/xml_node_loader.php',
         'Xml\Dom\Loader\xml_string_loader' => __DIR__.'/Xml/Dom/Loader/xml_string_loader.php',

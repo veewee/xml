@@ -15,13 +15,18 @@ use function VeeWee\Xml\Dom\Loader\xml_string_loader;
  */
 function canonicalize(): Closure
 {
-    return static fn (XMLDocument $document): XMLDocument
-        => Document::fromLoader(
+    return static function (XMLDocument $document): XMLDocument {
+        if (!$document->documentElement) {
+            return $document;
+        }
+
+        return Document::fromLoader(
             xml_string_loader(
                 non_empty_string()->assert($document->C14N()),
                 LIBXML_NSCLEAN + LIBXML_NOCDATA
             ),
             pretty_print(),
-            normalize()
+            normalize(),
         )->toUnsafeDocument();
+    };
 }

@@ -21,4 +21,25 @@ final class TrimSpacesTest extends TestCase
         static::assertFalse($result->formatOutput);
         static::assertSame('<hello><world/></hello>', xml_string()($result->documentElement));
     }
+
+    public function test_it_can_trim_spaces_on_empty_xml(): void
+    {
+        $configurator = trim_spaces();
+
+        $doc = Document::empty()->toUnsafeDocument();
+        $result = $configurator($doc);
+
+        $result->append(
+            $hello = $result->createElement('hello')
+        );
+        $hello->append($result->createElement('world'));
+
+        $expected = <<<EOXML
+        <hello><world/></hello>
+        EOXML;
+
+        static::assertNotSame($doc, $result);
+        static::assertFalse($result->formatOutput);
+        static::assertSame($expected, xml_string()($result->documentElement));
+    }
 }
