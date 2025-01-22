@@ -19,9 +19,7 @@ use function Psl\Vec\values;
 use function VeeWee\Xml\Dom\Builder\attributes;
 use function VeeWee\Xml\Dom\Builder\cdata;
 use function VeeWee\Xml\Dom\Builder\children as childrenBuilder;
-use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\escaped_value;
-use function VeeWee\Xml\Dom\Builder\namespaced_element as namespacedElementBuilder;
 use function VeeWee\Xml\Dom\Builder\xmlns_attributes;
 
 /**
@@ -46,7 +44,6 @@ function element(string $name, array $data): Closure
         static fn (string $key): bool => !in_array($key, ['@attributes', '@namespaces', '@value', '@cdata'], true)
     );
 
-    $currentNamespace = $namespaces[''] ?? null;
     $namedNamespaces = filter_keys($namespaces ?? []);
 
     /** @var list<Closure(Element): Element> $children */
@@ -66,7 +63,5 @@ function element(string $name, array $data): Closure
         )),
     ]);
 
-    return $currentNamespace !== null
-        ? namespacedElementBuilder($currentNamespace, $name, ...$children)
-        : elementBuilder($name, ...$children);
+    return xmlns_inheriting_element($name, $children, $namespaces);
 }

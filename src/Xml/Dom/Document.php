@@ -130,6 +130,8 @@ final class Document
     }
 
     /**
+     * @psalm-suppress ArgumentTypeCoercion - nodes() works on node but we provide the parent type XMLDocument.
+     *
      * @param list<callable(XMLDocument): (list<Node>|Node)> $builders
      *
      * @return list<Node>

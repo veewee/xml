@@ -6,15 +6,14 @@ namespace VeeWee\Xml\Dom\Builder;
 
 use Closure;
 use Dom\Node;
-use Dom\XMLDocument;
 use function is_array;
 use function Psl\Iter\reduce;
 use function VeeWee\Xml\Dom\Locator\Node\detect_document;
 
 /**
- * @param list<callable(XMLDocument): (list<Node>|Node)> $builders
+ * @param list<callable(Node): (list<Node>|Node)> $builders
  *
- * @return Closure(XMLDocument): list<Node>
+ * @return Closure(Node): list<Node>
  */
 function nodes(callable ... $builders): Closure
 {
@@ -27,7 +26,7 @@ function nodes(callable ... $builders): Closure
                 $builders,
                 /**
                  * @param list<Node> $builds
-                 * @param callable(XMLDocument): (Node|list<Node>) $builder
+                 * @param callable(Node): (Node|list<Node>) $builder
                  * @return list<Node>
                  */
                 static function (array $builds, callable $builder) use ($node): array {

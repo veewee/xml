@@ -8,7 +8,6 @@ use Closure;
 use Dom\Element;
 use function Psl\Dict\map;
 use function VeeWee\Xml\Dom\Builder\children as buildChildren;
-use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\value;
 
 /**
@@ -28,7 +27,7 @@ function children(string $name, array $children): Closure
              */
             static fn (array|string $data): Closure => is_array($data)
                 ? element($name, $data)
-                : elementBuilder($name, value($data))
+                : xmlns_inheriting_element($name, [value($data)])
         )
     );
 }
