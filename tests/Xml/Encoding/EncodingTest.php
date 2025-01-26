@@ -243,6 +243,43 @@ final class EncodingTest extends TestCase
             'xml' => '<hello>hello <![CDATA[<html>world</html>]]></hello>',
             'data' => ['hello' => 'hello <html>world</html>']
         ];
+
+        yield 'deeply-namespaced-xml' => [
+            'xml' => <<<EOXML
+            <foo xmlns="uri://bar">
+                <x:a xmlns:x="uri://x">
+                    <x:b xmlns="uri://aa">
+                        <bar>bar</bar>
+                        <baz xmlns="">baz</baz>
+                    </x:b>
+                </x:a>
+            </foo>
+            EOXML,
+            'data' => [
+                'foo' => [
+                    '@namespaces' => [
+                        '' => 'uri://bar',
+                    ],
+                    'x:a' => [
+                        '@namespaces' => [
+                            'x' => 'uri://x',
+                        ],
+                        'x:b' => [
+                            '@namespaces' => [
+                                '' => 'uri://aa',
+                            ],
+                            'bar' => 'bar',
+                            'baz' => [
+                                '@namespaces' => [
+                                    '' => '',
+                                ],
+                                '@value' => 'baz',
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        ];
     }
 
     public static function provideRiskyBidirectionalCases()
@@ -250,7 +287,7 @@ final class EncodingTest extends TestCase
         yield 'namespaced' => [
             'xml' => <<<EOXML
                 <root xmlns="http://rooty.root" xmlns:test="http://testy.test">
-                    <test:item xmlns="">
+                    <test:item>
                         <id:int xmlns:id="http://identity.id">1</id:int>
                     </test:item>
                 </root>

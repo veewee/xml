@@ -219,6 +219,18 @@ element('foo',
 <foo hello="world" bar="baz" />
 ```
 
+#### default_xmlns_attribute
+
+Operates on a `Dom\Element` and adds a default xmlns attribute.
+Given how XML serialization works in PHP, this function only works on already prefixed + namespaced elements:
+
+```php
+use function VeeWee\Xml\Dom\Builder\namespaced_element;
+use function VeeWee\Xml\Dom\Builder\default_xmlns_attribute;
+
+namespaced_element('uri://x', x:hello', default_xmlns_attribute(http://default'));
+```
+
 #### cdata
 
 Operates on a `Dom\Node` and creates a `Dom\CDATASection`.
@@ -1285,6 +1297,19 @@ This behaves in the opposite  way of the `is_whitespace()` function and uses the
 use function VeeWee\Xml\Dom\Predicate\is_non_empty_text;
 
 if (is_non_empty_text($someNode)) {
+   // ...
+}
+```
+
+#### is_prefixed_node_name
+
+Checks if a given node name is prefixed or not.
+This will validate for pattern `^[^:]+:[^:]+$` to make sure that there are no multiple colons in the node name and that all parts are set.
+
+```php
+use function VeeWee\Xml\Dom\Predicate\is_prefixed_node_name;
+
+if (is_prefixed_node_name('prefixed:nodeName')) {
    // ...
 }
 ```

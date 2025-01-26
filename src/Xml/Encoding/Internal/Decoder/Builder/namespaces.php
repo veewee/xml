@@ -20,12 +20,9 @@ function namespaces(Element $element): array
 {
     return filter([
         '@namespaces' => xmlns_attributes_list($element)->reduce(
-            static fn (array $namespaces, Attr $node)
-                => $node->value
-                    ? merge($namespaces, [
-                        ($node->prefix !== null ? $node->localName : '') => $node->value
-                    ])
-                    : $namespaces,
+            static fn (array $namespaces, Attr $node) => merge($namespaces, [
+                ($node->prefix !== null ? $node->localName : '') => $node->value
+            ]),
             []
         ),
     ]);

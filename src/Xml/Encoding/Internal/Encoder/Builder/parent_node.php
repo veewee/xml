@@ -10,7 +10,6 @@ use Dom\Node;
 use Psl\Exception\InvariantViolationException;
 use Psl\Type\Exception\AssertException;
 use function VeeWee\Xml\Dom\Builder\children as buildChildren;
-use function VeeWee\Xml\Dom\Builder\element as elementBuilder;
 use function VeeWee\Xml\Dom\Builder\escaped_value;
 
 /**
@@ -25,7 +24,7 @@ use function VeeWee\Xml\Dom\Builder\escaped_value;
 function parent_node(string $name, array|string $data): Closure
 {
     if (is_string($data)) {
-        return buildChildren(elementBuilder($name, escaped_value($data)));
+        return buildChildren(xmlns_inheriting_element($name, [escaped_value($data)]));
     }
 
     if (is_node_list($data)) {
