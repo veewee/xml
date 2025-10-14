@@ -17,28 +17,13 @@
 >
     <projectFiles>
         <directory name="src" />
-        <directory name="tests" />
         <ignoreFiles>
+            <directory name="tests" />
             <directory name="vendor" />
             <file name="src/bootstrap.php"/>
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
-        <MissingConstructor>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </MissingConstructor>
-        <UndefinedClass>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </UndefinedClass>
-        <MissingDependency>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </MissingDependency>
         <MixedArgumentTypeCoercion>
             <errorLevel type="suppress">
                 <directory name="src/Xml/Encoding/Internal/Encoder/Builder" />
@@ -49,6 +34,7 @@
         <file name="stubs/DOM.phpstub" />
         <file name="stubs/XMLReader.phpstub" />
         <file name="stubs/XMLWriter.phpstub" />
+        <file name="stubs/XSLTProcessor.phpstub" />
     </stubs>
     <plugins>
         <pluginClass class="Psl\Psalm\Plugin" />

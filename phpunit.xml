@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-    bootstrap="tests/bootstrap.php"
-    executionOrder="random"
-    forceCoversAnnotation="false"
-    beStrictAboutCoversAnnotation="false"
-    beStrictAboutOutputDuringTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
-    verbose="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+        bootstrap="tests/bootstrap.php"
+        executionOrder="random"
+        beStrictAboutCoverageMetadata="false"
+        beStrictAboutOutputDuringTests="true"
+        displayDetailsOnTestsThatTriggerWarnings="true"
+        failOnWarning="true"
+        failOnPhpunitWarning="true"
 >
-  <coverage cacheDirectory=".phpunit.cache/code-coverage"
-      processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-    <exclude>
-      <file>src/bootstrap.php</file>
-    </exclude>
-    <report>
-      <clover outputFile=".phpunit.cache/clover/clover.xml" />
-      <html outputDirectory=".phpunit.cache/report" lowUpperBound="99" highLowerBound="99" />
-    </report>
-  </coverage>
-  <testsuites>
-    <testsuite name="default">
-      <directory suffix="Test.php">tests/Xml</directory>
-    </testsuite>
-  </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <file>src/bootstrap.php</file>
+        </exclude>
+    </source>
+
+    <coverage includeUncoveredFiles="true">
+        <report>
+            <clover outputFile=".phpunit.cache/clover/clover.xml"/>
+            <html outputDirectory=".phpunit.cache/report" lowUpperBound="99" highLowerBound="99"/>
+        </report>
+    </coverage>
+
+    <testsuites>
+        <testsuite name="default">
+            <directory suffix="Test.php">tests/Xml</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

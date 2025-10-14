@@ -32,4 +32,3 @@ jobs:
               run: composer run tests
             - name: Check tests quality
               run: composer run testquality
-              continue-on-error: ${{ matrix.php-versions == '8.4' }} # Infection is not ready yet.

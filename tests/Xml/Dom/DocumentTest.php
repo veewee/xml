@@ -36,7 +36,7 @@ final class DocumentTest extends TestCase
         $document = new DOMDocument();
         $doc = Document::empty();
 
-        static::assertEquals($document, $doc->toUnsafeDocument());
+        static::assertEquals($document->C14N(), $doc->toUnsafeDocument()->C14N());
     }
 
 
@@ -45,7 +45,7 @@ final class DocumentTest extends TestCase
         $document = new DOMDocument();
         $doc = Document::configure(identity());
 
-        static::assertEquals($document, $doc->toUnsafeDocument());
+        static::assertEquals($document->C14N(), $doc->toUnsafeDocument()->C14N());
     }
 
 

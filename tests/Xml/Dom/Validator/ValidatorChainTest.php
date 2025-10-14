@@ -44,8 +44,8 @@ final class ValidatorChainTest extends TestCase
         yield 'oneFails' => [
             'validator' => validator_chain(
                 static fn (DOMDocument $document) => new IssueCollection(),
-                fn (DOMDocument $document) => new IssueCollection(
-                    $this->createIssue(Level::fatal())
+                static fn (DOMDocument $document) => new IssueCollection(
+                    self::createIssue(Level::fatal())
                 ),
                 static fn (DOMDocument $document) => new IssueCollection(),
                 static fn (DOMDocument $document) => new IssueCollection()
@@ -54,12 +54,12 @@ final class ValidatorChainTest extends TestCase
         ];
         yield 'allFails' => [
             'validator' => validator_chain(
-                fn (DOMDocument $document) => new IssueCollection(
-                    $this->createIssue(Level::fatal())
+                static fn (DOMDocument $document) => new IssueCollection(
+                    self::createIssue(Level::fatal())
                 ),
-                fn (DOMDocument $document) => new IssueCollection(
-                    $this->createIssue(Level::fatal()),
-                    $this->createIssue(Level::fatal())
+                static fn (DOMDocument $document) => new IssueCollection(
+                    self::createIssue(Level::fatal()),
+                    self::createIssue(Level::fatal())
                 ),
             ),
             'errors' => 3,

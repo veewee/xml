@@ -23,6 +23,8 @@ final class EncodingTest extends TestCase
     private const XML_HEADER = '<?xml version="1.0"?>';
 
     #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideEncodingOnly')]
     public function test_it_encodes(string $xml, array $data)
     {
         $actual = xml_encode($data, identity());
@@ -31,6 +33,8 @@ final class EncodingTest extends TestCase
     }
 
     #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideEncodingOnly')]
     public function test_it_encodes_to_document(string $xml, array $data)
     {
         $actual = document_encode($data, identity());
@@ -39,6 +43,8 @@ final class EncodingTest extends TestCase
     }
 
     #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideEncodingOnly')]
     public function test_it_encodes_to_element(string $xml, array $data)
     {
         $actual = element_encode($data);
@@ -47,6 +53,9 @@ final class EncodingTest extends TestCase
     }
 
     #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideDecodingOnly')]
+    #[DataProvider('provideRiskyDecodingOnly')]
     public function test_it_decodes(string $xml, array $data)
     {
         $actual = xml_decode($xml, identity());
@@ -54,6 +63,7 @@ final class EncodingTest extends TestCase
     }
 
     #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideDecodingOnly')]
     public function test_it_decodes_from_element(string $xml, array $data)
     {
         $doc = Document::fromXmlString($xml);
@@ -78,7 +88,7 @@ final class EncodingTest extends TestCase
     }
 
     #[DataProvider('provideInvalidXml')]
-    public function test_it_errors_while_decoding_invalid_xml(string $xml)
+    public function test_it_errors_while_decoding_invalid_xml(string $xml, array $data)
     {
         $this->expectException(EncodingException::class);
         xml_decode($xml);
@@ -214,12 +224,6 @@ final class EncodingTest extends TestCase
                 ]
             ]
         ];
-        yield 'cdata' => [
-            'xml' => '<hello><![CDATA[<html>world</html>]]></hello>',
-            'data' => ['hello' => [
-                '@cdata' => '<html>world</html>'
-            ]]
-        ];
         yield 'mixed cdata' => [
             'xml' => '<hello>hello <![CDATA[<html>world</html>]]></hello>',
             'data' => ['hello' => 'hello <html>world</html>']
@@ -309,6 +313,12 @@ final class EncodingTest extends TestCase
                     'price' => 121
                 ]
             ]
+        ];
+        yield 'cdata' => [
+            'xml' => '<hello><![CDATA[<html>world</html>]]></hello>',
+            'data' => ['hello' => [
+                '@cdata' => '<html>world</html>'
+            ]]
         ];
     }
 

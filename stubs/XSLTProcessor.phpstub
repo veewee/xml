@@ -1,0 +1,14 @@
+<?php
+class XSLTProcessor
+{
+    /**
+     * Transform to XML
+     * @link https://php.net/manual/en/xsltprocessor.transformtoxml.php
+     * @param DOMDocument|SimpleXMLElement $document <p>
+     * The transformed document.
+     * </p>
+     * @return string|false|null The result of the transformation as a string or <b>FALSE</b> on error.
+     */
+    public function transformToXml($document): string|false|null {}
+
+}

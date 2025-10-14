@@ -41,7 +41,9 @@ function query_single(string $query, ?DOMNode $node = null): Closure
                 1,
                 format('Expected to find only one node that matches %s. Got %s', $query, count($list))
             );
+            $node = $list->item(0);
+            Assert::notNull($node);
 
-            return $list->item(0);
+            return $node;
         };
 }

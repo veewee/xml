@@ -10,7 +10,7 @@ use VeeWee\Xml\Reader\Node\ElementNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
 use function VeeWee\Xml\Reader\Matcher\attribute_local_value;
 
-final class AttributeLocalValueTest extends AbstractMatcherTest
+final class AttributeLocalValueTest extends AbstractMatcherTestCase
 {
     public static function provideRealXmlCases(): Generator
     {

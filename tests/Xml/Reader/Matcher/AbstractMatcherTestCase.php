@@ -12,7 +12,7 @@ use VeeWee\Xml\Reader\Node\NodeSequence;
 use VeeWee\Xml\Reader\Reader;
 use function Psl\Vec\map;
 
-abstract class AbstractMatcherTest extends TestCase
+abstract class AbstractMatcherTestCase extends TestCase
 {
     abstract public static function provideRealXmlCases(): Generator;
     abstract public static function provideMatcherCases(): Generator;

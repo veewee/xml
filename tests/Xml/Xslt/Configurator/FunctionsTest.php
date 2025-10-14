@@ -34,6 +34,10 @@ final class FunctionsTest extends TestCase
 
     public function test_it_throws_exception_on_unkown_function(): void
     {
+        if (PHP_VERSION_ID >= 80300 && PHP_VERSION_ID < 80400) {
+            static::markTestSkipped('This test turns into a warning on PHP 8.3.');
+        }
+
         $processor = Processor::fromTemplateDocument(
             $this->createTemplate(),
             functions(['substr'])

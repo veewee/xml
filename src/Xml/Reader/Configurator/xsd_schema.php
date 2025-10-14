@@ -20,7 +20,7 @@ function xsd_schema(string $schemaFile): Closure
             Assert::fileExists($schemaFile);
 
             disallow_libxml_false_returns(
-                $reader->setSchema($schemaFile),
+                @$reader->setSchema($schemaFile),
                 'Unable to apply XSD schema to the XML Reader.'
             );
 
