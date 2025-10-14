@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Dom\Predicate;
 
 use DOMNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_whitespace;
 
 final class IsWhitespaceTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideTestCases
-     */
+    #[DataProvider('provideTestCases')]
     public function test_it_knows_whitespaces(DOMNode $node, bool $expected): void
     {
         static::assertSame($expected, is_whitespace($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

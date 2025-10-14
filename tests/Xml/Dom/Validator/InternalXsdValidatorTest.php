@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Validator;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Validator\internal_xsd_validator;
@@ -11,10 +12,7 @@ use function VeeWee\Xml\Xsd\Schema\Manipulator\base_path;
 
 final class InternalXsdValidatorTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideSchemeValidation
-     */
+    #[DataProvider('provideSchemeValidation')]
     public function test_it_can_validate_internal_xsds(string $xml, int $errors): void
     {
         $file = $this->getFixture($xml);
@@ -36,7 +34,7 @@ final class InternalXsdValidatorTest extends TestCase
     /**
      * @return array
      */
-    public function provideSchemeValidation()
+    public static function provideSchemeValidation()
     {
         yield 'valid' => [
             'xml' => 'xml-valid.xml',

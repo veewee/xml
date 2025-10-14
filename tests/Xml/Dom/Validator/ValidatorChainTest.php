@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Dom\Validator;
 
 use DOMDocument;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
-use VeeWee\Xml\ErrorHandling\Issue\Level;
 
+use VeeWee\Xml\ErrorHandling\Issue\Level;
 use function VeeWee\Xml\Dom\Validator\validator_chain;
 
 final class ValidatorChainTest extends TestCase
 {
     use UseIssueTrait;
 
-    /**
-     *
-     * @dataProvider provideErrorCases
-     */
+    #[DataProvider('provideErrorCases')]
     public function test_it_can_validate_multiple_validators(callable $validator, int $errors): void
     {
         $doc = Document::empty();
@@ -29,7 +27,7 @@ final class ValidatorChainTest extends TestCase
         static::assertCount($errors, $issues);
     }
 
-    public function provideErrorCases()
+    public static function provideErrorCases()
     {
         yield 'empty' => [
             'validator' => validator_chain(),

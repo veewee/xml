@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Xmlns;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Xmlns\Xmlns;
 
 final class XmlnsTest extends TestCase
 {
-    /**
-     * @dataProvider provideKnownXmlnses
-     */
+    #[DataProvider('provideKnownXmlnses')]
     public function test_it_knows_some_xmlnses(callable $factory, string $uri): void
     {
         // Fix for code coverage:
@@ -21,7 +20,7 @@ final class XmlnsTest extends TestCase
         static::assertTrue($xmlns->matches(Xmlns::load($uri)));
     }
 
-    public function provideKnownXmlnses()
+    public static function provideKnownXmlnses()
     {
         yield 'xml' => [
             static fn () => Xmlns::xml(),
