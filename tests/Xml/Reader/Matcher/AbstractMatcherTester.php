@@ -5,6 +5,7 @@ namespace VeeWee\Tests\Xml\Reader\Matcher;
 
 use Closure;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Reader\MatchingNode;
 use VeeWee\Xml\Reader\Node\NodeSequence;
@@ -17,11 +18,11 @@ abstract class AbstractMatcherTester extends TestCase
     abstract public static function provideMatcherCases(): Generator;
 
     /**
-     * @dataProvider provideRealXmlCases
      *
      * @param Closure(NodeSequence): bool $matcher
      * @param list<string> $expected
      */
+    #[DataProvider('provideRealXmlCases')]
     public function test_real_xml_cases(Closure $matcher, string $xml, array $expected)
     {
         $reader = Reader::fromXmlString($xml);
@@ -31,10 +32,9 @@ abstract class AbstractMatcherTester extends TestCase
     }
 
     /**
-     * @dataProvider provideMatcherCases
-     *
      * @param Closure(NodeSequence): bool $matcher
      */
+    #[DataProvider('provideMatcherCases')]
     public function test_matcher_cases(Closure $matcher, NodeSequence $sequence, bool $expected)
     {
         $actual = $matcher($sequence);

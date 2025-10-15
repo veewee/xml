@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Dom\Predicate;
 
 use DOM\Node;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_cdata;
 
 final class IsCDataTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideTestCases
-     */
+    #[DataProvider('provideTestCases')]
     public function test_it_knows_cdata(?Node $node, bool $expected): void
     {
         $actual = is_cdata($node);

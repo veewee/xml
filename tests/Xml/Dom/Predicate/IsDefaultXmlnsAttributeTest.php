@@ -6,16 +6,14 @@ namespace VeeWee\Tests\Xml\Dom\Predicate;
 
 use DOM\NameSpaceNode;
 use DOM\Node;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
 
 final class IsDefaultXmlnsAttributeTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideTestCases
-     */
+    #[DataProvider('provideTestCases')]
     public function test_it_knows_default_xmlns_attribute(Node|NameSpaceNode $node, bool $expected): void
     {
         static::assertSame($expected, is_default_xmlns_attribute($node));
