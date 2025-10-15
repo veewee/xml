@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\ErrorHandling;
 
 use LibXMLError;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use VeeWee\Xml\ErrorHandling\Issue\Level;
 
+use VeeWee\Xml\ErrorHandling\Issue\Level;
 use function VeeWee\Xml\ErrorHandling\issue_level_from_xml_error;
 
 final class IssueLevelFromXmlErrorTest extends TestCase
 {
-    /**
-     * @dataProvider provideErrors
-     */
+    #[DataProvider('provideErrors')]
     public function test_it_can_construct_level_from_lib_xml_error(int $code, ?Level $expected): void
     {
         $error = new LibXMLError();
@@ -29,7 +28,7 @@ final class IssueLevelFromXmlErrorTest extends TestCase
         static::assertTrue($expected->matches($actual));
     }
 
-    public function provideErrors()
+    public static function provideErrors()
     {
         yield 'error' => [
             LIBXML_ERR_ERROR,

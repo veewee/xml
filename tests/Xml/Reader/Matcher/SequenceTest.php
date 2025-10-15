@@ -13,7 +13,7 @@ use function VeeWee\Xml\Reader\Matcher\document_element;
 use function VeeWee\Xml\Reader\Matcher\element_name;
 use function VeeWee\Xml\Reader\Matcher\sequence;
 
-final class SequenceTest extends AbstractMatcherTest
+final class SequenceTest extends AbstractMatcherTestCase
 {
     public static function provideRealXmlCases(): Generator
     {

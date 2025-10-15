@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Validator;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Validator\xsd_validator;
 
 final class XsdValidatorTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideSchemeValidation
-     */
+    #[DataProvider('provideSchemeValidation')]
     public function test_it_can_validate_xsds(string $xml, string $xsd, int $errors): void
     {
         $doc = Document::fromXmlFile($this->getFixture($xml));
@@ -32,7 +30,7 @@ final class XsdValidatorTest extends TestCase
     /**
      * @return array
      */
-    public function provideSchemeValidation()
+    public static function provideSchemeValidation()
     {
         yield 'valid' => [
             'xml' => 'xml-valid.xml',

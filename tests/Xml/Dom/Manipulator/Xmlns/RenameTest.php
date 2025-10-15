@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Manipulator\Xmlns;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -12,9 +13,7 @@ use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class RenameTest extends TestCase
 {
-    /**
-     * @dataProvider provideXmls
-     */
+    #[DataProvider('provideXmls')]
     public function test_it_can_rename_namespaces(string $input, string $expected): void
     {
         $document = Document::fromXmlString($input)->toUnsafeDocument();
@@ -34,7 +33,7 @@ final class RenameTest extends TestCase
         rename($document, 'http://replace', 'ns1');
     }
 
-    public function provideXmls()
+    public static function provideXmls()
     {
         yield 'no-action' => [
             '<hello/>',

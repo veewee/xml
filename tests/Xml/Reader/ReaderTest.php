@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Reader;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Xml\Exception\RuntimeException;
@@ -22,9 +23,7 @@ final class ReaderTest extends TestCase
 {
     use FillFileTrait;
 
-    /**
-     * @dataProvider provideXmlExpectations
-     */
+    #[DataProvider('provideXmlExpectations')]
     public function test_it_can_provide_xml_string(string $xml, callable $matcher, array $expected): void
     {
         $reader = Reader::fromXmlString($xml, identity());
@@ -33,9 +32,7 @@ final class ReaderTest extends TestCase
         static::assertSame($expected, map($iterator, static fn (MatchingNode $match): string => $match->xml()));
     }
 
-    /**
-     * @dataProvider provideXmlExpectations
-     */
+    #[DataProvider('provideXmlExpectations')]
     public function test_it_can_provide_xml_file(string $xml, callable $matcher, array $expected): void
     {
         [$file, $handle] = $this->fillFile($xml);
@@ -90,7 +87,7 @@ final class ReaderTest extends TestCase
         static::assertSame(['<user>Jos</user>'], $actual);
     }
 
-    public function provideXmlExpectations()
+    public static function provideXmlExpectations()
     {
         yield 'simple' => [
             <<<'EOXML'

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Encoding;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psl\Collection\Vector;
 use Psl\Type\TypeInterface;
@@ -16,9 +17,7 @@ use function VeeWee\Xml\Encoding\typed;
 
 final class TypedTest extends TestCase
 {
-    /**
-     * @dataProvider provideTypedTestCases
-     */
+    #[DataProvider('provideTypedTestCases')]
     public function test_typed(string $xml, TypeInterface $type, array $data)
     {
         $actual = typed($xml, $type, identity());
@@ -26,7 +25,7 @@ final class TypedTest extends TestCase
         static::assertEquals($data, $actual);
     }
 
-    public function provideTypedTestCases()
+    public static function provideTypedTestCases()
     {
         yield 'nested-single-child' => [
             'xml' => <<<EOXML

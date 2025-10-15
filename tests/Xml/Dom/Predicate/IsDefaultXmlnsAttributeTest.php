@@ -6,22 +6,20 @@ namespace VeeWee\Tests\Xml\Dom\Predicate;
 
 use DOMNameSpaceNode;
 use DOMNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_default_xmlns_attribute;
 
 final class IsDefaultXmlnsAttributeTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideTestCases
-     */
+    #[DataProvider('provideTestCases')]
     public function test_it_knows_default_xmlns_attribute(DOMNode|DOMNameSpaceNode $node, bool $expected): void
     {
         static::assertSame($expected, is_default_xmlns_attribute($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

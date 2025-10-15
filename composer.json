@@ -7,20 +7,23 @@
     ],
     "type": "library",
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-xml": "*",
         "ext-xsl": "*",
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",
-        "azjezz/psl": "^3.0",
+        "azjezz/psl": "^3.0 || ^4.0",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
         "symfony/finder": "^6.1 || ^7.0",
         "veewee/composer-run-parallel": "^1.0.0",
-        "vimeo/psalm": "^5.4",
+        "phpunit/phpunit": "~12.3",
+        "vimeo/psalm": "~6.13",
+        "php-cs-fixer/shim": "~3.88",
+        "infection/infection": "^0.31.7",
         "php-standard-library/psalm-plugin": "^2.2"
     },
     "license": "MIT",
@@ -47,19 +50,19 @@
         "autoload": [
             "@php build/bootstrap.php"
         ],
-        "cs": "PHP_CS_FIXER_IGNORE_ENV=1 php ./tools/php-cs-fixer.phar fix --dry-run",
-        "cs:fix": "PHP_CS_FIXER_IGNORE_ENV=1 php ./tools/php-cs-fixer.phar fix",
+        "cs": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --dry-run",
+        "cs:fix": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix",
         "psalm": "./vendor/bin/psalm --no-cache --stats",
-        "tests": "./tools/phpunit.phar --coverage-text --color",
+        "tests": "./vendor/bin/phpunit --coverage-text --color",
         "stress": [
             "Composer\\Config::disableProcessTimeout",
-            "@php -c stress.ini ./tools/phpunit.phar --configuration phpunit.stress.xml --no-coverage"
+            "@php -c stress.ini ./vendor/bin/phpunit --configuration phpunit.stress.xml --no-coverage"
         ],
         "testquality": "@parallel coverage infection",
         "coverage": "@php ./tools/full-coverage-check.php .phpunit.cache/clover/clover.xml",
         "infection": [
             "Composer\\Config::disableProcessTimeout",
-            "./tools/infection.phar --show-mutations -v"
+            "./vendor/bin/infection --show-mutations -v"
         ],
         "ci": [
             "@autoload",
@@ -69,7 +72,8 @@
     },
     "config": {
         "allow-plugins": {
-            "veewee/composer-run-parallel": true
+            "veewee/composer-run-parallel": true,
+            "infection/extension-installer": true
         }
     }
 }

@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Dom\Predicate;
 
 use DOMNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Predicate\is_attribute;
 
 final class IsAttributeTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideTestCases
-     */
+    #[DataProvider('provideTestCases')]
     public function test_it_knows_attributes(DOMNode $node, bool $expected): void
     {
         static::assertSame($expected, is_attribute($node));
     }
 
-    public function provideTestCases()
+    public static function provideTestCases()
     {
         $doc = Document::fromXmlString(
             <<<EOXML

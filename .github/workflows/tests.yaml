@@ -12,7 +12,7 @@ jobs:
         strategy:
             matrix:
                 operating-system: [ubuntu-latest]
-                php-versions: ['8.2', '8.3', '8.4']
+                php-versions: ['8.3', '8.4', '8.5']
                 composer-options: ['--ignore-platform-req=php+']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} @ ${{ matrix.operating-system }}
@@ -32,4 +32,3 @@ jobs:
               run: composer run tests
             - name: Check tests quality
               run: composer run testquality
-              continue-on-error: ${{ matrix.php-versions == '8.4' }} # Infection is not ready yet.

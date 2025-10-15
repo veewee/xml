@@ -17,7 +17,6 @@ function document_to_string(Document $document): Closure
 {
     return static fn (XSLTProcessor $processor): string => disallow_issues(
         static function () use ($document, $processor): string {
-            // Result can also be null ... undocumentedly!
             return (string) disallow_libxml_false_returns(
                 $processor->transformToXML($document->toUnsafeDocument()),
                 'Unable to apply the XSLT template'

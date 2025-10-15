@@ -2,20 +2,26 @@
 
 declare(strict_types=1);
 
-namespace VeeWee\Tests\Xml\Dom\Predicate;
+namespace VeeWee\Tests\Xml\Dom\Assert;
 
 use DOMNode;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psl\Type\Exception\AssertException;
 use VeeWee\Xml\Dom\Document;
-use function VeeWee\Xml\Dom\Predicate\is_document_element;
+use function VeeWee\Xml\Dom\Assert\assert_attribute;
 
-final class IsDocumentElementTest extends TestCase
+final class AssertAttributeTest extends TestCase
 {
     #[DataProvider('provideTestCases')]
-    public function test_it_knows_document_elements(DOMNode $node, bool $expected): void
+    public function test_it_knows_attributes(?DOMNode $node, bool $expected): void
     {
-        static::assertSame($expected, is_document_element($node));
+        if (!$expected) {
+            $this->expectException(AssertException::class);
+        }
+
+        $actual = assert_attribute($node);
+        static::assertSame($node, $actual);
     }
 
     public static function provideTestCases()
@@ -29,9 +35,10 @@ final class IsDocumentElementTest extends TestCase
         )->toUnsafeDocument();
 
         yield [$doc, false];
-        yield [$doc->documentElement, true];
+        yield [$doc->documentElement, false];
         yield [$doc->documentElement->firstElementChild, false];
-        yield [$doc->documentElement->firstElementChild->attributes->getNamedItem('attr'), false];
+        yield [$doc->documentElement->firstElementChild->attributes->getNamedItem('attr'), true];
         yield [$doc->documentElement->firstElementChild->firstChild, false];
+        yield [null, false];
     }
 }
