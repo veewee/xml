@@ -31,12 +31,12 @@ This little bump in the road is necessary to provide you with a better, more sta
 
 Support table:
 
-| veewee/xml | PHP           | LTS |
-|------------|---------------|-----|  
-| 3.0 - 3.1  | 8.1, 8.2, 8.3 | NO  |
-| 3.2        | 8.2, 8.3      | NO  |
-| 3.3+       | 8.2, 8.3, 8.4 | YES |
-| 4.0+       | 8.4+          | YES |
+| veewee/xml | PHP                | LTS |
+|------------|--------------------|-----|  
+| 3.0 - 3.1  | 8.1, 8.2, 8.3      | NO  |
+| 3.2        | 8.2, 8.3           | NO  |
+| 3.3+       | 8.2, 8.3, 8.4, 8.5 | YES |
+| 4.0+       | 8.4+               | YES |
 
 
 ## Roadmap
