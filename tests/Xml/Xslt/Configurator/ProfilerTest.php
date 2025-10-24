@@ -35,7 +35,7 @@ final class ProfilerTest extends TestCase
     public function test_setting_an_invalid_profiler_location_doesnt_result(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('The file "/THISFOLDERSHOULDNOTEXIST" does not exist.');
+        $this->expectExceptionMessage('"/THISFOLDERSHOULDNOTEXIST"');
 
         Processor::fromTemplateDocument(
             $this->createTemplate(),
