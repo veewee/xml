@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Manipulator\Xmlns;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Manipulator\Xmlns\rename_element_namespace;
 
 final class RenameTest extends TestCase
 {
-    /**
-     * @dataProvider provideXmls
-     */
+    #[DataProvider('provideXmls')]
     public function test_it_can_rename_namespaces(string $input, string $expected): void
     {
         $document = Document::fromXmlString($input);

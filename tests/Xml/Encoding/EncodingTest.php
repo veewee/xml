@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Encoding;
 
 use JsonSerializable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Encoding\Exception\EncodingException;
@@ -21,11 +22,9 @@ final class EncodingTest extends TestCase
 {
     private const XML_HEADER = '<?xml version="1.0" encoding="UTF-8"?>';
 
-    /**
-     * @dataProvider provideBidirectionalCases
-     * @dataProvider provideRiskyBidirectionalCases
-     * @dataProvider provideEncodingOnly
-     */
+    #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideEncodingOnly')]
     public function test_it_encodes(string $xml, array $data)
     {
         $actual = xml_encode($data, identity());
@@ -33,11 +32,9 @@ final class EncodingTest extends TestCase
         static::assertStringStartsWith(self::XML_HEADER, $actual);
     }
 
-    /**
-     * @dataProvider provideBidirectionalCases
-     * @dataProvider provideRiskyBidirectionalCases
-     * @dataProvider provideEncodingOnly
-     */
+    #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideEncodingOnly')]
     public function test_it_encodes_to_document(string $xml, array $data)
     {
         $actual = document_encode($data, identity());
@@ -45,11 +42,9 @@ final class EncodingTest extends TestCase
         static::assertStringStartsWith(self::XML_HEADER, $actual->toXmlString());
     }
 
-    /**
-     * @dataProvider provideBidirectionalCases
-     * @dataProvider provideRiskyBidirectionalCases
-     * @dataProvider provideEncodingOnly
-     */
+    #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideEncodingOnly')]
     public function test_it_encodes_to_element(string $xml, array $data)
     {
         $actual = element_encode($data);
@@ -57,22 +52,18 @@ final class EncodingTest extends TestCase
         static::assertStringStartsNotWith(self::XML_HEADER, $actual);
     }
 
-    /**
-     * @dataProvider provideBidirectionalCases
-     * @dataProvider provideRiskyBidirectionalCases
-     * @dataProvider provideDecodingOnly
-     * @dataProvider provideRiskyDecodingOnly
-     */
+    #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideRiskyBidirectionalCases')]
+    #[DataProvider('provideDecodingOnly')]
+    #[DataProvider('provideRiskyDecodingOnly')]
     public function test_it_decodes(string $xml, array $data)
     {
         $actual = xml_decode($xml, identity());
         static::assertSame($data, $actual);
     }
 
-    /**
-     * @dataProvider provideBidirectionalCases
-     * @dataProvider provideDecodingOnly
-     */
+    #[DataProvider('provideBidirectionalCases')]
+    #[DataProvider('provideDecodingOnly')]
     public function test_it_decodes_from_element(string $xml, array $data)
     {
         $doc = Document::fromXmlString($xml);
@@ -82,27 +73,21 @@ final class EncodingTest extends TestCase
         static::assertSame($data, $actual);
     }
 
-    /**
-     * @dataProvider provideInvalidXml
-     */
+    #[DataProvider('provideInvalidXml')]
     public function test_it_errors_while_encoding_invalid_xml(string $xml, array $data)
     {
         $this->expectException(EncodingException::class);
         xml_encode($data);
     }
 
-    /**
-     * @dataProvider provideInvalidXml
-     */
+    #[DataProvider('provideInvalidXml')]
     public function test_it_errors_while_encoding_invalid_xml_element(string $xml, array $data)
     {
         $this->expectException(EncodingException::class);
         element_encode($data);
     }
 
-    /**
-     * @dataProvider provideInvalidXml
-     */
+    #[DataProvider('provideInvalidXml')]
     public function test_it_errors_while_decoding_invalid_xml(string $xml, array $data)
     {
         $this->expectException(EncodingException::class);

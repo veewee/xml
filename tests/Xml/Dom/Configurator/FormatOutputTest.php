@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Dom\Configurator;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\format_output;
@@ -12,9 +13,7 @@ use function VeeWee\Xml\Dom\Mapper\xml_string;
 
 final class FormatOutputTest extends TestCase
 {
-    /**
-     * @dataProvider provideFormatOutputCases
-     */
+    #[DataProvider('provideFormatOutputCases')]
     public function test_it_can_trim_contents(
         ?bool $formatOutput,
         string $input,

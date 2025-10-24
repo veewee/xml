@@ -5,25 +5,20 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\ErrorHandling\Assertion;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use function VeeWee\Xml\Assertion\assert_strict_prefixed_name;
 
 final class AssertStrictPrefixedNameTest extends TestCase
 {
-    /**
-     *
-     * @dataProvider provideValidQNames
-     */
+    #[DataProvider('provideValidQNames')]
     public function test_it_does_nothing_on_valid_qnames(string $input): void
     {
         $this->expectNotToPerformAssertions();
         assert_strict_prefixed_name($input);
     }
 
-    /**
-     *
-     * @dataProvider provideInvalidQNames
-     */
+    #[DataProvider('provideInvalidQNames')]
     public function test_it_throws_on_invalid_qnames(string $input): void
     {
         $this->expectException(InvalidArgumentException::class);

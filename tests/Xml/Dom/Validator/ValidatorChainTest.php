@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VeeWee\Tests\Xml\Dom\Validator;
 
 use DOM\XMLDocument;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\ErrorHandling\Issue\UseIssueTrait;
 use VeeWee\Xml\Dom\Document;
@@ -16,10 +17,7 @@ final class ValidatorChainTest extends TestCase
 {
     use UseIssueTrait;
 
-    /**
-     *
-     * @dataProvider provideErrorCases
-     */
+    #[DataProvider('provideErrorCases')]
     public function test_it_can_validate_multiple_validators(callable $validator, int $errors): void
     {
         $doc = Document::empty();

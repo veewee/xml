@@ -6,15 +6,19 @@
     },
     "minMsi": 100,
     "minCoveredMsi": 100,
-    "phpUnit": {
-        "customPath": ".\/tools\/phpunit.phar"
-    },
     "logs": {
         "text": ".phpunit.cache/infection.log",
         "html": ".phpunit.cache/infection"
     },
     "mutators": {
         "@default": true,
+        "ReturnRemoval": {
+          "ignore": [
+            "VeeWee\\Xml\\Dom\\Traverser\\Visitor\\RemoveNamespaces::onNodeLeave",
+            "VeeWee\\Xml\\Dom\\Traverser\\Visitor\\SortAttributes::onNodeEnter",
+            "VeeWee\\Xml\\Reader\\Reader::provide",
+          ]
+        },
         "CastInt": {
             "ignore": [
                 "VeeWee\\Xml\\*Exception::__construct"
