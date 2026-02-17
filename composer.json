@@ -15,7 +15,7 @@
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",
         "azjezz/psl": "^3.0 || ~4.0",
-        "webmozart/assert": "^1.10"
+        "webmozart/assert": "^1.10|^2.0"
     },
     "require-dev": {
         "symfony/finder": "^7.1",
