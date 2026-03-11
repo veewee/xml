@@ -76,7 +76,7 @@ final class XsdSchemaTest extends TestCase
         $iterator = $reader->provide(element_name('user'));
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('The file "unkown-file" does not exist.');
+        $this->expectExceptionMessage('"unkown-file" does not exist');
         [...$iterator];
 
         fclose($xsdHandle);

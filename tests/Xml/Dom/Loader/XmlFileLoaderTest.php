@@ -60,7 +60,7 @@ final class XmlFileLoaderTest extends TestCase
         $loader = xml_file_loader('invalid-file');
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('The file "invalid-file" does not exist');
+        $this->expectExceptionMessage('"invalid-file" does not exist');
 
         $loader($doc);
     }
