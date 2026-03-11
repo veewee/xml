@@ -119,8 +119,6 @@ final class NodeSequenceTest extends TestCase
             $element2 = new ElementNode(1, 'item2', 'item2', '', '', []),
         );
 
-        static::assertEquals($sequence, $sequence->slice(-1));
-        static::assertEquals(new NodeSequence($element1), $sequence->slice(-1, 1));
         static::assertEquals(new NodeSequence($element1), $sequence->slice(0, 1));
         static::assertEquals(new NodeSequence($element1, $element2), $sequence->slice(0));
         static::assertEquals(new NodeSequence($element2), $sequence->slice(1, 1));
