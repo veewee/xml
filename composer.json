@@ -14,7 +14,7 @@
         "ext-xsl": "*",
         "ext-xmlreader": "*",
         "ext-xmlwriter": "*",
-        "azjezz/psl": "^3.0 || ^4.0 || ^5.0",
+        "php-standard-library/php-standard-library": "^3.0 || ~4.0 || ^5.0 || ^6.0",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
