@@ -206,7 +206,7 @@ $data = typed(
 ```
 
 It works exactly the same as the [xml_decode](#xml_decode) function but with an additional type parameter.
-Structuring the shape of the type-result is done by the [azjezz/psl](https://github.com/azjezz/psl) package.
+Structuring the shape of the type-result is done by the [php-standard-library/php-standard-library](https://github.com/php-standard-library/php-standard-library) package.
 
 In modern systems, you might find the need to convert XML data to DTO objects.
 You can do so by using the typed class as well:
