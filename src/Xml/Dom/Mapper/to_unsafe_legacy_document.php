@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom\Mapper;
 
 use Closure;
-use DOMDocument;
 use Dom\XMLDocument;
+use DOMDocument;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 
@@ -26,10 +26,7 @@ function to_unsafe_legacy_document(): Closure
 {
     return static fn (XMLDocument $document): DOMDocument => disallow_issues(
         static function () use ($document): DOMDocument {
-            $xml = disallow_libxml_false_returns(
-                $document->saveXML(),
-                'Unable to export XML from Dom\XMLDocument'
-            );
+            $xml = xml_string()($document);
 
             $legacy = new DOMDocument();
             disallow_libxml_false_returns(
