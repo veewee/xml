@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Xml\Dom\Document;
 use function VeeWee\Xml\Dom\Configurator\canonicalize;
+use function VeeWee\Xml\Dom\Configurator\optimize_namespaces;
 use function VeeWee\Xml\Dom\Locator\document_element;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 
@@ -20,6 +21,26 @@ final class CanonicalizeTest extends TestCase
         $actual = xml_string()($canonicalized->map(document_element()));
 
         static::assertSame($expected, $actual);
+    }
+
+    /**
+     * Regression test: canonicalize() on a DOM-manipulated document (e.g. after
+     * optimize_namespaces) would hang on libxml 2.9.14 because C14N produced
+     * duplicate xmlns declarations.
+     * @see https://github.com/php/php-src/issues/XXXXX
+     */
+    public function test_it_can_canonicalize_after_dom_manipulation(): void
+    {
+        $doc = Document::fromXmlString(
+            '<root xmlns="urn:a" attr="val"><child/></root>',
+            optimize_namespaces(),
+        );
+
+        $canonicalized = Document::fromUnsafeDocument($doc->toUnsafeDocument(), canonicalize());
+        $actual = xml_string()($canonicalized->map(document_element()));
+
+        static::assertStringContainsString('root', $actual);
+        static::assertStringNotContainsString('xmlns:ns1="urn:a" attr="val" xmlns:ns1="urn:a"', $actual);
     }
 
     public function test_it_can_canonicalize_empty_xml(): void
