@@ -71,6 +71,7 @@
         'Xml\Dom\Manipulator\Xmlns\rename' => __DIR__.'/Xml/Dom/Manipulator/Xmlns/rename.php',
         'Xml\Dom\Manipulator\Xmlns\rename_element_namespace' => __DIR__.'/Xml/Dom/Manipulator/Xmlns/rename_element_namespace.php',
         'Xml\Dom\Manipulator\append' => __DIR__.'/Xml/Dom/Manipulator/append.php',
+        'Xml\Dom\Mapper\to_unsafe_legacy_document' => __DIR__.'/Xml/Dom/Mapper/to_unsafe_legacy_document.php',
         'Xml\Dom\Mapper\xml_string' => __DIR__.'/Xml/Dom/Mapper/xml_string.php',
         'Xml\Dom\Mapper\xslt_template' => __DIR__.'/Xml/Dom/Mapper/xslt_template.php',
         'Xml\Dom\Predicate\is_attribute' => __DIR__.'/Xml/Dom/Predicate/is_attribute.php',

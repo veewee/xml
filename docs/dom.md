@@ -1160,6 +1160,30 @@ $xml = $mapper($someNode);
 $xml = $doc->stringifyNode($someNode);
 ```
 
+#### to_unsafe_legacy_document
+
+Converts a `Dom\XMLDocument` (PHP 8.4+) into a legacy `DOMDocument` via an XML round-trip.
+This is useful when interoperating with libraries that still expect the legacy `DOMDocument` type.
+
+The `documentURI` is preserved on the resulting `DOMDocument`.
+
+**Caveat:** Line numbers in the resulting `DOMDocument` may differ from the original because
+the new DOM's `saveXML()` can reformat the output (e.g., collapsing multi-line opening tags
+into single lines).
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Mapper\to_unsafe_legacy_document;
+
+$doc = Document::fromXmlFile('some.xml');
+
+// Using the convenience method on Document:
+$legacyDoc = $doc->toUnsafeLegacyDocument();
+
+// Or using the mapper function directly:
+$legacyDoc = $doc->map(to_unsafe_legacy_document());
+```
+
 #### xslt_template
 
 Allows you to map an XML document based on an [XSLT template](xslt.md).
