@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace VeeWee\Xml\Dom;
 
 use Closure;
-use DOMDocument;
 use Dom\Element;
 use Dom\Node;
 use Dom\XMLDocument;
 use Dom\XPath as DOMXPath;
+use DOMDocument;
 use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
