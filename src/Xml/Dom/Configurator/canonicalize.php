@@ -20,9 +20,17 @@ function canonicalize(): Closure
             return $document;
         }
 
+        // Round-trip through saveXml first to normalize namespace declarations.
+        // C14N on DOM-manipulated documents can produce duplicate xmlns attributes
+        // on certain libxml versions (e.g. 2.9.14), causing createFromString to hang.
+        // @see https://github.com/php/php-src/issues/21548
+        $normalized = XMLDocument::createFromString(
+            non_empty_string()->assert($document->saveXml()),
+        );
+
         return Document::fromLoader(
             xml_string_loader(
-                non_empty_string()->assert($document->C14N()),
+                non_empty_string()->assert($normalized->C14N()),
                 LIBXML_NSCLEAN + LIBXML_NOCDATA
             ),
             pretty_print(),

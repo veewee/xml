@@ -31,10 +31,11 @@ function rename_element_namespace(Element $element, string $namespaceURI, string
         if (is_xmlns_attribute($attr) && $attr->value === $namespaceURI) {
             try {
                 $attr->rename($attr->namespaceURI, 'xmlns:' . $newPrefix);
-
             } catch (DOMException $e) {
                 if ($e->getCode() === INVALID_MODIFICATION_ERR) {
-                    // Remove the attribute that would become a duplicate
+                    // Remove the attribute that would become a duplicate.
+                    // The target prefix already exists on the element, so the old
+                    // xmlns declaration can simply be dropped.
                     $element->removeAttributeNode($attr);
                 } else {
                     // @codeCoverageIgnoreStart
@@ -42,7 +43,6 @@ function rename_element_namespace(Element $element, string $namespaceURI, string
                     // @codeCoverageIgnoreEnd
                 }
             }
-            $attr->rename($attr->namespaceURI, 'xmlns:' . $newPrefix);
         }
     });
 
