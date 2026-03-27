@@ -27,7 +27,7 @@ final class CanonicalizeTest extends TestCase
      * Regression test: canonicalize() on a DOM-manipulated document (e.g. after
      * optimize_namespaces) would hang on libxml 2.9.14 because C14N produced
      * duplicate xmlns declarations.
-     * @see https://github.com/php/php-src/issues/XXXXX
+     * @see https://github.com/php/php-src/issues/21548
      */
     public function test_it_can_canonicalize_after_dom_manipulation(): void
     {

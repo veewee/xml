@@ -88,7 +88,7 @@ final class ComparableTest extends TestCase
         ];
         // Regression test: default xmlns + regular attributes caused C14N to produce
         // duplicate xmlns declarations on libxml 2.9.14, making comparable() hang.
-        // @see https://github.com/php/php-src/issues/XXXXX
+        // @see https://github.com/php/php-src/issues/21548
         yield 'default-xmlns-with-attributes' => [
             <<<EOXML
             <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Test">
