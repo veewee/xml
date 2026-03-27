@@ -9,12 +9,14 @@ use Dom\Element;
 use Dom\Node;
 use Dom\XMLDocument;
 use Dom\XPath as DOMXPath;
+use DOMDocument;
 use VeeWee\Xml\Dom\Traverser\Traverser;
 use VeeWee\Xml\Dom\Traverser\Visitor;
 use VeeWee\Xml\ErrorHandling\Issue\IssueCollection;
 use VeeWee\Xml\Exception\RuntimeException;
 use function Psl\Vec\map;
 use function VeeWee\Xml\Dom\Locator\document_element;
+use function VeeWee\Xml\Dom\Mapper\to_unsafe_legacy_document;
 use function VeeWee\Xml\Dom\Mapper\xml_string;
 use function VeeWee\Xml\Internal\configure;
 
@@ -99,6 +101,18 @@ final class Document
     public function toUnsafeDocument(): XMLDocument
     {
         return $this->document;
+    }
+
+    /**
+     * Converts this document into a legacy DOMDocument via an XML round-trip.
+     *
+     * The documentURI is preserved. Note that line numbers may differ from the original
+     * because the new DOM's saveXML() can reformat the output (e.g., collapsing
+     * multi-line opening tags into single lines).
+     */
+    public function toUnsafeLegacyDocument(): DOMDocument
+    {
+        return $this->map(to_unsafe_legacy_document());
     }
 
     /**
