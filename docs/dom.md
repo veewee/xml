@@ -545,6 +545,22 @@ Document::fromUnsafeDocument(
 );
 ```
 
+#### promote_namespaces
+
+This configurator moves all prefixed namespace declarations from child elements to the document root element.
+Unlike `optimize_namespaces`, it preserves the original prefix names.
+This is useful when dealing with servers that require all namespace declarations on the root element.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\promote_namespaces;
+
+Document::fromUnsafeDocument(
+    $document,
+    promote_namespaces()
+);
+```
+
 #### pretty_print
 
 Makes the output of the DOM document human-readable.
@@ -1004,6 +1020,23 @@ $doc = Document::empty();
 $doc->manipulate(
     static function (XMLDocument $document): void {
         optimize_namespaces($document, 'prefix');
+    }
+);
+```
+
+#### promote_namespaces
+
+Moves all prefixed namespace declarations from child elements to the document root element, preserving the original prefix names.
+
+```php
+use \Dom\XMLDocument;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Manipulator\Document\promote_namespaces;
+
+$doc = Document::empty();
+$doc->manipulate(
+    static function (XMLDocument $document): void {
+        promote_namespaces($document);
     }
 );
 ```
