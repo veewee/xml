@@ -533,6 +533,35 @@ Document::fromUnsafeDocument(
 );
 ```
 
+#### promote_namespaces
+
+This configurator moves every prefixed `xmlns:*` declaration found on a
+descendant element up to the document element, keeping the original prefix
+names intact. It is the counterpart of `optimize_namespaces` for cases where
+you need eager namespace declarations without renaming prefixes (e.g. SOAP
+servers that validate namespace placement on the envelope). Default
+namespaces (`xmlns="..."`) and prefixes that conflict with a declaration
+already on the document element are left untouched.
+
+⚠️ Legacy DOM quirk: writing an xmlns declaration to the document element
+triggers libxml's namespace reconciliation. When two descendants declare the
+same prefix for different URIs, libxml rewrites the second subtree's
+element prefixes (e.g. `a` -> `a1`) and pulls the extra xmlns up to the
+root. Prefix references inside attribute *values* (e.g. `xsi:type="a:Thing"`)
+are opaque strings and are not rewritten, so they may end up resolving
+against the shadowing declaration on the original subtree. Upgrade to
+`veewee/xml` 4.x if exact prefix preservation matters for your consumers.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\promote_namespaces;
+
+Document::fromUnsafeDocument(
+    $document,
+    promote_namespaces()
+);
+```
+
 #### pretty_print
 
 Makes the output of the DOM document human-readable.
@@ -983,6 +1012,36 @@ $doc = Document::empty();
 $doc->manipulate(
     static function (DOMDocument $document): void {
         optimize_namespaces($document, 'prefix');
+    }
+);
+```
+
+#### promote_namespaces
+
+Moves every prefixed `xmlns:*` declaration found on a descendant element up to
+the document element while preserving the original prefix names. Default
+namespaces and prefixes that conflict with a declaration already on the
+document element are left untouched. Unlike `optimize_namespaces`, prefixes
+are not renamed, which matters when consumers perform strict XSD validation.
+
+⚠️ Legacy DOM quirk: writing an xmlns declaration to the document element
+triggers libxml's namespace reconciliation. When two descendants declare the
+same prefix for different URIs, libxml rewrites the second subtree's
+element prefixes (e.g. `a` -> `a1`) and pulls the extra xmlns up to the
+root. Prefix references inside attribute *values* (e.g. `xsi:type="a:Thing"`)
+are opaque strings and are not rewritten, so they may end up resolving
+against the shadowing declaration on the original subtree. Upgrade to
+`veewee/xml` 4.x if exact prefix preservation matters for your consumers.
+
+```php
+use DOMDocument;
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Manipulator\Document\promote_namespaces;
+
+$doc = Document::fromXmlString($xml);
+$doc->manipulate(
+    static function (DOMDocument $document): void {
+        promote_namespaces($document);
     }
 );
 ```
