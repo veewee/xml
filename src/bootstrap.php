@@ -24,6 +24,7 @@
         'Xml\Dom\Builder\xmlns_attributes' => __DIR__.'/Xml/Dom/Builder/xmlns_attributes.php',
         'Xml\Dom\Configurator\canonicalize' => __DIR__.'/Xml/Dom/Configurator/canonicalize.php',
         'Xml\Dom\Configurator\comparable' => __DIR__.'/Xml/Dom/Configurator/comparable.php',
+        'Xml\Dom\Configurator\disallow_doctype' => __DIR__.'/Xml/Dom/Configurator/disallow_doctype.php',
         'Xml\Dom\Configurator\document_uri' => __DIR__.'/Xml/Dom/Configurator/document_uri.php',
         'Xml\Dom\Configurator\format_output' => __DIR__.'/Xml/Dom/Configurator/format_output.php',
         'Xml\Dom\Configurator\normalize' => __DIR__.'/Xml/Dom/Configurator/normalize.php',

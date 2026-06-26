@@ -480,6 +480,49 @@ Document::fromXmlFile(
 );
 ```
 
+#### disallow_doctype
+
+Rejects any document that carries a `<!DOCTYPE ...>` declaration by throwing a `VeeWee\Xml\Exception\DoctypeNotAllowedException`.
+It works on the parsed document, so it applies uniformly to every loader — string, file and node alike.
+
+```php
+use VeeWee\Xml\Dom\Document;
+use function VeeWee\Xml\Dom\Configurator\disallow_doctype;
+
+Document::fromXmlString(
+    $untrustedXml,
+    disallow_doctype()
+);
+```
+
+##### What this protects you from — and what it does not
+
+It is important to be honest about what this guard buys you, because most of the heavy lifting against
+[XML eXternal Entity (XXE)](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing)
+attacks is already done by libxml itself.
+
+With the **default options** that this library passes to `Dom\XMLDocument` (i.e. you do *not* add libxml flags yourself), libxml already:
+
+* does **not** read external file entities (`<!ENTITY x SYSTEM "file:///etc/passwd">` is never resolved);
+* does **not** fetch external DTDs over the network (`<!DOCTYPE r SYSTEM "http://...">` triggers no request);
+* **aborts** entity-amplification ("billion laughs") attacks before expanding them.
+
+So on the default path you are already protected against the active XXE vectors, with or without this configurator.
+The only thing libxml still expands are small, non-amplifying *internal* entities — which is not an attack when the
+attacker already controls the whole document.
+
+What `disallow_doctype()` therefore adds is **policy and defence-in-depth**, not a fix for a libxml hole:
+
+* it enforces a clear, uniform "no DOCTYPE allowed" rule across all loaders, with a typed exception — useful when your
+  context forbids a DOCTYPE outright (e.g. SOAP / WS-Security / SAML);
+* it keeps you safe even if libxml's defaults ever change across versions, builds or `php.ini` settings.
+
+**What it does *not* protect against:** because it runs *after* parsing, it cannot undo anything that happened during
+parsing. If you knowingly (or unknowingly) hand the loader unsafe options such as `LIBXML_NOENT` or `LIBXML_DTDLOAD`,
+libxml *will* read the file / fetch the DTD while parsing — before this configurator ever runs. The rejection then comes
+too late. The takeaway is simple: **do not enable `LIBXML_NOENT` / `LIBXML_DTDLOAD` for untrusted input.** Keeping the
+default options is what actually keeps you safe; this configurator is the policy layer on top.
+
 #### document_uri
 
 Allows you to keep track of the document uri, even if you are using an in-memory string.
