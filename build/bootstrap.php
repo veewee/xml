@@ -45,7 +45,7 @@ use function Psl\Vec\map;
             static function (SplFileInfo $file) use ($tab): string {
                 $path = $file->getRelativePathname();
                 $function = $file->getFilenameWithoutExtension();
-                $namespace = str_replace('/', '\\', $file->getRelativePath());
+                $namespace = 'VeeWee\\'.str_replace('/', '\\', $file->getRelativePath());
 
                 return sprintf($tab.$tab.'\'%s\' => __DIR__.\'/%s\',', $namespace.'\\'.$function, $path);
             }
