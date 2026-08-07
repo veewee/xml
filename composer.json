@@ -37,7 +37,7 @@
         "php-standard-library/psalm-plugin": "^2.2",
         "phpunit/phpunit": "~12.3",
         "php-cs-fixer/shim": "~3.88",
-        "infection/infection": "^0.31"
+        "infection/infection": "^0.31 || ^0.34"
     },
     "license": "MIT",
     "authors": [
