@@ -63,6 +63,22 @@ final class WriterTest extends TestCase
     }
 
 
+    public function test_it_applies_configurators_in_order(): void
+    {
+        $actual = Writer::inMemory(
+            static function (XMLWriter $writer): XMLWriter {
+                $writer->writeRaw('a');
+                return $writer;
+            },
+            static function (XMLWriter $writer): XMLWriter {
+                $writer->writeRaw('b');
+                return $writer;
+            },
+        )->write(raw('c'))->map(memory_output());
+
+        static::assertSame('abc', $actual);
+    }
+
     public function test_it_can_fluently_write_multiple_times(): void
     {
         $this->createTmpFile(static function (string $path): void {

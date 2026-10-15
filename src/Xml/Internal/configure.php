@@ -3,7 +3,6 @@
 namespace VeeWee\Xml\Internal;
 
 use Closure;
-use Psl\Iter;
 
 /**
  * @psalm-internal \Veewee\Xml
@@ -23,15 +22,16 @@ use Psl\Iter;
  */
 function configure(callable ...$stages): Closure
 {
-    return static fn ($input) => Iter\reduce(
-        $stages,
+    return
         /**
          * @param T $input
-         * @param (callable(T): T) $next
-         *
          * @return T
          */
-        static fn (mixed $input, callable $next): mixed => $next($input),
-        $input
-    );
+        static function (mixed $input) use ($stages): mixed {
+            foreach ($stages as $stage) {
+                $input = $stage($input);
+            }
+
+            return $input;
+        };
 }
