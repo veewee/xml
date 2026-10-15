@@ -52,6 +52,50 @@ final class WriterTest extends TestCase
         static::assertSame('hello', stream_get_contents($handle));
     }
 
+    public function test_it_flushes_a_stream_after_every_write(): void
+    {
+        [$_, $handle] = $this->fillFile('');
+        $writer = Writer::forStream($handle);
+
+        $writer->write(raw('hello'));
+        rewind($handle);
+        static::assertSame('hello', stream_get_contents($handle));
+
+        $writer->write(raw(' world'));
+        rewind($handle);
+        static::assertSame('hello world', stream_get_contents($handle));
+    }
+
+    public function test_it_flushes_a_stream_returned_by_an_in_memory_configurator(): void
+    {
+        [$_, $handle] = $this->fillFile('');
+
+        $writer = Writer::inMemory(
+            static fn (XMLWriter $writer): XMLWriter => XMLWriter::toStream($handle),
+        );
+
+        $writer->write(raw('hello'));
+        rewind($handle);
+
+        static::assertSame('hello', stream_get_contents($handle));
+    }
+
+    public function test_it_flushes_an_in_memory_writer_that_a_configurator_reopened(): void
+    {
+        $this->createTmpFile(static function (string $path): void {
+            $writer = Writer::inMemory(
+                static function (XMLWriter $writer) use ($path): XMLWriter {
+                    $writer->openUri($path);
+                    return $writer;
+                },
+            );
+
+            $writer->write(element('root'));
+
+            self::assertXmlStringEqualsXmlFile($path, '<root />');
+        });
+    }
+
     public function test_it_can_configure_a_writer(): void
     {
         $this->createTmpFile(static function (string $path): void {

@@ -16,8 +16,10 @@ final class Writer
 {
     private XMLWriter $writer;
 
-    private function __construct(XMLWriter $writer)
-    {
+    private function __construct(
+        XMLWriter $writer,
+        private readonly bool $inMemory = false,
+    ) {
         $this->writer = $writer;
     }
 
@@ -67,7 +69,12 @@ final class Writer
      */
     public static function inMemory(callable ... $configurators): self
     {
-        return self::fromUnsafeWriter(XMLWriter::toMemory(), ...$configurators);
+        if ($configurators !== []) {
+            // A configurator can replace or reopen the writer, so only an unconfigured one is known to stay in memory.
+            return self::fromUnsafeWriter(XMLWriter::toMemory(), ...$configurators);
+        }
+
+        return new self(XMLWriter::toMemory(), true);
     }
 
     /**
@@ -89,9 +96,11 @@ final class Writer
             }
         );
 
-        // Flush the content to the file.
-        // Make sure to keep the buffer in case you are using an in-memory writer.
-        $this->writer->flush(false);
+        // Flush the content to the file or stream.
+        // An in-memory buffer can only be read through flush() or outputMemory(), which both flush on their own.
+        if (!$this->inMemory) {
+            $this->writer->flush(false);
+        }
 
         return $this;
     }
