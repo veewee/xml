@@ -8,7 +8,6 @@ use Generator;
 use VeeWee\Xml\Exception\RuntimeException;
 use XMLWriter;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
-use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 use function VeeWee\Xml\Internal\configure;
 use function VeeWee\Xml\Writer\Opener\memory_opener;
 use function VeeWee\Xml\Writer\Opener\xml_file_opener;
@@ -87,10 +86,9 @@ final class Writer
         disallow_issues(
             static function () use ($cursor) : void {
                 foreach ($cursor as $written) {
-                    disallow_libxml_false_returns(
-                        $written,
-                        'Could not write the provided XML to the stream.'
-                    );
+                    if ($written === false) {
+                        throw RuntimeException::withMessage('Could not write the provided XML to the stream.');
+                    }
                 }
             }
         );

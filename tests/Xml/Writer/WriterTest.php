@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Writer;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Tests\Xml\Helper\TmpFileTrait;
@@ -109,6 +110,28 @@ final class WriterTest extends TestCase
                 }
             );
         });
+    }
+
+    public function test_it_wraps_the_invalid_write_exception_and_stops_writing(): void
+    {
+        $writer = Writer::inMemory();
+
+        try {
+            $writer->write(
+                static function () {
+                    yield true;
+                    yield false;
+                    throw new LogicException('The writer should stop after the first false.');
+                }
+            );
+            static::fail('Expected an exception');
+        } catch (RuntimeException $exception) {
+            static::assertSame('Could not write the provided XML to the stream.' . PHP_EOL, $exception->getMessage());
+            $previous = $exception->getPrevious();
+            static::assertInstanceOf(RuntimeException::class, $previous);
+            static::assertSame('Could not write the provided XML to the stream.', $previous->getMessage());
+            static::assertNull($previous->getPrevious());
+        }
     }
 
     
