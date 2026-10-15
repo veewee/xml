@@ -6,8 +6,15 @@ namespace VeeWee\Xml\ErrorHandling;
 
 use Throwable;
 use VeeWee\Xml\Exception\RuntimeException;
+use function count;
+use function libxml_clear_errors;
+use function libxml_get_errors;
+use function libxml_use_internal_errors;
 
 /**
+ * Does the same as detect_issues(), without building a Result or an IssueCollection when libxml reported nothing.
+ * Every Writer::write() and every DOM load runs through here, so the happy path has to stay cheap.
+ *
  * @template T
  *
  * @param callable(): T $run
@@ -17,27 +24,29 @@ use VeeWee\Xml\Exception\RuntimeException;
  */
 function disallow_issues(callable $run)
 {
-    [$result, $issues] = detect_issues($run);
+    $previousErrorReporting = libxml_use_internal_errors(true);
+    libxml_clear_errors();
 
-    /** @psalm-suppress ArgumentTypeCoercion - Psalm does not support generic closures... */
-    return $result->proceed(
-        /**
-         * @param T $value
-         * @return T
-         */
-        static function ($value) use ($issues) {
-            if (count($issues)) {
-                throw RuntimeException::fromIssues('XML issues detected: ', $issues);
-            }
+    try {
+        $value = $run();
+    } catch (Throwable $exception) {
+        $errors = libxml_get_errors();
+        libxml_clear_errors();
+        libxml_use_internal_errors($previousErrorReporting);
 
-            return $value;
-        },
-        /**
-         * @throws RuntimeException
-         * @return never
-         */
-        static function (Throwable $exception) use ($issues) {
-            throw RuntimeException::combineExceptionWithIssues($exception, $issues);
+        throw RuntimeException::combineExceptionWithIssues($exception, issue_collection_from_xml_errors($errors));
+    }
+
+    $errors = libxml_get_errors();
+    libxml_clear_errors();
+    libxml_use_internal_errors($previousErrorReporting);
+
+    if ($errors !== []) {
+        $issues = issue_collection_from_xml_errors($errors);
+        if (count($issues)) {
+            throw RuntimeException::fromIssues('XML issues detected: ', $issues);
         }
-    );
+    }
+
+    return $value;
 }
