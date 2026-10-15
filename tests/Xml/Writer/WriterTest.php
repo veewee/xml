@@ -79,6 +79,18 @@ final class WriterTest extends TestCase
         static::assertSame('abc', $actual);
     }
 
+    public function test_it_uses_the_writer_returned_by_a_configurator(): void
+    {
+        $replacement = XMLWriter::toMemory();
+        $replacement->writeRaw('replaced-');
+
+        $actual = Writer::inMemory(
+            static fn (XMLWriter $writer): XMLWriter => $replacement,
+        )->write(raw('hello'))->map(memory_output());
+
+        static::assertSame('replaced-hello', $actual);
+    }
+
     public function test_it_can_fluently_write_multiple_times(): void
     {
         $this->createTmpFile(static function (string $path): void {
@@ -103,6 +115,19 @@ final class WriterTest extends TestCase
         });
 
         static::assertXmlStringEqualsXmlString($result, '<root />');
+    }
+
+    public function test_it_can_configure_an_unsafe_writer(): void
+    {
+        $actual = Writer::fromUnsafeWriter(
+            XMLWriter::toMemory(),
+            static function (XMLWriter $writer): XMLWriter {
+                $writer->writeRaw('configured-');
+                return $writer;
+            },
+        )->write(raw('hello'))->map(memory_output());
+
+        static::assertSame('configured-hello', $actual);
     }
 
     public function test_it_throws_error_on_not_initialized(): void

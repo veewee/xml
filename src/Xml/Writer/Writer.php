@@ -9,7 +9,6 @@ use VeeWee\Xml\Exception\RuntimeException;
 use XMLWriter;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
 use function VeeWee\Xml\Internal\configure;
-use function VeeWee\Xml\Writer\Opener\memory_opener;
 use function VeeWee\Xml\Writer\Opener\xml_file_opener;
 use function VeeWee\Xml\Writer\Opener\xml_stream_opener;
 
@@ -36,7 +35,7 @@ final class Writer
      */
     public static function fromUnsafeWriter(XMLWriter $writer, callable ... $configurators): self
     {
-        return new self(configure(...$configurators)($writer));
+        return new self($configurators !== [] ? configure(...$configurators)($writer) : $writer);
     }
 
     /**
@@ -68,10 +67,7 @@ final class Writer
      */
     public static function inMemory(callable ... $configurators): self
     {
-        return self::configure(
-            memory_opener(),
-            ...$configurators
-        );
+        return self::fromUnsafeWriter(XMLWriter::toMemory(), ...$configurators);
     }
 
     /**
