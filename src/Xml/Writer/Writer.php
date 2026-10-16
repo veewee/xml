@@ -96,8 +96,8 @@ final class Writer
             }
         );
 
-        // Flush the content to the file or stream.
-        // An in-memory buffer can only be read through flush() or outputMemory(), which both flush on their own.
+        // Flush the content to the file or stream, and keep the buffer: a memory writer built with configurators also gets here.
+        // A plain in-memory writer is only read through flush() or outputMemory(), which both flush on their own.
         if (!$this->inMemory) {
             $this->writer->flush(false);
         }
