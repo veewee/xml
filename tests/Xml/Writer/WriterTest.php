@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VeeWee\Tests\Xml\Writer;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use VeeWee\Tests\Xml\Helper\FillFileTrait;
 use VeeWee\Tests\Xml\Helper\TmpFileTrait;
@@ -51,6 +52,50 @@ final class WriterTest extends TestCase
         static::assertSame('hello', stream_get_contents($handle));
     }
 
+    public function test_it_flushes_a_stream_after_every_write(): void
+    {
+        [$_, $handle] = $this->fillFile('');
+        $writer = Writer::forStream($handle);
+
+        $writer->write(raw('hello'));
+        rewind($handle);
+        static::assertSame('hello', stream_get_contents($handle));
+
+        $writer->write(raw(' world'));
+        rewind($handle);
+        static::assertSame('hello world', stream_get_contents($handle));
+    }
+
+    public function test_it_flushes_a_stream_returned_by_an_in_memory_configurator(): void
+    {
+        [$_, $handle] = $this->fillFile('');
+
+        $writer = Writer::inMemory(
+            static fn (XMLWriter $writer): XMLWriter => XMLWriter::toStream($handle),
+        );
+
+        $writer->write(raw('hello'));
+        rewind($handle);
+
+        static::assertSame('hello', stream_get_contents($handle));
+    }
+
+    public function test_it_flushes_an_in_memory_writer_that_a_configurator_reopened(): void
+    {
+        $this->createTmpFile(static function (string $path): void {
+            $writer = Writer::inMemory(
+                static function (XMLWriter $writer) use ($path): XMLWriter {
+                    $writer->openUri($path);
+                    return $writer;
+                },
+            );
+
+            $writer->write(element('root'));
+
+            self::assertXmlStringEqualsXmlFile($path, '<root />');
+        });
+    }
+
     public function test_it_can_configure_a_writer(): void
     {
         $this->createTmpFile(static function (string $path): void {
@@ -61,6 +106,34 @@ final class WriterTest extends TestCase
         });
     }
 
+
+    public function test_it_applies_configurators_in_order(): void
+    {
+        $actual = Writer::inMemory(
+            static function (XMLWriter $writer): XMLWriter {
+                $writer->writeRaw('a');
+                return $writer;
+            },
+            static function (XMLWriter $writer): XMLWriter {
+                $writer->writeRaw('b');
+                return $writer;
+            },
+        )->write(raw('c'))->map(memory_output());
+
+        static::assertSame('abc', $actual);
+    }
+
+    public function test_it_uses_the_writer_returned_by_a_configurator(): void
+    {
+        $replacement = XMLWriter::toMemory();
+        $replacement->writeRaw('replaced-');
+
+        $actual = Writer::inMemory(
+            static fn (XMLWriter $writer): XMLWriter => $replacement,
+        )->write(raw('hello'))->map(memory_output());
+
+        static::assertSame('replaced-hello', $actual);
+    }
 
     public function test_it_can_fluently_write_multiple_times(): void
     {
@@ -88,6 +161,19 @@ final class WriterTest extends TestCase
         static::assertXmlStringEqualsXmlString($result, '<root />');
     }
 
+    public function test_it_can_configure_an_unsafe_writer(): void
+    {
+        $actual = Writer::fromUnsafeWriter(
+            XMLWriter::toMemory(),
+            static function (XMLWriter $writer): XMLWriter {
+                $writer->writeRaw('configured-');
+                return $writer;
+            },
+        )->write(raw('hello'))->map(memory_output());
+
+        static::assertSame('configured-hello', $actual);
+    }
+
     public function test_it_throws_error_on_not_initialized(): void
     {
         $this->expectExceptionMessage('Invalid or uninitialized XMLWriter object');
@@ -109,6 +195,28 @@ final class WriterTest extends TestCase
                 }
             );
         });
+    }
+
+    public function test_it_wraps_the_invalid_write_exception_and_stops_writing(): void
+    {
+        $writer = Writer::inMemory();
+
+        try {
+            $writer->write(
+                static function () {
+                    yield true;
+                    yield false;
+                    throw new LogicException('The writer should stop after the first false.');
+                }
+            );
+            static::fail('Expected an exception');
+        } catch (RuntimeException $exception) {
+            static::assertSame('Could not write the provided XML to the stream.' . PHP_EOL, $exception->getMessage());
+            $previous = $exception->getPrevious();
+            static::assertInstanceOf(RuntimeException::class, $previous);
+            static::assertSame('Could not write the provided XML to the stream.', $previous->getMessage());
+            static::assertNull($previous->getPrevious());
+        }
     }
 
     

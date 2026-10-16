@@ -23,6 +23,11 @@
             "ignore": [
                 "VeeWee\\Xml\\*Exception::__construct"
             ]
+        },
+        "TrueValue": {
+            "ignore": [
+                "VeeWee\\Xml\\Writer\\Writer::inMemory"
+            ]
         }
     }
 }

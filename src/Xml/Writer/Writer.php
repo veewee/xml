@@ -8,9 +8,7 @@ use Generator;
 use VeeWee\Xml\Exception\RuntimeException;
 use XMLWriter;
 use function VeeWee\Xml\ErrorHandling\disallow_issues;
-use function VeeWee\Xml\ErrorHandling\disallow_libxml_false_returns;
 use function VeeWee\Xml\Internal\configure;
-use function VeeWee\Xml\Writer\Opener\memory_opener;
 use function VeeWee\Xml\Writer\Opener\xml_file_opener;
 use function VeeWee\Xml\Writer\Opener\xml_stream_opener;
 
@@ -18,8 +16,10 @@ final class Writer
 {
     private XMLWriter $writer;
 
-    private function __construct(XMLWriter $writer)
-    {
+    private function __construct(
+        XMLWriter $writer,
+        private readonly bool $inMemory = false,
+    ) {
         $this->writer = $writer;
     }
 
@@ -37,7 +37,7 @@ final class Writer
      */
     public static function fromUnsafeWriter(XMLWriter $writer, callable ... $configurators): self
     {
-        return new self(configure(...$configurators)($writer));
+        return new self($configurators !== [] ? configure(...$configurators)($writer) : $writer);
     }
 
     /**
@@ -69,10 +69,12 @@ final class Writer
      */
     public static function inMemory(callable ... $configurators): self
     {
-        return self::configure(
-            memory_opener(),
-            ...$configurators
-        );
+        if ($configurators !== []) {
+            // A configurator can replace or reopen the writer, so only an unconfigured one is known to stay in memory.
+            return self::fromUnsafeWriter(XMLWriter::toMemory(), ...$configurators);
+        }
+
+        return new self(XMLWriter::toMemory(), true);
     }
 
     /**
@@ -87,17 +89,18 @@ final class Writer
         disallow_issues(
             static function () use ($cursor) : void {
                 foreach ($cursor as $written) {
-                    disallow_libxml_false_returns(
-                        $written,
-                        'Could not write the provided XML to the stream.'
-                    );
+                    if ($written === false) {
+                        throw RuntimeException::withMessage('Could not write the provided XML to the stream.');
+                    }
                 }
             }
         );
 
-        // Flush the content to the file.
-        // Make sure to keep the buffer in case you are using an in-memory writer.
-        $this->writer->flush(false);
+        // Flush the content to the file or stream, and keep the buffer: a memory writer built with configurators also gets here.
+        // A plain in-memory writer is only read through flush() or outputMemory(), which both flush on their own.
+        if (!$this->inMemory) {
+            $this->writer->flush(false);
+        }
 
         return $this;
     }
