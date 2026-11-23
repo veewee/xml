@@ -33,7 +33,7 @@
         "php-standard-library/os": "^6.1",
         "symfony/finder": "^7.1",
         "veewee/composer-run-parallel": "^1.0.0",
-        "vimeo/psalm": "~6.13",
+        "vimeo/psalm": "~6.13 || ~7.0",
         "php-standard-library/psalm-plugin": "^2.2",
         "phpunit/phpunit": "~12.3",
         "php-cs-fixer/shim": "~3.88",
